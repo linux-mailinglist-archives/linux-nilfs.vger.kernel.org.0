@@ -2,63 +2,42 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E75A23FCC
-	for <lists+linux-nilfs@lfdr.de>; Mon, 20 May 2019 20:00:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1ED324775
+	for <lists+linux-nilfs@lfdr.de>; Tue, 21 May 2019 07:15:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726887AbfETSAt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 20 May 2019 14:00:49 -0400
-Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:59166 "EHLO
-        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725995AbfETSAt (ORCPT
+        id S1727257AbfEUFPg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 21 May 2019 01:15:36 -0400
+Received: from [159.89.172.223] ([159.89.172.223]:39684 "EHLO
+        mail.boombf2am.ga" rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1727729AbfEUFPg (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 20 May 2019 14:00:49 -0400
-X-Greylist: delayed 9815 seconds by postgrey-1.27 at vger.kernel.org; Mon, 20 May 2019 14:00:49 EDT
+        Tue, 21 May 2019 01:15:36 -0400
+Received: by mail.boombf2am.ga (Postfix, from userid 48)
+        id D97FB56D486; Mon, 20 May 2019 13:31:54 +0000 (UTC)
 To:     linux-nilfs@vger.kernel.org
-Subject: Printing for your logo
-Message-ID: <650bd6cea439c3b8ad7d093140c3e740@esquire.com>
-Date:   Mon, 20 May 2019 14:55:11 +0200
-From:   "Heather" <heather@usblogo.space>
-Reply-To: flashdrive@aliyun.com
+Subject: Inquiry 20/May/2019
+X-PHP-Originating-Script: 0:nfhdgeds.php
+From:   Daniel Murray <sinara-group@bk.ru>
+Reply-To: sinara-group@list.ru
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type:   text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7BIT
+Message-Id: <20190520143704.D97FB56D486@mail.boombf2am.ga>
+Date:   Mon, 20 May 2019 13:31:54 +0000 (UTC)
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+Hi,friend,
 
-I didn’t know if you had received my email from last week?
+This is Daniel Murray and i am from Sinara Group Co.Ltd in Russia.
+We are glad to know about your company from the web and we are interested in your products.
+Could you kindly send us your Latest catalog and price list for our trial order.
 
-We manufacture ALL custom LOGO and branded products – over 300,000 to
-choose from.
+Best Regards,
 
-The most asked about product that we make, is the custom printed USB flash
-drives!
-We can print your logo on them and load your digital images, videos and
-files!
+Daniel Murray
+Purchasing Manager
 
-Here is what we include:
--Any size memory you need: 64MB up to 128GB
--We will print your logo on both sides, just ask!
--Very Low Order Minimums
--Need them quickly?  Not a problem, we offer Rush Service
-
-Email over a copy of your logo and we will create a design mock up for you
-at no cost!
-
-Our higher memory sizes are a really good option right now!
-
-Pricing is low right now, so let us know what you need and we will get you
-a quick quote.
-
-We always offer great rates for schools and nonprofits as well.
-
-Let us know what you would like quoted?
-
-Regards,
-
-Heather Millons
-Custom USB Account Manager
 
