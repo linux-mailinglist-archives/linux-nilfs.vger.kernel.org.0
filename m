@@ -2,22 +2,21 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ED8124064
-	for <lists+linux-nilfs@lfdr.de>; Mon, 20 May 2019 20:32:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0321828BF0
+	for <lists+linux-nilfs@lfdr.de>; Thu, 23 May 2019 22:53:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbfETSc2 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 20 May 2019 14:32:28 -0400
-Received: from westpalmbeachmassagegroup.com ([45.35.221.60]:55927 "EHLO
-        wolfgangdigital.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726196AbfETSc1 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 20 May 2019 14:32:27 -0400
+        id S2387786AbfEWUx6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 23 May 2019 16:53:58 -0400
+Received: from toryburch.com ([198.23.132.45]:47134 "EHLO timesharemyths.com"
+        rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2387647AbfEWUx6 (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 23 May 2019 16:53:58 -0400
 To:     linux-nilfs@vger.kernel.org
-Subject: Print your logo
-Message-ID: <8ae37b70c5ea91850e58ea58546a1d0d@esquire.com>
-Date:   Mon, 20 May 2019 17:02:21 +0200
-From:   "Heather" <heather@usblogo.space>
-Reply-To: flashdrive@aliyun.com
+Subject: Custom made logo products
+Message-ID: <d632513f6935f4cb3fda5760b3700f77@lucastirepros.com>
+Date:   Thu, 23 May 2019 14:58:07 +0200
+From:   "Stacy" <ryan@tanschmidit.tech>
+Reply-To: lucas@tanschmidit.tech
 MIME-Version: 1.0
 Content-Type: text/plain; format=flowed; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
@@ -28,36 +27,49 @@ X-Mailing-List: linux-nilfs@vger.kernel.org
 
 Hi,
 
-I didn’t know if you had received my email from last week?
+I am following up on my previous attempt to contact you.
+We wanted to check to see if you need any LOGO promotional products for
+your business?
 
-We manufacture ALL custom LOGO and branded products – over 300,000 to
-choose from.
+Our company manufactures USB Flash Drives that are custom printed with your
+logo.
+They make the perfect marketing tool for your business or organization.
 
-The most asked about product that we make, is the custom printed USB flash
-drives!
-We can print your logo on them and load your digital images, videos and
-files!
+Looking for other items with your logo?   We can supply anything with your
+logo…
 
-Here is what we include:
--Any size memory you need: 64MB up to 128GB
--We will print your logo on both sides, just ask!
--Very Low Order Minimums
--Need them quickly?  Not a problem, we offer Rush Service
+Most Popular Items right now:
+- T-shirts, Hoodies
+- Table Covers printed with your brand
+- Pens
+- Water Bottles
+- Banners…
+- You name it we can make it and print on it for you!
 
-Email over a copy of your logo and we will create a design mock up for you
-at no cost!
+Our USB Pricing is at an ALL TIME LOW.
+We offer low minimum quantities and all memory sizes.
 
-Our higher memory sizes are a really good option right now!
+Over 150 Stock Models as well as 100 % custom shaped USB drives in the
+shape of your Logo or
+product or just about anything else you can imagine!
+Ask about our End of the Year Promotions!
 
-Pricing is low right now, so let us know what you need and we will get you
-a quick quote.
+We can pre-load your media files, images, presentations and files onto the
+drives for you.
+These are ideal handouts for trade shows, branding, corporate gifts and
+employees.
 
-We always offer great rates for schools and nonprofits as well.
+* Please reply back and let me know what quantity and memory size you need
+for a Fast Quote!
 
-Let us know what you would like quoted?
+Are you a school or nonprofit?  Please let us know for even further
+discounts.
+
+Let us send you a quote!   We will EARN your business!
 
 Regards,
 
-Heather Millons
-Custom USB Account Manager
+Stacy Williams
+Custom Logo Products
+Whatsapp: +8617199402387
 
