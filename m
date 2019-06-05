@@ -2,59 +2,164 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BC48306ED
-	for <lists+linux-nilfs@lfdr.de>; Fri, 31 May 2019 05:14:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B103563D
+	for <lists+linux-nilfs@lfdr.de>; Wed,  5 Jun 2019 07:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726546AbfEaDOc convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Thu, 30 May 2019 23:14:32 -0400
-Received: from smtp.tjto.jus.br ([189.10.44.215]:38910 "EHLO smtp.tjto.jus.br"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726418AbfEaDOb (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 30 May 2019 23:14:31 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by smtp.tjto.jus.br (Postfix) with ESMTP id 94F103EC50C;
-        Thu, 30 May 2019 20:31:02 -0300 (BRT)
-Received: from smtp.tjto.jus.br ([127.0.0.1])
-        by localhost (mta-in.tjto.jus.br [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id bVDFmGoH9jZ7; Thu, 30 May 2019 20:31:02 -0300 (BRT)
-Received: from localhost (localhost [127.0.0.1])
-        by smtp.tjto.jus.br (Postfix) with ESMTP id BF18D3EA85B;
-        Thu, 30 May 2019 20:07:49 -0300 (BRT)
-X-Virus-Scanned: amavisd-new at mta-in.tjto.jus.br
-Received: from smtp.tjto.jus.br ([127.0.0.1])
-        by localhost (mta-in.tjto.jus.br [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 48hPU02qhNJd; Thu, 30 May 2019 20:07:49 -0300 (BRT)
-Received: from [192.99.135.118] (ip118.ip-192-99-135.net [192.99.135.118])
-        (Authenticated sender: nelsonsena@tjto.jus.br)
-        by smtp.tjto.jus.br (Postfix) with ESMTPSA id 006AA3EB936;
-        Thu, 30 May 2019 19:54:53 -0300 (BRT)
-Content-Type: text/plain; charset="utf-8"
+        id S1726119AbfFEFf1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 5 Jun 2019 01:35:27 -0400
+Received: from condef-02.nifty.com ([202.248.20.67]:21300 "EHLO
+        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726056AbfFEFf1 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 5 Jun 2019 01:35:27 -0400
+Received: from conuserg-12.nifty.com ([10.126.8.75])by condef-02.nifty.com with ESMTP id x555UmPU021177
+        for <linux-nilfs@vger.kernel.org>; Wed, 5 Jun 2019 14:30:48 +0900
+Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id x555UAE8001144;
+        Wed, 5 Jun 2019 14:30:10 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x555UAE8001144
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1559712611;
+        bh=vIsvVdWf1BBkZws01DfQPUbAu87IXpqK2p7t7RStVSs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=gMWlqo2qXDYYgeX7TYIEYiiw4hICHiZNgr+lDSPs4ZvaffjYGqPLJ7tr8nbEmwm6y
+         6h61Ahd/9pNcTBRffwoIEuzk9pMkIT8NNE9PWPlAuB+fS/lPHE5SPEOwKuRR9ClNk/
+         aTUXkD8UZO0lu8abr1wWwTCfRi1eRLBsoeeua1M+//Ts5BAKnn1PT5sJ+lD8Tqaxj5
+         xWeGvsi5g+6kSEnvl85aYBDIEX9nKctH1pVVeXgD5WCqu4lHE4EhtfDWFYaG4Ya/uV
+         nXfPw7Px6kJwj2Y0hR6eDDurKAJZy+eqUjcvG+sjweatdKp0XUIDMtYxw4Yt61nvTh
+         cqbof4fGWREPw==
+X-Nifty-SrcIP: [153.142.97.92]
+From:   Masahiro Yamada <yamada.masahiro@socionext.com>
+To:     Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
+        linux-nilfs@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Greg KH <gregkh@linuxfoundation.org>,
+        Joe Perches <joe@perches.com>,
+        Masahiro Yamada <yamada.masahiro@socionext.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu() in uapi header
+Date:   Wed,  5 Jun 2019 14:30:06 +0900
+Message-Id: <20190605053006.14332-1-yamada.masahiro@socionext.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?b?UmU6IOKCrCAyLDAwMCwwMDAuMDAgRXVybw==?=
-To:     Recipients <nelsonsena@tjto.jus.br>
-From:   nelsonsena@tjto.jus.br
-Date:   Thu, 30 May 2019 15:54:50 -0700
-Reply-To: myburghhugohendrik@gmail.com
-Message-Id: <20190530225455.006AA3EB936@smtp.tjto.jus.br>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Lieber Freund,
+cpu_to_le32/le32_to_cpu is defined in include/linux/byteorder/generic.h,
+which is not exported to user-space.
 
-Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
+UAPI headers must use the ones prefixed with double-underscore.
 
-UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
+Detected by compile-testing exported headers:
 
-Das ist dein Spendencode: [DF00430342018]
+./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_checkpoint_set_snapshot’:
+./usr/include/linux/nilfs2_ondisk.h:536:17: error: implicit declaration of function ‘cpu_to_le32’ [-Werror=implicit-function-declaration]
+  cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
+                 ^
+./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
+ NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
+ ^~~~~~~~~~~~~~~~~~~~
+./usr/include/linux/nilfs2_ondisk.h:536:29: error: implicit declaration of function ‘le32_to_cpu’ [-Werror=implicit-function-declaration]
+  cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
+                             ^
+./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
+ NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
+ ^~~~~~~~~~~~~~~~~~~~
+./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_segment_usage_set_clean’:
+./usr/include/linux/nilfs2_ondisk.h:622:19: error: implicit declaration of function ‘cpu_to_le64’ [-Werror=implicit-function-declaration]
+  su->su_lastmod = cpu_to_le64(0);
+                   ^~~~~~~~~~~
 
-Antworten Sie mit dem Spendencode auf diese E-Mail: wahlfoundationorg@gmail.com
+Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
+---
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+ include/uapi/linux/nilfs2_ondisk.h | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-Grüße
+diff --git a/include/uapi/linux/nilfs2_ondisk.h b/include/uapi/linux/nilfs2_ondisk.h
+index a7e66ab11d1d..c23f91ae5fe8 100644
+--- a/include/uapi/linux/nilfs2_ondisk.h
++++ b/include/uapi/linux/nilfs2_ondisk.h
+@@ -29,7 +29,7 @@
+ 
+ #include <linux/types.h>
+ #include <linux/magic.h>
+-
++#include <asm/byteorder.h>
+ 
+ #define NILFS_INODE_BMAP_SIZE	7
+ 
+@@ -533,19 +533,19 @@ enum {
+ static inline void							\
+ nilfs_checkpoint_set_##name(struct nilfs_checkpoint *cp)		\
+ {									\
+-	cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |		\
+-				   (1UL << NILFS_CHECKPOINT_##flag));	\
++	cp->cp_flags = __cpu_to_le32(__le32_to_cpu(cp->cp_flags) |	\
++				     (1UL << NILFS_CHECKPOINT_##flag));	\
+ }									\
+ static inline void							\
+ nilfs_checkpoint_clear_##name(struct nilfs_checkpoint *cp)		\
+ {									\
+-	cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) &		\
++	cp->cp_flags = __cpu_to_le32(__le32_to_cpu(cp->cp_flags) &	\
+ 				   ~(1UL << NILFS_CHECKPOINT_##flag));	\
+ }									\
+ static inline int							\
+ nilfs_checkpoint_##name(const struct nilfs_checkpoint *cp)		\
+ {									\
+-	return !!(le32_to_cpu(cp->cp_flags) &				\
++	return !!(__le32_to_cpu(cp->cp_flags) &				\
+ 		  (1UL << NILFS_CHECKPOINT_##flag));			\
+ }
+ 
+@@ -595,20 +595,20 @@ enum {
+ static inline void							\
+ nilfs_segment_usage_set_##name(struct nilfs_segment_usage *su)		\
+ {									\
+-	su->su_flags = cpu_to_le32(le32_to_cpu(su->su_flags) |		\
++	su->su_flags = __cpu_to_le32(__le32_to_cpu(su->su_flags) |	\
+ 				   (1UL << NILFS_SEGMENT_USAGE_##flag));\
+ }									\
+ static inline void							\
+ nilfs_segment_usage_clear_##name(struct nilfs_segment_usage *su)	\
+ {									\
+ 	su->su_flags =							\
+-		cpu_to_le32(le32_to_cpu(su->su_flags) &			\
++		__cpu_to_le32(__le32_to_cpu(su->su_flags) &		\
+ 			    ~(1UL << NILFS_SEGMENT_USAGE_##flag));      \
+ }									\
+ static inline int							\
+ nilfs_segment_usage_##name(const struct nilfs_segment_usage *su)	\
+ {									\
+-	return !!(le32_to_cpu(su->su_flags) &				\
++	return !!(__le32_to_cpu(su->su_flags) &				\
+ 		  (1UL << NILFS_SEGMENT_USAGE_##flag));			\
+ }
+ 
+@@ -619,15 +619,15 @@ NILFS_SEGMENT_USAGE_FNS(ERROR, error)
+ static inline void
+ nilfs_segment_usage_set_clean(struct nilfs_segment_usage *su)
+ {
+-	su->su_lastmod = cpu_to_le64(0);
+-	su->su_nblocks = cpu_to_le32(0);
+-	su->su_flags = cpu_to_le32(0);
++	su->su_lastmod = __cpu_to_le64(0);
++	su->su_nblocks = __cpu_to_le32(0);
++	su->su_flags = __cpu_to_le32(0);
+ }
+ 
+ static inline int
+ nilfs_segment_usage_clean(const struct nilfs_segment_usage *su)
+ {
+-	return !le32_to_cpu(su->su_flags);
++	return !__le32_to_cpu(su->su_flags);
+ }
+ 
+ /**
+-- 
+2.17.1
 
-Herr Richard Wahl
