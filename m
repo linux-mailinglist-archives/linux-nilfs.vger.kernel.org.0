@@ -2,164 +2,92 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10B103563D
-	for <lists+linux-nilfs@lfdr.de>; Wed,  5 Jun 2019 07:35:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F78B3852D
+	for <lists+linux-nilfs@lfdr.de>; Fri,  7 Jun 2019 09:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726119AbfFEFf1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 5 Jun 2019 01:35:27 -0400
-Received: from condef-02.nifty.com ([202.248.20.67]:21300 "EHLO
-        condef-02.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726056AbfFEFf1 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 5 Jun 2019 01:35:27 -0400
-Received: from conuserg-12.nifty.com ([10.126.8.75])by condef-02.nifty.com with ESMTP id x555UmPU021177
-        for <linux-nilfs@vger.kernel.org>; Wed, 5 Jun 2019 14:30:48 +0900
-Received: from localhost.localdomain (p14092-ipngnfx01kyoto.kyoto.ocn.ne.jp [153.142.97.92]) (authenticated)
-        by conuserg-12.nifty.com with ESMTP id x555UAE8001144;
-        Wed, 5 Jun 2019 14:30:10 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com x555UAE8001144
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1559712611;
-        bh=vIsvVdWf1BBkZws01DfQPUbAu87IXpqK2p7t7RStVSs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=gMWlqo2qXDYYgeX7TYIEYiiw4hICHiZNgr+lDSPs4ZvaffjYGqPLJ7tr8nbEmwm6y
-         6h61Ahd/9pNcTBRffwoIEuzk9pMkIT8NNE9PWPlAuB+fS/lPHE5SPEOwKuRR9ClNk/
-         aTUXkD8UZO0lu8abr1wWwTCfRi1eRLBsoeeua1M+//Ts5BAKnn1PT5sJ+lD8Tqaxj5
-         xWeGvsi5g+6kSEnvl85aYBDIEX9nKctH1pVVeXgD5WCqu4lHE4EhtfDWFYaG4Ya/uV
-         nXfPw7Px6kJwj2Y0hR6eDDurKAJZy+eqUjcvG+sjweatdKp0XUIDMtYxw4Yt61nvTh
-         cqbof4fGWREPw==
-X-Nifty-SrcIP: [153.142.97.92]
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-To:     Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
-        linux-nilfs@vger.kernel.org
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>,
-        Masahiro Yamada <yamada.masahiro@socionext.com>,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu() in uapi header
-Date:   Wed,  5 Jun 2019 14:30:06 +0900
-Message-Id: <20190605053006.14332-1-yamada.masahiro@socionext.com>
-X-Mailer: git-send-email 2.17.1
+        id S1727765AbfFGHkh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 7 Jun 2019 03:40:37 -0400
+Received: from smtp4.iitb.ac.in ([103.21.127.18]:46502 "EHLO smtp1.iitb.ac.in"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725497AbfFGHkh (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Fri, 7 Jun 2019 03:40:37 -0400
+X-Greylist: delayed 3757 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:40:36 EDT
+Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
+        by smtp1.iitb.ac.in (Postfix) with SMTP id 63B1A105945A
+        for <linux-nilfs@vger.kernel.org>; Fri,  7 Jun 2019 12:02:11 +0530 (IST)
+Received: (qmail 32253 invoked by uid 510); 7 Jun 2019 12:02:06 +0530
+X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
+ spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
+ Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.223095 secs; 07 Jun 2019 12:02:06 +0530
+X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
+X-Spam-Level: *
+X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
+        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
+X-Spam-Pyzor: Reported 1 times.
+X-Envelope-From: rws@aero.iitb.ac.in
+X-Qmail-Scanner-Mime-Attachments: |
+X-Qmail-Scanner-Zip-Files: |
+Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
+  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:02:03 +0530
+Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
+        by ldns2.iitb.ac.in (Postfix) with ESMTP id E507834194A;
+        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id C66148902E548;
+        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
+Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
+        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Dsp2o8aWBuLF; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
+Received: from localhost (localhost [127.0.0.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id CBA298902E540;
+        Fri,  7 Jun 2019 12:01:53 +0530 (IST)
+X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
+Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
+        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id XJzHEtFw4Nf5; Fri,  7 Jun 2019 12:01:53 +0530 (IST)
+Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
+        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 752AD8902E537;
+        Fri,  7 Jun 2019 12:01:49 +0530 (IST)
+Date:   Fri, 7 Jun 2019 12:01:49 +0530 (IST)
+From:   Martins Henry <rws@aero.iitb.ac.in>
+Message-ID: <630023291.60470.1559889109394.JavaMail.zimbra@aero.iitb.ac.in>
+Subject: Thanks and I wait for your answer
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.101.1.5]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
+Thread-Index: Z4di5DXkV78PrTTCqXhStc9XBmMYjg==
+Thread-Topic: Thanks and I wait for your answer
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-cpu_to_le32/le32_to_cpu is defined in include/linux/byteorder/generic.h,
-which is not exported to user-space.
+Hello,
 
-UAPI headers must use the ones prefixed with double-underscore.
+I am Martin Henry, An American Citizen; I am the personal secretary to
+Mr. Donald Railton, the controller of a Lottery Company. Please I am
+having big problem now, I have a 6yrs old daughter who has leukemia, a
+disease of the blood, and she needs a bone marrow transplant or she
+will die.
 
-Detected by compile-testing exported headers:
+Please I am only asking for your help and you will benefit from it
+also. As an insider with Lottery Firm, working as the personal
+secretary to the controller, I want you to send me your name to play,
+I have some numbers that are going to win, stored in his secret data
+system in the office. The Lottery is an online entry with credit card
+anywhere with a name and address. All I want you to do is to send your
+name to play it and I will send confirmation to you.
 
-./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_checkpoint_set_snapshot’:
-./usr/include/linux/nilfs2_ondisk.h:536:17: error: implicit declaration of function ‘cpu_to_le32’ [-Werror=implicit-function-declaration]
-  cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
-                 ^
-./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
- NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
- ^~~~~~~~~~~~~~~~~~~~
-./usr/include/linux/nilfs2_ondisk.h:536:29: error: implicit declaration of function ‘le32_to_cpu’ [-Werror=implicit-function-declaration]
-  cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
-                             ^
-./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
- NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
- ^~~~~~~~~~~~~~~~~~~~
-./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_segment_usage_set_clean’:
-./usr/include/linux/nilfs2_ondisk.h:622:19: error: implicit declaration of function ‘cpu_to_le64’ [-Werror=implicit-function-declaration]
-  su->su_lastmod = cpu_to_le64(0);
-                   ^~~~~~~~~~~
+I will play with my card on your name and the Prize will be shared
+equally between us. Immediately the results are released they will
+contact you for payment as the oversea winner. The lotto can be played
+with 9.00 dollars, or 50 dollars but the prize will be Millions.
+Remember that I am playing on your name with my card; I just want to
+front you for this, because I need this money to save the life of my
+little daughter.
 
-Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
----
-
- include/uapi/linux/nilfs2_ondisk.h | 24 ++++++++++++------------
- 1 file changed, 12 insertions(+), 12 deletions(-)
-
-diff --git a/include/uapi/linux/nilfs2_ondisk.h b/include/uapi/linux/nilfs2_ondisk.h
-index a7e66ab11d1d..c23f91ae5fe8 100644
---- a/include/uapi/linux/nilfs2_ondisk.h
-+++ b/include/uapi/linux/nilfs2_ondisk.h
-@@ -29,7 +29,7 @@
- 
- #include <linux/types.h>
- #include <linux/magic.h>
--
-+#include <asm/byteorder.h>
- 
- #define NILFS_INODE_BMAP_SIZE	7
- 
-@@ -533,19 +533,19 @@ enum {
- static inline void							\
- nilfs_checkpoint_set_##name(struct nilfs_checkpoint *cp)		\
- {									\
--	cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |		\
--				   (1UL << NILFS_CHECKPOINT_##flag));	\
-+	cp->cp_flags = __cpu_to_le32(__le32_to_cpu(cp->cp_flags) |	\
-+				     (1UL << NILFS_CHECKPOINT_##flag));	\
- }									\
- static inline void							\
- nilfs_checkpoint_clear_##name(struct nilfs_checkpoint *cp)		\
- {									\
--	cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) &		\
-+	cp->cp_flags = __cpu_to_le32(__le32_to_cpu(cp->cp_flags) &	\
- 				   ~(1UL << NILFS_CHECKPOINT_##flag));	\
- }									\
- static inline int							\
- nilfs_checkpoint_##name(const struct nilfs_checkpoint *cp)		\
- {									\
--	return !!(le32_to_cpu(cp->cp_flags) &				\
-+	return !!(__le32_to_cpu(cp->cp_flags) &				\
- 		  (1UL << NILFS_CHECKPOINT_##flag));			\
- }
- 
-@@ -595,20 +595,20 @@ enum {
- static inline void							\
- nilfs_segment_usage_set_##name(struct nilfs_segment_usage *su)		\
- {									\
--	su->su_flags = cpu_to_le32(le32_to_cpu(su->su_flags) |		\
-+	su->su_flags = __cpu_to_le32(__le32_to_cpu(su->su_flags) |	\
- 				   (1UL << NILFS_SEGMENT_USAGE_##flag));\
- }									\
- static inline void							\
- nilfs_segment_usage_clear_##name(struct nilfs_segment_usage *su)	\
- {									\
- 	su->su_flags =							\
--		cpu_to_le32(le32_to_cpu(su->su_flags) &			\
-+		__cpu_to_le32(__le32_to_cpu(su->su_flags) &		\
- 			    ~(1UL << NILFS_SEGMENT_USAGE_##flag));      \
- }									\
- static inline int							\
- nilfs_segment_usage_##name(const struct nilfs_segment_usage *su)	\
- {									\
--	return !!(le32_to_cpu(su->su_flags) &				\
-+	return !!(__le32_to_cpu(su->su_flags) &				\
- 		  (1UL << NILFS_SEGMENT_USAGE_##flag));			\
- }
- 
-@@ -619,15 +619,15 @@ NILFS_SEGMENT_USAGE_FNS(ERROR, error)
- static inline void
- nilfs_segment_usage_set_clean(struct nilfs_segment_usage *su)
- {
--	su->su_lastmod = cpu_to_le64(0);
--	su->su_nblocks = cpu_to_le32(0);
--	su->su_flags = cpu_to_le32(0);
-+	su->su_lastmod = __cpu_to_le64(0);
-+	su->su_nblocks = __cpu_to_le32(0);
-+	su->su_flags = __cpu_to_le32(0);
- }
- 
- static inline int
- nilfs_segment_usage_clean(const struct nilfs_segment_usage *su)
- {
--	return !le32_to_cpu(su->su_flags);
-+	return !__le32_to_cpu(su->su_flags);
- }
- 
- /**
--- 
-2.17.1
-
+Thanks and I wait for your answer
+Martin Henry.
