@@ -2,92 +2,103 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F78B3852D
-	for <lists+linux-nilfs@lfdr.de>; Fri,  7 Jun 2019 09:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30DB83C287
+	for <lists+linux-nilfs@lfdr.de>; Tue, 11 Jun 2019 06:46:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727765AbfFGHkh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 7 Jun 2019 03:40:37 -0400
-Received: from smtp4.iitb.ac.in ([103.21.127.18]:46502 "EHLO smtp1.iitb.ac.in"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725497AbfFGHkh (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:40:37 -0400
-X-Greylist: delayed 3757 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 Jun 2019 03:40:36 EDT
-Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id 63B1A105945A
-        for <linux-nilfs@vger.kernel.org>; Fri,  7 Jun 2019 12:02:11 +0530 (IST)
-Received: (qmail 32253 invoked by uid 510); 7 Jun 2019 12:02:06 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.223095 secs; 07 Jun 2019 12:02:06 +0530
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
-        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
-X-Spam-Pyzor: Reported 1 times.
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
-  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:02:03 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns2.iitb.ac.in (Postfix) with ESMTP id E507834194A;
-        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id C66148902E548;
-        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Dsp2o8aWBuLF; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id CBA298902E540;
-        Fri,  7 Jun 2019 12:01:53 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id XJzHEtFw4Nf5; Fri,  7 Jun 2019 12:01:53 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 752AD8902E537;
-        Fri,  7 Jun 2019 12:01:49 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:49 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <630023291.60470.1559889109394.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        id S2391134AbfFKEqz (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 11 Jun 2019 00:46:55 -0400
+Received: from aserp2130.oracle.com ([141.146.126.79]:43402 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391097AbfFKEqy (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Tue, 11 Jun 2019 00:46:54 -0400
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5B4hc6d179818;
+        Tue, 11 Jun 2019 04:45:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=subject : from : to :
+ cc : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=corp-2018-07-02;
+ bh=cAdDQjLmw3paRsCYayAMtBFRH59fRNc4vYLBHuqjsSA=;
+ b=AnqW+epX9OYHOzw5sTwOrIxO7AnaE4zZ8lKJiAKmrhvGxrpd3f8wxkkZBflgbEq1sOzY
+ KV9eHWtYAaDLZEqtrf3ZJguDUBlZ5gkFNbVMpa3eMHo3FyTTFKbmVm7G73D6lbw7s1dS
+ 5J0Lk/d+rVXhiXXKr/mH872REZ1FpGGZjopVCJKDYW2v1wPRflHiayy7E/k6yaqVysXu
+ pMLLiLZptpvWSoeeq4y3wkBrabcsyoDe44zUwkjmFZpE9J0c9WugSVczTNIfBX8CJsY6
+ ZMZfEBndl9+QIq5/p+cyhxYC9prtn2PzyyKr32uqZ/hzXp9SjaAVfhiNdQ0vX/gWicFf oA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2130.oracle.com with ESMTP id 2t02hejre6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 Jun 2019 04:45:44 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x5B4il0Y048614;
+        Tue, 11 Jun 2019 04:45:43 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3020.oracle.com with ESMTP id 2t1jph7wm8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 11 Jun 2019 04:45:43 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x5B4jhlt050428;
+        Tue, 11 Jun 2019 04:45:43 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by userp3020.oracle.com with ESMTP id 2t1jph7wm5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 11 Jun 2019 04:45:43 +0000
+Received: from abhmp0022.oracle.com (abhmp0022.oracle.com [141.146.116.28])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x5B4jZLV002246;
+        Tue, 11 Jun 2019 04:45:36 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 10 Jun 2019 21:45:35 -0700
+Subject: [PATCH 0/4] vfs: clean up SETFLAGS and FSSETXATTR option processing
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     matthew.garrett@nebula.com, yuchao0@huawei.com, tytso@mit.edu,
+        darrick.wong@oracle.com, shaggy@kernel.org,
+        ard.biesheuvel@linaro.org, josef@toxicpanda.com, clm@fb.com,
+        adilger.kernel@dilger.ca, jk@ozlabs.org, jack@suse.com,
+        dsterba@suse.com, jaegeuk@kernel.org, viro@zeniv.linux.org.uk
+Cc:     cluster-devel@redhat.com, jfs-discussion@lists.sourceforge.net,
+        linux-efi@vger.kernel.org, reiserfs-devel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, linux-mtd@lists.infradead.org,
+        ocfs2-devel@oss.oracle.com, linux-fsdevel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-btrfs@vger.kernel.org
+Date:   Mon, 10 Jun 2019 21:45:32 -0700
+Message-ID: <156022833285.3227089.11990489625041926920.stgit@magnolia>
+User-Agent: StGit/0.17.1-dirty
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: Z4di5DXkV78PrTTCqXhStc9XBmMYjg==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9284 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=864 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1906110033
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Hi all,
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
+The FS_IOC_SETFLAGS and FS_IOC_FSSETXATTR ioctls were promoted from ext4
+and XFS, respectively, into the VFS.  However, we didn't promote any of
+the parameter checking code from those filesystems, which lead to a mess
+where each filesystem open-codes whatever parameter checks they want and
+the behavior across filesystems is no longer consistent.
 
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
+Therefore, create some generic checking functions in the VFS and remove
+all the open-coded pieces in each filesystem.  This preserves the
+current behavior where a filesystem can choose to ignore fields it
+doesn't understand.
 
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
+If you're going to start using this mess, you probably ought to just
+pull from my git trees, which are linked below.
 
-Thanks and I wait for your answer
-Martin Henry.
+This has been lightly tested with fstests.  Enjoy!
+Comments and questions are, as always, welcome.
+
+--D
+
+kernel git tree:
+https://git.kernel.org/cgit/linux/kernel/git/djwong/xfs-linux.git/log/?h=file-ioctl-cleanups
