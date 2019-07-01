@@ -2,93 +2,59 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id F29825AD4C
-	for <lists+linux-nilfs@lfdr.de>; Sat, 29 Jun 2019 22:09:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B81A5BD9C
+	for <lists+linux-nilfs@lfdr.de>; Mon,  1 Jul 2019 16:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726942AbfF2UJG (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 29 Jun 2019 16:09:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:52216 "EHLO mx1.suse.de"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726906AbfF2UJF (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 29 Jun 2019 16:09:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx1.suse.de (Postfix) with ESMTP id 20195AD70;
-        Sat, 29 Jun 2019 20:09:03 +0000 (UTC)
-Received: by quack2.suse.cz (Postfix, from userid 1000)
-        id AA7D51E3F56; Sat, 29 Jun 2019 22:09:01 +0200 (CEST)
-Date:   Sat, 29 Jun 2019 22:09:01 +0200
-From:   Jan Kara <jack@suse.cz>
-To:     " Darrick J. Wong " <darrick.wong@oracle.com>
-Cc:     adilger.kernel@dilger.ca, clm@fb.com, yuchao0@huawei.com,
-        hch@infradead.org, jaegeuk@kernel.org, shaggy@kernel.org,
-        ard.biesheuvel@linaro.org, tytso@mit.edu,
-        matthew.garrett@nebula.com, jk@ozlabs.org,
-        David Sterba <dsterba@suse.com>, Jan Kara <jack@suse.com>,
-        josef@toxicpanda.com, viro@zeniv.linux.org.uk,
-        linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net,
-        linux-f2fs-devel@lists.sourceforge.net, ocfs2-devel@oss.oracle.com,
-        cluster-devel@redhat.com, linux-btrfs@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-xfs@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org
-Subject: Re: [PATCH 5/5] vfs: only allow FSSETXATTR to set DAX flag on files
- and dirs
-Message-ID: <20190629200901.GA18642@quack2.suse.cz>
-References: <156174682897.1557318.14418894077683701275.stgit@magnolia>
- <156174687185.1557318.13703922197244050336.stgit@magnolia>
+        id S1729355AbfGAOGI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 1 Jul 2019 10:06:08 -0400
+Received: from mail-vk1-f194.google.com ([209.85.221.194]:44039 "EHLO
+        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728671AbfGAOGI (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 1 Jul 2019 10:06:08 -0400
+Received: by mail-vk1-f194.google.com with SMTP id w186so2708338vkd.11
+        for <linux-nilfs@vger.kernel.org>; Mon, 01 Jul 2019 07:06:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=FmGHNpejQ29nIiQ+vBc6/ce+Q7SqcsDKzIUla6egsaM=;
+        b=jQcIAX7ovXCm2PAROddSKMKAfUcZRUl+wkj3yOBz8qY9MA5S/MdJL1xqmUqiVBbm3P
+         eYrlAuuSxt7X4RWrcbwvPt7girrjapOxm5VWXPIe1ccNpWFH5XZXal+c7oZsJBPNTqvw
+         ZR9+YgkyDjmC+3G+vNbplp5G8cxdvpEZJzWf+nI+FcK2Bd3OGkRlrl1gBkPwZNAl+npt
+         zJAe/TEWXi3IEtqSo6viN0mb0lTdcEFNU7MW0Xdw3+cm6dktFBzGQoK09wFYohLl/AGp
+         ArIa8FUjTKPmo27ZK+JAq3DdnZ1qW9Ec636VczdrDpesN9rBK9e6qnqTm75xk1A022VV
+         leow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=FmGHNpejQ29nIiQ+vBc6/ce+Q7SqcsDKzIUla6egsaM=;
+        b=YM/PBntXsXIswrP2NabwkyGIj+BuWTKQW7H8j/HF0E2j9Pot90Clgwi5ZpHAtFYbIL
+         5ynyMETzu1R1ge37Izk2lQjDUiBCRTc7WbRbYC0yXAR7eZLeltfNo0Fhb0/UwKg+5vt8
+         dCQmTh9NPfNQhKjYu/bGeW87D4R9SCYkIJTRG0EMe1Y83zk2FtsP0FkePI5ZW55tQeZ5
+         /ZgxUW7IAY+r+/ikY9OgzIUHKE3TeMiani54/Ukw/B+tW3TO55qi1XcOjEMHvKAlF6tt
+         dIcxJDHaoOtxgPCISnN7+sD+RxinFhXGKVWNj9UQ8tzDDVhk+A2nUp+ruMWF9W98s+7D
+         M0Wg==
+X-Gm-Message-State: APjAAAXzzVTjCzfvDczH1ol+5h5LmhufwJkBo4+ctLsIqZ4AaP76iBkY
+        VPFKtbtHy9cxbhUqGbNgHszhAfF15/XhikjQoZA=
+X-Google-Smtp-Source: APXvYqxjWfJZwz+bCdTsv9lyKPDeoHyJsQBHsiJd5hA87f0SaUvcAPteIXGI39oZIpuUR8Nd+Ta4oVBLYMPhn/LGF1g=
+X-Received: by 2002:a1f:ab04:: with SMTP id u4mr2637744vke.40.1561989967006;
+ Mon, 01 Jul 2019 07:06:07 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <156174687185.1557318.13703922197244050336.stgit@magnolia>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:a67:2d56:0:0:0:0:0 with HTTP; Mon, 1 Jul 2019 07:06:06 -0700 (PDT)
+From:   serge amidal <amidalserge1@gmail.com>
+Date:   Mon, 1 Jul 2019 15:06:06 +0100
+Message-ID: <CA+1711h4dv+8p0RjMiZNJbESEzta2t5aUSqsvwTTMr9m6pGMng@mail.gmail.com>
+Subject: confiance
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri 28-06-19 11:34:31,  Darrick J. Wong  wrote:
-> From: Darrick J. Wong <darrick.wong@oracle.com>
-> 
-> The DAX flag only applies to files and directories, so don't let it get
-> set for other types of files.
-> 
-> Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
-
-Looks good to me. You can add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  fs/inode.c |    8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> 
-> diff --git a/fs/inode.c b/fs/inode.c
-> index 670d5408d022..f08711b34341 100644
-> --- a/fs/inode.c
-> +++ b/fs/inode.c
-> @@ -2259,6 +2259,14 @@ int vfs_ioc_fssetxattr_check(struct inode *inode, const struct fsxattr *old_fa,
->  	    !S_ISREG(inode->i_mode) && !S_ISDIR(inode->i_mode))
->  		return -EINVAL;
->  
-> +	/*
-> +	 * It is only valid to set the DAX flag on regular files and
-> +	 * directories on filesystems.
-> +	 */
-> +	if ((fa->fsx_xflags & FS_XFLAG_DAX) &&
-> +	    !(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode)))
-> +		return -EINVAL;
-> +
->  	/* Extent size hints of zero turn off the flags. */
->  	if (fa->fsx_extsize == 0)
->  		fa->fsx_xflags &= ~(FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT);
-> 
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Hello
+ I need your urgent assistance in the transfer of an abandoned funds
+on your account within 10-14 days if you are interested, respond to me
+with your information for more details. your name and surname:-. your
+country:-. your phone number. :- .
+ Please respond to this email address (sergeamidal@gmail.com)
+ Best regards Amidal
