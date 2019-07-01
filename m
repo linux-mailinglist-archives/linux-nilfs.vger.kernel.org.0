@@ -2,59 +2,138 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B81A5BD9C
-	for <lists+linux-nilfs@lfdr.de>; Mon,  1 Jul 2019 16:06:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7218D5C092
+	for <lists+linux-nilfs@lfdr.de>; Mon,  1 Jul 2019 17:46:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729355AbfGAOGI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 1 Jul 2019 10:06:08 -0400
-Received: from mail-vk1-f194.google.com ([209.85.221.194]:44039 "EHLO
-        mail-vk1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728671AbfGAOGI (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 1 Jul 2019 10:06:08 -0400
-Received: by mail-vk1-f194.google.com with SMTP id w186so2708338vkd.11
-        for <linux-nilfs@vger.kernel.org>; Mon, 01 Jul 2019 07:06:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=FmGHNpejQ29nIiQ+vBc6/ce+Q7SqcsDKzIUla6egsaM=;
-        b=jQcIAX7ovXCm2PAROddSKMKAfUcZRUl+wkj3yOBz8qY9MA5S/MdJL1xqmUqiVBbm3P
-         eYrlAuuSxt7X4RWrcbwvPt7girrjapOxm5VWXPIe1ccNpWFH5XZXal+c7oZsJBPNTqvw
-         ZR9+YgkyDjmC+3G+vNbplp5G8cxdvpEZJzWf+nI+FcK2Bd3OGkRlrl1gBkPwZNAl+npt
-         zJAe/TEWXi3IEtqSo6viN0mb0lTdcEFNU7MW0Xdw3+cm6dktFBzGQoK09wFYohLl/AGp
-         ArIa8FUjTKPmo27ZK+JAq3DdnZ1qW9Ec636VczdrDpesN9rBK9e6qnqTm75xk1A022VV
-         leow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=FmGHNpejQ29nIiQ+vBc6/ce+Q7SqcsDKzIUla6egsaM=;
-        b=YM/PBntXsXIswrP2NabwkyGIj+BuWTKQW7H8j/HF0E2j9Pot90Clgwi5ZpHAtFYbIL
-         5ynyMETzu1R1ge37Izk2lQjDUiBCRTc7WbRbYC0yXAR7eZLeltfNo0Fhb0/UwKg+5vt8
-         dCQmTh9NPfNQhKjYu/bGeW87D4R9SCYkIJTRG0EMe1Y83zk2FtsP0FkePI5ZW55tQeZ5
-         /ZgxUW7IAY+r+/ikY9OgzIUHKE3TeMiani54/Ukw/B+tW3TO55qi1XcOjEMHvKAlF6tt
-         dIcxJDHaoOtxgPCISnN7+sD+RxinFhXGKVWNj9UQ8tzDDVhk+A2nUp+ruMWF9W98s+7D
-         M0Wg==
-X-Gm-Message-State: APjAAAXzzVTjCzfvDczH1ol+5h5LmhufwJkBo4+ctLsIqZ4AaP76iBkY
-        VPFKtbtHy9cxbhUqGbNgHszhAfF15/XhikjQoZA=
-X-Google-Smtp-Source: APXvYqxjWfJZwz+bCdTsv9lyKPDeoHyJsQBHsiJd5hA87f0SaUvcAPteIXGI39oZIpuUR8Nd+Ta4oVBLYMPhn/LGF1g=
-X-Received: by 2002:a1f:ab04:: with SMTP id u4mr2637744vke.40.1561989967006;
- Mon, 01 Jul 2019 07:06:07 -0700 (PDT)
+        id S1729828AbfGAPpz (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 1 Jul 2019 11:45:55 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:38790 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727373AbfGAPpy (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 1 Jul 2019 11:45:54 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x61Fd1eX135390;
+        Mon, 1 Jul 2019 15:44:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2018-07-02;
+ bh=pYgOiYG9niz5w5j2Xs2uAj2RGhsP9dEqiFiqy+v2SHk=;
+ b=x/SdHBcYO8s8zWcphUBtW0vaxMhmfi55Tc3O1uqVw5wFQoSV0TdcaQrd5DCa4/j3leVl
+ afbReE/QG5U9d5RMDtBeMdXqUXH0ZjmvMBZR4Bqmxg/kAljEVFLfyeY/NtPkYHmHYr9X
+ LYGxft84ZgeBGOpFpDLQVRFORBGkrIKz998fNMkSDSFhU9OkEimNW4ZMMNbmgLHWe6Wa
+ H32awHJIcTvxMIApJV/pr3XFucA4iWiPO5eUtLjVkO8Vi1P6W9rEo/9vB6C/HmqfVy1z
+ wSoSDGjT9hh0PbsVNlgPWgfY33Zl0N02nGKztDfgCPOv1W9YyXHHcQeRRazJE5zmpoPz vg== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 2te61ppf40-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 01 Jul 2019 15:44:09 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id x61FcFES032310;
+        Mon, 1 Jul 2019 15:42:09 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+        by userp3020.oracle.com with ESMTP id 2tebbj8db7-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 01 Jul 2019 15:42:09 +0000
+Received: from userp3020.oracle.com (userp3020.oracle.com [127.0.0.1])
+        by pps.reinject (8.16.0.27/8.16.0.27) with SMTP id x61Fg9hp040678;
+        Mon, 1 Jul 2019 15:42:09 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 2tebbj8dap-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 01 Jul 2019 15:42:09 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x61Fg3SU026276;
+        Mon, 1 Jul 2019 15:42:04 GMT
+Received: from localhost (/67.169.218.210)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 01 Jul 2019 08:42:02 -0700
+Date:   Mon, 1 Jul 2019 08:42:00 -0700
+From:   "Darrick J. Wong" <darrick.wong@oracle.com>
+To:     matthew.garrett@nebula.com, yuchao0@huawei.com, tytso@mit.edu,
+        ard.biesheuvel@linaro.org, josef@toxicpanda.com, hch@infradead.org,
+        clm@fb.com, adilger.kernel@dilger.ca, viro@zeniv.linux.org.uk,
+        jack@suse.com, dsterba@suse.com, jaegeuk@kernel.org, jk@ozlabs.org
+Cc:     reiserfs-devel@vger.kernel.org, linux-efi@vger.kernel.org,
+        devel@lists.orangefs.org, linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-xfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
+        linux-mtd@lists.infradead.org, ocfs2-devel@oss.oracle.com,
+        linux-fsdevel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-btrfs@vger.kernel.org
+Subject: [PATCH v2 4/4] vfs: don't allow most setxattr to immutable files
+Message-ID: <20190701154200.GK1404256@magnolia>
+References: <156174687561.1557469.7505651950825460767.stgit@magnolia>
+ <156174690758.1557469.9258105121276292687.stgit@magnolia>
 MIME-Version: 1.0
-Received: by 2002:a67:2d56:0:0:0:0:0 with HTTP; Mon, 1 Jul 2019 07:06:06 -0700 (PDT)
-From:   serge amidal <amidalserge1@gmail.com>
-Date:   Mon, 1 Jul 2019 15:06:06 +0100
-Message-ID: <CA+1711h4dv+8p0RjMiZNJbESEzta2t5aUSqsvwTTMr9m6pGMng@mail.gmail.com>
-Subject: confiance
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <156174690758.1557469.9258105121276292687.stgit@magnolia>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9305 signatures=668688
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 malwarescore=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=991 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+ definitions=main-1907010188
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello
- I need your urgent assistance in the transfer of an abandoned funds
-on your account within 10-14 days if you are interested, respond to me
-with your information for more details. your name and surname:-. your
-country:-. your phone number. :- .
- Please respond to this email address (sergeamidal@gmail.com)
- Best regards Amidal
+From: Darrick J. Wong <darrick.wong@oracle.com>
+
+The chattr manpage has this to say about immutable files:
+
+"A file with the 'i' attribute cannot be modified: it cannot be deleted
+or renamed, no link can be created to this file, most of the file's
+metadata can not be modified, and the file can not be opened in write
+mode."
+
+However, we don't actually check the immutable flag in the setattr code,
+which means that we can update inode flags and project ids and extent
+size hints on supposedly immutable files.  Therefore, reject setflags
+and fssetxattr calls on an immutable file if the file is immutable and
+will remain that way.
+
+Signed-off-by: Darrick J. Wong <darrick.wong@oracle.com>
+---
+v2: use memcmp instead of open coding a bunch of checks
+---
+ fs/inode.c |   17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+
+diff --git a/fs/inode.c b/fs/inode.c
+index cf07378e5731..31f694e405fe 100644
+--- a/fs/inode.c
++++ b/fs/inode.c
+@@ -2214,6 +2214,14 @@ int vfs_ioc_setflags_prepare(struct inode *inode, unsigned int oldflags,
+ 	    !capable(CAP_LINUX_IMMUTABLE))
+ 		return -EPERM;
+ 
++	/*
++	 * We aren't allowed to change any other flags if the immutable flag is
++	 * already set and is not being unset.
++	 */
++	if ((oldflags & FS_IMMUTABLE_FL) && (flags & FS_IMMUTABLE_FL) &&
++	    oldflags != flags)
++		return -EPERM;
++
+ 	/*
+ 	 * Now that we're done checking the new flags, flush all pending IO and
+ 	 * dirty mappings before setting S_IMMUTABLE on an inode via
+@@ -2284,6 +2292,15 @@ int vfs_ioc_fssetxattr_check(struct inode *inode, const struct fsxattr *old_fa,
+ 	    !(S_ISREG(inode->i_mode) || S_ISDIR(inode->i_mode)))
+ 		return -EINVAL;
+ 
++	/*
++	 * We aren't allowed to change any fields if the immutable flag is
++	 * already set and is not being unset.
++	 */
++	if ((old_fa->fsx_xflags & FS_XFLAG_IMMUTABLE) &&
++	    (fa->fsx_xflags & FS_XFLAG_IMMUTABLE) &&
++	    memcmp(fa, old_fa, offsetof(struct fsxattr, fsx_pad)))
++		return -EPERM;
++
+ 	/* Extent size hints of zero turn off the flags. */
+ 	if (fa->fsx_extsize == 0)
+ 		fa->fsx_xflags &= ~(FS_XFLAG_EXTSIZE | FS_XFLAG_EXTSZINHERIT);
