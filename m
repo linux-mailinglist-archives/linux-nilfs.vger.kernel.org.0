@@ -2,159 +2,81 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 10F1361479
-	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 10:49:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72288614AA
+	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 12:27:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbfGGItA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 7 Jul 2019 04:49:00 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:39950 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725822AbfGGItA (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 7 Jul 2019 04:49:00 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w196so10280241oie.7;
-        Sun, 07 Jul 2019 01:48:59 -0700 (PDT)
+        id S1727203AbfGGK1P (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 7 Jul 2019 06:27:15 -0400
+Received: from mail-pg1-f194.google.com ([209.85.215.194]:38682 "EHLO
+        mail-pg1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727152AbfGGK1P (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 7 Jul 2019 06:27:15 -0400
+Received: by mail-pg1-f194.google.com with SMTP id z75so6197859pgz.5;
+        Sun, 07 Jul 2019 03:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=NqawE/+yTi4YYh6osFCXw80KqHxF0kMOsNxC0SIfQXk=;
-        b=iK6dD2Z2DEhhBXKpfqfVni6HWx9nM6ELJeAN4hOwPv6dR/0G6Pem/X7JaFuqLXKNq8
-         TToT05Kh87pPnXb4odFGTXHaBfZR2KPh4iGCZ0lB5YlNC1MdiKBLqdzzCDepw2Ncp/8c
-         2PYTbbqFRwbj8udEa6QfpJ1eVjOEKgtma3Ya9KyLIV0rRwsLSVBfXfvnbHQ0211dftWB
-         5mrxe99UjUUf+ZO258Vf/ki/zMmLudpGZNy13bQo2ruzav/Jbdvoqw/VbtK4W/0A3atm
-         Wo4GrKWBVAx0aVuN7X1PRCgOfziqHs9xiFG7Wp0mm/VX8Y6n96CcDcQnHnKeOo0s0E+z
-         sLLQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=8zUSV3oUAOKo1p9yciN3aXy3pVPdOrPwzw0QPi5xIzo=;
+        b=VBjqvvTXk8FATRmQEiOuWon5GfWlkAvU4GGZ6FUmW7+3gmXcpcm4/fFEGzxd2XhrtB
+         PHtGO0BF15qudbOJN1Mb2S1EJXqlorX0y4YkkVQOtl+YRryzXGN/AjqF79esn/tuNQd+
+         ifppzkOODJ5w7jSvmT2lYljvh+zH7Re24g7l3J1/t0Z86tiKN0LOopmOQAf74LcDlod4
+         en+RY5ZRD75cN+LkdTg1L5u6r9vgS9J8VHxz11zeiwh8ffZpiGe2eZTarrX6OzfTK1TS
+         u5qJHUe1a1kMyxm5DV9PSMrA4nHyW32fBjW+23vrFzWpH6RZ1gZQTX7oSbYd9n4DgFYj
+         2Fdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=NqawE/+yTi4YYh6osFCXw80KqHxF0kMOsNxC0SIfQXk=;
-        b=KORzdeyaoUZV2xRno6pqDMeZVVEwzAYwwjZ0RcKpN2DhMr/Y6ffNJH2UIVsYsP24Uh
-         U/UE5qdqJt6QZnQeY7X9DSlcAjAa3xD5OGuf7v4cieN03hNHH4rUQqVuiwGc6TLt82iA
-         OfcPZn2rOYrnNXgE7zU9Xb4L1cpTDKrmSGlw+qDowJivKSjfTFQZUXAWWCsU8s/2IClC
-         fs7WndurTl9yMsNT90PKJCL4IGKiRc9vgCYCDNulQ4BNLVMHePTnGUgPlCG8v2xtz2lS
-         ggrOIsDfmDRn7BvmdWDdCX3zLulP6uLVXoz4QfkmxrX6wTIRFNhwVZr7Ns2+mfv6eUJz
-         SXIg==
-X-Gm-Message-State: APjAAAUSkkRhAKUWBK4nFuKMmmAc2AWbbay58f/qpaXCRPfWEya0N1e6
-        /uRHdrFcE6CdpB7qXDLyX+kFYLb7I2X7aUVLzPM=
-X-Google-Smtp-Source: APXvYqzCcNJqDAxQPRmN4iKsMTBUthBDhw13ChmcaGv6tUAWv+9Y+Q61G12uyCWid7QmlFw0Ijla3EVqmGqKJgTq/U4=
-X-Received: by 2002:aca:1b04:: with SMTP id b4mr6197172oib.157.1562489338923;
- Sun, 07 Jul 2019 01:48:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190605053006.14332-1-yamada.masahiro@socionext.com>
- <20190706203745.af0bf9bd5dd46e94fa5e1ff9@linux-foundation.org>
- <CAK7LNARCjucs=0BD=00SD8Ljh+a0GtCUNHF4En=eSM1+VG0-4g@mail.gmail.com>
- <CAKFNMonV+Bsyc6HGP3qSXjrKnQMjhUmQjajt1Dwp0ng7qJaVYA@mail.gmail.com> <CAK7LNATj1=eRJU_-0cz6rSD01CROvqUb+JVWjNpsKvKarvwA5w@mail.gmail.com>
-In-Reply-To: <CAK7LNATj1=eRJU_-0cz6rSD01CROvqUb+JVWjNpsKvKarvwA5w@mail.gmail.com>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8zUSV3oUAOKo1p9yciN3aXy3pVPdOrPwzw0QPi5xIzo=;
+        b=I46owV0g0pSPhUgqvdWU1cyhyynDclEre1V+x7sn5JRy7deGLJSWOzePcz/yGEiBQb
+         adHlgW1znvC5ZHt050X6UQMaLnL+B2RmQI4PtXXUXMBrNr/M9rQKC9i8gnqV1j/S9u85
+         7z/gdkNVNK8SjksIzwwUjf+/E2tVBueBkPROnOaJBdQ+uZku2TRnWvA6aIhcN1X4uBx3
+         HSuCuUc10mh64W12/UE3dRbgo+QHLPdc+t9NKsfEV+/6gfCHQjy8GXEsDHVcWQe/rtUg
+         EkUS9QlnVzfcSUlaPKmQ17mEKO0iOwakaKbDPRpmALCNJr+c3l67S6HU4/bYf9+MC1eb
+         A+Pw==
+X-Gm-Message-State: APjAAAUiFlLo6btvuo3W8/92I+99xE+iWTF05yJ6y+uoHbFZ/atzni/9
+        k8LrF5h7q/Ru8p7OQiWN9cc=
+X-Google-Smtp-Source: APXvYqyMx2+32HyNXxBJxnXN90ZX/eNGMf1iEDAGfhyfSUHZUz4eRncpRFe5vwFlPtEZBqtHdLc5ng==
+X-Received: by 2002:a17:90a:bf0e:: with SMTP id c14mr16074811pjs.55.1562495234516;
+        Sun, 07 Jul 2019 03:27:14 -0700 (PDT)
+Received: from carrot.localdomain (i60-35-92-254.s42.a014.ap.plala.or.jp. [60.35.92.254])
+        by smtp.gmail.com with ESMTPSA id x128sm35195975pfd.17.2019.07.07.03.27.11
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 07 Jul 2019 03:27:12 -0700 (PDT)
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Sun, 7 Jul 2019 17:48:46 +0900
-Message-ID: <CAKFNMokG-5_wCnSe-AcbG9X=jiRqh9je4DttBecUyind0urtAQ@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu()
- in uapi header
-To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
-        Andrew Morton <akpm@linux-foundation.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
 Cc:     Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
-        linux-nilfs <linux-nilfs@vger.kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Subject: [PATCH] MAINTAINERS: nilfs2: update email address
+Date:   Sun,  7 Jul 2019 19:25:53 +0900
+Message-Id: <1562495153-8166-1-git-send-email-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Yamada-san,
+Change my email since lab.ntt.co.jp email domain has been deprecated
+due to company policy.
 
-> To automate this testing, I will merge the following for 5.3-rc1:
-> https://patchwork.kernel.org/patch/11024715/
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thank you.  I could get the series through linux-next tree, and
-could reproduce the build error by enabling the new coverage test
-for nilfs2_ondisk.h.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 01a52fc..b8eadb3 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11116,7 +11116,7 @@ F:	include/uapi/linux/nfs*
+ F:	include/uapi/linux/sunrpc/
+ 
+ NILFS2 FILESYSTEM
+-M:	Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
++M:	Ryusuke Konishi <konishi.ryusuke@gmail.com>
+ L:	linux-nilfs@vger.kernel.org
+ W:	https://nilfs.sourceforge.io/
+ W:	https://nilfs.osdn.jp/
+-- 
+1.8.3.1
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-
-Regards,
-Ryusuke Konishi
-
-2019=E5=B9=B47=E6=9C=887=E6=97=A5(=E6=97=A5) 15:42 Masahiro Yamada <yamada.=
-masahiro@socionext.com>:
-
->
-> Konishi-san,
->
->
-> On Sun, Jul 7, 2019 at 3:11 PM Ryusuke Konishi
-> <konishi.ryusuke@lab.ntt.co.jp> wrote:
-> >
-> > Yamada-san,
-> >
-> > I'm sorry for not being able to follow.
-> >
-> > Could you tell me how did you find the build error?
-> > Still I cannot reproduce the error in my environment.
->
->
-> "You can compile UAPI headers in kernel-space" does not necessarily mean
-> "you can compile them in user-space".
->
-> To make sure UAPI headers can be included from libc etc.
-> you must compile them after 'make headers_install',
-> but people often miss to test that.
->
-> To automate this testing, I will merge the following for 5.3-rc1:
-> https://patchwork.kernel.org/patch/11024715/
->
-> Once it lands in upstream, all the new breakage
-> will be caught by 0-day bot.
->
-> Currently, nilfs2_ondisk.h is excluded from the test coverage
-> since it is broken.
->
-> Thanks.
-> Masahiro Yamada
->
->
->
-> > Or, if it's right that we should not use
-> > cpu_to_le{16,32,64}/le{16,32,64}_to_cpu() in UAPI  header files,
-> > I will acknowledge the change and modify nilfs utilities to comply
-> > with the guideline.
-> >
-> > Thanks,
-> > Ryusuke Konishi
-> >
-> > 2019=E5=B9=B47=E6=9C=887=E6=97=A5(=E6=97=A5) 13:31 Masahiro Yamada <yam=
-ada.masahiro@socionext.com>:
-> > >
-> > > Hi Andrew,
-> > >
-> > > On Sun, Jul 7, 2019 at 12:38 PM Andrew Morton <akpm@linux-foundation.=
-org> wrote:
-> > >
-> > > >
-> > > > Seems fairly serious.  I'm thinking this needs a cc:stable?
-> > >
-> > >
-> > > Ah, yes.
-> > >
-> > >
-> > > Cc: linux-stable <stable@vger.kernel.org> # 4.9
-> > > Fixes: e63e88bc53ba ("nilfs2: move ioctl interface and disk layout to
-> > > uapi separately")
-> > >
-> > >
-> > > Thanks.
-> > >
-> > > --
-> > > Best Regards
-> > > Masahiro Yamada
->
->
->
-> --
-> Best Regards
-> Masahiro Yamada
