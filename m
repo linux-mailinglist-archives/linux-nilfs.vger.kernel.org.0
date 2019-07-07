@@ -2,211 +2,73 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB7B61382
-	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 04:52:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A2F61393
+	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 05:37:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727126AbfGGCwv (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 6 Jul 2019 22:52:51 -0400
-Received: from condef-07.nifty.com ([202.248.20.72]:33924 "EHLO
-        condef-07.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726974AbfGGCwv (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 6 Jul 2019 22:52:51 -0400
-X-Greylist: delayed 492 seconds by postgrey-1.27 at vger.kernel.org; Sat, 06 Jul 2019 22:52:49 EDT
-Received: from conssluserg-05.nifty.com ([10.126.8.84])by condef-07.nifty.com with ESMTP id x672fgIa025695
-        for <linux-nilfs@vger.kernel.org>; Sun, 7 Jul 2019 11:41:42 +0900
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42]) (authenticated)
-        by conssluserg-05.nifty.com with ESMTP id x672fZY9026926;
-        Sun, 7 Jul 2019 11:41:35 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-05.nifty.com x672fZY9026926
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562467296;
-        bh=I0xyGzOgFAL5V9jjmDuVTuK7LMrU6TFfqca/VNGQTuo=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Wa5JxMcvVj6AgYUBS6WiwXAFtlJVgmEH9aDbiKUz3StwWul7EQ/BuZLEDgbmIGcal
-         iXwUElIgnsU0rEcL9jzB3CmRHFrzy8+mjtZZg/2tMtUysqvuIuvQIt2kgzgDr/nMDi
-         DvByIaq/7/Vj+UuAVPyiZ49Rb/PIF0UskKjJeVKcKVTXXn1KpWgs/MQybXO1Qgr/hN
-         CavjsbmtKMg8jBhN8PjmSPSGASyRNTHWo3GM2pFyOig0a1LIYK7Tdb+eOz7QASqoNi
-         /CGM85gPgxvf78QA/vFFFvX1GSyFA2uVFt0wdAUQvQLbDFPTSgKKFo2TGpIBr5R1Kl
-         8bb9i1ZD0NjaA==
-X-Nifty-SrcIP: [209.85.217.42]
-Received: by mail-vs1-f42.google.com with SMTP id y16so2445612vsc.3;
-        Sat, 06 Jul 2019 19:41:35 -0700 (PDT)
-X-Gm-Message-State: APjAAAW8MW5qpM5uITLHNsKVMhcX8Ug8uacMCvZ9OOMgqCfdsN6wUXth
-        coi34IQJrKVZlC0dTfxTmFBSjCd8pqFaRT+SjQc=
-X-Google-Smtp-Source: APXvYqzL8Y6te6Nr6rulPbKuMiPZfdli6ad6JHF38Tor4/MF36N8Pk1S4QUO9lsY2p3e/XxgywjfrONLkIiaQ63ZTIQ=
-X-Received: by 2002:a67:fc45:: with SMTP id p5mr6352768vsq.179.1562467294595;
- Sat, 06 Jul 2019 19:41:34 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190605053006.14332-1-yamada.masahiro@socionext.com>
-In-Reply-To: <20190605053006.14332-1-yamada.masahiro@socionext.com>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 7 Jul 2019 11:40:58 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAQMuZrDTX2-zynf=8gS1UqnygnMHoAfQr4wZ8uqEzd_qQ@mail.gmail.com>
-Message-ID: <CAK7LNAQMuZrDTX2-zynf=8gS1UqnygnMHoAfQr4wZ8uqEzd_qQ@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu()
- in uapi header
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
+        id S1727152AbfGGDhr (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 6 Jul 2019 23:37:47 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39444 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727142AbfGGDhr (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Sat, 6 Jul 2019 23:37:47 -0400
+Received: from localhost.localdomain (c-73-223-200-170.hsd1.ca.comcast.net [73.223.200.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D36B32083B;
+        Sun,  7 Jul 2019 03:37:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1562470666;
+        bh=NSUhT03/N1dAomU6Y1lmRVJq8O8g6qPmcXLaYh8VDWA=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=XjyayPdPoyHC8PvLyHFWTlMsNu5kqeAU7JgVQGm/FtWxLlmz4ps41cHsRprYaDNlj
+         0qKmAc4F+5/rHdXFWZzR0ifJSi/WWxAGCPPA29bEaRxqq130WhKf2NtbJ8KWj4kriy
+         QVFGNOS52WsfjqPK8mnsf0XX59oz5j2Nw0h2hnuM=
+Date:   Sat, 6 Jul 2019 20:37:45 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>
+Cc:     Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
+        linux-nilfs@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
         Greg KH <gregkh@linuxfoundation.org>,
-        Joe Perches <joe@perches.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
-        linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Joe Perches <joe@perches.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] nilfs2: do not use unexported
+ cpu_to_le32()/le32_to_cpu() in uapi header
+Message-Id: <20190706203745.af0bf9bd5dd46e94fa5e1ff9@linux-foundation.org>
+In-Reply-To: <20190605053006.14332-1-yamada.masahiro@socionext.com>
+References: <20190605053006.14332-1-yamada.masahiro@socionext.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Andrew,
+On Wed,  5 Jun 2019 14:30:06 +0900 Masahiro Yamada <yamada.masahiro@socionext.com> wrote:
 
-Could you pick up this?
-
-The maintainer of nilfs2 is silent, but
-this is obviously build error.
-
-Masahiro Yamada
-
-
-On Wed, Jun 5, 2019 at 2:32 PM Masahiro Yamada
-<yamada.masahiro@socionext.com> wrote:
->
 > cpu_to_le32/le32_to_cpu is defined in include/linux/byteorder/generic.h,
 > which is not exported to user-space.
->
+> 
 > UAPI headers must use the ones prefixed with double-underscore.
->
+> 
 > Detected by compile-testing exported headers:
->
-> ./usr/include/linux/nilfs2_ondisk.h: In function =E2=80=98nilfs_checkpoin=
-t_set_snapshot=E2=80=99:
-> ./usr/include/linux/nilfs2_ondisk.h:536:17: error: implicit declaration o=
-f function =E2=80=98cpu_to_le32=E2=80=99 [-Werror=3Dimplicit-function-decla=
-ration]
->   cp->cp_flags =3D cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
+> 
+> ./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_checkpoint_set_snapshot’:
+> ./usr/include/linux/nilfs2_ondisk.h:536:17: error: implicit declaration of function ‘cpu_to_le32’ [-Werror=implicit-function-declaration]
+>   cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
 >                  ^
-> ./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro =
-=E2=80=98NILFS_CHECKPOINT_FNS=E2=80=99
+> ./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
 >  NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
 >  ^~~~~~~~~~~~~~~~~~~~
-> ./usr/include/linux/nilfs2_ondisk.h:536:29: error: implicit declaration o=
-f function =E2=80=98le32_to_cpu=E2=80=99 [-Werror=3Dimplicit-function-decla=
-ration]
->   cp->cp_flags =3D cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
+> ./usr/include/linux/nilfs2_ondisk.h:536:29: error: implicit declaration of function ‘le32_to_cpu’ [-Werror=implicit-function-declaration]
+>   cp->cp_flags = cpu_to_le32(le32_to_cpu(cp->cp_flags) |  \
 >                              ^
-> ./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro =
-=E2=80=98NILFS_CHECKPOINT_FNS=E2=80=99
+> ./usr/include/linux/nilfs2_ondisk.h:552:1: note: in expansion of macro ‘NILFS_CHECKPOINT_FNS’
 >  NILFS_CHECKPOINT_FNS(SNAPSHOT, snapshot)
 >  ^~~~~~~~~~~~~~~~~~~~
-> ./usr/include/linux/nilfs2_ondisk.h: In function =E2=80=98nilfs_segment_u=
-sage_set_clean=E2=80=99:
-> ./usr/include/linux/nilfs2_ondisk.h:622:19: error: implicit declaration o=
-f function =E2=80=98cpu_to_le64=E2=80=99 [-Werror=3Dimplicit-function-decla=
-ration]
->   su->su_lastmod =3D cpu_to_le64(0);
+> ./usr/include/linux/nilfs2_ondisk.h: In function ‘nilfs_segment_usage_set_clean’:
+> ./usr/include/linux/nilfs2_ondisk.h:622:19: error: implicit declaration of function ‘cpu_to_le64’ [-Werror=implicit-function-declaration]
+>   su->su_lastmod = cpu_to_le64(0);
 >                    ^~~~~~~~~~~
->
-> Signed-off-by: Masahiro Yamada <yamada.masahiro@socionext.com>
-> ---
->
->  include/uapi/linux/nilfs2_ondisk.h | 24 ++++++++++++------------
->  1 file changed, 12 insertions(+), 12 deletions(-)
->
-> diff --git a/include/uapi/linux/nilfs2_ondisk.h b/include/uapi/linux/nilf=
-s2_ondisk.h
-> index a7e66ab11d1d..c23f91ae5fe8 100644
-> --- a/include/uapi/linux/nilfs2_ondisk.h
-> +++ b/include/uapi/linux/nilfs2_ondisk.h
-> @@ -29,7 +29,7 @@
->
->  #include <linux/types.h>
->  #include <linux/magic.h>
-> -
-> +#include <asm/byteorder.h>
->
->  #define NILFS_INODE_BMAP_SIZE  7
->
-> @@ -533,19 +533,19 @@ enum {
->  static inline void                                                     \
->  nilfs_checkpoint_set_##name(struct nilfs_checkpoint *cp)               \
->  {                                                                      \
-> -       cp->cp_flags =3D cpu_to_le32(le32_to_cpu(cp->cp_flags) |         =
- \
-> -                                  (1UL << NILFS_CHECKPOINT_##flag));   \
-> +       cp->cp_flags =3D __cpu_to_le32(__le32_to_cpu(cp->cp_flags) |     =
- \
-> +                                    (1UL << NILFS_CHECKPOINT_##flag)); \
->  }                                                                      \
->  static inline void                                                     \
->  nilfs_checkpoint_clear_##name(struct nilfs_checkpoint *cp)             \
->  {                                                                      \
-> -       cp->cp_flags =3D cpu_to_le32(le32_to_cpu(cp->cp_flags) &         =
- \
-> +       cp->cp_flags =3D __cpu_to_le32(__le32_to_cpu(cp->cp_flags) &     =
- \
->                                    ~(1UL << NILFS_CHECKPOINT_##flag));  \
->  }                                                                      \
->  static inline int                                                      \
->  nilfs_checkpoint_##name(const struct nilfs_checkpoint *cp)             \
->  {                                                                      \
-> -       return !!(le32_to_cpu(cp->cp_flags) &                           \
-> +       return !!(__le32_to_cpu(cp->cp_flags) &                         \
->                   (1UL << NILFS_CHECKPOINT_##flag));                    \
->  }
->
-> @@ -595,20 +595,20 @@ enum {
->  static inline void                                                     \
->  nilfs_segment_usage_set_##name(struct nilfs_segment_usage *su)         \
->  {                                                                      \
-> -       su->su_flags =3D cpu_to_le32(le32_to_cpu(su->su_flags) |         =
- \
-> +       su->su_flags =3D __cpu_to_le32(__le32_to_cpu(su->su_flags) |     =
- \
->                                    (1UL << NILFS_SEGMENT_USAGE_##flag));\
->  }                                                                      \
->  static inline void                                                     \
->  nilfs_segment_usage_clear_##name(struct nilfs_segment_usage *su)       \
->  {                                                                      \
->         su->su_flags =3D                                                 =
- \
-> -               cpu_to_le32(le32_to_cpu(su->su_flags) &                 \
-> +               __cpu_to_le32(__le32_to_cpu(su->su_flags) &             \
->                             ~(1UL << NILFS_SEGMENT_USAGE_##flag));      \
->  }                                                                      \
->  static inline int                                                      \
->  nilfs_segment_usage_##name(const struct nilfs_segment_usage *su)       \
->  {                                                                      \
-> -       return !!(le32_to_cpu(su->su_flags) &                           \
-> +       return !!(__le32_to_cpu(su->su_flags) &                         \
->                   (1UL << NILFS_SEGMENT_USAGE_##flag));                 \
->  }
->
-> @@ -619,15 +619,15 @@ NILFS_SEGMENT_USAGE_FNS(ERROR, error)
->  static inline void
->  nilfs_segment_usage_set_clean(struct nilfs_segment_usage *su)
->  {
-> -       su->su_lastmod =3D cpu_to_le64(0);
-> -       su->su_nblocks =3D cpu_to_le32(0);
-> -       su->su_flags =3D cpu_to_le32(0);
-> +       su->su_lastmod =3D __cpu_to_le64(0);
-> +       su->su_nblocks =3D __cpu_to_le32(0);
-> +       su->su_flags =3D __cpu_to_le32(0);
->  }
->
->  static inline int
->  nilfs_segment_usage_clean(const struct nilfs_segment_usage *su)
->  {
-> -       return !le32_to_cpu(su->su_flags);
-> +       return !__le32_to_cpu(su->su_flags);
->  }
->
->  /**
-> --
-> 2.17.1
->
 
-
---=20
-Best Regards
-Masahiro Yamada
+Seems fairly serious.  I'm thinking this needs a cc:stable?
