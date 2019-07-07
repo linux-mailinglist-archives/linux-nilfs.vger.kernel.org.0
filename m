@@ -2,77 +2,91 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F6E0613D2
-	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 06:31:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D0B826142B
+	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jul 2019 08:11:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725843AbfGGEbZ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 7 Jul 2019 00:31:25 -0400
-Received: from conssluserg-01.nifty.com ([210.131.2.80]:23802 "EHLO
-        conssluserg-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725838AbfGGEbZ (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 7 Jul 2019 00:31:25 -0400
-X-Greylist: delayed 6584 seconds by postgrey-1.27 at vger.kernel.org; Sun, 07 Jul 2019 00:31:24 EDT
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47]) (authenticated)
-        by conssluserg-01.nifty.com with ESMTP id x674VEU7017936;
-        Sun, 7 Jul 2019 13:31:15 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-01.nifty.com x674VEU7017936
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1562473875;
-        bh=IU0sI9lPOAmBhk7WYcj3uitcIXFJtoxBE1UAngMjX+k=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Wk3A769fxcaYr7FAEqIx5AV1FOC9WBk0yABfqa6o/GIn+keE7SkMR0w/p5R6oBPLf
-         teh97OLt/FoxyUxFMYnqBgW5sCDNYv8mvc/qxKQJhv97nR9LLWfSDRPAl38AwG9+1H
-         gcGQIpsvHlCBJi8NAsVx/9N+ijkstQNGMmEg/AYeGc0myr0gQUW56j/9BMIpTC1bpV
-         9OP4PtjRSIJkwsWLBiyibDUj/WVmYUdVAISC5zsRAtWP4kY7pOR30NRl3IMKqQ7TUi
-         R73NJCdri/Jr/J4rm+0f/Z4A7EunSS16TSqWwdJNQ0eqNgJ1ejS3wW/h2HpYqpHoFP
-         XZgoV311I2oyw==
-X-Nifty-SrcIP: [209.85.217.47]
-Received: by mail-vs1-f47.google.com with SMTP id m8so6155741vsj.0;
-        Sat, 06 Jul 2019 21:31:14 -0700 (PDT)
-X-Gm-Message-State: APjAAAWIRwI6/4Y2Rl5NLUux2mD/q5eUuBPNRbtYfWwlRRH8HBoJ663E
-        zcxhZPLlMIDnX8wvX2ALP2HV8tCgBGOFhBClXIE=
-X-Google-Smtp-Source: APXvYqwKbCy6SG4VPCk6kF3FiYB0gXvisBArK09GBAC8M82YAt1D0LiOArAyE+Z9AKi3bhgH5xLCz3JCZWq/Xwtsbwk=
-X-Received: by 2002:a67:fc45:: with SMTP id p5mr6475026vsq.179.1562473873698;
- Sat, 06 Jul 2019 21:31:13 -0700 (PDT)
+        id S1725838AbfGGGL2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Sun, 7 Jul 2019 02:11:28 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:46280 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbfGGGL1 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 7 Jul 2019 02:11:27 -0400
+Received: by mail-ot1-f65.google.com with SMTP id z23so12957978ote.13;
+        Sat, 06 Jul 2019 23:11:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=f6HeUv7mgbudCRRHNCvrlDER38PZ1qsXydjAfY6uFKg=;
+        b=VMsJdpf9Hs/nuiUIGYzGYchCxqn6Ushx8COuzxtqoiaR4tDfLuQz4o4O++PpWu79N5
+         4PyV6jJETMm6yCe7XBb4F3gaU7Pbj6GWTHV+FkHRHwV1B1AJH26U9GSzdhIXbdkYHCzv
+         okImtTgOQ3PdUNqkrBRjVMDZKs2qE7LbadBVIBvqJwr6RtPQwJ6rMT8p8OavA0x0EL90
+         rwXXu/JHFog4A5PTrMivcHT1pFTQDtchWGRqOWq6Nz0x26/Oc758SFWC3uulYIbEgHPY
+         Bce16vhiCyFlgFJa2CoSB3CKy6sjecTNCEtWZi5Auf80gnQi0owxJ+l7UtBPBe4aaFiX
+         BrjA==
+X-Gm-Message-State: APjAAAVrIxR1Yeoeho8f6BH7it+2THg/xnC/R2NdRG/YQEyt/UF2aCwD
+        8ZofCOfX6JuigfxvUZ+BaoCu8jR8m/RqbRLt9J8=
+X-Google-Smtp-Source: APXvYqyfz3K7cMkwQa+wCD0qVQ1rIHzd1aLEjJKDdzPn/cuToS6HWchCIr5HLPlrS5Q/FriT0IRxCAyZvIlLkj2Cn4o=
+X-Received: by 2002:a05:6830:1319:: with SMTP id p25mr9591073otq.224.1562479886956;
+ Sat, 06 Jul 2019 23:11:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190605053006.14332-1-yamada.masahiro@socionext.com> <20190706203745.af0bf9bd5dd46e94fa5e1ff9@linux-foundation.org>
-In-Reply-To: <20190706203745.af0bf9bd5dd46e94fa5e1ff9@linux-foundation.org>
-From:   Masahiro Yamada <yamada.masahiro@socionext.com>
-Date:   Sun, 7 Jul 2019 13:30:37 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARCjucs=0BD=00SD8Ljh+a0GtCUNHF4En=eSM1+VG0-4g@mail.gmail.com>
-Message-ID: <CAK7LNARCjucs=0BD=00SD8Ljh+a0GtCUNHF4En=eSM1+VG0-4g@mail.gmail.com>
+References: <20190605053006.14332-1-yamada.masahiro@socionext.com>
+ <20190706203745.af0bf9bd5dd46e94fa5e1ff9@linux-foundation.org> <CAK7LNARCjucs=0BD=00SD8Ljh+a0GtCUNHF4En=eSM1+VG0-4g@mail.gmail.com>
+In-Reply-To: <CAK7LNARCjucs=0BD=00SD8Ljh+a0GtCUNHF4En=eSM1+VG0-4g@mail.gmail.com>
+From:   Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>
+Date:   Sun, 7 Jul 2019 15:11:15 +0900
+Message-ID: <CAKFNMonV+Bsyc6HGP3qSXjrKnQMjhUmQjajt1Dwp0ng7qJaVYA@mail.gmail.com>
 Subject: Re: [PATCH] nilfs2: do not use unexported cpu_to_le32()/le32_to_cpu()
  in uapi header
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Ryusuke Konishi <konishi.ryusuke@lab.ntt.co.jp>,
-        linux-nilfs@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+To:     Masahiro Yamada <yamada.masahiro@socionext.com>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Greg KH <gregkh@linuxfoundation.org>,
         Joe Perches <joe@perches.com>,
         Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Andrew,
+Yamada-san,
 
-On Sun, Jul 7, 2019 at 12:38 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+I'm sorry for not being able to follow.
 
+Could you tell me how did you find the build error?
+Still I cannot reproduce the error in my environment.
+
+Or, if it's right that we should not use
+cpu_to_le{16,32,64}/le{16,32,64}_to_cpu() in UAPI  header files,
+I will acknowledge the change and modify nilfs utilities to comply
+with the guideline.
+
+Thanks,
+Ryusuke Konishi
+
+2019年7月7日(日) 13:31 Masahiro Yamada <yamada.masahiro@socionext.com>:
 >
-> Seems fairly serious.  I'm thinking this needs a cc:stable?
-
-
-Ah, yes.
-
-
-Cc: linux-stable <stable@vger.kernel.org> # 4.9
-Fixes: e63e88bc53ba ("nilfs2: move ioctl interface and disk layout to
-uapi separately")
-
-
-Thanks.
-
--- 
-Best Regards
-Masahiro Yamada
+> Hi Andrew,
+>
+> On Sun, Jul 7, 2019 at 12:38 PM Andrew Morton <akpm@linux-foundation.org> wrote:
+>
+> >
+> > Seems fairly serious.  I'm thinking this needs a cc:stable?
+>
+>
+> Ah, yes.
+>
+>
+> Cc: linux-stable <stable@vger.kernel.org> # 4.9
+> Fixes: e63e88bc53ba ("nilfs2: move ioctl interface and disk layout to
+> uapi separately")
+>
+>
+> Thanks.
+>
+> --
+> Best Regards
+> Masahiro Yamada
