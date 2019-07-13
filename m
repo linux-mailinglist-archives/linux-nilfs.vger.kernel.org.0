@@ -2,48 +2,59 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 14BD664E88
-	for <lists+linux-nilfs@lfdr.de>; Thu, 11 Jul 2019 00:04:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F93667C2C
+	for <lists+linux-nilfs@lfdr.de>; Sat, 13 Jul 2019 23:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728026AbfGJWEr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 10 Jul 2019 18:04:47 -0400
-Received: from 50-244-196-250-static.hfc.comcastbusiness.net ([50.244.196.250]:56929
-        "EHLO hometime.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1727841AbfGJWE2 (ORCPT
+        id S1728116AbfGMVt2 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Sat, 13 Jul 2019 17:49:28 -0400
+Received: from mail.iara.government.bg ([95.43.208.99]:54880 "EHLO
+        iara.government.bg" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727978AbfGMVt2 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 10 Jul 2019 18:04:28 -0400
-X-Greylist: delayed 18198 seconds by postgrey-1.27 at vger.kernel.org; Wed, 10 Jul 2019 18:04:22 EDT
-Received: from [100.120.45.199] ([195.181.172.132]) by hometime.com with Microsoft SMTPSVC(6.0.3790.4675);
-         Wed, 10 Jul 2019 00:08:17 -0500
-Content-Type: text/plain; charset="iso-8859-1"
+        Sat, 13 Jul 2019 17:49:28 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by iara.government.bg (Postfix) with ESMTP id 0182D24A9AE;
+        Sat, 13 Jul 2019 13:07:57 +0300 (EEST)
+Received: from iara.government.bg ([127.0.0.1])
+        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id AO_JXr30s4c5; Sat, 13 Jul 2019 13:07:57 +0300 (EEST)
+Received: from localhost (localhost [127.0.0.1])
+        by iara.government.bg (Postfix) with ESMTP id CE5DB2EC5EC;
+        Sat, 13 Jul 2019 08:52:49 +0300 (EEST)
+X-Virus-Scanned: amavisd-new at iara.government.bg
+Received: from iara.government.bg ([127.0.0.1])
+        by localhost (iara.government.bg [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id orfpxMSwpI6c; Sat, 13 Jul 2019 08:52:49 +0300 (EEST)
+Received: from [10.108.11.57] (unknown [105.12.6.226])
+        by iara.government.bg (Postfix) with ESMTPSA id F007A289C31;
+        Sat, 13 Jul 2019 04:24:46 +0300 (EEST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Greetings!
-To:     Recipients <fuqingzheng@asia.com>
-From:   fuqingzheng@asia.com
-Date:   Wed, 10 Jul 2019 07:07:43 +0200
-Reply-To: zhengfuqing@yandex.com
-X-Antivirus: Avast (VPS 190709-4, 09-07-2019), Outbound message
-X-Antivirus-Status: Clean
-Message-ID: <SBSKXG1bFGbSoMkdr9F00008fec@hometime.com>
-X-OriginalArrivalTime: 10 Jul 2019 05:08:17.0828 (UTC) FILETIME=[7C4B4E40:01D536DD]
+Subject: =?utf-8?b?RndkOiBSZTog4oKsIDIsMDAwLDAwMC4wMCBFdXJv?=
+To:     Recipients <silistra@iara.government.bg>
+From:   silistra@iara.government.bg
+Date:   Fri, 12 Jul 2019 18:24:30 -0700
+Reply-To: carfleon@gmail.com
+Message-Id: <20190713012446.F007A289C31@iara.government.bg>
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good day,
+Lieber Freund,
 
-  I have a mutual business proposal, which refers to the transfer of a large amount of money to an account abroad, with your help as a foreign partner as a beneficiary of the funds. Everything about this transaction will be legal without any bridge of financial authority both in my country and yours. If you are interested and I will give you more information about the project as soon as I receive your positive response.
+Ich bin Herr Richard Wahl der Mega-Gewinner von $ 533M In Mega Millions Jackpot spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt. Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt. Ich habe mich freiwillig dazu entschieden, Ihnen den Betrag von € 2.000.000,00 zu spenden eine der ausgewählten 5, um meine Gewinne zu überprüfen, finden Sie auf meiner You Tube Seite unten.
 
-Best regards,
+UHR MICH HIER: https://www.youtube.com/watch?v=tne02ExNDrw
 
-Executive Director.
- 
-ICBC. China
+Das ist dein Spendencode: [DF00430342018]
 
----
-Dit e-mailbericht is gecontroleerd op virussen met Avast antivirussoftware.
-https://www.avast.com/antivirus
+Antworten Sie mit dem Spendencode auf diese E-Mail: liezlnatashavanessa@gmail.com
 
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+
+Herr Richard Wahl
