@@ -2,63 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A2A32319F1
-	for <lists+linux-nilfs@lfdr.de>; Wed, 29 Jul 2020 08:59:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24F7D23C256
+	for <lists+linux-nilfs@lfdr.de>; Wed,  5 Aug 2020 01:52:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727111AbgG2G7q convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 29 Jul 2020 02:59:46 -0400
-Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:42176
-        "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727070AbgG2G7q (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 29 Jul 2020 02:59:46 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 8263E44CFE3;
-        Tue, 28 Jul 2020 04:24:36 -0500 (CDT)
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id edyDbcIuTFfY; Tue, 28 Jul 2020 04:24:36 -0500 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 73A7644CFE5;
-        Tue, 28 Jul 2020 03:51:13 -0500 (CDT)
-X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
-Received: from correo.tlalpan.gob.mx ([127.0.0.1])
-        by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id YHRs_VpY5nXb; Tue, 28 Jul 2020 03:51:13 -0500 (CDT)
-Received: from [10.85.108.11] (unknown [105.8.2.12])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id D591A432A74;
-        Tue, 28 Jul 2020 03:42:46 -0500 (CDT)
-Content-Type: text/plain; charset="utf-8"
+        id S1727941AbgHDXwc (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 4 Aug 2020 19:52:32 -0400
+Received: from [162.242.144.135] ([162.242.144.135]:52272 "EHLO dockerbox"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726788AbgHDXw2 (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Tue, 4 Aug 2020 19:52:28 -0400
+X-Greylist: delayed 28014 seconds by postgrey-1.27 at vger.kernel.org; Tue, 04 Aug 2020 19:52:28 EDT
+Received: from 127.0.0.1 (localhost [127.0.0.1])
+        by dockerbox (Postfix) with SMTP id 6F4DA5EC5A;
+        Mon,  7 Oct 2019 19:30:12 -0500 (CDT)
+Received: from [32.188.209.113] by 127.0.0.1 with SMTP; Mon, 07 Oct 2019 18:22:17 -0600
+Message-ID: <80v-q$4-o4pqyq0@6eeih174.p55>
+From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
+To:     linkos@binet.lv
+Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA
+Date:   Mon, 07 Oct 19 18:22:17 GMT
+X-Mailer: Microsoft Outlook Express 5.00.2615.200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
-To:     Recipients <aguayenergia@tlalpan.gob.mx>
-From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
-Date:   Tue, 28 Jul 2020 10:47:04 +0200
-Reply-To: Tayebsouam.spende@gmail.com
-Message-Id: <20200728084247.D591A432A74@correo.tlalpan.gob.mx>
+Content-Type: multipart/alternative;
+        boundary="_.A4476ECDD73A3"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Lieber Freund,
 
-Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+--_.A4476ECDD73A3
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+Greetings
+
+My name is Barrister Hans Erich.
+
+I have a client who is interested to invest in your country, she is a well=
+ known politician in her country and deserve a lucrative investment partne=
+rship with you outside her country without any delay   Please can you mana=
+ge such investment please Kindly reply for further details.
+
+Your full names --------
 
 
-Das ist dein Spendencode: [TS530342018]
+Your urgent response will be appreciated
 
+Thank you and God bless you.
 
-Antworten Sie mit dem SPENDE-CODE an diese
+Barrister Hans Erich
 
-E-Mail:Tayebsouam.spende@gmail.com
+Yours sincerely,
+Barrister Hans Erich
+CONTACT: hanserich9helmut@gmail.com
 
+--_.A4476ECDD73A3--
 
-Ich hoffe, Sie und Ihre Familie glücklich zu machen.
-
-Grüße
-Herr Tayeb Souami
