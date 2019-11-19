@@ -2,223 +2,229 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 13C301009B9
-	for <lists+linux-nilfs@lfdr.de>; Mon, 18 Nov 2019 17:51:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1EF7101293
+	for <lists+linux-nilfs@lfdr.de>; Tue, 19 Nov 2019 05:41:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726317AbfKRQv5 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 18 Nov 2019 11:51:57 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39616 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726068AbfKRQv5 (ORCPT
+        id S1726905AbfKSElG (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 18 Nov 2019 23:41:06 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:41563 "EHLO
+        out2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726775AbfKSElG (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 18 Nov 2019 11:51:57 -0500
-Received: by mail-ot1-f65.google.com with SMTP id w24so14625852otk.6;
-        Mon, 18 Nov 2019 08:51:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=hRQjobjRybsh3j3ZclYpYokcRyZrzWS+6XBQbliBkug=;
-        b=gFYqqds3I+sNbhmNDX+/i6XtNZprb7ToeDrm12+P1qIgBLonRRyO0BfRDRCQ55C19m
-         BDVn+RcPVPRKkgM8lWhg+kXidhw543X+DsuubJXtW8kYbfVVrEccf0cEH0z3e0zGfppj
-         EaaDdoMqnJ/xXn0hZKgWoZZI/uS7bjbfX4LlGL/Mufa5y1nGgcrfKsw96xy0yXhfe+7z
-         0YPQqL8RmMvp5X6EexfABVJmyBQeWTEBXu5i60sQPcLCKAxNsTM6+isxQTIID2/TrjUQ
-         j+NdH+34Np2yiRX99nJOq298lsfxjP0NcX8ccPBftBL52pcjVMeDSfmiZ8WqWGvVM09W
-         SD9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=hRQjobjRybsh3j3ZclYpYokcRyZrzWS+6XBQbliBkug=;
-        b=lwpueQzi74zCjxvyhQdI4MZVl47WvqULPZC/jUcKCWdhI53oR0eiVdvaTM6qUvSRCk
-         4YtlOivioAzFcJaSr01WVM9zJzfiJgeHkipR1bv7fCmwyiqN5nZ+Zr118mPoOgDUJjUu
-         99mTRlyAdyg2lDv3woKkxZAZrRm2mLgof/XFgy+O20TlAa3HhY1e4W8os6IeU8UX2ME8
-         r8W8ob8y1A2gjXijyJXFDmPS2PyIPK2i3Q9fZ9Y3E1Bvlm1ZGhcROCsp790Liyn/MNoN
-         BnuhA2u+gP85KT4ANZCtoL+yRHRcgGEdHlsKFT2hoLxQVz6lqEd5nqY3Q/o+OyRKCpKO
-         2IRQ==
-X-Gm-Message-State: APjAAAVq5arHGZ2TTXSNyN8o7uSZt0YIr9NgIr2uTGPVRyo0Bj4L9DN5
-        tqDvSekreDe9z9DC7wNfwajstJ6iQ0uf8rLvEmHlOx12
-X-Google-Smtp-Source: APXvYqz/QMV6I9h6EHwU1UaImjwuCXWZbM3S8OUy+2m8vVh9HCHUiLGAxw7WLdp2SbyFXvCw6Wd7GfHxD7tBzpMsAYo=
-X-Received: by 2002:a9d:7985:: with SMTP id h5mr193317otm.20.1574095914368;
- Mon, 18 Nov 2019 08:51:54 -0800 (PST)
+        Mon, 18 Nov 2019 23:41:06 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 1114C2205C
+        for <linux-nilfs@vger.kernel.org>; Mon, 18 Nov 2019 23:41:04 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Mon, 18 Nov 2019 23:41:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=waltonhoops.com;
+         h=to:from:subject:message-id:date:mime-version:content-type
+        :content-transfer-encoding; s=fm1; bh=rZYkeiGRUdWozJoyHdDx3nT2cj
+        gXdeFeiJntvhU3M5c=; b=ERc2J+thisaZ0ZNzZANI/UWKQv+iHxGEHfYFQorZYI
+        fG2klD5cusqj4CREmRQEhLjNJ9vCVcwppSy6fmZL/1lvXIbzUU46IdHd4hhXTw8A
+        jicC3BGbMyyGNfcswNcwQPFa8N/j/V5rIsVaCN5wj22pp6lS8/7trsUZPzh1gBxq
+        kbX9QMO1GoYGzI7jlcM6uobROCaR/FMpWsABl62b7utHyVfjHrOgG2sXwKds1o3R
+        j7oEaTygL8lQNiIG/EAVWHShbwze3dnbRFsbS0tFlhm8CZA3CJodIUTYTB4yzRUw
+        wqsPYrAF/qrbwd75mk+JxgUQUvXuQqKVo1EEfr0vrMKg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=content-transfer-encoding:content-type
+        :date:from:message-id:mime-version:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=rZYkei
+        GRUdWozJoyHdDx3nT2cjgXdeFeiJntvhU3M5c=; b=KPuKzs3Upi216gfyBm3n07
+        fRXm0bOTcuA39GLf2GWWmbYmKU+SRtlQOUN8TOI8vMtmypIJcnMbvC6nX7I2mIr7
+        TghQOcbm9kqSQ3+0P/due3dVdIaxosp4YhrR1O+s7dcXOJpcAPfLiAvT7Otb2q5h
+        2LQjc1bce0vCHdWJfb57r0mdQWneRvBGsPivnXampDhglQFQY2CsspZoe51zq3wb
+        W/WbrQZ6YlK+vVeXAaVu75/6V2ca5OZyj8VYWCXMKMrJG/qgtmDvQy5gHdF7ORNx
+        OWyCAXr+K/SCgeajYgyRFJhM4lzB0C8fQv/Fej7YRaVD34XZdD3QixIQPO4QBKAA
+        ==
+X-ME-Sender: <xms:X3LTXUt7LalWj8GQkDshu9-AZqecvd8vX1Wyzcg-G8i7SV6IAikMDA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudegjedgjedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefvhffukffffgggtgfgsehtkeertd
+    dtfeejnecuhfhrohhmpeghrghlthhonhcujfhoohhpshcuoehmvgesfigrlhhtohhnhhho
+    ohhpshdrtghomheqnecuffhomhgrihhnpeifrghlthhonhhhohhophhsrdgtohhmnecukf
+    hppedujeegrddvjedrudehtddrudegieenucfrrghrrghmpehmrghilhhfrhhomhepmhgv
+    seifrghlthhonhhhohhophhsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:X3LTXRr9m1VPGCU74egBtuTnaQdlyPK5crniC_JByqqnedAtevAlsg>
+    <xmx:X3LTXSaFq8wRf8WbuRwNiAdhgLsYJFcQN79ypHIwvU7GPSYBQlVx4Q>
+    <xmx:X3LTXSzML0jWYCZ0mrqe8GR46rkHZE9N42_lX6URMc4HJwrNYfVIdg>
+    <xmx:YHLTXSyY3NUP8bITcHIoom3P930WltU4b_2vofMLsCY1_y5UKKc1mg>
+Received: from lap.waltonhoops.com (unknown [174.27.150.146])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 7C46780059
+        for <linux-nilfs@vger.kernel.org>; Mon, 18 Nov 2019 23:41:03 -0500 (EST)
+To:     linux-nilfs@vger.kernel.org
+From:   Walton Hoops <me@waltonhoops.com>
+Autocrypt: addr=me@waltonhoops.com;
+ keydata= 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
+Subject: BUG: kernel NULL pointer dereference, address: 00000000000000a8
+Message-ID: <326f16f5-05b6-652e-1164-3613e96e1453@waltonhoops.com>
+Date:   Mon, 18 Nov 2019 21:41:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.2.2
 MIME-Version: 1.0
-References: <8736emquds.fsf@logand.com>
-In-Reply-To: <8736emquds.fsf@logand.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Tue, 19 Nov 2019 01:51:42 +0900
-Message-ID: <CAKFNMo=k1wVHOwXhTLEOJ+A-nwmvJ+sN_PPa8kY8fMxrQ4R+Jw@mail.gmail.com>
-Subject: Re: BUG: unable to handle kernel NULL pointer dereference at
- 00000000000000a8 in nilfs_segctor_do_construct
-To:     Tomas Hlavaty <tom@logand.com>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+Hello,
 
-> It was likely caused by improper shutdown and following nilfs2 partition
-> corruption.  Now I can still read the data, but on the whole the
-> computer is not useable, because starting a process which uses the
-> corrupted file system simply crashes in kernel.
+I apologize for not replying to the original thread, I was not
+subscribed to this list when it was sent.
 
-Thank you for reporting the issue.
-Let me ask you a few questions:
+I am having a nearly identical issue to Tomas Hlavaty, however I don't
+think it was caused by corruption or an unclean shutdown. Immediately
+after upgrading my kernel to 5.3.11 I rebooted, and received a similar
+message (included below). Rolling the kernel back to 5.2.10 (the oldest
+I had easily available) made the system boot-able again.
 
-1) Is the crash reproducible in the environment ?
-2) Can you mount the corrupted(?) partition from a recent version of kernel=
- ?
-3) Does read-only mount option (-r) work to avoid the crash ?
+The full message/trace is below:
+[    6.274360] NILFS version 2 loaded
+[    6.275461] NILFS (dm-2): mounting unchecked fs
+[    6.316889] NILFS (dm-2): recovery complete
+[    6.318609] NILFS (dm-2): segctord starting. Construction interval =
+5 seconds, CP frequency < 30 seconds
+[    6.524132] systemd[1]: Successfully credited entropy passed from
+boot loader.
+[    6.527313] systemd[1]: systemd 243.78-2-arch running in system mode.
+(+PAM +AUDIT -SELINUX -IMA -APPARMOR +SMACK -SYSVINIT +UTMP
++LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS
++KMOD +IDN2 -IDN +PCRE2 default-hierarchy=hybrid)
+[    6.539380] systemd[1]: Detected architecture x86-64.
+[    6.545163] systemd[1]: Set hostname to <lap.waltonhoops.com>.
+[    6.770464] systemd[1]: Started Emergency Shell.
+[    6.770916] systemd[1]: Reached target Emergency Mode.
+[    6.771425] systemd[349]: emergency.service: Executable /bin/plymouth
+missing, skipping: No such file or directory
+[    6.772146] systemd[1]: Startup finished in 6.953s (firmware) +
+4.746s (loader) + 6.469s (kernel) + 299ms (userspace) = 18.469s.
+[   21.698147] BUG: kernel NULL pointer dereference, address:
+00000000000000a8
+[   21.698221] #PF: supervisor read access in kernel mode
+[   21.698267] #PF: error_code(0x0000) - not-present page
+[   21.698324] PGD 0 P4D 0
+[   21.698353] Oops: 0000 [#1] PREEMPT SMP PTI
+[   21.698394] CPU: 0 PID: 326 Comm: segctord Tainted: G     U
+ 5.3.11-zen1-1-zen #1
+[   21.698463] Hardware name: LENOVO 20FQCTO1WW/20FQCTO1WW, BIOS
+N1FET70W (1.44 ) 06/25/2019
+[   21.698536] RIP: 0010:percpu_counter_add_batch+0x26/0xb0
+[   21.698584] Code: 1f 44 00 00 41 56 41 55 49 89 f5 41 54 55 48 89 fd
+bf 01 00 00 00 53 89 d3 e8 16 d7 b7 ff 48 c7 c7 20 04 d5 9f e8 ba 4e fb
+ff <48> 8b 45 20 48 63 d3 65 44 8b 30 4d 63 e6 4d 01 ec 4c 39 e2 7e 0a
+[   21.698730] RSP: 0018:ffffae868045bc78 EFLAGS: 00010002
+[   21.698777] RAX: 0000000080000002 RBX: 0000000000000018 RCX:
+0000000000000001
+[   21.698837] RDX: 0000000000000000 RSI: 0000000000000001 RDI:
+ffffffff9fd50420
+[   21.698897] RBP: 0000000000000088 R08: ffff965f0ad09470 R09:
+0000000000000018
+[   21.698956] R10: 0000000000000002 R11: ffff965f217fc000 R12:
+0000000000000000
+[   21.699016] R13: 0000000000000001 R14: ffff965f0852f648 R15:
+ffffe759101f2b00
+[   21.699076] FS:  0000000000000000(0000) GS:ffff965f11400000(0000)
+knlGS:0000000000000000
+[   21.699143] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   21.699192] CR2: 00000000000000a8 CR3: 000000012d80a002 CR4:
+00000000003606f0
+[   21.699252] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[   21.699312] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[   21.699371] Call Trace:
+[   21.699407]  __test_set_page_writeback+0x2a4/0x320
+[   21.699471]  nilfs_segctor_do_construct+0xd42/0x2640 [nilfs2]
+[   21.699529]  ? preempt_count_add+0x68/0xa0
+[   21.699570]  ? _raw_spin_lock+0x13/0x30
+[   21.699622]  nilfs_segctor_construct+0x1f4/0x2f0 [nilfs2]
+[   21.699682]  nilfs_segctor_thread+0x17b/0x420 [nilfs2]
+[   21.699732]  ? wait_woken+0x70/0x70
+[   21.699774]  kthread+0x131/0x170
+[   21.699817]  ? nilfs_transaction_lock+0x250/0x250 [nilfs2]
+[   21.699867]  ? kthread_park+0x80/0x80
+[   21.699903]  ret_from_fork+0x35/0x40
+[   21.699940] Modules linked in: ip_tables x_tables nilfs2 dm_thin_pool
+dm_persistent_data libcrc32c crc32c_generic dm_bio_prison dm_bufio
+hid_generic usbhid hid dm_crypt dm_mod crct10dif_pclmul crc32_pclmul
+crc32c_intel rtsx_pci_sdmmc ghash_clmulni_intel mmc_core serio_raw atkbd
+libps2 aesni_intel aes_x86_64 crypto_simd cryptd xhci_pci glue_helper
+xhci_hcd rtsx_pci i8042 serio i915 i2c_algo_bit drm_kms_helper
+syscopyarea sysfillrect sysimgblt fb_sys_fops drm intel_agp intel_gtt
+agpgart
+[   21.700293] CR2: 00000000000000a8
+[   21.700326] ---[ end trace 001ed76babb2cd83 ]---
+[   21.700385] RIP: 0010:percpu_counter_add_batch+0x26/0xb0
+[   21.700433] Code: 1f 44 00 00 41 56 41 55 49 89 f5 41 54 55 48 89 fd
+bf 01 00 00 00 53 89 d3 e8 16 d7 b7 ff 48 c7 c7 20 04 d5 9f e8 ba 4e fb
+ff <48> 8b 45 20 48 63 d3 65 44 8b 30 4d 63 e6 4d 01 ec 4c 39 e2 7e 0a
+[   21.700578] RSP: 0018:ffffae868045bc78 EFLAGS: 00010002
+[   21.700624] RAX: 0000000080000002 RBX: 0000000000000018 RCX:
+0000000000000001
+[   21.700684] RDX: 0000000000000000 RSI: 0000000000000001 RDI:
+ffffffff9fd50420
+[   21.700744] RBP: 0000000000000088 R08: ffff965f0ad09470 R09:
+0000000000000018
+[   21.700803] R10: 0000000000000002 R11: ffff965f217fc000 R12:
+0000000000000000
+[   21.700862] R13: 0000000000000001 R14: ffff965f0852f648 R15:
+ffffe759101f2b00
+[   21.700922] FS:  0000000000000000(0000) GS:ffff965f11400000(0000)
+knlGS:0000000000000000
+[   21.700989] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[   21.701039] CR2: 00000000000000a8 CR3: 000000012d80a002 CR4:
+00000000003606f0
+[   21.701099] DR0: 0000000000000000 DR1: 0000000000000000 DR2:
+0000000000000000
+[   21.701158] DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7:
+0000000000000400
+[   21.701231] note: segctord[326] exited with preempt_count 2
 
-Thanks,
-Ryusuke Konishi
+If there is more information I can provide to help troubleshoot, please
+let me know.
 
-2019=E5=B9=B411=E6=9C=8818=E6=97=A5(=E6=9C=88) 2:34 Tomas Hlavaty <tom@loga=
-nd.com>:
->
-> Hi Ryusuke,
->
-> today I got this bug in kernel, which seems to be related to nilfs2.
->
-> It was likely caused by improper shutdown and following nilfs2 partition
-> corruption.  Now I can still read the data, but on the whole the
-> computer is not useable, because starting a process which uses the
-> corrupted file system simply crashes in kernel.  I am actually not sure
-> if the filesystem is corrupted, as I don't know about any tool to check
-> that.  The relevant parts of dmesg log are bellow.
->
-> Please let me know if you are the right contact or if you need more info
-> about the problem.
->
-> Thank you,
->
-> Tomas
->
-> [    0.000000] Linux version 4.19.84 (nixbld@localhost) (gcc version 8.3.=
-0 (GCC)) #1-NixOS SMP Tue Nov 12 18:21:46 UTC 2019
-> [    0.000000] Command line: initrd=3D\efi\nixos\4s51zw36kd1qb0ymk0charxj=
-g8x6k5k3-initrd-linux-4.19.84-initrd.efi systemConfig=3D/nix/store/gdbxhzys=
-r929abrymjqala0b5bh2fqmv-nixos-system-ushi-19.09.1258.07e66484e67 init=3D/n=
-ix/store/gdbxhzysr929abrymjqala0b5bh2fqmv-nixos-system-ushi-19.09.1258.07e6=
-6484e67/init loglevel=3D4
->
->
->
-> [   37.741106] systemd-journald[470]: Received client request to flush ru=
-ntime journal.
-> [   37.749084] systemd-journald[470]: File /var/log/journal/55a4ea9159c14=
-c0bb8767a43819c6927/system.journal corrupted or uncleanly shut down, renami=
-ng and replacing.
-> [   37.810819] audit: type=3D1130 audit(1573985039.617:3): pid=3D1 uid=3D=
-0 auid=3D4294967295 ses=3D4294967295 subj=3D=3Dunconfined msg=3D'unit=3Dsys=
-temd-udevd comm=3D"systemd" exe=3D"/nix/store/v8flm2h07zcfg5k5npz56m0ayj0qm=
-1q8-systemd-243/lib/systemd/systemd" hostname=3D? addr=3D? terminal=3D? res=
-=3Dsuccess'
->
-> [   38.321561] NILFS version 2 loaded
-> [   38.323236] NILFS (dm-1): mounting unchecked fs
->
->
-> [   38.349185] NILFS (dm-1): recovery complete
-> [   38.353228] NILFS (dm-1): segctord starting. Construction interval =3D=
- 5 seconds, CP frequency < 30 seconds
->
-> [   63.543941] systemd-journald[470]: File
-> /var/log/journal/55a4ea9159c14c0bb8767a43819c6927/user-1000.journal
-> corrupted or uncleanly shut down, renaming and replacing.
->
-> [12637.085548] BUG: unable to handle kernel NULL pointer dereference at 0=
-0000000000000a8
-> [12637.085558] PGD 0 P4D 0
-> [12637.085567] Oops: 0000 [#1] SMP PTI
-> [12637.085574] CPU: 0 PID: 657 Comm: segctord Not tainted 4.19.84 #1-NixO=
-S
-> [12637.085577] Hardware name: ASUSTeK COMPUTER INC. VivoBook 15_ASUS Lapt=
-op X507MA_R507MA/X507MA, BIOS X507MA.301 09/14/2018
-> [12637.085589] RIP: 0010:percpu_counter_add_batch+0x4/0x60
-> [12637.085593] Code: 89 e6 89 c7 e8 dd 3b 28 00 3b 05 fb e0 b6 00 72 d8 4=
-c 89 ee 48 89 ef e8 7a 63 2a 00 48 89 d8 5b 5d 41 5c 41 5d c3 41 54 55 53 <=
-48> 8b 47 20 65 44 8b 20 49 63 ec 48 63 ca 48 01 f5 48 39 e9 7e 0a
-> [12637.085597] RSP: 0018:ffff9d1b00a0bd20 EFLAGS: 00010006
-> [12637.085601] RAX: 0000000000000002 RBX: 0000000000000000 RCX: 000000000=
-0000018
-> [12637.085604] RDX: 0000000000000018 RSI: 0000000000000001 RDI: 000000000=
-0000088
-> [12637.085608] RBP: ffff8df67a2988d0 R08: 0000000000000000 R09: ffff8df66=
-fe0cfe0
-> [12637.085611] R10: 0000000000000230 R11: 0000000000000000 R12: 000000000=
-0000000
-> [12637.085614] R13: ffff8df67a298758 R14: ffff8df67a2988c8 R15: ffffccd68=
-4229a80
-> [12637.085618] FS:  0000000000000000(0000) GS:ffff8df67ba00000(0000) knlG=
-S:0000000000000000
-> [12637.085621] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [12637.085624] CR2: 00000000000000a8 CR3: 000000011ac0a000 CR4: 000000000=
-0340ef0
-> [12637.085628] Call Trace:
-> [12637.085640]  __test_set_page_writeback+0x37c/0x3f0
-> [12637.085663]  nilfs_segctor_do_construct+0x184e/0x2040 [nilfs2]
-> [12637.085680]  nilfs_segctor_construct+0x1f5/0x2e0 [nilfs2]
-> [12637.085693]  nilfs_segctor_thread+0x129/0x370 [nilfs2]
-> [12637.085706]  ? nilfs_segctor_construct+0x2e0/0x2e0 [nilfs2]
-> [12637.085713]  kthread+0x112/0x130
-> [12637.085719]  ? kthread_bind+0x30/0x30
-> [12637.085728]  ret_from_fork+0x1f/0x40
-> [12637.085734] Modules linked in: ctr ccm af_packet msr 8021q snd_hda_cod=
-ec_hdmi snd_hda_codec_realtek snd_hda_codec_generic hid_multitouch arc4 ath=
-9k ath9k_common ath9k_hw ath mac80211 snd_soc_skl snd_soc_skl_ipc spi_pxa2x=
-x_platform asus_nb_wmi snd_soc_sst_ipc snd_soc_sst_dsp asus_wmi 8250_dw i2c=
-_designware_platform sparse_keymap i2c_designware_core wmi_bmof i915 snd_hd=
-a_ext_core nilfs2 snd_soc_acpi_intel_match snd_soc_acpi uvcvideo videobuf2_=
-vmalloc nls_iso8859_1 videobuf2_memops videobuf2_v4l2 snd_soc_core nls_cp43=
-7 rtsx_usb_ms intel_telemetry_pltdrv vfat intel_punit_ipc intel_telemetry_c=
-ore fat intel_pmc_ipc memstick videobuf2_common snd_compress kvmgt vfio_mde=
-v mdev ath3k vfio_iommu_type1 vfio btusb ac97_bus snd_pcm_dmaengine btrtl x=
-86_pkg_temp_thermal intel_powerclamp btbcm cec coretemp btintel
-> [12637.085819]  crct10dif_pclmul crc32_pclmul videodev snd_hda_intel blue=
-tooth drm_kms_helper ghash_clmulni_intel deflate media efi_pstore intel_cst=
-ate pstore intel_rapl_perf cfg80211 snd_hda_codec joydev mousedev evdev wda=
-t_wdt serio_raw mac_hid efivars drm snd_hda_core snd_hwdep ecdh_generic snd=
-_pcm snd_timer mei_me idma64 virt_dma snd intel_gtt agpgart i2c_i801 i2c_al=
-go_bit mei fb_sys_fops syscopyarea soundcore rfkill processor_thermal_devic=
-e sysfillrect sysimgblt intel_lpss_pci intel_soc_dts_iosf thermal wmi intel=
-_lpss i2c_hid i2c_core battery tpm_crb button ac tpm_tis tpm_tis_core asus_=
-wireless video pcc_cpufreq tpm rng_core pinctrl_geminilake int3400_thermal =
-int3403_thermal pinctrl_intel int340x_thermal_zone acpi_thermal_rel iptable=
-_nat nf_nat_ipv4 nf_nat xt_conntrack nf_conntrack nf_defrag_ipv6
-> [12637.085912]  nf_defrag_ipv4 libcrc32c ip6t_rpfilter ipt_rpfilter ip6ta=
-ble_raw iptable_raw xt_pkttype nf_log_ipv6 nf_log_ipv4 nf_log_common xt_LOG=
- xt_tcpudp ip6table_filter ip6_tables iptable_filter sch_fq_codel loop cpuf=
-req_powersave tun tap macvlan bridge stp llc kvm_intel kvm irqbypass efivar=
-fs ip_tables x_tables ipv6 crc_ccitt autofs4 ext4 crc32c_generic crc16 mbca=
-che jbd2 fscrypto dm_crypt algif_skcipher af_alg rtsx_usb_sdmmc mmc_core rt=
-sx_usb hid_generic usbhid hid sd_mod input_leds led_class atkbd libps2 ahci=
- libahci xhci_pci libata xhci_hcd aesni_intel usbcore aes_x86_64 crypto_sim=
-d scsi_mod cryptd glue_helper crc32c_intel usb_common rtc_cmos i8042 serio =
-dm_mod
-> [12637.086000] CR2: 00000000000000a8
-> [12637.086005] ---[ end trace ee0079180c990cd2 ]---
-> [12637.120805] RIP: 0010:percpu_counter_add_batch+0x4/0x60
-> [12637.120807] Code: 89 e6 89 c7 e8 dd 3b 28 00 3b 05 fb e0 b6 00 72 d8 4=
-c 89 ee 48 89 ef e8 7a 63 2a 00 48 89 d8 5b 5d 41 5c 41 5d c3 41 54 55 53 <=
-48> 8b 47 20 65 44 8b 20 49 63 ec 48 63 ca 48 01 f5 48 39 e9 7e 0a
-> [12637.120809] RSP: 0018:ffff9d1b00a0bd20 EFLAGS: 00010006
-> [12637.120811] RAX: 0000000000000002 RBX: 0000000000000000 RCX: 000000000=
-0000018
-> [12637.120812] RDX: 0000000000000018 RSI: 0000000000000001 RDI: 000000000=
-0000088
-> [12637.120814] RBP: ffff8df67a2988d0 R08: 0000000000000000 R09: ffff8df66=
-fe0cfe0
-> [12637.120815] R10: 0000000000000230 R11: 0000000000000000 R12: 000000000=
-0000000
-> [12637.120816] R13: ffff8df67a298758 R14: ffff8df67a2988c8 R15: ffffccd68=
-4229a80
-> [12637.120818] FS:  0000000000000000(0000) GS:ffff8df67ba00000(0000) knlG=
-S:0000000000000000
-> [12637.120820] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [12637.120821] CR2: 00000000000000a8 CR3: 0000000138e0a000 CR4: 000000000=
-0340ef0
+Walton
