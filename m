@@ -2,118 +2,89 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 758C4103538
-	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Nov 2019 08:34:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D7710E2F9
+	for <lists+linux-nilfs@lfdr.de>; Sun,  1 Dec 2019 19:19:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727692AbfKTHe6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 20 Nov 2019 02:34:58 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41914 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725268AbfKTHe6 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 20 Nov 2019 02:34:58 -0500
-Received: by mail-oi1-f196.google.com with SMTP id e9so21639015oif.8
-        for <linux-nilfs@vger.kernel.org>; Tue, 19 Nov 2019 23:34:56 -0800 (PST)
+        id S1727231AbfLASTa (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 1 Dec 2019 13:19:30 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:8821 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727237AbfLASTa (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Sun, 1 Dec 2019 13:19:30 -0500
+X-Greylist: delayed 6507 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:19:29 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=us1F8n6Sody3T1A1qvMXX8fLRfQjR5mnWXBiIOEjWu4=;
-        b=t02p5TAOUDRD3NL+RXfvL/R1wnuXLHqItP4cujoWsqYk2nmYFkCl06ZWIOxJDlizJO
-         knnvauioKBiNTw1+Y5H56O/eGybVEhUviaen7PHL0pTAKyp/O4cdxsxCBk8wooMkqZ0x
-         CcbSSAt1Th/wemm9e0gdiyj5Nc0NR3iqhPFHuwGDNngTSsMOMp7VWi10AvG9rtCxLJYB
-         P8/xkVNV8U2l7c+CU+7q6QvNRM4GlPAstrm0LTSGjQwfZe16dcz1m0DqiYVtV4JbnEYL
-         rvu0nm6gB6Rr3cDr26mrzDjqQmVqTdcAS95tK1rpAkkQBTI/TlE1p+rMVpJEu7zohTyK
-         iK2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=us1F8n6Sody3T1A1qvMXX8fLRfQjR5mnWXBiIOEjWu4=;
-        b=hI0+7IujaMkvioW6/LQBhZfUEuiPDMb/1QsinNt3zzDp+ZM0dJDIjjkXirWpeIZNad
-         4wDXrTdEbi1PYEf9mcWbUMXRL3A380RqFUonZwSrnmuUzmiEIgEeu29kk6tmAZXFiMAT
-         IYyEzfq7q3YvTDipVMlI29/WBokoxBXJH8o45/ZsaPJZq1/w1hKwcMoeKWULPcLOqyY3
-         Hwfj2BUVUWhjIY4uI77PBKwlrkM9MRB1GY9yhh6rcFNHduZiNzrC96pgz1FrQblZJOXV
-         UODV4DZBzpCA9YoU6aXh/WLCeriOh+wZzaXuoKtQeNcYunI5kX2CcxAdTOaM4Ej+ieyN
-         8hZg==
-X-Gm-Message-State: APjAAAVKSrYMWzD7+FSPHaLKP2MTG2soFG0iX3oVT0Y8UvsRfd+4YQkZ
-        WkCBlbauiWzraGiAbNaO174XsnNrX4bEoXr3/3B7dw==
-X-Google-Smtp-Source: APXvYqwPQEsvm8K8WceYjR3RDJI/uwDXhFc2OUUSkcrfB6twYzfKSCRZ234wzyXyWYFNaizoYBXhSILz6ilTUMSj+NI=
-X-Received: by 2002:a54:4105:: with SMTP id l5mr1530970oic.135.1574235294859;
- Tue, 19 Nov 2019 23:34:54 -0800 (PST)
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217607; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=sf8C7sjebnZNbhZ49KVhCql+M+f8esu37bxBOpjcvodj
+        Tcj1CdpEIYvqbPY8OrcxB3h9d/abwAIuFWZjmpfuywI+N71uUQ
+        LPKuhpc8SPpqQlw8oJApgkjvI2cF2wQ7xUBw+1NQNhEDYATKW1
+        PUK6EPBnMVibei+rNDZafD3YQgk=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 1a22_5038_85f435c3_4e77_4ad2_880e_1459a17e46c8;
+        Sun, 01 Dec 2019 10:26:46 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 6CB781E2696;
+        Sun,  1 Dec 2019 10:18:26 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id PIHDl6zQ-Q0r; Sun,  1 Dec 2019 10:18:26 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 1D0601E297B;
+        Sun,  1 Dec 2019 10:13:12 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 1D0601E297B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216792;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=pf7oUe9Gr1rJ8ndOiUBWyQf9jCVah+XJGkhYRkYIr2DRZ9ya0Xi/DoZHOJweVPbQF
+         OyWQgvEXGZAxubNxa7R7IJbqYiWgXe0rwc7SUDRGZqpC6OdgRekcbyBHv6q2Xxtnp7
+         KwFBpnOp3LpXAqHwdb1pY+JY6seSDSLltIF8VIFY=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id L2ZPqU9sutYh; Sun,  1 Dec 2019 10:13:12 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id BB75D1E306B;
+        Sun,  1 Dec 2019 10:04:41 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-References: <70b53768-11db-dd75-38c9-5d1786ae88e9@daneng.org> <CAKFNMoks2DGE=BeEXR60DTXSXWbsfPogGReD8EjV=YqyMjTMjA@mail.gmail.com>
-In-Reply-To: <CAKFNMoks2DGE=BeEXR60DTXSXWbsfPogGReD8EjV=YqyMjTMjA@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 20 Nov 2019 16:34:42 +0900
-Message-ID: <CAKFNMomjWkNvHvHkEp=Jv_BiGPNj=oLEChyoXX1yCj5xctAkMA@mail.gmail.com>
-Subject: Re: BUG: kernel NULL pointer dereference, address: 00000000000000a8
-To:     linux-nilfs <linux-nilfs@vger.kernel.org>
-Cc:     linux-nilfs-ml.via.forwarder@neverbox.com,
-        Walton Hoops <me@waltonhoops.com>,
-        Tomas Hlavaty <tom@logand.com>,
-        Vyacheslav Dubeyko <slava@dubeyko.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:04:34 +0100
+Message-Id: <20191201160441.BB75D1E306B@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=Ibr3YSia c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: 4c9e3ed5.0.48577930.00-2332.81664304.s12p02m013.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949749>
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-As the result of bisection,  it turned out that commit
-f4bdb2697ccc9cecf1a9de86905c309ad901da4c on 5.3.y
-("mm/filemap.c: don't initiate writeback if mapping has no dirty pages")
-triggers the crash.
-
-This patch was back ported from upstream kernel 5.4-rc1, and
-applied to 4.19.84 as well.
-
-Will look into the change further and why it doesn't hit latest
-kernels (5.4-rc8, etc).
-
-Regards,
-Ryusuke Konishi
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
 
 
-
-
-
-
-On Wed, Nov 20, 2019 at 12:46 AM Ryusuke Konishi
-<konishi.ryusuke@gmail.com> wrote:
->
-> Yeah,  this looks a regression of the 5.3.11 stable kernel.
->
-> I could reproduce the crash with 5.3.11.
->
-> 5.3, 5.3.10 and 5.4-rc8 all worked fine.
->
-> The regression would be identified by bisecting commits
-> between kernel 5.3.10 and 5.3.11.
->
-> Thanks,
-> Ryusuke Konishi
->
-> 2019=E5=B9=B411=E6=9C=8819=E6=97=A5(=E7=81=AB) 23:40 <linux-nilfs-ml.via.=
-forwarder@neverbox.com>:
-> >
-> > I believe I have the same issue as Walton Hoops.
-> >
-> > I do not have a serial console, and all my filesystems are NILFS2,
-> >
-> > so I do not currently have an easy means to capture the crash.
-> >
-> > However, I experienced the same Kernel BUG on upgrading to kernel 5.11
-> >
-> > from 5.10. Reverting back to 5.10 results in a clean boot.
-> >
-> > The actual kernels I use are the Ubuntu 'mainline kernels'
-> >
-> > 5.3.10-050310-generic works
-> >
-> > 5.3.11-050311-generic crashes with Kernel BUG.
-> >
-> > So I suspect a change between those two versions has triggered the prob=
-lem.
-> >
-> >
+EMail: allenandvioletlargeaward@gmail.com
