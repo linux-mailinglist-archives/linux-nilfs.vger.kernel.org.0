@@ -2,138 +2,110 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1ADD9110657
-	for <lists+linux-nilfs@lfdr.de>; Tue,  3 Dec 2019 22:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BFE4112B55
+	for <lists+linux-nilfs@lfdr.de>; Wed,  4 Dec 2019 13:22:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727458AbfLCVOM (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 3 Dec 2019 16:14:12 -0500
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:32812 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727361AbfLCVOM (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 3 Dec 2019 16:14:12 -0500
-Received: by mail-oi1-f193.google.com with SMTP id v140so4640416oie.0
-        for <linux-nilfs@vger.kernel.org>; Tue, 03 Dec 2019 13:14:11 -0800 (PST)
+        id S1727845AbfLDMWX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 4 Dec 2019 07:22:23 -0500
+Received: from mail-ed1-f68.google.com ([209.85.208.68]:33853 "EHLO
+        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727798AbfLDMWS (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 4 Dec 2019 07:22:18 -0500
+Received: by mail-ed1-f68.google.com with SMTP id cx19so6485908edb.1
+        for <linux-nilfs@vger.kernel.org>; Wed, 04 Dec 2019 04:22:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=+ElSux9umEKAWJ51UvfVX8n7bopQlWtixAgQlw1rXIM=;
-        b=Wx9Z7XM6wAySvhPO5C5C+bu9rU5SKwZ9dDpB3lvEeU4xPyr2N/alLlPmGqEM1YkyEr
-         0h+uKK9T48tP+yMusmmEREVnY+Bxo4kXrDaj0imYPQXb7Ywod6MwhLHshxYDAhxj6fsy
-         E44nT+YOEsBjYkWuc4OzhcZ5DK2Ea491/gp0z5hcTkMwTqpnQxuTLRuTKCsRQoGaDoFI
-         xNZfL6vWRMqZPlialYmLB52BWxim7YhteyY5kLMMv2K/A4Dv+LDrg8nYtEQa3GKF3EyQ
-         z+qPlRmvyCHZ7lhTqsT5/IXeNr7cSynmnm3MrfrbM8pQBofa33ZviYHvcviFAXUbhVNB
-         vNAA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=itksFv5A2JLOzo6XVqVzXmSzWKIpGqZTNHrb4xFvrqPmHJ7WwaeLkksg0/ZJSVtv31
+         pzvXZ3OHhHMsql2Vo9oheJQHErj5CDGd5ZvPVjxDn+I4JgVPrQl1nkJy5Nb7wvQoUvM+
+         46lpgbsOy0h7DJvRAy1OQQg0Oi/exT7Imiyfeu4Gtmu6VGYFysEjNlBfvwObnE6M1THW
+         GbhC/d5DVONSKdw6y/qH20L4wjeyxlxCBE+xa1i44NzWc0HgEODgSNCM/bGDvmjdXP55
+         pwYVn13D99Hhzzv+p4qHdhRZEM3zwIJF+S9QDszHcSxOoAqtygRSNU+xVzjWpE9QCD88
+         4SHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+ElSux9umEKAWJ51UvfVX8n7bopQlWtixAgQlw1rXIM=;
-        b=kxwhYeS4yVnD38EhH/lHqz1LUGygF1xfaXG+T1HXtnvUaU96HT+17h3eKqDhxZuoZe
-         XfK6SuVsOgSyJy2CzDppv1xMIvbxyNjYdDyWvBGjO2YY8tU7jvMy9ShZ2lEP8CVTEPJv
-         /lTSY3h4umhgBf2fYbksrcRSCMbFjQuJsHiBs/cp7rCud0OoQPbQOFMNLDEBDpfN+hKz
-         gF0zXRKXDFa7Wa2V2FOTzqOtWpA9H0MtBupmL+fv5nqNKHezk9ut9pM1mb/qeyzuV3IP
-         LjTDmou7690C0BFhLseVl2yG1ZH1QxloGByaH5M7dgelVU30huq0CG/gEZ9k/46DOw+z
-         6lJQ==
-X-Gm-Message-State: APjAAAVb5wJaXfKwrGC2MNRkOZlFCJh72jIjcIe/ApdZ74I3NyUHCEh+
-        4QSi2GjaD67dGG8/c0dqRwrDn1QN9WdYDyiux9u7c4tj
-X-Google-Smtp-Source: APXvYqxsDbPwcyzF8OTcEO3aNmnBNaIWTul4gg9S5jwDzBVwwExP4rvb0SFenAmeglJRwWsLl5pX6sSXlCYHten1kU4=
-X-Received: by 2002:aca:c7cb:: with SMTP id x194mr59522oif.157.1575407651356;
- Tue, 03 Dec 2019 13:14:11 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
+        b=cvtmHUbJ/1o7esIPrvPuD6dg2PkzlQEo6Z4bC5NLuIZ16znH/eO1FTYUFPJck6mP7I
+         RMgMas3MPhWY3w6K3BN5SNgKVXG+dtX76feuPuyFAl5RF6LVJyB/OExu7530dKXYq4D0
+         6tbxmZ/jQzjLAuHGPXN4m68DJ+wSLAwi+j7kqsA/Tav3hkD/6uQdNSh7UN+hCNK/PRlP
+         58Oww8NJlwmlruZ9SibDbzZgs0gTcasDdnd+W3VOkPQY05iQ44HQVC+5X0CHzNBpYWZE
+         wUrerbIrY1rIZCjLdZcT3UEquagZO3mp+1T06+Hf4DB0iwyOS6Ejzz8sbBMlnp20R/JS
+         DCbw==
+X-Gm-Message-State: APjAAAWbTml/TCx+ZVLRAvJpc0Ahf6rO/RFae/ATx7gAn/SVa2sTT8ZV
+        9HPrAQzbvQdPtNQZTObyHWoRzlkG7zw8WaWsGxs=
+X-Google-Smtp-Source: APXvYqwlH4d/NgUk6+TTgeshJl/W0Z846j+vPwdmJMmvDKA5s5alEIOymc5OFboGvVzTvSBGNMpJNF0KpHbTN+gxpY4=
+X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3689948eds.96.1575462136339;
+ Wed, 04 Dec 2019 04:22:16 -0800 (PST)
 MIME-Version: 1.0
-References: <70b53768-11db-dd75-38c9-5d1786ae88e9@daneng.org>
- <CAKFNMoks2DGE=BeEXR60DTXSXWbsfPogGReD8EjV=YqyMjTMjA@mail.gmail.com>
- <CAKFNMomjWkNvHvHkEp=Jv_BiGPNj=oLEChyoXX1yCj5xctAkMA@mail.gmail.com> <67cba1e3-89cb-db0d-43c3-fa4bdfba0781@waltonhoops.com>
-In-Reply-To: <67cba1e3-89cb-db0d-43c3-fa4bdfba0781@waltonhoops.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 4 Dec 2019 06:13:59 +0900
-Message-ID: <CAKFNMom+u6yPO-hO5jmdAmUUbbZYqLVF2uGVaFYXcJ-+YzQTTQ@mail.gmail.com>
-Subject: Re: BUG: kernel NULL pointer dereference, address: 00000000000000a8
-To:     Walton Hoops <me@waltonhoops.com>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        Tomas Hlavaty <tom@logand.com>,
-        Vyacheslav Dubeyko <slava@dubeyko.com>
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:22:15
+ -0800 (PST)
+Reply-To: moneygram.1820@outlook.fr
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
+Date:   Wed, 4 Dec 2019 13:22:15 +0100
+Message-ID: <CAOE+jABwsq4QTifFZJGuzmZ8p9kMY_tMmS5N39hvEALE6d=OJw@mail.gmail.com>
+Subject: God has remembered your prayers I have already sent you Money Gram
+ payment of $5000.00 today, MG 1029-8096
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+Attn, dear Beneficiary.
 
-Yes, I also confirmed that it hits on the
-mainline as well.
+God has remembered your prayers
+I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
+This is because we have finally concluded to effect your transfer
+funds of $4.8,000.000usd
+through MONEY GRAM International Fund transfer Service
+Each payment will be sending to you by $5000.00 daily until the
+($4.8,000.000usd) is completely transferred
+we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
+So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
 
-Unfortunately, the cause of the issue is not trivial.
+Contact person Mrs. Alan Ude
+Dir. MONEY GRAM Service,Benin
+Phone number: +229 98856728
+E-mail: moneygram.1820@outlook.fr
 
-Anyway, thanks for reporting.
+Ask him to give you the complete mtcn, sender name, question and
+answer to enable you
+pick up the $5000.00 sent today,
+Also you are instructed to re-confirm your information's
+to Mrs.Alan Ude as listed below to avoid wrong transactions.
 
-Regards,
-Ryusuke Konishi
+(1Your Full name:............................................
+(2 Phone number.....................................................
+(3 Contact address:.....................................
+(4 Age:..................................................................
+(5 Country..............................................
+(6) Sex .................................................................
+(7) your occupation...........................................
 
-On Wed, Dec 4, 2019 at 1:20 AM Walton Hoops <me@waltonhoops.com> wrote:
->
-> FYI, Arch got 5.4.1 this morning, and it looks like the issue is still
-> present.
->
-> On 11/20/19 12:34 AM, Ryusuke Konishi wrote:
-> > As the result of bisection,  it turned out that commit
-> > f4bdb2697ccc9cecf1a9de86905c309ad901da4c on 5.3.y
-> > ("mm/filemap.c: don't initiate writeback if mapping has no dirty pages"=
-)
-> > triggers the crash.
-> >
-> > This patch was back ported from upstream kernel 5.4-rc1, and
-> > applied to 4.19.84 as well.
-> >
-> > Will look into the change further and why it doesn't hit latest
-> > kernels (5.4-rc8, etc).
-> >
-> > Regards,
-> > Ryusuke Konishi
-> >
-> >
-> >
-> >
-> >
-> >
-> > On Wed, Nov 20, 2019 at 12:46 AM Ryusuke Konishi
-> > <konishi.ryusuke@gmail.com> wrote:
-> >>
-> >> Yeah,  this looks a regression of the 5.3.11 stable kernel.
-> >>
-> >> I could reproduce the crash with 5.3.11.
-> >>
-> >> 5.3, 5.3.10 and 5.4-rc8 all worked fine.
-> >>
-> >> The regression would be identified by bisecting commits
-> >> between kernel 5.3.10 and 5.3.11.
-> >>
-> >> Thanks,
-> >> Ryusuke Konishi
-> >>
-> >> 2019=E5=B9=B411=E6=9C=8819=E6=97=A5(=E7=81=AB) 23:40 <linux-nilfs-ml.v=
-ia.forwarder@neverbox.com>:
-> >>>
-> >>> I believe I have the same issue as Walton Hoops.
-> >>>
-> >>> I do not have a serial console, and all my filesystems are NILFS2,
-> >>>
-> >>> so I do not currently have an easy means to capture the crash.
-> >>>
-> >>> However, I experienced the same Kernel BUG on upgrading to kernel 5.1=
-1
-> >>>
-> >>> from 5.10. Reverting back to 5.10 results in a clean boot.
-> >>>
-> >>> The actual kernels I use are the Ubuntu 'mainline kernels'
-> >>>
-> >>> 5.3.10-050310-generic works
-> >>>
-> >>> 5.3.11-050311-generic crashes with Kernel BUG.
-> >>>
-> >>> So I suspect a change between those two versions has triggered the pr=
-oblem.
-> >>>
-> >>>
+(8)Passport/By Attach or Drivers License Number:
+Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
+Note please: I have paid service fees for you but the only money you
+are required
+to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
+pick up your transfer today.
+
+Send it to via Money Gram
+Receiver's Name-----Alan Ude
+Country----------Benin
+Address-----------Cotonou
+Quest--------Honest
+Ans-----------Trust
+
+I done all my best for you to receive your transfer now ok.
+We need your urgent reply
+Best Regards
+Rev.Dr Emmanuel Okoye
+CEO Ecobank-benin
+
+If we did not receive it urgent from you today,
+I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
+representative.
