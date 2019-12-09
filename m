@@ -2,52 +2,51 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BFE4112B55
-	for <lists+linux-nilfs@lfdr.de>; Wed,  4 Dec 2019 13:22:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB189116CD5
+	for <lists+linux-nilfs@lfdr.de>; Mon,  9 Dec 2019 13:05:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727845AbfLDMWX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 4 Dec 2019 07:22:23 -0500
-Received: from mail-ed1-f68.google.com ([209.85.208.68]:33853 "EHLO
-        mail-ed1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727798AbfLDMWS (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 4 Dec 2019 07:22:18 -0500
-Received: by mail-ed1-f68.google.com with SMTP id cx19so6485908edb.1
-        for <linux-nilfs@vger.kernel.org>; Wed, 04 Dec 2019 04:22:17 -0800 (PST)
+        id S1727307AbfLIMFq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 9 Dec 2019 07:05:46 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:53716 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727232AbfLIMFq (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 9 Dec 2019 07:05:46 -0500
+Received: by mail-wm1-f68.google.com with SMTP id n9so14682705wmd.3
+        for <linux-nilfs@vger.kernel.org>; Mon, 09 Dec 2019 04:05:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=itksFv5A2JLOzo6XVqVzXmSzWKIpGqZTNHrb4xFvrqPmHJ7WwaeLkksg0/ZJSVtv31
-         pzvXZ3OHhHMsql2Vo9oheJQHErj5CDGd5ZvPVjxDn+I4JgVPrQl1nkJy5Nb7wvQoUvM+
-         46lpgbsOy0h7DJvRAy1OQQg0Oi/exT7Imiyfeu4Gtmu6VGYFysEjNlBfvwObnE6M1THW
-         GbhC/d5DVONSKdw6y/qH20L4wjeyxlxCBE+xa1i44NzWc0HgEODgSNCM/bGDvmjdXP55
-         pwYVn13D99Hhzzv+p4qHdhRZEM3zwIJF+S9QDszHcSxOoAqtygRSNU+xVzjWpE9QCD88
-         4SHA==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=saBLy2WuBZIjYckhxLiq4hQLZolzaMy/t9UmmjScWqM=;
+        b=vB90Sff6gio23GodaMK2pwaWIiOEUFLxbuISfJkmDdk7gSTLP4ApC7VhnfItt3lg5U
+         iIczJb7073xsdvPQpyL/ruXqU+beKBNKsgpZYZ9mrQvJWhUKnfcQkPNcF/+SCp4V1rqr
+         TW0aSPm8InTL1QXdC5xDCmk2Xu+Ik6mVV4AkrGwLa1EyZlX8NvYURoGqQLqMcgQQr/N8
+         K2QrgHXz15nNmT9LEt/uTK+KUtDRubSJJ2/cLzifCcMpi7hBOicU2FhDwlma7LK+RUb8
+         h1d6uYuUFCHSph8N95EPAWkKFp7kJk+gUZ5WFCJ7Ioed1h6rySGlv6eiEPkBahCUX1bX
+         P0qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=cvtmHUbJ/1o7esIPrvPuD6dg2PkzlQEo6Z4bC5NLuIZ16znH/eO1FTYUFPJck6mP7I
-         RMgMas3MPhWY3w6K3BN5SNgKVXG+dtX76feuPuyFAl5RF6LVJyB/OExu7530dKXYq4D0
-         6tbxmZ/jQzjLAuHGPXN4m68DJ+wSLAwi+j7kqsA/Tav3hkD/6uQdNSh7UN+hCNK/PRlP
-         58Oww8NJlwmlruZ9SibDbzZgs0gTcasDdnd+W3VOkPQY05iQ44HQVC+5X0CHzNBpYWZE
-         wUrerbIrY1rIZCjLdZcT3UEquagZO3mp+1T06+Hf4DB0iwyOS6Ejzz8sbBMlnp20R/JS
-         DCbw==
-X-Gm-Message-State: APjAAAWbTml/TCx+ZVLRAvJpc0Ahf6rO/RFae/ATx7gAn/SVa2sTT8ZV
-        9HPrAQzbvQdPtNQZTObyHWoRzlkG7zw8WaWsGxs=
-X-Google-Smtp-Source: APXvYqwlH4d/NgUk6+TTgeshJl/W0Z846j+vPwdmJMmvDKA5s5alEIOymc5OFboGvVzTvSBGNMpJNF0KpHbTN+gxpY4=
-X-Received: by 2002:aa7:d84b:: with SMTP id f11mr3689948eds.96.1575462136339;
- Wed, 04 Dec 2019 04:22:16 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=saBLy2WuBZIjYckhxLiq4hQLZolzaMy/t9UmmjScWqM=;
+        b=iIF20nDVY7SGLPGxKuFGS+Fb661uSktl0BFd6XLAhIRmzHYyROm5IfTV1FzE/FmKbg
+         6f2tEWLwLXTb+GOkHH6GdwZZ/9iuNsjH858GOCb0xd+r7/YRnzgwNdCGLDgJusUTxLHQ
+         vZvMc/rGcPEIxAqbtu1tZOaQ9A+zGd33BI5xTEo2G8nbcriF4febjwPpIn+nGk9qlvxk
+         rC6kDb1u+CwOu963CERj9X2IW6N4vvalI09JPg9GhHocr9n5U5Jh6cNGWAf2HPiTwLxL
+         oUQobIQBU8PGhNTqnmu+e5TI+HzJs+KvQtsH6mlL5/9eJKibJSuRUerX618SLDyf6XOR
+         Ssvw==
+X-Gm-Message-State: APjAAAWHmDJ65lqIOlemshj/uH+ppHFPmT/EjYUMbCu3/0+bNoMpuCAa
+        FQ1RM8gwEchUau5KiHkz2pyjKilEFIHkfBH0FwI=
+X-Google-Smtp-Source: APXvYqyERsms4HEe92zRlyXO7nkYtyIMDMRsEkoOrC1U9w6uTxQFlnTOVSU3s5vCb3G82QEL6K5VmE/iD6McDhSZ/iw=
+X-Received: by 2002:a1c:1dc9:: with SMTP id d192mr23962829wmd.92.1575893143793;
+ Mon, 09 Dec 2019 04:05:43 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:22:15
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" <eco.bank1204@gmail.com>
-Date:   Wed, 4 Dec 2019 13:22:15 +0100
-Message-ID: <CAOE+jABwsq4QTifFZJGuzmZ8p9kMY_tMmS5N39hvEALE6d=OJw@mail.gmail.com>
-Subject: God has remembered your prayers I have already sent you Money Gram
- payment of $5000.00 today, MG 1029-8096
+Reply-To: oliviaeorge@hotmail.com
+Received: by 2002:a5d:4605:0:0:0:0:0 with HTTP; Mon, 9 Dec 2019 04:05:42 -0800 (PST)
+From:   George Olivia <oliviaeorge@gmail.com>
+Date:   Mon, 9 Dec 2019 05:05:42 -0700
+X-Google-Sender-Auth: Ob79w35BC2zIMDTSM4PDMuhdGyg
+Message-ID: <CAK3ncCjkCu0yENqaKuTD6J5PCGUaXrh+dT6EvTgcDv5renkREA@mail.gmail.com>
+Subject: My Greetings Mr/Mrs
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
@@ -55,57 +54,37 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Attn, dear Beneficiary.
+Greetings
+With due respect, I am Mrs. George Olivia; I have decided to donate
+what I have to you / Motherless babies/Less privileged/Widows' because
+I am dying and diagnosed for cancer for about 2 years ago. I have been
+touched by God Almighty to donate from what I have inherited from my
+late husband to you for good work of God Almighty. I have asked
+Almighty God to forgive me and believe he has, because he is a
+Merciful God I will be going in for an operation surgery soon.
 
-God has remembered your prayers
-I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
-This is because we have finally concluded to effect your transfer
-funds of $4.8,000.000usd
-through MONEY GRAM International Fund transfer Service
-Each payment will be sending to you by $5000.00 daily until the
-($4.8,000.000usd) is completely transferred
-we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
-So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
+I decided to will/donate the sum of ($ 8.1 million DOLLARS) to you for
+the good work of God Almighty, and also to help the motherless and
+less privilege and also forth assistance of the widows. At the moment
+I cannot take any telephone calls right now due to the fact that my
+relatives (that have squandered the funds gave them for this purpose
+before) are around me and my health status also. I have adjusted my
+will and my lawyer is aware.
 
-Contact person Mrs. Alan Ude
-Dir. MONEY GRAM Service,Benin
-Phone number: +229 98856728
-E-mail: moneygram.1820@outlook.fr
+I wish you all the best and May the good Lord bless you abundantly,
+and please use the funds judiciously and always extend the good work
+to others. As soon as you get back to me, I shall give you info on
+what I need from you, then you will contact the bank and tell them I
+have willed those properties to you by quoting my personal file
+routing and account information. And I have also notified the bank
+that I am willing that properties to you for a good, effective and
+prudent work. I know I don't know you but I have been directed to do
+this by God Almighty.
 
-Ask him to give you the complete mtcn, sender name, question and
-answer to enable you
-pick up the $5000.00 sent today,
-Also you are instructed to re-confirm your information's
-to Mrs.Alan Ude as listed below to avoid wrong transactions.
+I Have all my Hospital document which i can send to you as prove to
+what am tell you and my seriousness to this. If you are interested in
+carrying out this task, get back to me for more details on this noble
+project of mine.
 
-(1Your Full name:............................................
-(2 Phone number.....................................................
-(3 Contact address:.....................................
-(4 Age:..................................................................
-(5 Country..............................................
-(6) Sex .................................................................
-(7) your occupation...........................................
-
-(8)Passport/By Attach or Drivers License Number:
-Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
-Note please: I have paid service fees for you but the only money you
-are required
-to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
-pick up your transfer today.
-
-Send it to via Money Gram
-Receiver's Name-----Alan Ude
-Country----------Benin
-Address-----------Cotonou
-Quest--------Honest
-Ans-----------Trust
-
-I done all my best for you to receive your transfer now ok.
-We need your urgent reply
-Best Regards
-Rev.Dr Emmanuel Okoye
-CEO Ecobank-benin
-
-If we did not receive it urgent from you today,
-I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
-representative.
+Yours Faithfully,
+Mrs. George Olivia
