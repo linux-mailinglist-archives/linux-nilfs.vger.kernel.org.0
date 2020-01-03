@@ -2,44 +2,100 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 982F1129FFE
-	for <lists+linux-nilfs@lfdr.de>; Tue, 24 Dec 2019 11:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C36612FDCC
+	for <lists+linux-nilfs@lfdr.de>; Fri,  3 Jan 2020 21:20:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726154AbfLXKJ4 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 24 Dec 2019 05:09:56 -0500
-Received: from smtp.inetstar.ru ([5.188.112.44]:42522 "EHLO smtp.inetstar.ru"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726084AbfLXKJ4 (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 24 Dec 2019 05:09:56 -0500
-X-Greylist: delayed 301 seconds by postgrey-1.27 at vger.kernel.org; Tue, 24 Dec 2019 05:09:19 EST
-Received: from [10.0.0.2] ([193.107.193.43])
-  (AUTH: LOGIN work2017, SSL: TLS1.2,128bits,ECDHE_RSA_AES_128_GCM_SHA256)
-  by smtp.inetstar.ru with ESMTPSA; Tue, 24 Dec 2019 13:04:55 +0300
-  id 00000000009B2003.000000005E01E2C7.00005CD9
-From:   Sergey Kamenev <nilfs19@inetstar.ru>
-Subject: New article on NILFS2 filesystem (in russian)
-To:     linux-nilfs@vger.kernel.org
-Message-ID: <f909332a-932f-8f44-afda-8a821012c892@inetstar.ru>
-Date:   Tue, 24 Dec 2019 13:04:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.1
+        id S1728701AbgACUUW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 3 Jan 2020 15:20:22 -0500
+Received: from mail-qk1-f193.google.com ([209.85.222.193]:37855 "EHLO
+        mail-qk1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728747AbgACUUJ (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 3 Jan 2020 15:20:09 -0500
+Received: by mail-qk1-f193.google.com with SMTP id 21so34758087qky.4
+        for <linux-nilfs@vger.kernel.org>; Fri, 03 Jan 2020 12:20:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
+        b=JHYDNcOHsw5Vg59sFwNh4MhnXNKJfQKDhV3JhQemZ8O0wjy4NOClQJHVO9/XZY1B2e
+         7N2r8FlVbF9YCIZf1O8PJKqvP+J732CrXrgkZLQFQD6r8xa5PmtrOPXurr4eE1D10/dY
+         mFNu91hy8xJJRta6mrMYIQyNs0OE0ozgPWJvUT4Jmr91vUmPG9p04hCqKp3daJ6nspkN
+         ZTnUyt7jeaXiRVZmI5OCw3hnhqJr3CafoKv3hfbaHkDpeu4215n4LA4JUWv5RDO6VsPp
+         wo4bmuxUPsJ+VBxSxq4NIVVGqRtUU4TTV0YA8c6/GhqTjpJxCcyOyITBnIawjrG3MRiM
+         hUyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=40ACnQIUnpge54Cj+EODMXbGQ2AM0yGbootCDBdgIh0=;
+        b=TWFuWugpL6w6zia0y5GwPT2B7EgQCnFfumICyXUFovOOvmOWRozfjyUPve0MgWWXoG
+         Xx+bQOcRnJHxH0p0Mb5WQKaEl73qnr2Sfoxk4yRpTvCZWky3nNqirr0g0fr184zQfh7B
+         YDAscxqSI188vbBOV6XOKO+8VIDd1iVwGuWK1nSTezzu15mAwYCPWdfbGhjvXD+myARf
+         XMvfaD9xxUmOZ6RD3dkkwHUDUoukmzYymknHsRA+pk0qv/x0c0ra+02gDJd1gVLF3gXz
+         l4zPLQflxcqHt4clclkLEywz9/sQiUVw83SS4wClCGnoIwQODyEYR3YEYkGIgHbKkrgP
+         8bVg==
+X-Gm-Message-State: APjAAAWxBJ79jFE0fFzD+L9JlQ3DecwNhVbS1mL+NyI/9E4IX6QW8zba
+        nxp86RltXEe6itOJupBEwIa1NmqMTri+we0XPFg=
+X-Google-Smtp-Source: APXvYqzazOZ1eDGwLjA5b5joJwHBsXYUc3xk3mwbut9BpsYKwbpZffl6B/gnfGOg4rASQDOizOWq9gQ5QJjCh6l6GTs=
+X-Received: by 2002:a37:4141:: with SMTP id o62mr70745354qka.282.1578082808591;
+ Fri, 03 Jan 2020 12:20:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=windows-1251; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Received: by 2002:ac8:4410:0:0:0:0:0 with HTTP; Fri, 3 Jan 2020 12:20:08 -0800 (PST)
+From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
+        <westernunion.benin982@gmail.com>
+Date:   Fri, 3 Jan 2020 21:20:08 +0100
+Message-ID: <CAP=nHBJWiJ9KpSSbF4jP9u5UiU5d_kGjSUyPYDmdB2x1uiJFMw@mail.gmail.com>
+Subject: I promise you must be happy today, God has uplifted you and your
+ family ok
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi folks!
+Dear Friend
 
-I wrote article:
+i hope all is well with you,if so, glory be to God almighty. I'm very
+happy to inform you, about my success in getting payment funds under
+the cooperation of a new partner from United States of
+America.Presently I am in uk for investment projects with my own share
+of the total sum. I didn't forget your past efforts. IMF finally
+approved your compensation payment funds this morning by prepaid (ATM)
+Debit card of US$12,500.000.00Million Dollars, Since you not received
+this payment yet, I was not certified
+but it is not your fault and not my fault, I hold nothing against
+you.than bank official whom has been detaining the transfer in the
+bank, trying to claim your funds by themselves.
 
-https://habr.com/ru/company/ruvds/blog/477388/
+Therefore, in appreciation of your effort I have raised an
+International prepaid (ATM) Debit card of US$12,500.000.00 in your
+favor as compensation to you.
 
-Sergey Kamenev
+Now, i want you to contact my Diplomatic Agent, His name is Mike Benz
+on His  e-mail Address (mikebenz550@aol.com
 
+ask Him to send the Prepaid (ATM) Debit card to you. Bear in mind that
+the money is in Prepaid (ATM) Debit card, not cash, so you need to
+send to him,
+your full name
+address  where the prepaid (ATM) Debit card will be delivered to you,
+including your cell phone number. Finally, I left explicit
+instructions with him, on how to send the (ATM CARD) to you.
 
+The Prepaid (ATM) Debit card, will be send to you through my
+Diplomatic Agent Mr. Mike Benz immediately you contact him. So contact
+my Diplomatic Agent Mr. Mike Benz immediately you receive this letter.
+Below is his contact information:
 
+NAME : MIKE BENZ
+EMAIL ADDRESS: mikebenz550@aol.com
+Text Him, (256) 284-4886
 
+Request for Delivery of the Prepaid (ATM) Debit card  to you today.
+Note, please I have paid for the whole service fees for you, so the
+only money you will send to my Diplomatic Agent Mr. Mike Benz is
+$50.00 for your prepaid (ATM) Debit card DELIVERY FEE to your address
+ok.
+Let me know once you receive this Card at your address.
+Best regards,
+Rev.Dr, George Adadar
