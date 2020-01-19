@@ -2,52 +2,52 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AABE7138B3A
-	for <lists+linux-nilfs@lfdr.de>; Mon, 13 Jan 2020 06:52:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42250141F63
+	for <lists+linux-nilfs@lfdr.de>; Sun, 19 Jan 2020 19:44:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733310AbgAMFw3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 13 Jan 2020 00:52:29 -0500
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:36057 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733294AbgAMFw1 (ORCPT
+        id S1728709AbgASSoW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 19 Jan 2020 13:44:22 -0500
+Received: from mail-il1-f196.google.com ([209.85.166.196]:43188 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728665AbgASSoT (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 13 Jan 2020 00:52:27 -0500
-Received: by mail-oi1-f195.google.com with SMTP id c16so7219166oic.3
-        for <linux-nilfs@vger.kernel.org>; Sun, 12 Jan 2020 21:52:27 -0800 (PST)
+        Sun, 19 Jan 2020 13:44:19 -0500
+Received: by mail-il1-f196.google.com with SMTP id v69so25475669ili.10
+        for <linux-nilfs@vger.kernel.org>; Sun, 19 Jan 2020 10:44:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=El5YZgtDEXJCHEtZrRB1ujEJT5GnrR9nqQvx3oNXkD1KXWKAy5lE4fahagwXmNRBuY
-         Z373bCStdjZZAvrcMmyjZhqXNYKD7qS8gpQ1uKt4Zm/CJYofbOmd6y2KCfdaIf8lu4gx
-         e04Qq2Wd5k0QzXhgODgXLh9+BTAbr7mIJG1kvrHD2cB5892G2QaMtoQjZ8YbwAsn/v/R
-         qN1ulSwy8kLJzDOOwwvDkEa6g0paOaNUUW6lO8NcaOsOsQMTh2eV34LXY/bnRxfyDcL+
-         OFIAYoYpyWTxvo4nB11oXa8J2BNLiFXnr18VfN4DCPOmpXqWPT8f/9GzmZX8VWLxs4VK
-         s+8g==
+        bh=/o+CA7VDRA7UR3HGeT8+/tYzwEnOXwq5B8ZHP2/HeYc=;
+        b=MveYcniUJUB532f0dlOoihdmkjAHV60cDj8LBHI8M4h+3H+egt8ZCsWSnQoG7CEhld
+         h286H+k74rDzfRQOoY/f9M81WRQr88YRuubiH3HanhIDyXki4cyulA7bNdgdh/npcklQ
+         CvJo43u8PBPBkMgEH5HatRsI+u5tlB3wEJ1Th3FBUvpApZQxsvg7pL4HfvgLhjM/SAbt
+         Wln7BJPpvNYZtoiRQX3zkLZKrm4kgBMldFao5RktgQ8gLQFv0TsxI7xopop5Q61lnjsD
+         O+Nqof9tzp5qXVHsDImBQ0OOhN8D0ZvK4JC9Zw+KV08LpajVcASte5dFUKOIeqnCFHwC
+         Gp1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=Rjbe3pVeMfYVPdmVklZ4b2stSqI32LIYp+bn/8NyJvk=;
-        b=orau9XQydW5+NLXHfacVKe7i+g5Nyt80lYz6dcSGhg3tB/VUgVyHkKImA5SW/vXdaB
-         9kTUAQ0VYPSx5Dm3mC7qe6sAM3n+goqnh0Il8bXwaKnEfMRhC+pu2LyaLT2p4pDVjuYp
-         HwmhIRxS91ZrDGsT1KUJOqsCr60e6xrtPLt+BBrvKtEu+tPwdiGlM5l3aABP2JzBGWBT
-         9ruMhW4HR5+CWt+M8E0GZS/m2IvHi+/ZOcnueSWoGbbWx3XsRcx2Mz8f7KJg34YFaLqF
-         volSJ/4WP0F0RayL2ZNArclxnCFu6z9ll3Z2Lz12MORKMSjRvOuIaMToCMZzOXe2tpSS
-         /fFw==
-X-Gm-Message-State: APjAAAVpOcDkJTmAKqmKMp3We9wnP6tJUXMjXEwbKa/3cpYBpuj+O+7C
-        buKniOg8hRj7ytpUzZZKVC8WXS+EdNtoU9f4bzzJl+w7
-X-Google-Smtp-Source: APXvYqy7JhGBt0ZjJ/1t4CT74GIhTuvbOMnCynReBbsGRcTAfZPwoiLBCe9XiPA9xaK1JAPmy14eucUMWI9DLkbKsUo=
-X-Received: by 2002:a54:4713:: with SMTP id k19mr11513430oik.113.1578894745174;
- Sun, 12 Jan 2020 21:52:25 -0800 (PST)
+        bh=/o+CA7VDRA7UR3HGeT8+/tYzwEnOXwq5B8ZHP2/HeYc=;
+        b=BLtZJx1iy04nOggPATANs+Z0m4/c1QpyVzNlzgLoPymO0lO80Ig5XBB97Lnr2KlPe2
+         QUQtC6kua2ZlhJKuC+cMuxjCY4oyI57J8nf7G+8LLHa9sfolWIjUUmSX8fxjQrUGGLmD
+         PrWqIwoZ2evYu4UYlsylwTyruIhH7yzjPXZ0SEv/G5iJSgbn4k5CtN76K6MKyBHygr3a
+         leLaa2EaLtxVO8FBe9A9jIOKRUQPqC+nnfDiDPMmlTPJNj99IzEv9WLtC78eWWMRV9kp
+         lhdDBUVPqiMwEmQ3IIUjJCoQZJogJ8NcGuockPP2cCVHOcPLkca9yoaGDgABG5nmF1Qx
+         sI3A==
+X-Gm-Message-State: APjAAAX6ndvySBROs0158jKvLuCVoaYC95zQsBy9Tk+dJFnIYGzEESjs
+        wPUg4Kme9sE7jVsUf+D/OqsMwecsdZDy61gh6Qs=
+X-Google-Smtp-Source: APXvYqzrfoOpFYdPx6ke6uIX585SnMDBN6pXKvD7iN8x9MT//+KimK2aFC33ps3ZC6gjq3Pi1pIlacgfKiFCQZrpYZA=
+X-Received: by 2002:a92:d1c1:: with SMTP id u1mr7477573ilg.66.1579459459106;
+ Sun, 19 Jan 2020 10:44:19 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a4a:41cb:0:0:0:0:0 with HTTP; Sun, 12 Jan 2020 21:52:24
+Received: by 2002:a02:95c8:0:0:0:0:0 with HTTP; Sun, 19 Jan 2020 10:44:18
  -0800 (PST)
-Reply-To: rickschaech@gmail.com
-From:   Rick Schaech <cathben72@gmail.com>
-Date:   Mon, 13 Jan 2020 01:52:24 -0400
-Message-ID: <CAEcBxO=TAnFn5LzizHa22hUC0Db5FuiZJF28m=yX3_9m--jRqg@mail.gmail.com>
-Subject: I wait for your swift response,
+Reply-To: favordens@email.com
+From:   Favor Desmond <contecindy5@gmail.com>
+Date:   Sun, 19 Jan 2020 18:44:18 +0000
+Message-ID: <CAOfCPNxgSoAU_ns0j9jYL-ArKfcD=i8NkJvHsR4-OGvFBVDMZg@mail.gmail.com>
+Subject: HELLO
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
@@ -55,20 +55,10 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dear, I'm Mr Rick Schaech, I am the General Account Auditor, Though i
-know we have not meet each other before but sometimes in life God have
-a reason of bringing two people from two different countries together
-as business partners or life partners.
-
-My dear friend, I have the sum of 15.7 Million USD i wish to put in
-your name due to the death of my late client who died several years
-ago as his next of kin column still remain blank. Though the internet
-medium is highly abuse these days but am assuring you that this
-transaction is legitimate and I am contacting you that we may have a
-deal, note for your cooperation and collaboration 40% of the sum will
-be for you while the other 60% will be for me as well. I wait for your
-swift response for more details. please forward your response to my
-personal E-mail: rickschaech@gmail.com
-
-Yours sincerely,
-Rick Schaech.
+Hello Dear
+Greetings to you,I am Favor Desmond from Ivory coast currently living
+in  Togo Republic,I would like to know you more, so that i can tell
+you little amount myself and my photo, email address is
+favordens@email.com
+Thanks
+Favor
