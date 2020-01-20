@@ -2,52 +2,53 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 42250141F63
-	for <lists+linux-nilfs@lfdr.de>; Sun, 19 Jan 2020 19:44:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCB6314323D
+	for <lists+linux-nilfs@lfdr.de>; Mon, 20 Jan 2020 20:32:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728709AbgASSoW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 19 Jan 2020 13:44:22 -0500
-Received: from mail-il1-f196.google.com ([209.85.166.196]:43188 "EHLO
-        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728665AbgASSoT (ORCPT
+        id S1728680AbgATTcD (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 20 Jan 2020 14:32:03 -0500
+Received: from mail-ed1-f67.google.com ([209.85.208.67]:35268 "EHLO
+        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727076AbgATTcC (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 19 Jan 2020 13:44:19 -0500
-Received: by mail-il1-f196.google.com with SMTP id v69so25475669ili.10
-        for <linux-nilfs@vger.kernel.org>; Sun, 19 Jan 2020 10:44:19 -0800 (PST)
+        Mon, 20 Jan 2020 14:32:02 -0500
+Received: by mail-ed1-f67.google.com with SMTP id f8so625710edv.2
+        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jan 2020 11:32:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/o+CA7VDRA7UR3HGeT8+/tYzwEnOXwq5B8ZHP2/HeYc=;
-        b=MveYcniUJUB532f0dlOoihdmkjAHV60cDj8LBHI8M4h+3H+egt8ZCsWSnQoG7CEhld
-         h286H+k74rDzfRQOoY/f9M81WRQr88YRuubiH3HanhIDyXki4cyulA7bNdgdh/npcklQ
-         CvJo43u8PBPBkMgEH5HatRsI+u5tlB3wEJ1Th3FBUvpApZQxsvg7pL4HfvgLhjM/SAbt
-         Wln7BJPpvNYZtoiRQX3zkLZKrm4kgBMldFao5RktgQ8gLQFv0TsxI7xopop5Q61lnjsD
-         O+Nqof9tzp5qXVHsDImBQ0OOhN8D0ZvK4JC9Zw+KV08LpajVcASte5dFUKOIeqnCFHwC
-         Gp1A==
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=kLfnsSTIjE2YEe6HI6GtqXd6cMnhTRLMcstoRngEtLrpsW8Des52P9cJGak3H8TgGi
+         7pI7x0ReUsZVA5020Qw65cEVulbgAqf7PV7Yj5z98jIQHYXuhdjNseji1wTJmoRk9owd
+         jH0nw85bxKb6JNDbbMZz77rTtrhB/lrp1T9+1Yzp1e0fAmiYnPF2y/wqE3N2vxlEpqDg
+         Q62+v45VGQo8fprIjkXGYdl8n0+0lt4RTeTWLmEirmHeh05e1zsbOQ1RyEmjVmqN0eJc
+         PRg9w7tG3wGqyiL8Rgrtjody799fKx6nbHvtMQHhCmcCncWFfzoetJS1edNfQP320vCH
+         Vilg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=/o+CA7VDRA7UR3HGeT8+/tYzwEnOXwq5B8ZHP2/HeYc=;
-        b=BLtZJx1iy04nOggPATANs+Z0m4/c1QpyVzNlzgLoPymO0lO80Ig5XBB97Lnr2KlPe2
-         QUQtC6kua2ZlhJKuC+cMuxjCY4oyI57J8nf7G+8LLHa9sfolWIjUUmSX8fxjQrUGGLmD
-         PrWqIwoZ2evYu4UYlsylwTyruIhH7yzjPXZ0SEv/G5iJSgbn4k5CtN76K6MKyBHygr3a
-         leLaa2EaLtxVO8FBe9A9jIOKRUQPqC+nnfDiDPMmlTPJNj99IzEv9WLtC78eWWMRV9kp
-         lhdDBUVPqiMwEmQ3IIUjJCoQZJogJ8NcGuockPP2cCVHOcPLkca9yoaGDgABG5nmF1Qx
-         sI3A==
-X-Gm-Message-State: APjAAAX6ndvySBROs0158jKvLuCVoaYC95zQsBy9Tk+dJFnIYGzEESjs
-        wPUg4Kme9sE7jVsUf+D/OqsMwecsdZDy61gh6Qs=
-X-Google-Smtp-Source: APXvYqzrfoOpFYdPx6ke6uIX585SnMDBN6pXKvD7iN8x9MT//+KimK2aFC33ps3ZC6gjq3Pi1pIlacgfKiFCQZrpYZA=
-X-Received: by 2002:a92:d1c1:: with SMTP id u1mr7477573ilg.66.1579459459106;
- Sun, 19 Jan 2020 10:44:19 -0800 (PST)
+        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
+        b=RFvpdZVRpHej1gY9UWkhmxzKbBdCjJNifs/dGC4tR5T1ORZszaQtPqB0GXJWFQmLzJ
+         p0R3/KytIctqHrip1nu3mu9p9Cb+lXzlDOjoRXwiWDxJ/P4QDBfNQyAOjGNM4MFu/8MT
+         ZZZExHwQu6LGZAttFmTVhzshFYp3eDX4QkELRo05HYH8MtEUxi8y8S+KWlK67SzhcEW4
+         CDuET0BiwY5eS5HiDx5wVZQTsuqNMDDiezuaVCGVX2bGcaJH6saWa2G/Bc4B7M/UgqLj
+         P6cOudHJBFXUdoU6vxFgTaj6Rj+dMSTbsIInKZLD0MmFWhUduyL5CpEdb6ZcAYW4zEHZ
+         ZQuQ==
+X-Gm-Message-State: APjAAAXtmEt5CeqMzeADtfzQADS4ZKoMSuMUTj6VY4JKAdWUgoJQqZ0r
+        n+ORKfcnrO77ktmAuiUE1zskte0yKtGlv2Tn+Gk=
+X-Google-Smtp-Source: APXvYqwPh6D8ihOXjaVWGs/0GLulEekGPU0xOOyxhr7PagnLX+E8xWeQy/UQ09ZNp2jZFCCt0xVGiodDu+D5No4niKg=
+X-Received: by 2002:a05:6402:505:: with SMTP id m5mr609398edv.15.1579548719077;
+ Mon, 20 Jan 2020 11:31:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a02:95c8:0:0:0:0:0 with HTTP; Sun, 19 Jan 2020 10:44:18
+Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:57
  -0800 (PST)
-Reply-To: favordens@email.com
-From:   Favor Desmond <contecindy5@gmail.com>
-Date:   Sun, 19 Jan 2020 18:44:18 +0000
-Message-ID: <CAOfCPNxgSoAU_ns0j9jYL-ArKfcD=i8NkJvHsR4-OGvFBVDMZg@mail.gmail.com>
-Subject: HELLO
+Reply-To: mcclainejohn.13@gmail.com
+From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
+Date:   Mon, 20 Jan 2020 20:31:57 +0100
+Message-ID: <CAOE+jAB9Cv76tHqc-hO92yWjVshCsALoX=zT1ruNmX+0-Bjyxw@mail.gmail.com>
+Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
+ valued the sum of $12.8Million United States Dollars
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
@@ -55,10 +56,41 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello Dear
-Greetings to you,I am Favor Desmond from Ivory coast currently living
-in  Togo Republic,I would like to know you more, so that i can tell
-you little amount myself and my photo, email address is
-favordens@email.com
-Thanks
-Favor
+Attn: Dear Beneficiary,
+
+I wish to inform you that the diplomatic agent conveying your ATM CARD
+valued the sum of $12.8Million United States Dollars has misplaced
+your address and he is currently stranded at (George Bush
+International Airport) Houston Texas USA now
+We required you to reconfirm the following information's below to him
+so that he can deliver your Payment CARD to you today or tomorrow
+morning as information provided with open communications via email and
+telephone for security reasons.
+HERE IS THE DETAILS  HE NEED FROM YOU URGENT
+YOUR FULL NAME:========
+ADDRESS:========
+MOBILE NO:========
+NAME OF YOUR NEAREST AIRPORT:========
+A COPY OF YOUR IDENTIFICATION :========
+
+Note; do contact the diplomatic agent immediately through the
+information's listed below
+Contact Person: Diplomatic Agent, Mr. Mcclaine John
+EMAIL: mcclainejohn.13@gmail.com
+Tel:(223) 777-7518
+
+Contact the diplomatic agent immediately
+because he is waiting to hear from you today with the needed information's.
+
+NOTE: The Diplomatic agent does not know that the content of the
+consignment box is $12.800,000,00 Million United States Dollars and on
+no circumstances should you let him know the content. The consignment
+was moved from here as family treasures, so never allow him to open
+the box. Please I have paid delivery fees for you but the only money
+you must send to Mcclaine John is your ATM CARD delivery fee $25.00
+only. text Him as you contact Him Immediately
+
+Thanks,
+with Regards.
+Prof, William Roberts
+Director DHL COURIER SERVICES-Benin
