@@ -2,20 +2,19 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F7E0146B15
-	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Jan 2020 15:20:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAC0D146B6A
+	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Jan 2020 15:34:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727235AbgAWOUq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 23 Jan 2020 09:20:46 -0500
-Received: from gw.cm.dream.jp ([59.157.128.2]:41681 "EHLO vsmtp01.cm.dti.ne.jp"
+        id S1726240AbgAWOeE (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 23 Jan 2020 09:34:04 -0500
+Received: from gw.cm.dream.jp ([59.157.128.2]:47097 "EHLO vsmtp02.cm.dti.ne.jp"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726780AbgAWOUq (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 23 Jan 2020 09:20:46 -0500
-X-Greylist: delayed 750 seconds by postgrey-1.27 at vger.kernel.org; Thu, 23 Jan 2020 09:20:13 EST
-Received: from localhost (KD124210025232.ppp-bb.dion.ne.jp [124.210.25.232]) by vsmtp01.cm.dti.ne.jp (3.11v) with ESMTP AUTH id 00NE7gfB018031;Thu, 23 Jan 2020 23:07:42 +0900 (JST)
-Date:   Thu, 23 Jan 2020 23:07:41 +0900 (JST)
-Message-Id: <20200123.230741.1435519633766712935.hermes@ceres.dti.ne.jp>
-To:     linux-nilfs@vger.kernel.org
+        id S1728779AbgAWOeD (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 23 Jan 2020 09:34:03 -0500
+Received: from localhost (KD124210025232.ppp-bb.dion.ne.jp [124.210.25.232]) by vsmtp02.cm.dti.ne.jp (3.11v) with ESMTP AUTH id 00NEUsX9006202;Thu, 23 Jan 2020 23:30:54 +0900 (JST)
+Date:   Thu, 23 Jan 2020 23:30:54 +0900 (JST)
+Message-Id: <20200123.233054.1176220936128499438.hermes@ceres.dti.ne.jp>
+To:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
 Subject: Re: BUG: unable to handle kernel NULL pointer dereference at
  00000000000000a8 in nilfs_segctor_do_construct
 From:   ARAI Shun-ichi <hermes@ceres.dti.ne.jp>
@@ -34,7 +33,13 @@ X-Mailing-List: linux-nilfs@vger.kernel.org
 
 Hi,
 
-I fogot to send it to this ML...
+Now I found that my /tmp is not tmpfs, it is in root partition (!!!???)
+
+And, I use LUKS for it.
+ LUKS - VG - LV (root, usr, ...)
+
+I want to try "ii)" without LUKS/LVM, but cannot reboot now.
+
 
 In <20200123.225827.1155989593018204741.hermes@ceres.dti.ne.jp>;
    ARAI Shun-ichi <hermes@ceres.dti.ne.jp> wrote
