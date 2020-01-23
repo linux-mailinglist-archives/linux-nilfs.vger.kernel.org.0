@@ -2,95 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BCB6314323D
-	for <lists+linux-nilfs@lfdr.de>; Mon, 20 Jan 2020 20:32:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 084DC14692F
+	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Jan 2020 14:34:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbgATTcD (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 20 Jan 2020 14:32:03 -0500
-Received: from mail-ed1-f67.google.com ([209.85.208.67]:35268 "EHLO
-        mail-ed1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727076AbgATTcC (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 20 Jan 2020 14:32:02 -0500
-Received: by mail-ed1-f67.google.com with SMTP id f8so625710edv.2
-        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jan 2020 11:32:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=kLfnsSTIjE2YEe6HI6GtqXd6cMnhTRLMcstoRngEtLrpsW8Des52P9cJGak3H8TgGi
-         7pI7x0ReUsZVA5020Qw65cEVulbgAqf7PV7Yj5z98jIQHYXuhdjNseji1wTJmoRk9owd
-         jH0nw85bxKb6JNDbbMZz77rTtrhB/lrp1T9+1Yzp1e0fAmiYnPF2y/wqE3N2vxlEpqDg
-         Q62+v45VGQo8fprIjkXGYdl8n0+0lt4RTeTWLmEirmHeh05e1zsbOQ1RyEmjVmqN0eJc
-         PRg9w7tG3wGqyiL8Rgrtjody799fKx6nbHvtMQHhCmcCncWFfzoetJS1edNfQP320vCH
-         Vilg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=z7I/Kq2V0EnXiuoACdRbnwoAql3KZ080nwyXVjlruyU=;
-        b=RFvpdZVRpHej1gY9UWkhmxzKbBdCjJNifs/dGC4tR5T1ORZszaQtPqB0GXJWFQmLzJ
-         p0R3/KytIctqHrip1nu3mu9p9Cb+lXzlDOjoRXwiWDxJ/P4QDBfNQyAOjGNM4MFu/8MT
-         ZZZExHwQu6LGZAttFmTVhzshFYp3eDX4QkELRo05HYH8MtEUxi8y8S+KWlK67SzhcEW4
-         CDuET0BiwY5eS5HiDx5wVZQTsuqNMDDiezuaVCGVX2bGcaJH6saWa2G/Bc4B7M/UgqLj
-         P6cOudHJBFXUdoU6vxFgTaj6Rj+dMSTbsIInKZLD0MmFWhUduyL5CpEdb6ZcAYW4zEHZ
-         ZQuQ==
-X-Gm-Message-State: APjAAAXtmEt5CeqMzeADtfzQADS4ZKoMSuMUTj6VY4JKAdWUgoJQqZ0r
-        n+ORKfcnrO77ktmAuiUE1zskte0yKtGlv2Tn+Gk=
-X-Google-Smtp-Source: APXvYqwPh6D8ihOXjaVWGs/0GLulEekGPU0xOOyxhr7PagnLX+E8xWeQy/UQ09ZNp2jZFCCt0xVGiodDu+D5No4niKg=
-X-Received: by 2002:a05:6402:505:: with SMTP id m5mr609398edv.15.1579548719077;
- Mon, 20 Jan 2020 11:31:59 -0800 (PST)
+        id S1726240AbgAWNer (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 23 Jan 2020 08:34:47 -0500
+Received: from logand.com ([37.48.87.44]:33244 "EHLO logand.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726232AbgAWNer (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 23 Jan 2020 08:34:47 -0500
+Received: by logand.com (Postfix, from userid 1001)
+        id 84ECF19F8AB; Thu, 23 Jan 2020 14:34:45 +0100 (CET)
+X-Mailer: emacs 26.3 (via feedmail 11-beta-1 Q)
+From:   Tomas Hlavaty <tom@logand.com>
+To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference at 00000000000000a8 in nilfs_segctor_do_construct
+In-Reply-To: <87immckp07.fsf@logand.com>
+References: <8736emquds.fsf@logand.com> <CAKFNMo=k1wVHOwXhTLEOJ+A-nwmvJ+sN_PPa8kY8fMxrQ4R+Jw@mail.gmail.com> <87immckp07.fsf@logand.com>
+Date:   Thu, 23 Jan 2020 13:31:38 +0100
+Message-ID: <87v9p2tkut.fsf@logand.com>
 MIME-Version: 1.0
-Received: by 2002:a05:6402:22dc:0:0:0:0 with HTTP; Mon, 20 Jan 2020 11:31:57
- -0800 (PST)
-Reply-To: mcclainejohn.13@gmail.com
-From:   "Prof, William Roberts" <eco.bank1204@gmail.com>
-Date:   Mon, 20 Jan 2020 20:31:57 +0100
-Message-ID: <CAOE+jAB9Cv76tHqc-hO92yWjVshCsALoX=zT1ruNmX+0-Bjyxw@mail.gmail.com>
-Subject: Contact Diplomatic Agent, Mr. Mcclaine John to receive your ATM CARD
- valued the sum of $12.8Million United States Dollars
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Attn: Dear Beneficiary,
+Hi Ryusuke,
 
-I wish to inform you that the diplomatic agent conveying your ATM CARD
-valued the sum of $12.8Million United States Dollars has misplaced
-your address and he is currently stranded at (George Bush
-International Airport) Houston Texas USA now
-We required you to reconfirm the following information's below to him
-so that he can deliver your Payment CARD to you today or tomorrow
-morning as information provided with open communications via email and
-telephone for security reasons.
-HERE IS THE DETAILS  HE NEED FROM YOU URGENT
-YOUR FULL NAME:========
-ADDRESS:========
-MOBILE NO:========
-NAME OF YOUR NEAREST AIRPORT:========
-A COPY OF YOUR IDENTIFICATION :========
+>> 2) Can you mount the corrupted(?) partition from a recent version of
+>> kernel ?
 
-Note; do contact the diplomatic agent immediately through the
-information's listed below
-Contact Person: Diplomatic Agent, Mr. Mcclaine John
-EMAIL: mcclainejohn.13@gmail.com
-Tel:(223) 777-7518
+this will take me some time to figure out
 
-Contact the diplomatic agent immediately
-because he is waiting to hear from you today with the needed information's.
+>> 3) Does read-only mount option (-r) work to avoid the crash ?
 
-NOTE: The Diplomatic agent does not know that the content of the
-consignment box is $12.800,000,00 Million United States Dollars and on
-no circumstances should you let him know the content. The consignment
-was moved from here as family treasures, so never allow him to open
-the box. Please I have paid delivery fees for you but the only money
-you must send to Mcclaine John is your ATM CARD delivery fee $25.00
-only. text Him as you contact Him Immediately
+ro mount doesn't seem to crash
 
-Thanks,
-with Regards.
-Prof, William Roberts
-Director DHL COURIER SERVICES-Benin
+at least after mounting the partition read-only
+- running lscp
+- running sudo find . -type f inside the mounted partition
+- cat <some random file on the nilfs partition>
+does not crash
+
+the crash i was seeing was during rsync (writing i guess)
+
+Other info that might be relevant:
+
+- the nilfs partition was on top of luks
+- the corruption happened probably during shutdown
+  the shutdown hanged for a long time waiting for nilfs
+  disk (iirc it waits for 1m30s) and even after that it did
+  not finish so i turned the computer off without waiting
+  further.  after new start, i got the crash
+- i got the same problem on another disk recently
+
+Regards,
+
+Tomas
