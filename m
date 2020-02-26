@@ -2,25 +2,23 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DC6D16FC2A
-	for <lists+linux-nilfs@lfdr.de>; Wed, 26 Feb 2020 11:27:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BDBF116FC67
+	for <lists+linux-nilfs@lfdr.de>; Wed, 26 Feb 2020 11:40:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727607AbgBZK1k (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 26 Feb 2020 05:27:40 -0500
-Received: from 13thmonkey.org ([80.100.255.32]:65163 "EHLO
+        id S1727686AbgBZKkI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 26 Feb 2020 05:40:08 -0500
+Received: from 13thmonkey.org ([80.100.255.32]:65161 "EHLO
         dropje.13thmonkey.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726989AbgBZK1k (ORCPT
+        with ESMTP id S1727607AbgBZKkI (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 26 Feb 2020 05:27:40 -0500
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Feb 2020 05:27:40 EST
+        Wed, 26 Feb 2020 05:40:08 -0500
 Received: by dropje.13thmonkey.org (Postfix, from userid 103)
-        id 06B08C1EB14; Wed, 26 Feb 2020 11:22:36 +0100 (CET)
-Date:   Wed, 26 Feb 2020 11:22:35 +0100
+        id 0D1CFC1EB14; Wed, 26 Feb 2020 11:40:07 +0100 (CET)
+Date:   Wed, 26 Feb 2020 11:40:07 +0100
 From:   Reinoud Zandijk <reinoud@NetBSD.org>
 To:     linux-nilfs <linux-nilfs@vger.kernel.org>
-Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
 Subject: NiLFS support on Pinebook
-Message-ID: <20200226102235.GA2060@dropje.13thmonkey.org>
+Message-ID: <20200226104006.GA19476@dropje.13thmonkey.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -41,6 +39,5 @@ shipped with it, but only the tools?
 How can I install the nilfs2 filesystem? Or is that up to the distribution and
 out of my control?
 
-With regards,
-Reinoud
+With regards, Reinoud
 
