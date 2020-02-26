@@ -2,37 +2,45 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0A31690C8
-	for <lists+linux-nilfs@lfdr.de>; Sat, 22 Feb 2020 18:49:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DC6D16FC2A
+	for <lists+linux-nilfs@lfdr.de>; Wed, 26 Feb 2020 11:27:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726930AbgBVRtk (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 22 Feb 2020 12:49:40 -0500
-Received: from [167.172.150.84] ([167.172.150.84]:36150 "EHLO
-        centos-s-1vcpu-2gb-nyc1-01.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726707AbgBVRti (ORCPT
+        id S1727607AbgBZK1k (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 26 Feb 2020 05:27:40 -0500
+Received: from 13thmonkey.org ([80.100.255.32]:65163 "EHLO
+        dropje.13thmonkey.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726989AbgBZK1k (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 22 Feb 2020 12:49:38 -0500
-Received: from localhost (centos-s-1vcpu-2gb-nyc1-01 [127.0.0.1])
-        by centos-s-1vcpu-2gb-nyc1-01.localdomain (Postfix) with SMTP id 81F0017732;
-        Fri, 21 Feb 2020 16:50:47 +0000 (UTC)
-Received: from [51.7.194.114] by localhost with ESMTP id 61145412 for <linda_278@centurytel.net>; Fri, 21 Feb 2020 21:47:38 +0500
-Message-ID: <qo$48v09x4c2--5-$f9@r5u1c0kgq>
-From:   "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
-Reply-To: "RECEIVE AND SECURE THIS MONEY FOR ME" <fta447447@gmail.com>
-To:     linda_278@centurytel.net
-Subject: RECEIVE MONEY IN BANK ACCOUNT REPLY TO fta447447@gmail.com
-Date:   Fri, 21 Feb 20 21:47:38 GMT
-X-Mailer: AOL 7.0 for Windows US sub 118
+        Wed, 26 Feb 2020 05:27:40 -0500
+X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Wed, 26 Feb 2020 05:27:40 EST
+Received: by dropje.13thmonkey.org (Postfix, from userid 103)
+        id 06B08C1EB14; Wed, 26 Feb 2020 11:22:36 +0100 (CET)
+Date:   Wed, 26 Feb 2020 11:22:35 +0100
+From:   Reinoud Zandijk <reinoud@NetBSD.org>
+To:     linux-nilfs <linux-nilfs@vger.kernel.org>
+Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Subject: NiLFS support on Pinebook
+Message-ID: <20200226102235.GA2060@dropje.13thmonkey.org>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="A..C8.._3321CEA_"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+Dear folks, dear Ryusuke,
 
---A..C8.._3321CEA_--
+I am trying to use NiLFS2 on my Pinebook that identifies itself as GNU/Linux
+on aarch64. It allows me to install nilfs-tools wich seem to work fine but
+when i mount a partition it gives the error "mount.nilfs2: cannot find or load
+nilfs2 filesystem". Does this mean the linux kernel has no nilfs2 module
+shipped with it, but only the tools?
+
+How can I install the nilfs2 filesystem? Or is that up to the distribution and
+out of my control?
+
+With regards,
+Reinoud
 
