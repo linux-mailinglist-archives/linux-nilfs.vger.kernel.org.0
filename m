@@ -2,73 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 756EE174030
-	for <lists+linux-nilfs@lfdr.de>; Fri, 28 Feb 2020 20:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 207A71781A9
+	for <lists+linux-nilfs@lfdr.de>; Tue,  3 Mar 2020 20:02:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725805AbgB1TUI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 28 Feb 2020 14:20:08 -0500
-Received: from 13thmonkey.org ([80.100.255.32]:64138 "EHLO
-        dropje.13thmonkey.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbgB1TUH (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 28 Feb 2020 14:20:07 -0500
-Received: by dropje.13thmonkey.org (Postfix, from userid 103)
-        id 6702EC1EB14; Fri, 28 Feb 2020 20:20:04 +0100 (CET)
-Date:   Fri, 28 Feb 2020 20:20:04 +0100
-From:   Reinoud Zandijk <reinoud@NetBSD.org>
-To:     linux-nilfs@vger.kernel.org
-Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Subject: Re: Qemu (Re: NiLFS support on Pinebook)
-Message-ID: <20200228192004.GA7355@dropje.13thmonkey.org>
-References: <20200226102235.GA2060@dropje.13thmonkey.org>
- <20200227.001457.2102675267682326035.konishi.ryusuke@lab.ntt.co.jp>
- <20200228105503.GA345@dropje.13thmonkey.org>
+        id S2387710AbgCCSEy (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 3 Mar 2020 13:04:54 -0500
+Received: from mail-io1-f66.google.com ([209.85.166.66]:36953 "EHLO
+        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732084AbgCCSEv (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 3 Mar 2020 13:04:51 -0500
+Received: by mail-io1-f66.google.com with SMTP id c17so4645573ioc.4
+        for <linux-nilfs@vger.kernel.org>; Tue, 03 Mar 2020 10:04:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=GPvB5JmBG6z+pe9bFE2CGNcC5x/6xLw5Qd7XSn1ySMNKEs7MCW9qI0byaT6yZeMjO1
+         abdqfj6hfSuoEadcnqDGawgUf7qVE7UyRd+zzL+/N1fQj7L8zpPk/epjEZ5e6apyMo8n
+         YwljgmTWVMnKbEM82OVnpEttSV0ml97qqPO3HYSGg1I3Kd5jgZTQPgc3StS96bsuF30n
+         b9qB0KRAO87x8Q/JUgUAa4TkmIlXfA7s6DvLkNkpHBjKpr5y0QhZdAxXsngTCFFInTQm
+         DPVW4KWdHeFisgBsfx9nAO7sdjvuuHl6RhiNXKKAT/H5d1oIyOuQED7dl99qe58JYB+g
+         uzew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
+        b=h7XlBbNYziSJzK5VpSXV/K1qt7qbZpNuQCXNbcHJy+DwXgRnzjicmOkqhV9iYxLKEk
+         H5DEhufwwWVi7vCd+g3vFDr9esGFJIPcZlR8a7oIrEXyKCWZUcxX5sC5odLGGXSgIFF6
+         avlDQE8LWLBe1uusLXa0ZJR+YRPolHqiSOw4mT2LFGXl7+fdFYpiDI3cXik6Emk1+lbJ
+         v1N+p0kCAFlcKvXZTftNwg70wWoYAzEzfeScD7A3yVmN/nmDGRFdZgUEAwvFM+FbVNkO
+         BOTldAx0uY5XY7HsGO2QXhdcfgWqq57g8Jc1QQ48Ky0Meynde51NVIFQil9GTl0+XmnQ
+         DAsQ==
+X-Gm-Message-State: ANhLgQ1JLV2Y24Zj7+MFXS1qJRs2JAT++WuDCqvtMAZ62h89RdW9Ztok
+        RM3mMGRTdkkndqZpVvWEdHKbk5n0vZbUum+nGMI=
+X-Google-Smtp-Source: ADFU+vutdGkttcd/hJiYb4y4WaLsQb+Ssp4duakHuqrwHsgihD/STxYnXQ2eaP0HScY08dpIDqMuSQWRqagDw9j+73Q=
+X-Received: by 2002:a6b:bd04:: with SMTP id n4mr5037642iof.196.1583258691267;
+ Tue, 03 Mar 2020 10:04:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200228105503.GA345@dropje.13thmonkey.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Received: by 2002:a02:9f04:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:04:50 -0800 (PST)
+Reply-To: dr.challynoah@gmail.com
+From:   DR CHALLY NOAH <mayorabrahamedge404@gmail.com>
+Date:   Tue, 3 Mar 2020 19:04:50 +0100
+Message-ID: <CALqVJWe4D9esyruFy8y2AdEPnwWEwx4zKUkPS8=sPcixGTNzGA@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Ryusuke,
-
-On Fri, Feb 28, 2020 at 11:55:03AM +0100, Reinoud Zandijk wrote:
-> Can you recommend a lightweigth linux distro with nilfs support that runs fast
-> in `unaided' Qemu?  I.e. with only the `tcg' acceleration and with no
-> graphics?
-
-I've settled for a Debian without graphics and it works quite well AND it has
-NiLFS2 support!
-
-Testing it on one of my older test NiLFS2 images I had around it paniced when
-I did this:
-
-qemu-system-x86_64 -drive file=root.debian.fs,format=raw -accel
-  tcg,thread=multi -smp cpus=4 -m 4096 -drive
-  file=/usr/tmp/nilfs.4g.img,format=raw
-....
-    mount.nilfs2 /dev/sdb1 /mnt
-    touch /mnt/UDF
-wait a second or two
-    CRASH
-
-Note that /mnt/UDF exists and is a directory. It gives a NULL pointer
-dereference at 0xa8
-Call trace:
-    __test_set_page_writeback+0x38c/0x3f0
-    nilfs_segctor_do_construct+0x190f
-    nilfs_segctor_construct+0x1f5
-    nilfs_segctor_thread+0x127
-....
-RIP: 0010:percpu_counter_add_batch+0x04
-....
-
-Do you like to receive a copy of this image? It used to work fine and should
-only be touched by your NiLFS code.
-
-With regards,
-Reinoud
-
+Hello Dear,
+What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
+This said fund was issued out by the UNITED NATIONS To compensate
+you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
+at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
+fund (award)release to you or better still reply back Immediately You
+Receive This Information For An Urgent Confirmation And Release Of Your
+Fund To You Without Delays, as your email was listed among those to be
+compensated this year.Congratulations..
+Best Regards,
+Dr Chally Noah.
+Minister Of Finance On Foreign Remittance:
