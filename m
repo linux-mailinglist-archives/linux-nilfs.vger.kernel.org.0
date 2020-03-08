@@ -2,46 +2,52 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C1E3F17B919
-	for <lists+linux-nilfs@lfdr.de>; Fri,  6 Mar 2020 10:19:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A106617D559
+	for <lists+linux-nilfs@lfdr.de>; Sun,  8 Mar 2020 19:06:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726010AbgCFJTl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 6 Mar 2020 04:19:41 -0500
-Received: from 13thmonkey.org ([80.100.255.32]:62096 "EHLO
-        dropje.13thmonkey.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725855AbgCFJTk (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 6 Mar 2020 04:19:40 -0500
-Received: by dropje.13thmonkey.org (Postfix, from userid 103)
-        id 7C4E6C1EB14; Fri,  6 Mar 2020 10:19:39 +0100 (CET)
-Date:   Fri, 6 Mar 2020 10:19:39 +0100
-From:   Reinoud Zandijk <reinoud@NetBSD.org>
-To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc:     linux-nilfs@vger.kernel.org
-Subject: B-tree implemenation
-Message-ID: <20200306091939.GA18929@dropje.13thmonkey.org>
+        id S1726322AbgCHSGf (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 8 Mar 2020 14:06:35 -0400
+Received: from www752.sakura.ne.jp ([59.106.19.202]:55451 "EHLO
+        www752.sakura.ne.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726296AbgCHSGe (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 8 Mar 2020 14:06:34 -0400
+X-Greylist: delayed 7668 seconds by postgrey-1.27 at vger.kernel.org; Sun, 08 Mar 2020 14:06:33 EDT
+Received: from fsav305.sakura.ne.jp (fsav305.sakura.ne.jp [153.120.85.136])
+        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028Ft3Pw062227;
+        Mon, 9 Mar 2020 00:55:03 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Received: from www752.sakura.ne.jp (59.106.19.202)
+ by fsav305.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav305.sakura.ne.jp);
+ Mon, 09 Mar 2020 00:55:03 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav305.sakura.ne.jp)
+Received: from www752.sakura.ne.jp (localhost [127.0.0.1])
+        by www752.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 028Ft2GS062217;
+        Mon, 9 Mar 2020 00:55:03 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Received: (from hokusetubad@localhost)
+        by www752.sakura.ne.jp (8.15.2/8.15.2/Submit) id 028Ft2lu062216;
+        Mon, 9 Mar 2020 00:55:02 +0900 (JST)
+        (envelope-from postmaster@hokusetubad.sakura.ne.jp)
+Message-Id: <202003081555.028Ft2lu062216@www752.sakura.ne.jp>
+X-Authentication-Warning: www752.sakura.ne.jp: hokusetubad set sender to postmaster@hokusetubad.sakura.ne.jp using -f
+Subject: BUSINESS PROPOSAL
+From:   postmaster@hokusetubad.sakura.ne.jp
+Reply-To: abulkareem461@gmail.com
+To:     mitch.a.williams@intel.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Date:   Mon, 09 Mar 2020 00:55:02 +0900
+Content-Type: text/plain; charset="ISO-2022-JP"
+Content-Transfer-Encoding: 7bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dear Ryusuke,
+Dearest Friend
 
-before i start reverse enginering your B-tree implentation in NiLFS :) I
-wonder how its implementation is taking care of random writes at random
-offsets in a file? Say a received bittorrent file?
-
-Will it enumerate the blocks written in a b-tree list and insert between
-elements in the list if there is space? And if not, insert a level of B-tree?
-Will it try to rebalance the tree or will in practice the number of levels of
-B-tree suffice?
-
-Is rebalancing the B-tree of an inode seen as part of the apparently not yet
-implemented defragmentation?
-
-With regards,
-Reinoud
-
+I am Mr Abdul Kareem working with Emirate NBD Bank Dubai,United Arab Emirate as Finance Manager.
+I have a very profitable Business that concerns you and will benefit both of us after completion.
+Kindly get back to me for more details.
+Awaiting your response.
+Regards
+Abdul Kareem
