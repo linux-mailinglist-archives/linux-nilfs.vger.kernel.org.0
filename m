@@ -2,37 +2,127 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 35DB117DF5A
-	for <lists+linux-nilfs@lfdr.de>; Mon,  9 Mar 2020 13:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F0E17E2A4
+	for <lists+linux-nilfs@lfdr.de>; Mon,  9 Mar 2020 15:44:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726716AbgCIMBX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 9 Mar 2020 08:01:23 -0400
-Received: from [61.60.216.169] ([61.60.216.169]:58554 "EHLO oa.philio-tech.com"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1726465AbgCIMBW (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 9 Mar 2020 08:01:22 -0400
-X-Greylist: delayed 66464 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Mar 2020 08:01:13 EDT
-Received: from User ([156.96.45.188])
-        (authenticated bits=0)
-        by oa.philio-tech.com (8.13.8/8.13.1) with ESMTP id 028HOHlG005868;
-        Mon, 9 Mar 2020 01:24:19 +0800
-Message-Id: <202003081724.028HOHlG005868@oa.philio-tech.com>
-Reply-To: <francoispiniault@gmail.com>
-From:   "Francois Pinault" <francioispinaul@gmail.com>
-Subject: Re:
-Date:   Sun, 8 Mar 2020 13:33:12 -0400
+        id S1726623AbgCIOoP (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 9 Mar 2020 10:44:15 -0400
+Received: from azure.uno.uk.net ([95.172.254.11]:56344 "EHLO azure.uno.uk.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726488AbgCIOoP (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 9 Mar 2020 10:44:15 -0400
+X-Greylist: delayed 1716 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Mar 2020 10:44:14 EDT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=sabi.unospace.net; s=default; h=From:Subject:To:Date:Message-ID:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Reply-To:Cc:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=kdp2Ar2NXNrqwncwEKaDT9ks6esRAkpmu7fRtdLSOOg=; b=bpo/ZC2HyV1uH7X3mg+pY4Xpa
+        eLcs/H8LxAuqwS7ejUBvqxBss9GwR33V8mzENI8QTurfnYD4AlHKC7yaVu69W8hnxfOKGiyb1iPbP
+        cTu4U23nRUvkPSfxmJHWHqt+NHPRWbVR2DGXPZHDno2ZiFyM2nEcmuxIuvM+D6EsvfXBMM2ZSd4EA
+        DVB2ddwyKF/VburV5B/q4SxWfVE6EH9IuZ13MwXyFFC3+umHUVbpie4xIseBW4XVonzKOuaWi9XZH
+        yhvE+LEB24OU+xbqH3rPp3B+tbYe1xQIvHrp/a9GDNMCMNXxAkuCTFGEAHHPE5UkRYOZ4C9Ry1KG2
+        HfwckrItA==;
+Received: from w-50.cust-u6066.ip.static.uno.uk.net ([95.172.224.50]:60794 helo=ty.sabi.co.UK)
+        by azure.uno.uk.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <postmaster@mail.for.sabi.co.uk>)
+        id 1jBJBw-0005Ob-Hi
+        for linux-nilfs@vger.kernel.org; Mon, 09 Mar 2020 14:15:36 +0000
+Received: from from [127.0.0.1] (helo=base.ty.sabi.co.uk)
+        by ty.sabi.co.UK with esmtps(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)(Exim 4.86_2 2)
+        id 1jBJBi-00050Y-Ax
+        for <linux-nilfs@vger.kernel.org>; Mon, 09 Mar 2020 14:15:22 +0000
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
+Content-Type: multipart/mixed;
+         boundary="F9n5GriY/Y"
 Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Message-ID: <24166.20345.583274.370928@base.ty.sabi.co.uk>
+Date:   Mon, 9 Mar 2020 14:15:21 +0000
+To:     Linux fs NILFS <linux-nilfs@vger.kernel.org>
+Subject: null pointer dereferenced with Ubuntu kernel 4.15
+X-Mailer: VM 8.2.0b under 24.5.1 (x86_64-pc-linux-gnu)
+From:   pg@nilfs.list.sabi.co.UK (Peter Grandi)
+X-Disclaimer: This message contains only personal opinions
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - azure.uno.uk.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - mail.for.sabi.co.uk
+X-Get-Message-Sender-Via: azure.uno.uk.net: authenticated_id: sabity@sabi.unospace.net
+X-Authenticated-Sender: azure.uno.uk.net: sabity@sabi.unospace.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-A donation was made in your favour by Francois Pinault, reply for more details.
+
+--F9n5GriY/Y
+Content-Type: text/plain; charset=us-ascii
+Content-Description: message body text
+Content-Transfer-Encoding: 7bit
+
+Dear NILFSers I am perplexed because on upgrading my standard
+Ubuntu LTS kernel "4.15.0-88-generic" I keep getting null
+pointer dereferences as per attached kernel messages, and this
+did not happen with the previous version "4.15.0-72-generic".
+
+This seems to be happening with a specific filetree (I have 5
+NILFS filetrees), but then I use mostly that one (the others are
+in large part archives). If it is that some corruption or
+uninitialized field has happened with that specific one I can
+easily recreate it.
+
+
+--F9n5GriY/Y
+Content-Type: text/plain;
+	 name="20200309-nilfsNull.txt"
+Content-Description: trace of null pointer dereference ULTS kernel 4.15.0-88-generic
+Content-Disposition: inline;
+	 filename="20200309-nilfsNull.txt"
+Content-Transfer-Encoding: 7bit
+
+[74917.285978] NILFS (dm-2): mounting unchecked fs
+[74917.523911] NILFS (dm-2): recovery complete
+[74917.525792] NILFS (dm-2): segctord starting. Construction interval = 10 seconds, CP frequency < 30 seconds
+[74919.917507] DROP_I last: IN=eth0 OUT= MAC=01:00:5e:00:00:01:10:13:31:a3:0d:ae:08:00 SRC=192.168.1.1 DST=224.0.0.1 LEN=32 TOS=0x00 PREC=0xC0 TTL=
+[75004.175846] BUG: unable to handle kernel NULL pointer dereference at 00000000000000a8
+[75004.175864] IP: percpu_counter_add_batch+0xf/0x70
+[75004.175868] PGD 0 P4D 0
+[75004.175874] Oops: 0000 [#1] SMP NOPTI
+[75004.175878] Modules linked in: rfcomm dm_crypt nf_log_ipv6 xt_multiport nf_log_ipv4 nf_log_common xt_limit eeprom jc42 it87 hwmon_vid nf_nat_tft
+[75004.175923]  xt_LOG ipt_ECN xt_DSCP ipt_CLUSTERIP iptable_raw iptable_nat nf_nat_ipv4 iptable_mangle arptable_filter arpt_mangle arp_tables sit
+[75004.175973]  twofish_generic snd_seq_device snd_timer twofish_avx_x86_64 twofish_x86_64_3way snd twofish_x86_64 twofish_common soundcore i2c_pii
+[75004.176022]  uas usb_storage amdkfd amd_iommu_v2 amdgpu chash i2c_algo_bit ttm drm_kms_helper syscopyarea hid_generic sysfillrect mxm_wmi sysimg
+[75004.176042] CPU: 6 PID: 15910 Comm: segctord Not tainted 4.15.0-88-generic #88~16.04.1-Ubuntu
+[75004.176046] Hardware name: To be filled by O.E.M. To be filled by O.E.M./M5A97 LE R2.0, BIOS 2501 04/09/2014
+[75004.176063] RIP: 0010:percpu_counter_add_batch+0xf/0x70
+[75004.176066] RSP: 0018:ffffb4d10e087cc0 EFLAGS: 00010006
+[75004.176071] RAX: 0000000000000003 RBX: ffffed848f302f80 RCX: 000000000000001b
+[75004.176074] RDX: 0000000000000020 RSI: 0000000000000001 RDI: 0000000000000088
+[75004.176078] RBP: ffffb4d10e087cd8 R08: 0000000000000000 R09: ffff9d0450dd0d90
+[75004.176081] R10: 0000000000000000 R11: 0000000000000228 R12: 0000000000000088
+[75004.176084] R13: 0000000000000001 R14: ffff9d0450cd5558 R15: ffff9d0450cd56d0
+[75004.176088] FS:  0000000000000000(0000) GS:ffff9d047ed80000(0000) knlGS:0000000000000000
+[75004.176092] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[75004.176095] CR2: 00000000000000a8 CR3: 0000000756614000 CR4: 00000000000406e0
+[75004.176098] Call Trace:
+[75004.176109]  __test_set_page_writeback+0x2f0/0x310
+[75004.176133]  nilfs_segctor_do_construct+0x152e/0x2070 [nilfs2]
+[75004.176151]  nilfs_segctor_construct+0x1b0/0x310 [nilfs2]
+[75004.176167]  ? nilfs_segctor_construct+0x1b0/0x310 [nilfs2]
+[75004.176183]  nilfs_segctor_thread+0x108/0x380 [nilfs2]
+[75004.176189]  kthread+0x105/0x140
+[75004.176204]  ? nilfs_segctor_construct+0x310/0x310 [nilfs2]
+[75004.176209]  ? kthread_bind+0x40/0x40
+[75004.176215]  ret_from_fork+0x22/0x40
+[75004.176219] Code: 38 e1 4e 00 48 89 d8 5b 41 5c 41 5d 5d c3 0f 1f 40 00 66 2e 0f 1f 84 00 00 00 00 00 55 48 89 e5 41 55 49 89 f5 41 54 49 89 fc
+[75004.176263] RIP: percpu_counter_add_batch+0xf/0x70 RSP: ffffb4d10e087cc0
+[75004.176265] CR2: 00000000000000a8
+[75004.176270] ---[ end trace 33744c64725742d2 ]---
+
+--F9n5GriY/Y--
