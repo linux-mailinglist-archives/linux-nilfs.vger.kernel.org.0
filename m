@@ -2,86 +2,62 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 62C51184F10
-	for <lists+linux-nilfs@lfdr.de>; Fri, 13 Mar 2020 19:57:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 724F918830C
+	for <lists+linux-nilfs@lfdr.de>; Tue, 17 Mar 2020 13:09:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726480AbgCMS5N (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 13 Mar 2020 14:57:13 -0400
-Received: from azure.uno.uk.net ([95.172.254.11]:45590 "EHLO azure.uno.uk.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726477AbgCMS5N (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 13 Mar 2020 14:57:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=sabi.unospace.net; s=default; h=From:References:In-Reply-To:Subject:To:Date
-        :Message-ID:Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:
-        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=dgBaw7d5ChDmyOuhZ9dexHK2X+tah/N3o86zmBB4rXo=; b=qQ7j80iFAFcEA19LutJTdaFYex
-        omDwyXNzRULzHvrW1iH/3SGmlrwDDo2JFD12G6gWUvCaW/D3an/gVMS7eKqH5scuy6wmgsF7Wcz17
-        7D3yBuh/xapEDMftyGD/cSJ36FqO0X9kix/nt8GJOSWnXmk4qP0XJglzptn9blBcYPKXf5RaJ7Jgg
-        eIeJXV1gsswT10tfYtxcRGujI7FXqQ/bN8Dr7lu6ue0e9W0V0nuOhWnposovpazwLOxGv4uSteDHK
-        3ZAkd6Kx4rzpzAkYLtjSm137KdwkMaTbg0v2HbxhVLhB90PwGfBtQeMcYpQ+y9jBlDEOVxDWcq7V5
-        wbcIpSAg==;
-Received: from w-50.cust-u6066.ip.static.uno.uk.net ([95.172.224.50]:41938 helo=ty.sabi.co.UK)
-        by azure.uno.uk.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <postmaster@mail.for.sabi.co.uk>)
-        id 1jCpUd-0004wp-PA
-        for linux-nilfs@vger.kernel.org; Fri, 13 Mar 2020 18:57:11 +0000
-Received: from from [127.0.0.1] (helo=base.ty.sabi.co.uk)
-        by ty.sabi.co.UK with esmtps(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)(Exim 4.86_2 2)
-        id 1jCpUX-0005ma-JL
-        for <linux-nilfs@vger.kernel.org>; Fri, 13 Mar 2020 18:57:05 +0000
+        id S1726897AbgCQMJZ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 17 Mar 2020 08:09:25 -0400
+Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:34994
+        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726882AbgCQMJZ (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Tue, 17 Mar 2020 08:09:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584446963; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=LKXOn4M0j5u4cAGJEZR3toF99ATt65AAiQHRzms7P5pK/dyyDOOemxRA/Td8nnTXIMJ0Dse9IdpOxwzhXHMp8WfA89ZmdV+f0yVxoovPh89GHsuRf9RQFmQiFyPQP5TkzbG6z45Ve6D+EfMulbIFkXkJhu9aj6oPSTYtDaHoZNP2hTNXsYceT6asMnOaSsujAVLbavn9AapWzLrR8/UnMyFA7MHgHtrpiyrkl0HidDiiMULKFZx3V76N/cw3N1J9gF49XKq68i0m9V6CbdmbggGDASkdMlrl610PYlrwcc+8zgJKHfDSovRHC2YCjNYY+5dLmammeCSsby9cScQmng==
+X-YMail-OSG: j32Ad0wVM1njmsdmxGTWnxZPSwUgi2gt4h6B_66IO_poOsdaw5QyOe0B.DC4iYT
+ SBZuw76ouWZfxotzBkaOiolzygojjZyxfO9tlLvC97.l7egvz88hSdoWwcVubU40dbb6p2K2QxNb
+ RqpiHcIlHfLubICX0Wx3Gc4020VCQL0ECBwfUCQNapgpzj1Wjkq4NWKlujBdevzipQYywoDnrUk9
+ SLvJKaakYCUvOEBpzc9wITe03ElvML3uF_0upUzEZIWr1dVo.GEFb1BeXcq1r5WIsESPis_HQnIS
+ c65QeJteoUih8_bDdVP05JAVv9Dyc2hc0QhQthz.CmPGag0pfknbfwmiQD59l9gRO3wvBlX4UKsB
+ bRZI2oEXIJ9WrXTOCfdkWa703kw.1BW1Q3oV465vmuTKVeNr4HgcCi7tr3HuNlm2qsDIFeVeJlJi
+ cUe.t6F31BDpLW9tO.ISNlTE9g9q16tSDzZJZaMZ0H3JTqNQ15_Ze5FCjnS9SwLvFnOJW5_lFUe2
+ .NiTBFls4mN1PZ1wzAOqb4vFsoSloN26K2yFM2ohiYc8h2YNtKrRpahA_chckQADTR47RiTlrYZN
+ sCFWV6YGULBJqCwg2IOrB4nCdZp0NhKNtqkSLvvEmS1bljOHmlJbpAU5317Wo7..lZNLPPj4bl8q
+ PCFvPYi1C58OjGBswVJQRz3nZ_7R4bwGOK5WbjFuEKDp_VKPmbQXhgMGTew7BHH8Ksi6UBaWKxAP
+ SzxdIqIGfLdU92cauX5wtbrbFuGUmx36_9fXla5tqoB2bWQhetD5Kk8hD2SMYdLweeh3xZajMWQ_
+ t1HcaaFXTpIx5q5oWb4RMtt_9eykgItvdOSaneASdFiF6ZCmlII_mZwrCsZuse1bAZMnmWjQuEoD
+ fTFp91f8EX15bMRmlj39wJvkNKHlLp02dw.arrQlUfKeYgfGt5NPW2SDZKFskV__bX58ErZsRY.2
+ 2jYm9d.k81jx0WlUQ5AgEqEm7UfoVj93Wz1VIMHlFd4__zdNYGMXn.xlrz31B08jw39QLUeTdQ7r
+ WSydyoMeWlkRyuZi.FzSKn7EUY5mHWRyTFgLEoNk_R9YFIMDawrDOHoFNpm.dLuodg4jZOmKrXwl
+ IFUmMWmWOD1QwQdWxRZ54u5V_iugkD0yw03ayEvtKbrv3l.QoRmsRlT_DoTqp43olJXb4Uby0okZ
+ 6pWA8BAMSs6yLqJkoad2nox6Vt4a7CdfT.vQchyP683op51t4CwEQtRYUxX6nfbdelCDKL._eB5v
+ 9GpzHgOIcw6o77Nw83FsmU7FBsu6BVqkGUxamoZ5tk0MoEd9V9U.G5eCpoyJS4yEfe6nMXHTjheM
+ 1tR5_cwCVlOLkvNZC06OtMmOqYXtZDus2
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:09:23 +0000
+Date:   Tue, 17 Mar 2020 12:07:22 +0000 (UTC)
+From:   Stephen Li <stenn7@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <1992313604.1815720.1584446842907@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-ID: <24171.55169.327616.643008@base.ty.sabi.co.uk>
-Date:   Fri, 13 Mar 2020 18:57:05 +0000
-To:     Linux fs NILFS <linux-nilfs@vger.kernel.org>
-Subject: Re: null pointer dereferenced with Ubuntu kernel 4.15
-In-Reply-To: <20200309184240.GA14772@dropje.13thmonkey.org>
-References: <24166.20345.583274.370928@base.ty.sabi.co.uk>
-        <20200309184240.GA14772@dropje.13thmonkey.org>
-X-Mailer: VM 8.2.0b under 24.5.1 (x86_64-pc-linux-gnu)
-From:   pg@nilfs.list.sabi.co.UK (Peter Grandi)
-X-Disclaimer: This message contains only personal opinions
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - azure.uno.uk.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - mail.for.sabi.co.uk
-X-Get-Message-Sender-Via: azure.uno.uk.net: authenticated_id: sabity@sabi.unospace.net
-X-Authenticated-Sender: azure.uno.uk.net: sabity@sabi.unospace.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+References: <1992313604.1815720.1584446842907.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
->> Dear NILFSers I am perplexed because on upgrading my standard
->> Ubuntu LTS kernel "4.15.0-88-generic" I keep getting null
->> pointer dereferences as per attached kernel messages, and this
->> did not happen with the previous version "4.15.0-72-generic".
 
-> I have these too, it looks like something in the linux kernel
-> must hsve changed and tgey didn't test or looked for issues in
-> the nilfs code.
 
-That's my guess too, but it is a bit strange that it happens
-between two minor versions of the same base kernel. But then
-Debian and Ubuntu backport stuff to their kernels, so that's
-probably why.
-
-> It only starts here with writing on a previously written
-> volume. A new volume works fine.
-
-I have checked and that happens here too: if I recreated and
-reload the volume no problems, but on the next reboot and mount
-the problem reappears. I guess I'll try deleting the last
-checkpoint to see if that helps, and/or looking at what changes
-between the -72 and -88 versions of the 4.15.0 kernel if
-anything seems related (there will be lots of changes I guess
-though).
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
