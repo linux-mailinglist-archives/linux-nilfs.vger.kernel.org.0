@@ -2,62 +2,71 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 724F918830C
-	for <lists+linux-nilfs@lfdr.de>; Tue, 17 Mar 2020 13:09:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E852018CC58
+	for <lists+linux-nilfs@lfdr.de>; Fri, 20 Mar 2020 12:08:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726897AbgCQMJZ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 17 Mar 2020 08:09:25 -0400
-Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:34994
-        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726882AbgCQMJZ (ORCPT
+        id S1727183AbgCTLIx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 20 Mar 2020 07:08:53 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:35462 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727047AbgCTLIw (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 17 Mar 2020 08:09:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584446963; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=LKXOn4M0j5u4cAGJEZR3toF99ATt65AAiQHRzms7P5pK/dyyDOOemxRA/Td8nnTXIMJ0Dse9IdpOxwzhXHMp8WfA89ZmdV+f0yVxoovPh89GHsuRf9RQFmQiFyPQP5TkzbG6z45Ve6D+EfMulbIFkXkJhu9aj6oPSTYtDaHoZNP2hTNXsYceT6asMnOaSsujAVLbavn9AapWzLrR8/UnMyFA7MHgHtrpiyrkl0HidDiiMULKFZx3V76N/cw3N1J9gF49XKq68i0m9V6CbdmbggGDASkdMlrl610PYlrwcc+8zgJKHfDSovRHC2YCjNYY+5dLmammeCSsby9cScQmng==
-X-YMail-OSG: j32Ad0wVM1njmsdmxGTWnxZPSwUgi2gt4h6B_66IO_poOsdaw5QyOe0B.DC4iYT
- SBZuw76ouWZfxotzBkaOiolzygojjZyxfO9tlLvC97.l7egvz88hSdoWwcVubU40dbb6p2K2QxNb
- RqpiHcIlHfLubICX0Wx3Gc4020VCQL0ECBwfUCQNapgpzj1Wjkq4NWKlujBdevzipQYywoDnrUk9
- SLvJKaakYCUvOEBpzc9wITe03ElvML3uF_0upUzEZIWr1dVo.GEFb1BeXcq1r5WIsESPis_HQnIS
- c65QeJteoUih8_bDdVP05JAVv9Dyc2hc0QhQthz.CmPGag0pfknbfwmiQD59l9gRO3wvBlX4UKsB
- bRZI2oEXIJ9WrXTOCfdkWa703kw.1BW1Q3oV465vmuTKVeNr4HgcCi7tr3HuNlm2qsDIFeVeJlJi
- cUe.t6F31BDpLW9tO.ISNlTE9g9q16tSDzZJZaMZ0H3JTqNQ15_Ze5FCjnS9SwLvFnOJW5_lFUe2
- .NiTBFls4mN1PZ1wzAOqb4vFsoSloN26K2yFM2ohiYc8h2YNtKrRpahA_chckQADTR47RiTlrYZN
- sCFWV6YGULBJqCwg2IOrB4nCdZp0NhKNtqkSLvvEmS1bljOHmlJbpAU5317Wo7..lZNLPPj4bl8q
- PCFvPYi1C58OjGBswVJQRz3nZ_7R4bwGOK5WbjFuEKDp_VKPmbQXhgMGTew7BHH8Ksi6UBaWKxAP
- SzxdIqIGfLdU92cauX5wtbrbFuGUmx36_9fXla5tqoB2bWQhetD5Kk8hD2SMYdLweeh3xZajMWQ_
- t1HcaaFXTpIx5q5oWb4RMtt_9eykgItvdOSaneASdFiF6ZCmlII_mZwrCsZuse1bAZMnmWjQuEoD
- fTFp91f8EX15bMRmlj39wJvkNKHlLp02dw.arrQlUfKeYgfGt5NPW2SDZKFskV__bX58ErZsRY.2
- 2jYm9d.k81jx0WlUQ5AgEqEm7UfoVj93Wz1VIMHlFd4__zdNYGMXn.xlrz31B08jw39QLUeTdQ7r
- WSydyoMeWlkRyuZi.FzSKn7EUY5mHWRyTFgLEoNk_R9YFIMDawrDOHoFNpm.dLuodg4jZOmKrXwl
- IFUmMWmWOD1QwQdWxRZ54u5V_iugkD0yw03ayEvtKbrv3l.QoRmsRlT_DoTqp43olJXb4Uby0okZ
- 6pWA8BAMSs6yLqJkoad2nox6Vt4a7CdfT.vQchyP683op51t4CwEQtRYUxX6nfbdelCDKL._eB5v
- 9GpzHgOIcw6o77Nw83FsmU7FBsu6BVqkGUxamoZ5tk0MoEd9V9U.G5eCpoyJS4yEfe6nMXHTjheM
- 1tR5_cwCVlOLkvNZC06OtMmOqYXtZDus2
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:09:23 +0000
-Date:   Tue, 17 Mar 2020 12:07:22 +0000 (UTC)
-From:   Stephen Li <stenn7@gabg.net>
-Reply-To: stephli947701@gmail.com
-Message-ID: <1992313604.1815720.1584446842907@mail.yahoo.com>
-Subject: REF
+        Fri, 20 Mar 2020 07:08:52 -0400
+Received: by mail-ot1-f68.google.com with SMTP id k26so5584514otr.2
+        for <linux-nilfs@vger.kernel.org>; Fri, 20 Mar 2020 04:08:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
+        b=JAtXBJqr5hMz+TFFzUTYToXqzS7c51G8vKLiqCDy1i1/On+nQVdz02QZ1PRqL4CyBV
+         X4glRefjimK9GfDoVGwz8kikRgk33FnvkUhx6uO4BTbQbNm8S7O1AZPp10dlFLgtAz0x
+         rFL2qxUTruF+kToHLDhlYtTwze4TqFKBuWQhuO1oFhcmi9UjJZsAD/qhKChg4pw0VokL
+         SgTYqaqGQz81XLJqAqHOfKZ5rlEVViGHosb0tMGyvx04G/1DF2wv71hjcOE2AncHgCvI
+         Lc+mT4lwLkUcrLP/YwU6bt6V/8IAZf//w9FHMt91tLvtR+ljZtq+6uIqjb2GkwLz0CRD
+         0svQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
+        b=jSNbVtn0zt45sC2Ncot2uY2SgkpClqB2kftEtbNKz8d0aZBxlGWa/r085XgNLBISdm
+         DEEB/TjlFt22k3SK7yrURkZpov0y7Is8oxV3ifG8UeOxnW4syRhWrXtpkiqXt26dIdwW
+         Q/G8o/aVy6pPicxubsjaFTnldHO0vwb74iGmcsZM12MBO8uP5zCX2CgvjiIOuvQ9BJf2
+         Y5Yga5D5kb1s6zxBabXW8t7+MkNhdFV0xzTXMOBdWlA4EdHMV3AAJiBPzglIFzLWZY+t
+         er870bfzG1PvyV+vz/xZcLPteLriU18gRPKsZaAyLmT28MmmSp+HzJln0LWyobxdwrJa
+         rZOQ==
+X-Gm-Message-State: ANhLgQ2NoidQj4QGBo3ghwn4/5tmYhLVbROm24iJjGcOazOzZ66vN3xS
+        wyk06q6mVEPVvuyFMkEG3+qRVXRb4rbbpt2QNSc=
+X-Google-Smtp-Source: ADFU+vvH+LGd+WFNKdJlGlEYryRTNsEjpn0AcYGn8HwXGyvhoRjiJZ82jJbccAGwHdEvKWUIlQW8FYcgRnFZ/M56vEw=
+X-Received: by 2002:a9d:282:: with SMTP id 2mr6105589otl.178.1584702532193;
+ Fri, 20 Mar 2020 04:08:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <1992313604.1815720.1584446842907.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a4a:c897:0:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:08:51
+ -0700 (PDT)
+From:   federa bureau of inteligence <federabureauofinteligence@gmail.com>
+Date:   Fri, 20 Mar 2020 11:08:51 +0000
+Message-ID: <CAE9o6LB8uVVDxDvXUM48MSUTPhbV1MGNW-EXBpanBopr0qXsMA@mail.gmail.com>
+Subject: HAPPY SURVIVAL OF CORONAVIRUS
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+Dear Sir,
 
+HAPPY SURVIVAL OF CORONAVIRUS
 
-Greetings,
-I was searching through a local business directory when I found your
-profile. I am Soliciting On-Behalf of my private client who is
-interested in having a serious business investment in your country. If
-you have a valid business, investment or project he can invest
-back to me for more details. Your swift response is highly needed.
-Sincerely
-Stephen Li
-Please response back to me with is my private email below for more details
-stephli947701@gmail.com
+We are reaching for a very interesting business transaction which we
+feel will of great benefit.We the FBI unit in the western subregion of
+Africa have a fund which we confiscated and lodge it in a bank
+
+This fund is worth of $12.5 million dollars.We will need your
+assistance to recieve this fund into your account for investment in
+your country.
+
+We will need your urgent response for details
+
+Inspector Greg Adams,
+For and on behalf of Cote D'Ivoire FBI
+Tel 00225 6716 6756
