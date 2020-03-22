@@ -2,71 +2,70 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id E852018CC58
-	for <lists+linux-nilfs@lfdr.de>; Fri, 20 Mar 2020 12:08:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F67118EA87
+	for <lists+linux-nilfs@lfdr.de>; Sun, 22 Mar 2020 17:40:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727183AbgCTLIx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 20 Mar 2020 07:08:53 -0400
-Received: from mail-ot1-f68.google.com ([209.85.210.68]:35462 "EHLO
-        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727047AbgCTLIw (ORCPT
+        id S1725997AbgCVQkF (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 22 Mar 2020 12:40:05 -0400
+Received: from smtprelay0017.hostedemail.com ([216.40.44.17]:51762 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725881AbgCVQkF (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:08:52 -0400
-Received: by mail-ot1-f68.google.com with SMTP id k26so5584514otr.2
-        for <linux-nilfs@vger.kernel.org>; Fri, 20 Mar 2020 04:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
-        b=JAtXBJqr5hMz+TFFzUTYToXqzS7c51G8vKLiqCDy1i1/On+nQVdz02QZ1PRqL4CyBV
-         X4glRefjimK9GfDoVGwz8kikRgk33FnvkUhx6uO4BTbQbNm8S7O1AZPp10dlFLgtAz0x
-         rFL2qxUTruF+kToHLDhlYtTwze4TqFKBuWQhuO1oFhcmi9UjJZsAD/qhKChg4pw0VokL
-         SgTYqaqGQz81XLJqAqHOfKZ5rlEVViGHosb0tMGyvx04G/1DF2wv71hjcOE2AncHgCvI
-         Lc+mT4lwLkUcrLP/YwU6bt6V/8IAZf//w9FHMt91tLvtR+ljZtq+6uIqjb2GkwLz0CRD
-         0svQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=kuhba0bbR9oJup1oQ7P5tNPZ9FqBHXE57QqcfHgaIHo=;
-        b=jSNbVtn0zt45sC2Ncot2uY2SgkpClqB2kftEtbNKz8d0aZBxlGWa/r085XgNLBISdm
-         DEEB/TjlFt22k3SK7yrURkZpov0y7Is8oxV3ifG8UeOxnW4syRhWrXtpkiqXt26dIdwW
-         Q/G8o/aVy6pPicxubsjaFTnldHO0vwb74iGmcsZM12MBO8uP5zCX2CgvjiIOuvQ9BJf2
-         Y5Yga5D5kb1s6zxBabXW8t7+MkNhdFV0xzTXMOBdWlA4EdHMV3AAJiBPzglIFzLWZY+t
-         er870bfzG1PvyV+vz/xZcLPteLriU18gRPKsZaAyLmT28MmmSp+HzJln0LWyobxdwrJa
-         rZOQ==
-X-Gm-Message-State: ANhLgQ2NoidQj4QGBo3ghwn4/5tmYhLVbROm24iJjGcOazOzZ66vN3xS
-        wyk06q6mVEPVvuyFMkEG3+qRVXRb4rbbpt2QNSc=
-X-Google-Smtp-Source: ADFU+vvH+LGd+WFNKdJlGlEYryRTNsEjpn0AcYGn8HwXGyvhoRjiJZ82jJbccAGwHdEvKWUIlQW8FYcgRnFZ/M56vEw=
-X-Received: by 2002:a9d:282:: with SMTP id 2mr6105589otl.178.1584702532193;
- Fri, 20 Mar 2020 04:08:52 -0700 (PDT)
+        Sun, 22 Mar 2020 12:40:05 -0400
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay03.hostedemail.com (Postfix) with ESMTP id 3CD3D837F253;
+        Sun, 22 Mar 2020 16:40:04 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:69:355:379:541:973:988:989:1260:1311:1314:1345:1437:1515:1534:1541:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:3138:3139:3140:3141:3142:3352:3865:3867:3868:4605:5007:6261:8603:10004:10848:11657:11658:11914:12043:12291:12297:12683:12895:13069:13311:13357:13894:14095:14096:14384:14394:14721:21080:21433:21451:21627:30054,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: tramp02_1da0cf8f3de29
+X-Filterd-Recvd-Size: 1709
+Received: from joe-laptop.perches.com (unknown [47.151.143.254])
+        (Authenticated sender: joe@perches.com)
+        by omf03.hostedemail.com (Postfix) with ESMTPA;
+        Sun, 22 Mar 2020 16:40:03 +0000 (UTC)
+From:   Joe Perches <joe@perches.com>
+To:     linux-nilfs@vger.kernel.org
+Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] nilfs2: Logging style changes
+Date:   Sun, 22 Mar 2020 09:38:09 -0700
+Message-Id: <cover.1584894497.git.joe@perches.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Received: by 2002:a4a:c897:0:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:08:51
- -0700 (PDT)
-From:   federa bureau of inteligence <federabureauofinteligence@gmail.com>
-Date:   Fri, 20 Mar 2020 11:08:51 +0000
-Message-ID: <CAE9o6LB8uVVDxDvXUM48MSUTPhbV1MGNW-EXBpanBopr0qXsMA@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dear Sir,
+Reduce object size and use more common kernel logging styles.
 
-HAPPY SURVIVAL OF CORONAVIRUS
+Joe Perches (2):
+  nilfs2: Convert __nilfs_msg to integrate the level and format
+  nilfs2: Use a more common logging style
 
-We are reaching for a very interesting business transaction which we
-feel will of great benefit.We the FBI unit in the western subregion of
-Africa have a fund which we confiscated and lodge it in a bank
+ fs/nilfs2/alloc.c     | 38 +++++++++----------
+ fs/nilfs2/btree.c     | 42 ++++++++++-----------
+ fs/nilfs2/cpfile.c    | 10 ++---
+ fs/nilfs2/dat.c       | 14 +++----
+ fs/nilfs2/direct.c    | 14 ++++---
+ fs/nilfs2/gcinode.c   |  2 +-
+ fs/nilfs2/ifile.c     |  4 +-
+ fs/nilfs2/inode.c     | 29 +++++++--------
+ fs/nilfs2/ioctl.c     | 37 +++++++++----------
+ fs/nilfs2/mdt.c       |  2 +-
+ fs/nilfs2/namei.c     |  6 +--
+ fs/nilfs2/nilfs.h     | 18 ++++++---
+ fs/nilfs2/page.c      | 11 +++---
+ fs/nilfs2/recovery.c  | 32 +++++++---------
+ fs/nilfs2/segbuf.c    |  2 +-
+ fs/nilfs2/segment.c   | 38 +++++++++----------
+ fs/nilfs2/sufile.c    | 29 +++++++--------
+ fs/nilfs2/super.c     | 73 +++++++++++++++++++------------------
+ fs/nilfs2/sysfs.c     | 29 +++++++--------
+ fs/nilfs2/the_nilfs.c | 85 ++++++++++++++++++++-----------------------
+ 20 files changed, 254 insertions(+), 261 deletions(-)
 
-This fund is worth of $12.5 million dollars.We will need your
-assistance to recieve this fund into your account for investment in
-your country.
+-- 
+2.24.0
 
-We will need your urgent response for details
-
-Inspector Greg Adams,
-For and on behalf of Cote D'Ivoire FBI
-Tel 00225 6716 6756
