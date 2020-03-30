@@ -2,101 +2,68 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E8F11964D8
-	for <lists+linux-nilfs@lfdr.de>; Sat, 28 Mar 2020 10:45:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78F061979DF
+	for <lists+linux-nilfs@lfdr.de>; Mon, 30 Mar 2020 12:53:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726045AbgC1Jpm (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 28 Mar 2020 05:45:42 -0400
-Received: from gw.cm.dream.jp ([59.157.128.2]:51635 "EHLO vsmtp01.cm.dti.ne.jp"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725937AbgC1Jpm (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 28 Mar 2020 05:45:42 -0400
-X-Greylist: delayed 1121 seconds by postgrey-1.27 at vger.kernel.org; Sat, 28 Mar 2020 05:45:37 EDT
-Received: from localhost (KD124210025232.ppp-bb.dion.ne.jp [124.210.25.232]) by vsmtp01.cm.dti.ne.jp (3.11v) with ESMTP AUTH id 02S9Qf22018705;Sat, 28 Mar 2020 18:26:53 +0900 (JST)
-Date:   Sat, 28 Mar 2020 18:26:40 +0900 (JST)
-Message-Id: <20200328.182640.1933740379722138264.hermes@ceres.dti.ne.jp>
-To:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: BUG: unable to handle kernel NULL pointer dereference at
- 00000000000000a8 in nilfs_segctor_do_construct
-From:   ARAI Shun-ichi <hermes@ceres.dti.ne.jp>
-In-Reply-To: <874kuapb2s.fsf@logand.com>
-References: <87immckp07.fsf@logand.com>
-        <87v9p2tkut.fsf@logand.com>
-        <874kuapb2s.fsf@logand.com>
-        <CAKFNMomjWkNvHvHkEp=Jv_BiGPNj=oLEChyoXX1yCj5xctAkMA@mail.gmail.com>
-X-Mailer: Mew version 6.8 on Emacs 26.3
-Mime-Version: 1.0
-Content-Type: Text/Plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        id S1729504AbgC3Kw6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 30 Mar 2020 06:52:58 -0400
+Received: from mail-vs1-f67.google.com ([209.85.217.67]:35458 "EHLO
+        mail-vs1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729551AbgC3Kwp (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 30 Mar 2020 06:52:45 -0400
+Received: by mail-vs1-f67.google.com with SMTP id u11so10711329vsg.2
+        for <linux-nilfs@vger.kernel.org>; Mon, 30 Mar 2020 03:52:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
+        b=I2bZK+Edwp7f1bl38ZDsYZ8gkHoLOp7N+SgwKjOSdbsqnWhmYlKKFyWTTwwdBuA4Vg
+         rwBHnP7ed1EksF/Uo6wi0daOtai1jA53B5b9RrMCwInP8fTj6xlf+N87Jxy7Sxa+QbUF
+         l2GP0Lv6JzwuZiPJAzgKXNfvaR6mAHzPBfBvakflfZ8B4h5bL4zPFQy+qXgn4TFvbTXz
+         A1ohkR077EumDiarvC1dhS/fXXyUHKbnnxfkdMVlwSlZiAQJvL50ZQklv05R+GT0yrBC
+         3q/4vjuGZ1FGpK3Ogg0O4Ce18OqauZECfFoMpKCzkd0qt9LKtlmIkWUwZqPjuntycFFN
+         I7DQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=82B0OONv9gwbZlPp43NzThDz2fRV+KRFwafOQ16joDw=;
+        b=NSPr/D3lqEgFrnMKtH4KovYe/sRGkVq2MQS8X8ZoD/kEMFGI34/BZPWLBipEIJhXNu
+         YXzx9YYsGl1vq5VMzQr1LU3vrP/OS4BI3oVOfyKD1FuKTPvLFk0m2y41lbH+E7b80dwR
+         9mXpCqDBLn8aGoIKaNsysDUieqpLO1qpA6eahVVDdpoXwpUD9pDp5Flxmv4tbQ5tX/lZ
+         cj8QuYknJ5GkgOFjUFA1r6f6j/weMFO2zB6y6JdcwYhc1pcgF+P3bJ5Zqqp464mBZE9y
+         FLfYIz4AX47erOFhYvxRUhz/rmh/nMnysSDkqhumCP7Ln2kGVAVMaPSlo23PEoPtZXZz
+         zoQQ==
+X-Gm-Message-State: AGi0PuZZ6Qk7Do8IoCxZ3sk4rk7fpND7xS3LH4WtY7ceiEbWGE4tloVn
+        wPtEtSDHbU0Xv0d3j155JKzSfjaUki+57+f16Z0=
+X-Google-Smtp-Source: APiQypIWKERkhJyfw3nllppwlKx4Kg5tACX7YV91IKVmdYpKGJw8tan3l05zjbxOy64C+jzvYjD6e0YtF987t4KsIjw=
+X-Received: by 2002:a67:e24c:: with SMTP id w12mr8442912vse.153.1585565563772;
+ Mon, 30 Mar 2020 03:52:43 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a67:c005:0:0:0:0:0 with HTTP; Mon, 30 Mar 2020 03:52:43
+ -0700 (PDT)
+Reply-To: maryalice00.12@postribe.com
+From:   Maryalice Williams <maryalicewilliams730@gmail.com>
+Date:   Mon, 30 Mar 2020 08:52:43 -0200
+Message-ID: <CAKwdjsr+YKgJk7z-UHX7Zo55cx5RUN3-bw03sWcArP4vbM2B5g@mail.gmail.com>
+Subject: Reply For More Details.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-In Msg <874kuapb2s.fsf@logand.com>;
-   Subject "Re: BUG: unable to handle kernel NULL pointer dereference at 00000000000000a8 in nilfs_segctor_do_construct":
+-- 
+My dear,
 
-> Tomas Hlavaty <tom@logand.com> writes:
->>>> 2) Can you mount the corrupted(?) partition from a recent version of
->>>> kernel ?
-> 
-> I tried the following Linux kernel versions:
-> 
-> - v4.19
-> - v5.4
-> - v5.5.11
-> 
-> and still get the crash
+I am Mrs Maryalice Williams, I want to send you donation of two
+million seven hundred thousand Dollars ($2.7M) for volunteer projects
+in your country due to my ill health that could not permit me. Kindly
+reply for more details, and also send me the following details, as per
+below, your full Name ..........,  Address...........,
+Age...............,  Occupation ...............
 
-Ryusuke Konishi pointed out:
-
-In Msg <CAKFNMomjWkNvHvHkEp=Jv_BiGPNj=oLEChyoXX1yCj5xctAkMA@mail.gmail.com>;
-   Subject "Re: BUG: kernel NULL pointer dereference, address: 00000000000000a8":
-
-> As the result of bisection,  it turned out that commit
-> f4bdb2697ccc9cecf1a9de86905c309ad901da4c on 5.3.y
-> ("mm/filemap.c: don't initiate writeback if mapping has no dirty pages")
-> triggers the crash.
-
-This commit modifies __filemap_fdatawrite_range() as follows.
-
-[before]
-	if (!mapping_cap_writeback_dirty(mapping))
-		return 0;
-
-[after]
-	if (!mapping_cap_writeback_dirty(mapping) ||
-	    !mapping_tagged(mapping, PAGECACHE_TAG_DIRTY))
-		return 0;
-
-I did simple test with this code (Kernel 5.5.13).
-
-[test]
-	if (!mapping_cap_writeback_dirty(mapping) ||
-	    mapping_tagged(mapping, PAGECACHE_TAG_WRITEBACK))
-		return 0;
-
-It does not cause crash by the test (without long-term operation). So,
-I think that it may be related to PAGECACHE_TAG_TOWRITE.
-
-
-One possible(?) scenario is:
-
-0. some write operation
-
-1. sync (WB_SYNC_ALL)
-
-2. tagged "PAGECACHE_TAG_TOWRITE"
-
-3. __filemap_fdatawrite_range() is called and returns successfully
-  (but no-op)
-
-4. some data is/are free-ed
-  (because of 3.)
-
-5. crash at test/setting writeback for free-ed data
-  nilfs_segctor_do_construct()
-   nilfs_segctor_prepare_write()
-    set_page_writeback()
-
-How about this?
+Remain blessed,
+Mrs. Maryalice Williams.
