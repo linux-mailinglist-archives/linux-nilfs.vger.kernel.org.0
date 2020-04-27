@@ -2,92 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F16E1B6363
-	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Apr 2020 20:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 766981BA2C0
+	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Apr 2020 13:42:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730330AbgDWS05 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 23 Apr 2020 14:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52814 "EHLO
+        id S1727785AbgD0Llv (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 27 Apr 2020 07:41:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36078 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730320AbgDWS0z (ORCPT
+        with ESMTP id S1727097AbgD0Llg (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 23 Apr 2020 14:26:55 -0400
-Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E2C8C02549F
-        for <linux-nilfs@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
-Received: by mail-il1-x141.google.com with SMTP id x2so6545384ilp.13
-        for <linux-nilfs@vger.kernel.org>; Thu, 23 Apr 2020 11:26:52 -0700 (PDT)
+        Mon, 27 Apr 2020 07:41:36 -0400
+Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47789C0A88B7
+        for <linux-nilfs@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
+Received: by mail-il1-x142.google.com with SMTP id f82so16277575ilh.8
+        for <linux-nilfs@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
+         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
+         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
+         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
+         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
+         JAeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=QhYbj9GKSPCrR7xat/Cg22K3xw902hE0wCgZXMRc0jVRRknOfKucVCl1d6x6mDVVox
-         /vxlm7KIDVYeWMqVlYqBgn3Zm7WyeVXz3pFA1r9V38bKxyu1TXQf63XJdJ3JsDVqw3SU
-         DcaPpEZTVegIv79UWySnXU9QYTBj7ccPULSyJCtLCizA4eF+7LEeMkhXtn1iySCOPiDq
-         5QlZhGkts9CNbMHYoBxvNtls/fK43ZufQC0UoLR/9uPVuEwQUzXELqe8qP9P8/jGI4Tv
-         jN8uqQZ+MA4eVG3pOWs5nNTBnaG+ldShP0IqJr9CZzY+IY2wUfrWHjV5Gjewi8zG7B5F
-         cIHw==
-X-Gm-Message-State: AGi0PuZytZ6z/LCL5g/Sdbs4A+nKnkHJanTC23+KEgGIGqkTEbBIcerr
-        5/xEHQLULOc7fwVJs3watthAOTmSeDLESDpzpX+FqBY=
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+         :subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=j3UPI5hk7W2bZf61CJ3xzdgQUDIdtDpr8tN+GDr2u/sLAbO6vxJXTb6TxLq4VDkQkY
+         qPrM/89NPMWijSwBDEObZzmRdKzIRbwX9thm3tiyalJv5TYGTn8CdagNshRL+Slpz0uk
+         FA1E9o8J2+KoaNYzqTLQO9BCQx5AbK2ACLZqR4FegKMsRehMZgUAFoiF3JHENoW1uJeR
+         8Opr/2fC48cPcRwFCJpibQRDRS7x+WdUJZUhegDgLN8bhYInCHwTD+hP9PgRBFdTZYIA
+         wGleTRlFa4aYobUKsoonBsyiLSLh6N36uxiu1oGb0gx3nZa7c+W80DbYGuQyb7JMzyMt
+         2wcQ==
+X-Gm-Message-State: AGi0PubTQPfpPAYyns36qMkH5K4sWA5QwBWRd6BXa13kRSzWUBxeFKZ/
+        K1/uIhiTicq2fJ0GeDcnLuqimJJ3Z8zRrD/q0eC0N/NIXsA=
+X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
+X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
+ Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
+Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
  -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
+Reply-To: convy0090@gmail.com
+From:   Ruben CONVY <andrewboccc@gmail.com>
+Date:   Mon, 27 Apr 2020 12:41:33 +0100
+Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
+Subject: Why continued silence 2
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+Did you receive my previous email regarding your family inheritance?
+Reply strictly through: convy0090@gmail.com
+Best Regards,
+Ruben CONVY
