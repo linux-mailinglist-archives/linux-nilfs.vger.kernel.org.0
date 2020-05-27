@@ -2,116 +2,103 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C7591E4EE7
-	for <lists+linux-nilfs@lfdr.de>; Wed, 27 May 2020 22:10:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54CD1E50D3
+	for <lists+linux-nilfs@lfdr.de>; Thu, 28 May 2020 00:00:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387657AbgE0UKP (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 27 May 2020 16:10:15 -0400
-Received: from mta-p6.oit.umn.edu ([134.84.196.206]:38370 "EHLO
-        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387632AbgE0UKN (ORCPT
+        id S1725320AbgE0WA6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 27 May 2020 18:00:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58450 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725306AbgE0WA6 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 27 May 2020 16:10:13 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49XMPw2zbpz9vZ2s
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 20:10:12 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p6.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id r2YvCRwB4UNY for <linux-nilfs@vger.kernel.org>;
-        Wed, 27 May 2020 15:10:12 -0500 (CDT)
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49XMPw1JcWz9vZ29
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 15:10:12 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49XMPw1JcWz9vZ29
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49XMPw1JcWz9vZ29
-Received: by mail-il1-f197.google.com with SMTP id p81so21488606ill.5
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 13:10:12 -0700 (PDT)
+        Wed, 27 May 2020 18:00:58 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECAA1C05BD1E;
+        Wed, 27 May 2020 15:00:57 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id o15so8499157ejm.12;
+        Wed, 27 May 2020 15:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=hPSY+Zh0t1rGNkSqJtjBbGWhpyEB+X/pF0E6TThgwhg=;
-        b=cO0BH8ko43bkOPatdOWMTW1FAm4WGWEPap0aloF2Ov8I0nG59A/3qh6AZfb6yAbZZO
-         WAhNKKNK7gSl5i+QdplLfll1L86UVGr2JjcN3cCuvjtM4R1WxDbhalnYCwNgAdRyz5pR
-         gYgtyRBZD+g5y6bZ/jB0XJ+eePjHUzxTXtJ8zt8lnJwfL9WqejH+dysiC2m3vWxz0qIU
-         5nQrWV7T5cxzaojhGzAJaNCP3VPFY8xJInVRdfzCR+MaWpnpTT3X+w0EwAsjWp/q6kjl
-         XGbnFX8oRUWA22jCtYpUo772KJpqFPyEjNrgn1OTYXUggTnMtWI0arlJAKaeejZwEVHO
-         OJ/A==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=FJ7qs4KFV6ljkhIIkNMDHu8kqAaBL+nGojh30Ee94Vw=;
+        b=olPcckYxJ+9VtkFPIRUwt6nqVH8yrrNm1Tao0uxDTsRCjUISFwdvp8AUEdnZXs0yak
+         dRZHLc1NHWBikx/6E+144Zz2kA6sg0CyDmsLoN/k1b8zOrA7N5Kut8mOj1xF1Ca5kYrP
+         XgjoEjJ9B2EUlRk5mFYZkLVQtFZ+RKmX0V/CXt2U/znHeeTpfzgomsYL1ztichiIUMNr
+         LQbLNr5Oy5DoRkniO05pIAPXt+dODBuYcTmAdxUQCDsleVt1dP5+dZxqLcRsd35UVvzk
+         gr+4FvFXobMMf93thp4PRpKs1GcObo+IzEIrotIL3OSFj9BruqS6fv513FBm/rJ/YGDf
+         iRew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=hPSY+Zh0t1rGNkSqJtjBbGWhpyEB+X/pF0E6TThgwhg=;
-        b=GnoX1MikI6cblumvV37YkttQDUQZZPAF4tEwld+g95Ad/u8pgipCKqAAH6TA6/lBOa
-         hEN5ycSw6BIMDt/rCNeZhD+q81cOl1YfcGwFy7wMewLppYo0wVoxdeHgZoFrlSx3TKBf
-         FVTRUI45Q/CaTFfzNsW48Dl4dIh8DQgwthoah3sA//873jQQlO/kHZqCf8cfVNi71bL/
-         ilWXsRpsg+jVdeJrwNLnYnYF2eyoxI8UxjQEVLOLrI/dh6gnxWa21rbl54/htf5bNHDB
-         Slsv6KN7Z8f/4zFdLOA2ByUkJZdVi87jp9nW3Tqv8UAOlVPIB2t44Xv70m61WGjjdHYc
-         b0Lg==
-X-Gm-Message-State: AOAM533xoj0KCjedVUMN4a59gCMhZRTLVEtAQ5xbPinDBvJ8TYgIqmU+
-        +LmURHdh8UonebOKr2ti0mL7/1+ByXIT7k5ttvLn6mS/DWXhNloSRISDCwrdBOtgs2zf5uq84N6
-        r0rnI1JFSqaaq84OZiC811zuiNPQ=
-X-Received: by 2002:a6b:7b4a:: with SMTP id m10mr8477807iop.55.1590610211695;
-        Wed, 27 May 2020 13:10:11 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJxuhrc7NDsfRK/mm7gpFg9DSuH5ZtlqPdBbXWHpT2UnfIHxGwqhPUuTPCAJzX65HWUIdG9W/A==
-X-Received: by 2002:a6b:7b4a:: with SMTP id m10mr8477782iop.55.1590610211353;
-        Wed, 27 May 2020 13:10:11 -0700 (PDT)
-Received: from qiushi.dtc.umn.edu (cs-kh5248-02-umh.cs.umn.edu. [128.101.106.4])
-        by smtp.gmail.com with ESMTPSA id y11sm2020565ily.22.2020.05.27.13.10.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 13:10:10 -0700 (PDT)
-From:   wu000273@umn.edu
-To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=FJ7qs4KFV6ljkhIIkNMDHu8kqAaBL+nGojh30Ee94Vw=;
+        b=Sp4od9a3iVZPIrincrOajkd4be0RS92kWjKK/QHduR6LmnN0y9ynCTc5yB/swJFCU8
+         9xgybt8/xwqIeoHXefbGtBEBHwmsuJPm5lF4+TgCAiJGmP35SBdiq5bxP8wDDPyqeSLb
+         NH5Z8jVFw/jl15bGnNDZ6679eBB9I0HjAeD6dA7pXTj/qXpBlytEcjJxcbwCzwCpfWM+
+         v8aylmlXFXxtZswySyzJKrNemvbBPKl8dZVm2oS5G69q5jmhjOaWDRtyIpqmii2aBv+0
+         pYUSuDUiG7iBTLb5c6JTippDjB2Sr6pYAlwjqiiShWIx6pAGXXgvz0zocP5ISmAf5D4d
+         zBjA==
+X-Gm-Message-State: AOAM532PHV+OFh4PY/6cJUfCSvwgqZl19/zrSDqlDLVN3yupmJMsMuto
+        SpNrj73tIVhFcNMkj2/eleS+dGsgzCYtWhlTBcc=
+X-Google-Smtp-Source: ABdhPJxRAbwQZuWTsdBY69MZE/9FcI+e/DuHf3f64iq0rKqMJer5SoNND33jq+KASIMYTS0EiH7on7s/iVEZwG3084Y=
+X-Received: by 2002:a17:906:f108:: with SMTP id gv8mr343542ejb.91.1590616856463;
+ Wed, 27 May 2020 15:00:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200527195532.28077-1-wu000273@umn.edu>
+In-Reply-To: <20200527195532.28077-1-wu000273@umn.edu>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Thu, 28 May 2020 07:00:44 +0900
+Message-ID: <CAKFNMomc1ek72NdROKZ9F-E9Dz=gW2kSrQtkQdL9Msn=+pJdpg@mail.gmail.com>
+Subject: Re: [PATCH] nilfs2: Fix reference count leak in nilfs_sysfs_create_snapshot_group.
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     kjlu@umn.edu, wu000273@umn.edu,
         Vyacheslav Dubeyko <Vyacheslav.Dubeyko@hgst.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: Fix reference count leak in nilfs_sysfs_create_device_group
-Date:   Wed, 27 May 2020 15:09:33 -0500
-Message-Id: <20200527200933.31135-1-wu000273@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+Andrew,
 
-kobject_init_and_add() takes reference even when it fails.
-In nilfs_sysfs_create_device_group(), the memory allocated by
-kobject_init_and_add() is not freed when kobject_init_and_add()
-fails. Thus replace the jump target "free_dev_subgroups" by
-"cleanup_dev_kobject".
+Apply this, please.
 
-Fixes: da7141fb78db ("nilfs2: add /sys/fs/nilfs2/<device> group")
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
----
- fs/nilfs2/sysfs.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
-index e60be7bb55b0..4a74756d52fe 100644
---- a/fs/nilfs2/sysfs.c
-+++ b/fs/nilfs2/sysfs.c
-@@ -1000,7 +1000,7 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
- 	err = kobject_init_and_add(&nilfs->ns_dev_kobj, &nilfs_dev_ktype, NULL,
- 				    "%s", sb->s_id);
- 	if (err)
--		goto free_dev_subgroups;
-+		goto cleanup_dev_kobject;
- 
- 	err = nilfs_sysfs_create_mounted_snapshots_group(nilfs);
- 	if (err)
-@@ -1038,8 +1038,6 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
- 
- cleanup_dev_kobject:
- 	kobject_del(&nilfs->ns_dev_kobj);
--
--free_dev_subgroups:
- 	kfree(nilfs->ns_dev_subgroups);
- 
- failed_create_device_group:
--- 
-2.17.1
-
+On Thu, May 28, 2020 at 4:55 AM <wu000273@umn.edu> wrote:
+>
+> From: Qiushi Wu <wu000273@umn.edu>
+>
+> kobject_init_and_add() takes reference even when it fails.
+> If this function returns an error, kobject_put() must be called to
+> properly clean up the memory associated with the object. Previous
+> commit "b8eb718348b8" fixed a similar problem.
+>
+> Fixes: a5a7332a291b ("nilfs2: add /sys/fs/nilfs2/<device>/mounted_snapshots/<snapshot>group")
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+> ---
+>  fs/nilfs2/sysfs.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
+> index e60be7bb55b0..b2517c5e773a 100644
+> --- a/fs/nilfs2/sysfs.c
+> +++ b/fs/nilfs2/sysfs.c
+> @@ -209,8 +209,10 @@ int nilfs_sysfs_create_snapshot_group(struct nilfs_root *root)
+>                                             "%llu", root->cno);
+>         }
+>
+> -       if (err)
+> +       if (err) {
+> +               kobject_put(&root->snapshot_kobj);
+>                 return err;
+> +       }
+>
+>         return 0;
+>  }
+> --
+> 2.17.1
+>
