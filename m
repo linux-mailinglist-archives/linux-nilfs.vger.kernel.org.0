@@ -2,75 +2,74 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15E941E4EC6
-	for <lists+linux-nilfs@lfdr.de>; Wed, 27 May 2020 22:05:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C7591E4EE7
+	for <lists+linux-nilfs@lfdr.de>; Wed, 27 May 2020 22:10:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgE0UFS (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 27 May 2020 16:05:18 -0400
-Received: from mta-p6.oit.umn.edu ([134.84.196.206]:46906 "EHLO
+        id S2387657AbgE0UKP (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 27 May 2020 16:10:15 -0400
+Received: from mta-p6.oit.umn.edu ([134.84.196.206]:38370 "EHLO
         mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726114AbgE0UFS (ORCPT
+        with ESMTP id S2387632AbgE0UKN (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 27 May 2020 16:05:18 -0400
-X-Greylist: delayed 571 seconds by postgrey-1.27 at vger.kernel.org; Wed, 27 May 2020 16:05:17 EDT
+        Wed, 27 May 2020 16:10:13 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49XM5F6qc7z9vFJM
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 19:55:45 +0000 (UTC)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49XMPw2zbpz9vZ2s
+        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 20:10:12 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
 Received: from mta-p6.oit.umn.edu ([127.0.0.1])
         by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id zQBQpMMZ5gVM for <linux-nilfs@vger.kernel.org>;
-        Wed, 27 May 2020 14:55:45 -0500 (CDT)
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+        with ESMTP id r2YvCRwB4UNY for <linux-nilfs@vger.kernel.org>;
+        Wed, 27 May 2020 15:10:12 -0500 (CDT)
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49XM5F58jsz9v8yw
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 14:55:45 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49XM5F58jsz9v8yw
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49XM5F58jsz9v8yw
-Received: by mail-il1-f198.google.com with SMTP id j71so17813ilg.9
-        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 12:55:45 -0700 (PDT)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49XMPw1JcWz9vZ29
+        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 15:10:12 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49XMPw1JcWz9vZ29
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49XMPw1JcWz9vZ29
+Received: by mail-il1-f197.google.com with SMTP id p81so21488606ill.5
+        for <linux-nilfs@vger.kernel.org>; Wed, 27 May 2020 13:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=umn.edu; s=google;
         h=from:to:cc:subject:date:message-id;
-        bh=q3TLvJ9CIfB/1wbg5oIw6CZmCCpeVyOuikrOuGzN8wA=;
-        b=iSjjF+W7C++RnXuhE6xA97IPJEc37+fmpoEckipRxMbfZd7b7rJ9U99XRoYCjMOUoE
-         9bpsnGsBCPwrMuKtiyBQSdQXD06vFEj5R+v6qA7VyuLOexIruIZMnGDZx2UBWVzz2FHq
-         OdxtczifndOGVGRZBd5gQowMpBEvPV/IPyPhEnn1a9ytoddnkZkuKjGQqXFV6aSbgIm7
-         N/bfr9r0Pb/AekpiJKA5DvtWn2bFbBdTuzJPKEtTbqp23V/ASN47pwvt1grw3GxnWonL
-         vfciYVl69sKcy7ew1k8B3dKcmHjMePfW9LqGwIfVcjgzyFQwGdjEZHUfCgT4q0pBLTfU
-         YLPA==
+        bh=hPSY+Zh0t1rGNkSqJtjBbGWhpyEB+X/pF0E6TThgwhg=;
+        b=cO0BH8ko43bkOPatdOWMTW1FAm4WGWEPap0aloF2Ov8I0nG59A/3qh6AZfb6yAbZZO
+         WAhNKKNK7gSl5i+QdplLfll1L86UVGr2JjcN3cCuvjtM4R1WxDbhalnYCwNgAdRyz5pR
+         gYgtyRBZD+g5y6bZ/jB0XJ+eePjHUzxTXtJ8zt8lnJwfL9WqejH+dysiC2m3vWxz0qIU
+         5nQrWV7T5cxzaojhGzAJaNCP3VPFY8xJInVRdfzCR+MaWpnpTT3X+w0EwAsjWp/q6kjl
+         XGbnFX8oRUWA22jCtYpUo772KJpqFPyEjNrgn1OTYXUggTnMtWI0arlJAKaeejZwEVHO
+         OJ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=q3TLvJ9CIfB/1wbg5oIw6CZmCCpeVyOuikrOuGzN8wA=;
-        b=inTXEmHzRz9D3K52qVPnk9K4I3eU3igHYXMWZdXKxjsfYSeD+6QxzIfckq5NreE68Q
-         MZvCI4Bl1I2pk8N+lNw7qaaMJ8x59i2k+HBQOB+VFi2ibC2SOTg1+KIP1DGxMrIUthya
-         a5h0j4wYRndLOKNCJs4tSQl01QAF9E/kjk2N0bbIdYdDJjJPRrv2USeq2tXtd7LK+5EF
-         EhFhoKOl922qMDZaUqG9Mg2ArkIFExmY3gDggXyziNnV9EdP5wIJHde9hFjwWFTmUoPM
-         5nlNA5B2i3wGda8JebB5wC96LmhqLETaad2Csnp4QOpZRyHRyHZorQL07gGeqf5tKMAw
-         M5og==
-X-Gm-Message-State: AOAM530XQjTsn5gphMJnd5EDmrM6yzvjJlnuE2CW0ogsn6hNaDDw8wKn
-        SSU+7f1aha8oxuNQt3sZ6i1T+iFEnE7YykaSW0lHgeF0Ezg/LbXs1ZopLjwZoaUPyI1Rm9r1jie
-        RuWqGINehmJr5w4UZALajPefgkZQ=
-X-Received: by 2002:a92:850c:: with SMTP id f12mr5148866ilh.86.1590609345275;
-        Wed, 27 May 2020 12:55:45 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJz9CP+QzV9HstUrQjfwizvsa+8CrWyaTwz5Sh4uFEJsn3bJC2Whv3hZELa9M3ae1hc9u9LgnQ==
-X-Received: by 2002:a92:850c:: with SMTP id f12mr5148837ilh.86.1590609344875;
-        Wed, 27 May 2020 12:55:44 -0700 (PDT)
+        bh=hPSY+Zh0t1rGNkSqJtjBbGWhpyEB+X/pF0E6TThgwhg=;
+        b=GnoX1MikI6cblumvV37YkttQDUQZZPAF4tEwld+g95Ad/u8pgipCKqAAH6TA6/lBOa
+         hEN5ycSw6BIMDt/rCNeZhD+q81cOl1YfcGwFy7wMewLppYo0wVoxdeHgZoFrlSx3TKBf
+         FVTRUI45Q/CaTFfzNsW48Dl4dIh8DQgwthoah3sA//873jQQlO/kHZqCf8cfVNi71bL/
+         ilWXsRpsg+jVdeJrwNLnYnYF2eyoxI8UxjQEVLOLrI/dh6gnxWa21rbl54/htf5bNHDB
+         Slsv6KN7Z8f/4zFdLOA2ByUkJZdVi87jp9nW3Tqv8UAOlVPIB2t44Xv70m61WGjjdHYc
+         b0Lg==
+X-Gm-Message-State: AOAM533xoj0KCjedVUMN4a59gCMhZRTLVEtAQ5xbPinDBvJ8TYgIqmU+
+        +LmURHdh8UonebOKr2ti0mL7/1+ByXIT7k5ttvLn6mS/DWXhNloSRISDCwrdBOtgs2zf5uq84N6
+        r0rnI1JFSqaaq84OZiC811zuiNPQ=
+X-Received: by 2002:a6b:7b4a:: with SMTP id m10mr8477807iop.55.1590610211695;
+        Wed, 27 May 2020 13:10:11 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJxuhrc7NDsfRK/mm7gpFg9DSuH5ZtlqPdBbXWHpT2UnfIHxGwqhPUuTPCAJzX65HWUIdG9W/A==
+X-Received: by 2002:a6b:7b4a:: with SMTP id m10mr8477782iop.55.1590610211353;
+        Wed, 27 May 2020 13:10:11 -0700 (PDT)
 Received: from qiushi.dtc.umn.edu (cs-kh5248-02-umh.cs.umn.edu. [128.101.106.4])
-        by smtp.gmail.com with ESMTPSA id u1sm1596638iol.42.2020.05.27.12.55.43
+        by smtp.gmail.com with ESMTPSA id y11sm2020565ily.22.2020.05.27.13.10.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 12:55:43 -0700 (PDT)
+        Wed, 27 May 2020 13:10:10 -0700 (PDT)
 From:   wu000273@umn.edu
 To:     kjlu@umn.edu
 Cc:     wu000273@umn.edu, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
         Vyacheslav Dubeyko <Vyacheslav.Dubeyko@hgst.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
         linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: Fix reference count leak in nilfs_sysfs_create_snapshot_group.
-Date:   Wed, 27 May 2020 14:55:32 -0500
-Message-Id: <20200527195532.28077-1-wu000273@umn.edu>
+Subject: [PATCH] nilfs2: Fix reference count leak in nilfs_sysfs_create_device_group
+Date:   Wed, 27 May 2020 15:09:33 -0500
+Message-Id: <20200527200933.31135-1-wu000273@umn.edu>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
@@ -80,32 +79,39 @@ X-Mailing-List: linux-nilfs@vger.kernel.org
 From: Qiushi Wu <wu000273@umn.edu>
 
 kobject_init_and_add() takes reference even when it fails.
-If this function returns an error, kobject_put() must be called to
-properly clean up the memory associated with the object. Previous
-commit "b8eb718348b8" fixed a similar problem.
+In nilfs_sysfs_create_device_group(), the memory allocated by
+kobject_init_and_add() is not freed when kobject_init_and_add()
+fails. Thus replace the jump target "free_dev_subgroups" by
+"cleanup_dev_kobject".
 
-Fixes: a5a7332a291b ("nilfs2: add /sys/fs/nilfs2/<device>/mounted_snapshots/<snapshot>group")
+Fixes: da7141fb78db ("nilfs2: add /sys/fs/nilfs2/<device> group")
 Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
- fs/nilfs2/sysfs.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ fs/nilfs2/sysfs.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
-index e60be7bb55b0..b2517c5e773a 100644
+index e60be7bb55b0..4a74756d52fe 100644
 --- a/fs/nilfs2/sysfs.c
 +++ b/fs/nilfs2/sysfs.c
-@@ -209,8 +209,10 @@ int nilfs_sysfs_create_snapshot_group(struct nilfs_root *root)
- 					    "%llu", root->cno);
- 	}
+@@ -1000,7 +1000,7 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
+ 	err = kobject_init_and_add(&nilfs->ns_dev_kobj, &nilfs_dev_ktype, NULL,
+ 				    "%s", sb->s_id);
+ 	if (err)
+-		goto free_dev_subgroups;
++		goto cleanup_dev_kobject;
  
--	if (err)
-+	if (err) {
-+		kobject_put(&root->snapshot_kobj);
- 		return err;
-+	}
+ 	err = nilfs_sysfs_create_mounted_snapshots_group(nilfs);
+ 	if (err)
+@@ -1038,8 +1038,6 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
  
- 	return 0;
- }
+ cleanup_dev_kobject:
+ 	kobject_del(&nilfs->ns_dev_kobj);
+-
+-free_dev_subgroups:
+ 	kfree(nilfs->ns_dev_subgroups);
+ 
+ failed_create_device_group:
 -- 
 2.17.1
 
