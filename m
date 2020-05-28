@@ -2,117 +2,135 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 460741E51E2
-	for <lists+linux-nilfs@lfdr.de>; Thu, 28 May 2020 01:35:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F3391E6BA9
+	for <lists+linux-nilfs@lfdr.de>; Thu, 28 May 2020 21:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725446AbgE0Xfk (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 27 May 2020 19:35:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725385AbgE0Xfk (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 27 May 2020 19:35:40 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94F60C08C5C1;
-        Wed, 27 May 2020 16:35:39 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id n24so30076600ejd.0;
-        Wed, 27 May 2020 16:35:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dhTO9C8pVsj5TXfFI7QbAfV6zOBGig3hgoqL4o5bXcs=;
-        b=go7Cs1dHLxR4N4XqyAWX6emqwg31qx15uRNGZVlKcGEvDRK052lh0wY43jrs3goNSo
-         QrjvemEO6QXFkuTjEZxqX5sjAFyaSLr5cXMR4ILZ3mTthCVUUokL67hisHns4gmSM+YP
-         mFJ2qqQotfd80u13YmM6O2Di4K/ax68+z6P2vx5Nx7O0ceQhbbSqO92VHIbofHGtEo8b
-         tJFYtTDu25u4B9X6AF6T3JorprSPpkMlrXCTcBky9E8RYCT+nR7ifd0kVPfx+kqqXHez
-         6kFLVEPzjhcUVhqVZW1dDekms5YS/8cup48fWyEfPtPbTuW/IKwloq+uq/URXOzl/zsM
-         bGzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dhTO9C8pVsj5TXfFI7QbAfV6zOBGig3hgoqL4o5bXcs=;
-        b=niaKqFi9lBafis88NEOZI/Np3mfdserfvJH3m1oCguL4aPeL25ri76QNyy4HpafVeN
-         qM/OxdHix2PmISKMKWLZq9wlUK8DRp13vr7egvfmvL197mkEbSYaeY3D0nwTWClX5aBH
-         O2bzXe5GAJ2Zn/sBea01tdXF/PqUvrCob0gC/x0bjrBH94P8j4PEdxErEbmyvXD3nU2u
-         mt0N8JeLTl/Niq3pLnjPaAnjXchJQPfKCpYAd6MDB1jhEZT8evGdMX6Ymw30Ii5cVQcm
-         ZH9hGcYynjzAwz752bu7YyWbLzTFdOeFAZ7B77VtG/JogWSzRDYvF7o2t9WA38ophMbg
-         TgQQ==
-X-Gm-Message-State: AOAM5302Aq0Azg/aBB1LDImcZzsvPbnubuwz+Fx81ESQj2maOT5G/bAK
-        kn6qQFhMIXwhIqy9yPBjW/El2wnfGdX+2d/B3QU=
-X-Google-Smtp-Source: ABdhPJx+g6j7ezQts/dvXrW6l4O+vS3DtFLMC/d4qMisYvvDDruZYV54ewE8/2rEzrJ95TCMGX6waKfhKg3OtmqfoJ4=
-X-Received: by 2002:a17:906:4088:: with SMTP id u8mr679123ejj.422.1590622538251;
- Wed, 27 May 2020 16:35:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200527230442.24228-1-wu000273@umn.edu> <CAKFNMokewQQnx9VyK1TpZx+o11UTmNoVsZ-eqFrRzXnYdP-NYg@mail.gmail.com>
-In-Reply-To: <CAKFNMokewQQnx9VyK1TpZx+o11UTmNoVsZ-eqFrRzXnYdP-NYg@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Thu, 28 May 2020 08:35:26 +0900
-Message-ID: <CAKFNMon0KcoFXYOAPBGx0NbzvUTKMWmxkVQW8v9GM6=JMMNgwg@mail.gmail.com>
-Subject: Re: [PATCH V2] nilfs2: Fix reference count leak in nilfs_sysfs_create_device_group
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>, wu000273@umn.edu,
-        LKML <linux-kernel@vger.kernel.org>, kjlu@umn.edu,
+        id S2406816AbgE1TtW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 28 May 2020 15:49:22 -0400
+Received: from mout.web.de ([212.227.15.4]:48433 "EHLO mout.web.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2406793AbgE1TtL (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 28 May 2020 15:49:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+        s=dbaedf251592; t=1590695339;
+        bh=+B7LBaGX99S3uPjCcCLsxs3BCct//Xlvs6N9ytdHIBk=;
+        h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
+        b=NIVjeoGVrMq0EaifFBo73HopbicIFYFK692s4AY2G+YxiNBiGaAER4Y16xPF2eIxe
+         iDrA5V5kwYEpwmG3UPxERXfnb9vd8FbpkyUHh1JHlWijuJlT0pUEhXgbjaCkbmBcuV
+         qO7CFafeAk1SDOS6G+pExj10OrPTWS0GAJiixa5k=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from [192.168.1.3] ([2.244.30.242]) by smtp.web.de (mrweb003
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 0MWBA1-1jTlQ207p3-00XL9c; Thu, 28
+ May 2020 21:48:59 +0200
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Kangjie Lu <kjlu@umn.edu>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         Vyacheslav Dubeyko <Vyacheslav.Dubeyko@hgst.com>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] nilfs2: Fix reference count leak in
+ nilfs_sysfs_create_snapshot_group()
+From:   Markus Elfring <Markus.Elfring@web.de>
+Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
+ 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 FEE=
+To:     Qiushi Wu <wu000273@umn.edu>, linux-nilfs@vger.kernel.org
+Message-ID: <30cf7534-b62e-84b1-571a-945aaffac5b0@web.de>
+Date:   Thu, 28 May 2020 21:48:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ajXO0YaxVu1A9JNlZ6X1YWeTq2R1Ffmuf9mMz97iM2/JRvJ/LV7
+ iQ3dfXP2v5wBFDQx/M7/lEuxLCow0kymXxATnQI8laJmtop5UhQRsYUp0GwL4vd7LuYwCAd
+ UVsBlymNld+f+VXIaDxa+9DZ4BOdCBcLl4Twyqn+MZ0js6rO5QnKw95+doivJymrU/aBgCG
+ ab3c/asbrD25nFdUajCaA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EcToFCvm6YU=:EaU6WsQaqAnoenU0XO/5qh
+ 44qS66SJR4YAgNw0JjQPbXDD5ypMBEtuxZwtxR100l7rnjC72UhCUYpOPssT0MAzyEu48qolE
+ lI5thNg6W+YZAcFOVJIqDeNrh8DaYSvWp8LzyZ7NiWULitGFg2NAzwg9t4ch6F7Z9fLe0B1Wp
+ tHddzksJj+47wpPfRSPBy7ZuyKOResZ2feCA+StpsReyVgfE9j+TO53/lq1uLnvkSO/4eNsDO
+ b48CK9cjw6EVF+ReO6bVCr4VFIWlpTmwcfvb9/eYbJZo8vNgSMySTYfS9XxWLcULaKgCazP65
+ buL35NxNvOJORDVpIwTrXikyIooPf01oXhvdobc3SCtLx6kBJPPCdYcqTmLvpQ6SxgZ1Yar9m
+ dB+2/APD3841wV6SzEeTaqH0Y2GjUgq6qnde+p+Wp8KISDZ3SET7KM+I3ZlKpzHi9KhomKXhr
+ iUBM9Ey0Z0sGcvawqQB914rbVxXG0fHz0pRj2bUdBMeps2FQmLTPLVDzjdWhD5o5uEW5Pa2cf
+ cnDNG02xjC2+zMB3mHlTdy9nYMSH7O1VvpvHIYxRs13FKIf/oNF1gjGPa/rPdxIiZxD+H8Zvw
+ Ulqyp5l01DdO6qNHtk/yMBGLO5gYlKRXyjqSmgA+xRmN2Agw31B6zX7umzYC9OFGQxDQhjp2J
+ P3H4xrI6HM3UQgghuH01nLVmCVJn4TJ5sFqrrD2e0ufILAyqiVxQPScQ14kfvCaC9uvy1u+Ld
+ NL20LXljSYJ3yZfdldGxqqzgAttylANp8rbz0me40BfCbAkicQPRxwdxdPZd/oZ+1u4eNWzoB
+ +A146TKtiM8Ot7XJbWEr+SDhL5o75TIggfGpYAGMHqkyaOEbpU9oyD3jlFqYXLKwfmejphjGq
+ eRCmXZ6uycjfvhS+ESwj9jlwNJioR2NIJ4aVnTDXRitTcZdMAO8RQY1S3L+qAqbEkSHhqY3W+
+ SjPN62Us01Cp7/YuCuDZtNUspfgXuWYp8nMWSvgEkeE3Jt4uzsC24/eg13PKbTyWf1yHeTv4y
+ ZQjsM4iIdRZxCLNLkhOHKb7Lj4dtixGYfZ1Boc/51Js6QIRFRC5pvC+KL8IwUrn5wsmBtCrpw
+ bDz0jnaUUlhm6soVwiaHyhk6EDk4TYd+2UD62CYpGWCdubHOqiPV3oM8I04HRY3kcIQ37DmlV
+ jJs/1cJqG98/1lQ7PhlUR2YKE+tvG0DHdyEdCi96BS3VjC6ly+AngTATUKIXqRwKoeR+rx7Eq
+ 9fTsX9OmM28fq1YKw
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Andrew,
+> kobject_init_and_add() takes reference even when it fails.
 
-This v2 patch was not CC'ed to you.   Could you please
-pick it up from LKML?
+It will be helpful to mention which object is referenced here, won't it?
+
+
+> If this function returns an error, kobject_put() must be called to
+> properly clean up the memory associated with the object.
+
+I guess that an imperative wording is preferred also for this change descr=
+iption.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Do=
+cumentation/process/submitting-patches.rst?id=3Db0c3ba31be3e45a130e13b278c=
+f3b90f69bda6f6#n151
+
+How do you think about to combine this update step together with
+=E2=80=9Cnilfs2: Fix reference count leak in nilfs_sysfs_create_device_gro=
+up=E2=80=9D
+into a small patch series?
+https://lore.kernel.org/patchwork/patch/1248696/
+https://lore.kernel.org/lkml/20200527200933.31135-1-wu000273@umn.edu/
 
 Regards,
-Ryusuke Konishi
-
-On Thu, May 28, 2020 at 8:23 AM Ryusuke Konishi
-<konishi.ryusuke@gmail.com> wrote:
->
-> Hi Andrew,
->
-> Please pick this up as well.
->
-> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
->
-> On Thu, May 28, 2020 at 8:04 AM <wu000273@umn.edu> wrote:
-> >
-> > From: Qiushi Wu <wu000273@umn.edu>
-> >
-> > kobject_init_and_add() takes reference even when it fails.
-> > In nilfs_sysfs_create_device_group(), the memory allocated by
-> > kobject_init_and_add() is not freed when kobject_init_and_add()
-> > fails. Fix this issue by calling kobject_put() to clean up the
-> > kobject.
-> >
-> > Fixes: da7141fb78db ("nilfs2: add /sys/fs/nilfs2/<device> group")
-> > Signed-off-by: Qiushi Wu <wu000273@umn.edu>
-> > ---
-> >  V2: using kobject_put() to handle kobject_init_and_add() instead of
-> >  kobject_del().
-> >
-> >  fs/nilfs2/sysfs.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
-> > index e60be7bb55b0..8416f915d118 100644
-> > --- a/fs/nilfs2/sysfs.c
-> > +++ b/fs/nilfs2/sysfs.c
-> > @@ -999,8 +999,10 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
-> >         init_completion(&nilfs->ns_dev_kobj_unregister);
-> >         err = kobject_init_and_add(&nilfs->ns_dev_kobj, &nilfs_dev_ktype, NULL,
-> >                                     "%s", sb->s_id);
-> > -       if (err)
-> > +       if (err) {
-> > +               kobject_put(&nilfs->ns_dev_kobj);
-> >                 goto free_dev_subgroups;
-> > +       }
-> >
-> >         err = nilfs_sysfs_create_mounted_snapshots_group(nilfs);
-> >         if (err)
-> > --
-> > 2.17.1
-> >
+Markus
