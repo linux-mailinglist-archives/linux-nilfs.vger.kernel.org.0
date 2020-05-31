@@ -2,153 +2,228 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 088511E7521
-	for <lists+linux-nilfs@lfdr.de>; Fri, 29 May 2020 06:52:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F13681E99AC
+	for <lists+linux-nilfs@lfdr.de>; Sun, 31 May 2020 19:50:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725828AbgE2EwA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 29 May 2020 00:52:00 -0400
-Received: from mout.web.de ([212.227.15.3]:45591 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725601AbgE2EwA (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 29 May 2020 00:52:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1590727910;
-        bh=9s8HVWZnrNlsYF4NgOgs7U6BwK85FTelc8UkaeUj92U=;
-        h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-        b=He3pHNuw73/ydGfKjr8y1sAUq7NpqVU80PSxusgCAC5qE9qIGvAjHvmC9Kn7SAOUk
-         3yriIoWdsg6CQxyfr61+EKjX1Gh8I5l8ORnk8BYOgUpDiSkOQqGR4ISzGUvpRRnEJU
-         0E02a+h0o3/qhJoLo9WIfP5GX7Oj0+DE5PR+GQg8=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.3] ([93.131.188.184]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MEmbK-1jlhzo2cJO-00G5Bd; Fri, 29
- May 2020 06:51:50 +0200
-Subject: Re: nilfs2: Fix reference count leak in
- nilfs_sysfs_create_snapshot_group()
-To:     Qiushi Wu <wu000273@umn.edu>, linux-nilfs@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Kangjie Lu <kjlu@umn.edu>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Vyacheslav Dubeyko <Vyacheslav.Dubeyko@hgst.com>
-References: <30cf7534-b62e-84b1-571a-945aaffac5b0@web.de>
- <CAMV6ehE3jm4ZasYqd12f=e0TNN_kfiX7yCMVHkmESKP0WbuqTw@mail.gmail.com>
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <b4e9eb17-7c5a-15ed-5ff7-2334ff13e9d7@web.de>
-Date:   Fri, 29 May 2020 06:51:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <CAMV6ehE3jm4ZasYqd12f=e0TNN_kfiX7yCMVHkmESKP0WbuqTw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XKuf8ZSnXQHsZOavZvRwDBXRig77n6U6qj/zp5SsPQt4Fy93B1j
- RZC/dHuQ4DiTgYCoiazeqHYqnHzzDuHKLV7On+uHL3H805+i+gHpiH5QLBZXMxuCUKLw72n
- DTbMLtFME4FE+IvwRzwwfbganNwANeuV1mCW9RQ5S8k8ZJls/MYplzgcvnVytO384aC9CU+
- ExDqaws9NaSyAfVAU2rRQ==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SG6lFVkg1J8=:EMwtzq9KUnlOS0M3glXrmC
- IPxt6VrTRiC5Ubzt+sTr+aSIvq6INFpV1Xn0RYGEc7p71u3pG+UUN7YwlRUtMF/lH8bDnA+HX
- 7Mfx0AhKlw6/g/Io7dcR1jS1K2s6xm1a94n7GzV8Fscy6ZChbpDELbjAuDN7PsS1zMz4qCzum
- bWatPwdWiyi+7iHY1lx+mxcv85VDcYjtWdEEnFbcKcu9g1NBL1P52CarC4t8w1inf8yio1VXG
- vsv8Lp5u096sBqukmgu9Rji47BXR/CXxvDnT8A6cEmpSSkOGmKVNMaQUNSDvM2Sfn8k412z8u
- BC1PORaHQ2Vx53SlDTM5uruSQoM8ZRegY/RpsrgFvTog3TXU3G5mHmAfmKJQcJpNv9QveFK5h
- VhbLhgyGbxg3ROrUiT6gCfu1V5flDkiyB+9p+YrLCUuOp10dwOjn6ueYGQ5UdUf7dDJNPUG7G
- zRM7KUkZQ5RbxULiQ93yxOjCMeoArX2jAdUzXc/UdlszRyLnNbNj+kmm5K65+rKWKjsgCCMZZ
- FfQsshoGQ7+ly8JdfbnF6XqqD3RgVZJlsDDbNtSVujbRCw8/CT1+tDvWO1IbV3Vr+QFOSXo6d
- fhcqjPbD6ZHLejg6/xlY8Lon1F6kDUGWb4inlSB2VMSXduDa/6LI9qakQPo7G30gpz4Tk0ZZn
- ScXKGxE2uQKEqZNPZNzaPmsKRy0s7IxGdoaZPufECQBAC+1vx2Vhk3F3Jvx+Q+oAaxvIzsb90
- jMKNrqcdurw139TLwg2RDPWlErC/XLDvid0nqlpwayZxQ1nZY1KCeiL8B8TaRW8X9sgZsJzBP
- dxn7UAcTfNnJL7BWXG8h86ys95w0DZ1/8aRUKn0tamQtOdl4Q0SYqaiq3u9bO+NVRrI8h9Zvz
- 8Ad6AGS4Y5kfGpvk7l9PdKCg53+8zMA5xdTTXe1fT5mwspk0VpwoFna1ymqNFdIvaihtEZnpr
- uVjIbx9LFDTKozY8bBqSAmb0NToKTAuh2cbgSwG3n2vTxf1KclI5rWhLF96GnsNfsGLh+IZ48
- xsBCibpa5s/IVxDDfqYMuvjQnG2d5o65srRvYJivFaq7QSjQyVNAqGNzxAVsxi/7DDqQMtxXH
- yekZQ0J9s5Se6gHgBULrcUiPzm8auRMtoeH8M7DnlkO8Pvlbf972UW3sGmkQIsGqquunLqLzx
- 5hS3fuLWlViI316F+nj95iys24zXHFcXXwC7JgJnVRsM10c4EN2RLBl5AJbAePxZDy65MtHfX
- BHpYnfF4E4T7unYzD
+        id S1728206AbgEaRuD (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 31 May 2020 13:50:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37902 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728167AbgEaRuC (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Sun, 31 May 2020 13:50:02 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 684E3C061A0E;
+        Sun, 31 May 2020 10:50:01 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id q9so3903513pjm.2;
+        Sun, 31 May 2020 10:50:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:message-id:to:cc:subject:from:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=S+QY9ymfl54x1PeSUWPdj+6GZQTSL0jCotmt0Izwc84=;
+        b=lbUrFpoByYjwRoN4C7rvZnPos4E2DdE0c533ZcJAT7kAszFRsMC6kNXUvZu2h1+tGk
+         QI5TxFS/RUm5q/x1MmjEC4V0X31D0rhRWMJYWPXlyVub5S+IshMmrNmghVcfjFXpLUrC
+         98fxpFVKvAplYMBjvEVovWT39g0wN3fAMPGmqXoP8ekPgDqcRTWHLOeUI+hnoTzqSZGL
+         h5pb/mxWQ6ckIaSEiYfJF9W6Vu4GkR9VOwtWbjrTVvcYQdfroIUdf6NHuFJuXS9edDq8
+         dU9C//Qk2f0lh+SfDrNXewjdNpWxzNNYbq1VpRnz8z5f4IYpy/ot26Kri5Pcu6b2zkhP
+         TcJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:to:cc:subject:from:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=S+QY9ymfl54x1PeSUWPdj+6GZQTSL0jCotmt0Izwc84=;
+        b=cjHqJoKlTpWGceMefpN2PubLb9l2Hg1+ny/KEuqp93O3LpEycUDCMkdrgiUgOzSfEY
+         o97eSLgLOeh2SJt4HsI6KnG9Gu9DCUbZ8A6Ai0xAgowcAdr8Yp8MFjPo9NL0YvWnq3AN
+         1hwicQFl7Qc3Pf0keB8mMqsdvPKyFIgil1aXz6V3jpe+PA3Fa0x9koO6WL9nWqJ2vR13
+         LxtnoTLoi0e+e8wKf+HFrxMqgxH1OVzAljTGG+X5jSdY1ap1iyI4XQ/VPbjePsRI9esC
+         p2e84OTBxqIR2SRsTnYfUni/IeQvAnm++ne+ZDbwNrGLhQiDg+oUc6J1+9JqUaFSobvP
+         X8Sw==
+X-Gm-Message-State: AOAM532P2tcmeDG1rdyvPBs+2xsct7LiO7Wu3wiwthk2VnJXigGAX4EM
+        bSPq/GryWtVquBwsR+uf+ti0YDPZ
+X-Google-Smtp-Source: ABdhPJyIiF+0TuQUk7Or+88HkTnZEZRjtqP6CyIbsdM/xn8TGR6YrQ/WKVDEzDCFdvLkJgwNSLJnnA==
+X-Received: by 2002:a17:90a:a611:: with SMTP id c17mr5087479pjq.202.1590947400007;
+        Sun, 31 May 2020 10:50:00 -0700 (PDT)
+Received: from localhost (i60-34-120-79.s42.a014.ap.plala.or.jp. [60.34.120.79])
+        by smtp.gmail.com with ESMTPSA id 12sm538460pfb.3.2020.05.31.10.49.57
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Sun, 31 May 2020 10:49:59 -0700 (PDT)
+Date:   Mon, 01 Jun 2020 02:49:54 +0900 (JST)
+Message-Id: <20200601.024954.19451246896874392.konishi.ryusuke@gmail.com>
+To:     hdk1983@gmail.com
+Cc:     tommytoad0@gmail.com, linux-nilfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: BUG: unable to handle kernel NULL pointer dereference at
+ 00000000000000a8 in nilfs_segctor_do_co
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+In-Reply-To: <ee5677b7-802b-f524-36cc-9d5ae071859b@gmail.com>
+References: <20200328.182640.1933740379722138264.hermes@ceres.dti.ne.jp>
+        <20200430.213842.00392641.hdk1983@gmail.com>
+        <ee5677b7-802b-f524-36cc-9d5ae071859b@gmail.com>
+X-Mailer: Mew version 6.6 on Emacs 24.3 / Mule 6.0 (HANACHIRUSATO)
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-> I think there is only one object that can be modified in this function,
+Hi,
 
-Such a view can be reasonable.
+This bug turned out to be caused by set_page_writeback() call for
+segment summary buffers and super root buffers at
+nilfs_segctor_prepare_write().
 
+set_page_writeback() can call inc_wb_stat(inode_to_wb(inode),
+WB_WRIEBACK) where inode_to_wb(inode) is NULL if inode_attach_wb() is
+not called in advance.  To ensure inode_attach_wb() is called,
+mark_buffer_dirty() should be called for those buffers.
 
-> so I didn't mention it.
-
-I suggest to reconsider the conclusion.
-
-
->> I guess that an imperative wording is preferred also for this change de=
-scription.
->
-> This sentence is referenced from the code comment, so I haven't change i=
-t.
-> https://elixir.bootlin.com/linux/v5.7-rc7/source/lib/kobject.c#L459
-
-I find that that there are further possibilities to consider for improveme=
-nts
-around the presented commit message (even after the mentioned copy
-from the function description of this programming interface).
-
-
->> How do you think about to combine this update step together with
->> =E2=80=9Cnilfs2: Fix reference count leak in nilfs_sysfs_create_device_=
-group=E2=80=9D
->> into a small patch series?
->
-> I'd like to improve the similar issues after I reporting this bunch of b=
-ugs.
-
-Did you find questionable implementation details with the help of an evolv=
-ing
-source code analysis tool?
+The following patch fixes this issue, but I got another oops at
+nilfs_segctor_complete_write() during a stress test.  So, I'm still
+investigating.
 
 Regards,
-Markus
+Ryusuke Konishi
+
+===
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 445eef4..f6b5ca8 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -1650,6 +1650,8 @@ static void nilfs_segctor_prepare_write(struct nilfs_sc_info *sci)
+ 
+ 		list_for_each_entry(bh, &segbuf->sb_segsum_buffers,
+ 				    b_assoc_buffers) {
++			set_buffer_uptodate(bh);
++			mark_buffer_dirty(bh);
+ 			if (bh->b_page != bd_page) {
+ 				if (bd_page) {
+ 					lock_page(bd_page);
+@@ -1665,6 +1667,8 @@ static void nilfs_segctor_prepare_write(struct nilfs_sc_info *sci)
+ 				    b_assoc_buffers) {
+ 			set_buffer_async_write(bh);
+ 			if (bh == segbuf->sb_super_root) {
++				set_buffer_uptodate(bh);
++				mark_buffer_dirty(bh);
+ 				if (bh->b_page != bd_page) {
+ 					lock_page(bd_page);
+ 					clear_page_dirty_for_io(bd_page);
+===
+
+
+On Thu, 30 Apr 2020 08:27:47 -0700, Tom <tommytoad0@gmail.com> wrote:
+> Thank you!  This is very helpful information, and does seem to be a
+> workaround.
+> 
+> Like you, I have my home directory on a separate NILFS2 filesystem. As
+> a temporary solution, I removed the line from /etc/fstab for that
+> filesystem and added your dd suggestion along with a manual mount of
+> the home filesystem to /etc/rc.local.  /home is now mounted properly
+> at boot with any of the newer kernels I tried.
+> 
+> Thanks,
+> Tom
+> 
+> On 4/30/20 5:38 AM, Hideki EIRAKU wrote:
+>>> In Msg <874kuapb2s.fsf@logand.com>;
+>>>     Subject "Re: BUG: unable to handle kernel NULL pointer dereference at
+>>>     00000000000000a8 in nilfs_segctor_do_construct":
+>>>
+>>>> Tomas Hlavaty <tom@logand.com> writes:
+>>>>>>> 2) Can you mount the corrupted(?) partition from a recent version of
+>>>>>>> kernel ?
+>>>>
+>>>> I tried the following Linux kernel versions:
+>>>>
+>>>> - v4.19
+>>>> - v5.4
+>>>> - v5.5.11
+>>>>
+>>>> and still get the crash
+>> I found conditions to reproduce this issue with Linux 5.7-rc3:
+>> - CONFIG_MEMCG=y *and* CONFIG_BLK_CGROUP=y
+>> - When the NILFS2 file system writes to a device, the device file has
+>>    never written by other programs since boot
+>> The following is an example with CONFIG_MEMCG=y and
+>> CONFIG_BLK_CGROUP=y kernel.  If you do mkfs and mount it, it works
+>> because the mkfs command has written data to the device file before
+>> mounting:
+>> # mkfs -t nilfs2 /dev/sda1
+>> mkfs.nilfs2 (nilfs-utils 2.2.7)
+>> Start writing file system initial data to the device
+>>         Blocksize:4096  Device:/dev/sda1  Device Size:267386880
+>> File system initialization succeeded !!
+>> # mount /dev/sda1 /mnt
+>> # touch /mnt
+>> # sync
+>> #
+>> Loopback mount seems to be the same - if you do losetup, mkfs and
+>> mount on a loopback device, it works:
+>> # losetup /dev/loop0 foo
+>> # mkfs -t nilfs2 /dev/loop0
+>> mkfs.nilfs2 (nilfs-utils 2.2.7)
+>> Start writing file system initial data to the device
+>>         Blocksize:4096  Device:/dev/loop0  Device Size:267386880
+>> File system initialization succeeded !!
+>> # mount /dev/sda1 /mnt
+>> # touch /mnt
+>> # sync
+>> #
+>> But if you do mkfs on a file and use mount -o loop, it may fail,
+>> depending on whether the loopback device assigned by the mount command
+>> was used or not before mounting:
+>> # /sbin/mkfs.nilfs2 ./foo
+>> mkfs.nilfs2 (nilfs-utils 2.2.7)
+>> Start writing file system initial data to the device
+>>         Blocksize:4096  Device:./foo  Device Size:268435456
+>> File system initialization succeeded !!
+>> # mount -o loop ./foo /mnt
+>> [ 36.371331] NILFS (loop0): segctord starting. Construction interval =
+>> 5 seconds, CP frequency < 30 seconds
+>> # touch /mnt
+>> # sync
+>> [ 40.252869] BUG: kernel NULL pointer dereference, address:
+>> 00000000000000a8
+>> (snip)
+>> After reboot, it fails:
+>> # mount /dev/sda1 /mnt
+>> [ 14.021188] NILFS (sda1): segctord starting. Construction interval =
+>> 5 seconds, CP frequency < 30 seconds
+>> # touch /mnt
+>> # sync
+>> [ 20.576309] BUG: kernel NULL pointer dereference, address:
+>> 00000000000000a8
+>> (snip)
+>> But if you do dummy write to the device file before mounting, it
+>> works:
+>> # dd if=/dev/sda1 of=/dev/sda1 count=1
+>> 1+0 records in
+>> 1+0 records out
+>> 512 bytes copied, 0.0135982 s, 37.7 kB/s
+>> # mount /dev/sda1 /mnt
+>> [   52.604560] NILFS (sda1): mounting unchecked fs
+>> [   52.613335] NILFS (sda1): recovery complete
+>> [ 52.613877] NILFS (sda1): segctord starting. Construction interval =
+>> 5 seconds, CP frequency < 30 seconds
+>> # touch /mnt
+>> # sync
+>> #
+>> # losetup /dev/loop0 foo
+>> # dd if=/dev/loop0 of=/dev/loop0 count=1
+>> 1+0 records in
+>> 1+0 records out
+>> 512 bytes copied, 0.0243797 s, 21.0 kB/s
+>> # mount /dev/loop0 /mnt
+>> [  271.915595] NILFS (loop0): mounting unchecked fs
+>> [  272.049603] NILFS (loop0): recovery complete
+>> [ 272.049724] NILFS (loop0): segctord starting. Construction interval
+>> = 5 seconds, CP frequency < 30 seconds
+>> # touch /mnt
+>> # sync
+>> #
+>> I think the dummy write is a simple workaround for now, unless
+>> mounting NILFS2 at boot time.  But I have been using NILFS2 /home for
+>> years, I would like to know better workarounds.
+>> 
