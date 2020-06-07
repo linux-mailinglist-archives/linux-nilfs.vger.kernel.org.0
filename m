@@ -2,101 +2,123 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F2301ED137
-	for <lists+linux-nilfs@lfdr.de>; Wed,  3 Jun 2020 15:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D494D1F0CD8
+	for <lists+linux-nilfs@lfdr.de>; Sun,  7 Jun 2020 18:18:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726098AbgFCNsx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 3 Jun 2020 09:48:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50128 "EHLO
+        id S1726607AbgFGQS0 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 7 Jun 2020 12:18:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbgFCNsv (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 3 Jun 2020 09:48:51 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9251CC08C5C2
-        for <linux-nilfs@vger.kernel.org>; Wed,  3 Jun 2020 06:48:49 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id x27so1347284lfg.9
-        for <linux-nilfs@vger.kernel.org>; Wed, 03 Jun 2020 06:48:49 -0700 (PDT)
+        with ESMTP id S1726571AbgFGQS0 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 7 Jun 2020 12:18:26 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE134C08C5C3;
+        Sun,  7 Jun 2020 09:18:24 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id j1so7252464pfe.4;
+        Sun, 07 Jun 2020 09:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=LImzFWfFZ5MGhzJT1qzCsgEXVo7xW37sUIdrDLCKiXHQE0/Tq0rYX6Af/ld5dvlhmE
-         opFt8B8vUrhAfyxGIRs7eIQZmnu+cHCt7Dz4gEu/fnBWHDlMa8iVHDbM7XgqJUtNcgor
-         I4Oj1yGJ3ygOniFn6Dr+FHDS5BV48N/ldz+eBwWbR5/ADnYCL6KuztRZu9mrKJOxMODU
-         fmVICwwGmTYXXsgICTxE6unupuMdGq6+YZvkWKysZVLYK3Wwxrg7U2ecMo3WGycHWcU1
-         w35jxyjuynpm30G3kj/I18A4vO2Y2WN0kfTajUkGc1Xe9t84eQuWhnB4AGlAS8dbrawc
-         iC3A==
+        h=date:message-id:to:cc:subject:from:mime-version
+         :content-transfer-encoding;
+        bh=71YhZNLGhXbmxGNeFEQZl+p8Dpt5MYdooBczOyZ+OjU=;
+        b=WDXWp0V9hMZ+1+Pc/Kkpj9DcDd/QARTzErAVYWNdh8fTCm8rJGEAxp2cnn61W4EhVE
+         tj2/cz1vfg595gs86XIiY9vvgxDuL7mT6OPDRafcteRX9/o5SryKgyf+OdLmxkr4PIKy
+         KFg/NRHRWSxTP7VwdB0MLBsnWioCNnjCfQT5+GtyMeGWWW1+tc20wVK5AYxw7czEBbZK
+         QY55GpFT1j3t2Q7uFqWhdrGu/VFVDVwZpxW/stkLy+W7K1RwxGnyaz9KoujLO5mPKLH5
+         2A4oNPfnrpAKN5KiSx4vOWvokF5zE5loHEygyZAsJ0NxmkD368/nV5s+UtZ9fSvksY6F
+         nyQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=e43AdhIjSl/AvfOGAfPcfWfZYfuPkjhMtM33EjfyBybxm+ar+Z0+lWa1geZoVwbMi2
-         DZ7O20Ay321JhaqvC6PZIwSTklgOC40je510lqThk+jhqPCLsY0RXa3wIgZ0VIr7Pr+n
-         7oZN2M9qpVGnPR3Lq2mnU584g4kzc319lRnQroXmkusmmx+GQiOBUPzVJkV5a0sCt6Ty
-         CiIOvpCdbvQk0w7opFvSjswe1yo/doGKSnWCaQ/Gg3vfKd+WkOLZKCKtvZ39wvrng+Px
-         Ty5qrqLGXiid0Be9h4+JYTY8WC4t5seUXeY8tSK9xtAYsvgr0c4bjs7xuvaawviosUY4
-         Zfrw==
-X-Gm-Message-State: AOAM532L411QD1Jjoo0XILZhvH4XtDhjHOIJqzYJqt/Xx6NZVL2adZok
-        K26zJc+mfyoD9sasnQD1coVpOacdKzvlIUm7RPdNjhCv+T8=
-X-Google-Smtp-Source: ABdhPJzc66PsPJ7uf2JiXrqj7zfh07Ra5BpBms0TPKeexmxkWkfXYY+ch/Os+E85wJbdOE6Lm+0ANdybV/7KRG4HAcU=
-X-Received: by 2002:a05:6512:308e:: with SMTP id z14mr2566308lfd.29.1591192127287;
- Wed, 03 Jun 2020 06:48:47 -0700 (PDT)
-MIME-Version: 1.0
-Reply-To: susanjones.wife@gmail.com
-Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:46 -0700 (PDT)
-From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
-Date:   Wed, 3 Jun 2020 14:48:46 +0100
-X-Google-Sender-Auth: aH2vam-ZraP3yG1gz3ryctMgTE4
-Message-ID: <CALBhdBfusXWup1N4iFuTS3D1AZxWbZbTDS_qa-wA3FkbkE7MrQ@mail.gmail.com>
-Subject: HELLO: I AM MRS SUSAN JONES
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:date:message-id:to:cc:subject:from:mime-version
+         :content-transfer-encoding;
+        bh=71YhZNLGhXbmxGNeFEQZl+p8Dpt5MYdooBczOyZ+OjU=;
+        b=E5nvoqcyz07ciX++4GZHtBoEYQxzk42KzpVM+sPNenv/6NOPAcdgB3Png8r9x3TCC6
+         xQn8j8XhEYxooLuAGGxIXrzAJRsonYyThW1Wr2pQBDOJzgu5jOm4SW/2nbaWqESFd4Bl
+         PvBsrcIizIQfq/7MhhFz0+7QyTAHNPKVf1Gw1Ee6U/c98u1gpoWzw5wgJfAczlg+lT9e
+         m4SYIAieBxKYzJW1vqWBXWIHx2P/MsrmLlQpBs99yq0uJViuzJDtWDk4EEDjmAfZ/STo
+         YFVRikCzaXjvUXh8C6gnqg2nq9bzgQwjLh8gpfY93qkHmlnUW3JD165F1P5Sy6Zez/6i
+         Fugw==
+X-Gm-Message-State: AOAM532Hg9Rn9oB4zHffjyrg/FmmWoFyKISaHLYKXWfEY/+MdOE3gyyx
+        Hk+Ao526sSHtCuEKASDBrzs=
+X-Google-Smtp-Source: ABdhPJxATwte1DIqAmpjKKJQlwDcZTgFxciMNIbPIyq6qCWNKXK5TC8z22ifbv+daPAJSuGFqgWHMg==
+X-Received: by 2002:a63:7407:: with SMTP id p7mr17712961pgc.268.1591546703980;
+        Sun, 07 Jun 2020 09:18:23 -0700 (PDT)
+Received: from localhost (i60-35-88-138.s42.a014.ap.plala.or.jp. [60.35.88.138])
+        by smtp.gmail.com with ESMTPSA id q36sm5432490pjq.18.2020.06.07.09.18.21
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Sun, 07 Jun 2020 09:18:22 -0700 (PDT)
+Date:   Mon, 08 Jun 2020 01:18:19 +0900 (JST)
+Message-Id: <20200608.011819.1399059588922299158.konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Subject: [PATCH] nilfs2: fix null pointer dereference at
+ nilfs_segctor_do_construct()
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+X-Mailer: Mew version 6.6 on Emacs 24.3 / Mule 6.0 (HANACHIRUSATO)
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+After commit c3aab9a0bd91 ("mm/filemap.c: don't initiate writeback if
+mapping has no dirty pages"), the following null pointer dereference
+has been reported on nilfs2:
+
+ BUG: kernel NULL pointer dereference, address: 00000000000000a8
+ #PF: supervisor read access in kernel mode
+ #PF: error_code(0x0000) - not-present page
+ PGD 0 P4D 0
+ Oops: 0000 [#1] SMP PTI
+ ...
+ RIP: 0010:percpu_counter_add_batch+0xa/0x60
+ ...
+ Call Trace:
+  __test_set_page_writeback+0x2d3/0x330
+  nilfs_segctor_do_construct+0x10d3/0x2110 [nilfs2]
+  nilfs_segctor_construct+0x168/0x260 [nilfs2]
+  nilfs_segctor_thread+0x127/0x3b0 [nilfs2]
+  kthread+0xf8/0x130
+  ...
+
+This crash turned out to be caused by set_page_writeback() call for
+segment summary buffers at nilfs_segctor_prepare_write().
+
+set_page_writeback() can call inc_wb_stat(inode_to_wb(inode),
+WB_WRITEBACK) where inode_to_wb(inode) is NULL if the inode of
+underlying block device does not have an associated wb.
+
+This fixes the issue by calling inode_attach_wb() in advance to ensure
+to associate the bdev inode with its wb.
+
+Reported-by: Walton Hoops <me@waltonhoops.com>
+Reported-by: Tomas Hlavaty <tom@logand.com>
+Reported-by: ARAI Shun-ichi <hermes@ceres.dti.ne.jp>
+Reported-by: Hideki EIRAKU <hdk1983@gmail.com>
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: stable@vger.kernel.org # v5.4+
+---
+ fs/nilfs2/segment.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 445eef4..91b58c8 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -2780,6 +2780,8 @@ int nilfs_attach_log_writer(struct super_block *sb, struct nilfs_root *root)
+ 	if (!nilfs->ns_writer)
+ 		return -ENOMEM;
+ 
++	inode_attach_wb(nilfs->ns_bdev->bd_inode, NULL);
++
+ 	err = nilfs_segctor_start_thread(nilfs->ns_writer);
+ 	if (err) {
+ 		kfree(nilfs->ns_writer);
 -- 
-OUR GOLDEN OPPORTUNITY
+1.8.3.1
 
-Hello Dear Friend,
-
-Complement of the day, i hope you are doing great today. However, I am
-Mrs.Susan Jones, an auditor with one of the new generation banks here
-in Burkina Faso.
-
-I am writing you this letter based on the latest development at my
-Department. i discovered some abandoned huge amount of money, Ten
-Million, Five hundred thousand  United States Dollars.($10.500.000).
-Now I am only contacting you as a foreigner because this money cannot
-be approved to a local bank account here, but can only be approved to
-any foreign account and foreign beneficiary because the money is in US
-dollars
-
-This will be  a legitimate transaction once you accept to build trust
-with me and follow simple instruction doing the transfer process,
-until the total sum transfer out of the bank here to your own bank
-account any where in the world, and I agreed to share the total money
-50/50 with you once you successful confirmed it in your bank account.
-But any expenses doing the transfer process will be deduct from the
-amount before sharing, If you are interested to work with me and
-provide a good receiving bank account, get back to me as soon as
-possible with the following details below.
-
-Your full name
-Your Profession
-Your direct mobile phone number
-Your Scanned International passport or any of your identity
-
-NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
-AVOID TIME WASTED.
-
-As soon as I receive these data's, I will forward to you the
-application form which you will send to the bank for the claim and
-transfer of the fund into your bank account as the  new beneficial.
-
-I am waiting to hear from you soon
-
-Yours
-Mrs.Susan Jones
