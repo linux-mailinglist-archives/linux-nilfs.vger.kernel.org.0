@@ -2,66 +2,90 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 21D642051BD
-	for <lists+linux-nilfs@lfdr.de>; Tue, 23 Jun 2020 14:06:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD44D20C480
+	for <lists+linux-nilfs@lfdr.de>; Sun, 28 Jun 2020 00:02:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732449AbgFWMGE (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 23 Jun 2020 08:06:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60496 "EHLO
+        id S1726406AbgF0WCt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 27 Jun 2020 18:02:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729552AbgFWMGE (ORCPT
+        with ESMTP id S1725907AbgF0WCt (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 23 Jun 2020 08:06:04 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AD55C061573
-        for <linux-nilfs@vger.kernel.org>; Tue, 23 Jun 2020 05:06:04 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id c139so625664qkg.12
-        for <linux-nilfs@vger.kernel.org>; Tue, 23 Jun 2020 05:06:04 -0700 (PDT)
+        Sat, 27 Jun 2020 18:02:49 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF75C061794
+        for <linux-nilfs@vger.kernel.org>; Sat, 27 Jun 2020 15:02:49 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id y13so6348607ybj.10
+        for <linux-nilfs@vger.kernel.org>; Sat, 27 Jun 2020 15:02:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=D8hUWfFMhiAvJiakQZHiQAmowqYaQz0CHAIBLuYitn64PsPCmCtmiNeUd0XtVVW+Jb
-         y4Yf3hx6ah4W40Uouc3QAhqzeApzUDB1wu8bt7j/DjTR8YlR8Z7Hvj1uTHZSUjzONZMM
-         crhm2U7ExXabjJ6AQOnF9Sl4OB9FArmH3nkwO6NhwXMbjkATmwbyTws5dV8sg/IOTqwa
-         a95jyLMZevKnUgSTwT1kKxoB+cUckDNLp8lchp7bFTLKtwP/siVMIFiTmte53T3HOBSf
-         VRz4wj+SjgDm3liK6h6gJleI32wBg+Nr92Tf/VFpTX/bun3AZWsGbLb74NOB49HuPYh2
-         6TnA==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
+        b=uvaWEz0dd8Ac3CT35qBSqfznpY4sgxsz7Od3pFBzZIuQcY/8TViLhlHXQU9leeTEpY
+         AGovLfmyzd6U3Cq2lgZLwHP1J5YFMSD+Pyz17XxyLzQnjVOPPz8Ik+J+fYFM18bC4Fqc
+         JhO+jF294xtXRRnL3TKWvGE6eKydOzo9lI+qnLW3YVbUSLfu7Gq0pi7M8z5WpDddMN8M
+         WWaoRGs8g5M97omhRASDLgcJhl5wyTXcCK3cENHMncLoSakV7dWBQ+2v4jCXqV+88itT
+         y9KXfYDXgC/gw5+BqchOAKmUvgcqp5Y71+LwruoBL/ShzO8C2ON+xs5RLFzJg/awZL11
+         9lUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=7fNnQnFssZCc2Jtw2cUlJB4v7zrpRiQS682aXMZO9+Q=;
-        b=QUidUCOg/TQJU1h45FkJsuIeWMyb7CNDmoVoHjGGB76c3AmIIc3A2p9JXkd0rl2CaG
-         29huwF9EymaFpzgeaemh2gg8XlOjXbUWEpAWG8w35fim3IpmkpzEtdPuhAC+P2RkCo9u
-         RAkGbL87R+WPKhGGaO7TUV99WkAnAg5rYmtX2ePSU9/DK29KQsSqqIJRxQ/t6Nj3NdHX
-         tPKSezF12dNf01mkFO7J0aZMVdo07cl9cUGcH3eMFnYouGBsZ6cOIXgNabN/FC1W8eg8
-         v1UvFD9dF5b8olJooUxDtNutMJgzo96d+WCAswBgTNJcp19P8NmKC9c8RxGwbmE6b2QD
-         EzMg==
-X-Gm-Message-State: AOAM530svKfxzs/sdA/FyUr9U+j7pFk2d62/Yej4df8ck9NiAJ9/c7A6
-        f7C8Sr3PD5HZNw6qXUjvcfXpzGoL0kq0EkLR1C0=
-X-Google-Smtp-Source: ABdhPJzS8i6OXhdwqr933bP6BTDmMQROlsagwD3b0s9q84lNHAdJUZIX4fct08gEbqFroJaPAjWFq1juwaVGOn7bSQ4=
-X-Received: by 2002:a37:4048:: with SMTP id n69mr19286586qka.344.1592913963562;
- Tue, 23 Jun 2020 05:06:03 -0700 (PDT)
+         :subject:to:content-transfer-encoding;
+        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
+        b=gNG0jhE3IY+pE9EfKI1OTe06YJRKt8jxv0PNy4vsTz0BxE7Mhp3h/OTqxOtKwTOGsi
+         N9/BW9ZVqYFch82lE/8GkS8uhUE8QzzRj9QivgAlRbHCDg8IG2Y+08jLUSxGqZhHdmzV
+         UDA1YixH1nFbXAsIt4FCMIMKa8TwWsJwkJhTRIQ7KU5jpvvPFZZQgNDl7a6uV1ngIGxM
+         0Mm5MZISdlx4wQivHnFtHC0du6rCRtzw/fAUZZuo3O+zoyF5K52K4AjHSmL0xXf1zhbT
+         OaAPnrzLO9xQ78ztQSV+mybAS5EtclePI+NMa13q8Np2iRaJko/X7btDlQ9+Ge5W7ui9
+         Kgog==
+X-Gm-Message-State: AOAM530pcBTxy++Gxd4uIN+/kG3JsyopGJPZPS5qS1dVSFX1q8Mr9Tvt
+        hVxUn7Dcy1dENLI3BdwtRq8maGNl6qw5eUM7eHSpt2yxFHM=
+X-Google-Smtp-Source: ABdhPJynf4CV3u/z+wvqAxCFESu7ee7lLWI0u2+Rd2bRIf462RpI7Q5/OgPmYRkZuywkeS9iG1gTukKnSolbNLelkro=
+X-Received: by 2002:a05:6830:1dba:: with SMTP id z26mr8074641oti.180.1593294943879;
+ Sat, 27 Jun 2020 14:55:43 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:ac8:47c2:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 05:06:03
+Received: by 2002:a9d:12d3:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:55:43
  -0700 (PDT)
-Reply-To: bektery@outlook.com
-From:   YAVUZ BEKTER <bakert.jg@gmail.com>
-Date:   Tue, 23 Jun 2020 05:06:03 -0700
-Message-ID: <CAAUSuTVyNAThqkjY0Fb8uyhTy5HiqsHeC4j5AWWPBkMaCdV=DA@mail.gmail.com>
-Subject: Hello.
+Reply-To: un.org@i.ua
+From:   helen <taxofficebenin@gmail.com>
+Date:   Sat, 27 Jun 2020 22:55:43 +0100
+Message-ID: <CAK9MGy3D5UBf06OY16UW=c+Cybm67x+0kH_OWJkX7ywdQD9CNA@mail.gmail.com>
+Subject: 
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-I am the foreign operations director of Bank of Turkey.
-My name is Mr, Yavuz. I have a sensitive investment project to discuss
-with you, please reply now.
-________________________
-Ik ben de directeur buitenlandse activiteiten van de Bank of Turkey.
-Mijn naam is meneer Yavuz. Ik moet een gevoelig investeringsproject bespreken
-met u, antwoord dan nu.
+MONEY-GRAM TRANSFERRED PAYMENT INFO:
+
+Below is the sender=E2=80=99s information
+
+
+
+1. MG. REFERENCE NO#: 36360857
+
+2. SENDER'S NAME: Johnson Williams
+
+3. AMOUNT TO PICKUP: US$10,000
+
+
+
+Go to any Money Gram office near you and pick up the payment Track the
+
+Reference Number by visiting and click the link below
+
+(https://secure.moneygram.com/embed/track) and enter the Reference
+
+Number: 36360857 and the Last Name: Williams, you will find the payment
+
+available for pickup instantly.
+
+Yours Sincerely,
+
+Mrs. Helen Marvis
+United Nations Liaison Office
+Directorate for International Payments
