@@ -2,90 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD44D20C480
-	for <lists+linux-nilfs@lfdr.de>; Sun, 28 Jun 2020 00:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60C6920C69A
+	for <lists+linux-nilfs@lfdr.de>; Sun, 28 Jun 2020 09:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726406AbgF0WCt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 27 Jun 2020 18:02:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50672 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725907AbgF0WCt (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 27 Jun 2020 18:02:49 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BF75C061794
-        for <linux-nilfs@vger.kernel.org>; Sat, 27 Jun 2020 15:02:49 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id y13so6348607ybj.10
-        for <linux-nilfs@vger.kernel.org>; Sat, 27 Jun 2020 15:02:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=uvaWEz0dd8Ac3CT35qBSqfznpY4sgxsz7Od3pFBzZIuQcY/8TViLhlHXQU9leeTEpY
-         AGovLfmyzd6U3Cq2lgZLwHP1J5YFMSD+Pyz17XxyLzQnjVOPPz8Ik+J+fYFM18bC4Fqc
-         JhO+jF294xtXRRnL3TKWvGE6eKydOzo9lI+qnLW3YVbUSLfu7Gq0pi7M8z5WpDddMN8M
-         WWaoRGs8g5M97omhRASDLgcJhl5wyTXcCK3cENHMncLoSakV7dWBQ+2v4jCXqV+88itT
-         y9KXfYDXgC/gw5+BqchOAKmUvgcqp5Y71+LwruoBL/ShzO8C2ON+xs5RLFzJg/awZL11
-         9lUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=gNG0jhE3IY+pE9EfKI1OTe06YJRKt8jxv0PNy4vsTz0BxE7Mhp3h/OTqxOtKwTOGsi
-         N9/BW9ZVqYFch82lE/8GkS8uhUE8QzzRj9QivgAlRbHCDg8IG2Y+08jLUSxGqZhHdmzV
-         UDA1YixH1nFbXAsIt4FCMIMKa8TwWsJwkJhTRIQ7KU5jpvvPFZZQgNDl7a6uV1ngIGxM
-         0Mm5MZISdlx4wQivHnFtHC0du6rCRtzw/fAUZZuo3O+zoyF5K52K4AjHSmL0xXf1zhbT
-         OaAPnrzLO9xQ78ztQSV+mybAS5EtclePI+NMa13q8Np2iRaJko/X7btDlQ9+Ge5W7ui9
-         Kgog==
-X-Gm-Message-State: AOAM530pcBTxy++Gxd4uIN+/kG3JsyopGJPZPS5qS1dVSFX1q8Mr9Tvt
-        hVxUn7Dcy1dENLI3BdwtRq8maGNl6qw5eUM7eHSpt2yxFHM=
-X-Google-Smtp-Source: ABdhPJynf4CV3u/z+wvqAxCFESu7ee7lLWI0u2+Rd2bRIf462RpI7Q5/OgPmYRkZuywkeS9iG1gTukKnSolbNLelkro=
-X-Received: by 2002:a05:6830:1dba:: with SMTP id z26mr8074641oti.180.1593294943879;
- Sat, 27 Jun 2020 14:55:43 -0700 (PDT)
+        id S1726022AbgF1HCu (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 28 Jun 2020 03:02:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51956 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725958AbgF1HCu (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Sun, 28 Jun 2020 03:02:50 -0400
+Received: from sol.hsd1.ca.comcast.net (c-107-3-166-239.hsd1.ca.comcast.net [107.3.166.239])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DCB0D20702;
+        Sun, 28 Jun 2020 07:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593327770;
+        bh=kfgopL0W3FtXqsVa/V5I6oQEZ9ZcW4URkZcEXEWUVKo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=IYeU8A+Tvxs0WSfkv8jixPZMMpRMTIle7EdHOg6Tl5HgyFqfJAPx31xAACKxMxS2b
+         OphWbGZwru9rEl9chZHBkKdd8Un94ahNMrfbRyr+nFMXcW/5wZ2PA7zERsy4UWjRQl
+         qjoleNut6qzThofLcauuILWD4VHFr4jXiWlNTEEw=
+From:   Eric Biggers <ebiggers@kernel.org>
+To:     linux-nilfs@vger.kernel.org,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nilfs2: only call unlock_new_inode() if I_NEW
+Date:   Sun, 28 Jun 2020 00:01:52 -0700
+Message-Id: <20200628070152.820311-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Received: by 2002:a9d:12d3:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:55:43
- -0700 (PDT)
-Reply-To: un.org@i.ua
-From:   helen <taxofficebenin@gmail.com>
-Date:   Sat, 27 Jun 2020 22:55:43 +0100
-Message-ID: <CAK9MGy3D5UBf06OY16UW=c+Cybm67x+0kH_OWJkX7ywdQD9CNA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-MONEY-GRAM TRANSFERRED PAYMENT INFO:
+From: Eric Biggers <ebiggers@google.com>
 
-Below is the sender=E2=80=99s information
+unlock_new_inode() is only meant to be called after a new inode has
+already been inserted into the hash table.  But nilfs_new_inode() can
+call it even before it has inserted the inode, triggering the WARNING in
+unlock_new_inode().  Fix this by only calling unlock_new_inode() if the
+inode has the I_NEW flag set, indicating that it's in the table.
 
+Signed-off-by: Eric Biggers <ebiggers@google.com>
+---
+ fs/nilfs2/inode.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index 28009ec54420..3318dd1350b2 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -388,7 +388,8 @@ struct inode *nilfs_new_inode(struct inode *dir, umode_t mode)
+ 
+  failed_after_creation:
+ 	clear_nlink(inode);
+-	unlock_new_inode(inode);
++	if (inode->i_state & I_NEW)
++		unlock_new_inode(inode);
+ 	iput(inode);  /*
+ 		       * raw_inode will be deleted through
+ 		       * nilfs_evict_inode().
+-- 
+2.27.0
 
-1. MG. REFERENCE NO#: 36360857
-
-2. SENDER'S NAME: Johnson Williams
-
-3. AMOUNT TO PICKUP: US$10,000
-
-
-
-Go to any Money Gram office near you and pick up the payment Track the
-
-Reference Number by visiting and click the link below
-
-(https://secure.moneygram.com/embed/track) and enter the Reference
-
-Number: 36360857 and the Last Name: Williams, you will find the payment
-
-available for pickup instantly.
-
-Yours Sincerely,
-
-Mrs. Helen Marvis
-United Nations Liaison Office
-Directorate for International Payments
