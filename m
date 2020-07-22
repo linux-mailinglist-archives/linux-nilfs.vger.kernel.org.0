@@ -2,69 +2,51 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8039227B5B
-	for <lists+linux-nilfs@lfdr.de>; Tue, 21 Jul 2020 11:06:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDBAB228FF5
+	for <lists+linux-nilfs@lfdr.de>; Wed, 22 Jul 2020 07:42:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726932AbgGUJG1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 21 Jul 2020 05:06:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60676 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725984AbgGUJG1 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 21 Jul 2020 05:06:27 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C09C061794
-        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jul 2020 02:06:27 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id a30so9695685ybj.5
-        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jul 2020 02:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=nHNUw5fKJrBs4Yw/4gDozM7ufiIL1f9OJbiyNszRX0w=;
-        b=gzWewCkqzF6t0I1uHFY3JNre+Yd9o1QRxPOgeyRzDBxODC5/k0OeoTzJzQevQrTe53
-         el7ZR08o/puEO48+NELLWBOkT152iHDFD7Gv9CUgH9uYymLTq2wvuSU7ictqMs8h6GtS
-         Pq5aJhoQXnzwgCY3QGbQbROosEUpKFJGTF9F785Lcr281zAZCf/DVWvGBTsflU1zgrz2
-         ciRXWipT/rK98btXUyjHQZEyBcWerjjd4J0kjKrdpYeDdjdBe7a1uIjc0qz/Vw65HQkk
-         B/x9DQPfd77ImRgOzrT9TaMcaMsUFMePQT/NtFhV+RSVC7czRrH/bIbq3vDhjuv6XCCl
-         2MMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=nHNUw5fKJrBs4Yw/4gDozM7ufiIL1f9OJbiyNszRX0w=;
-        b=FVYvU0F+jGYx2dQJK7sN9jPnaEADhhxbLkU2Jf/sr7WVlLF0kbMt692InTq6CqgT2I
-         3UlKo5e2eOrgJJD2f2drY6tqLpu1b9y19ySa6AA4VFamGZ7DtqLBR6pM701BQJegccE/
-         r+CNSxlyxD4dO+4oZoqzEOLqX3/7rBZMy6ZdCzVl/PvPvifcP/o28KUb64sQp3foJXJJ
-         Pz1DJ26O/Fa4YC9uPAOE8PQJ23b7bglVsnll5LgypgFeaBdagZ/KxXOLnBESpkw0BGTA
-         aHSbhZGwkyHppQwSqzYpt/oFA4DcD0kaM7cljrOCeRGk4YQVmRh8M31Ef9DNIdrmmn2U
-         mE+g==
-X-Gm-Message-State: AOAM531IY1tgrXA5rFSE6/O3qfyPArrNzX7lCnXg8OKQQ+VT3xSCptA8
-        SYWTE42amPGCZXxWNxSn+h5PxbFYmichBEOSfx8=
-X-Google-Smtp-Source: ABdhPJz96mHD3nkDeB0t1UeeJiU/0QGvjBoChqSU1RrK3QF3daSD+AQSI9+3OaR/AniWH40afKFrhtZDW3umnrIcZJs=
-X-Received: by 2002:a25:8008:: with SMTP id m8mr38623233ybk.104.1595322386425;
- Tue, 21 Jul 2020 02:06:26 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a25:698b:0:0:0:0:0 with HTTP; Tue, 21 Jul 2020 02:06:25
- -0700 (PDT)
-Reply-To: jinghualiuyang@gmail.com
-From:   Frau JINGHUA Liu Yang <alvinteddy830@gmail.com>
-Date:   Tue, 21 Jul 2020 11:06:25 +0200
-Message-ID: <CAM5-t4Lm9iw7ww90NJdQL_ht+GE_Vi8AAK8P4A8RO3cPG6Wmnw@mail.gmail.com>
+        id S1728115AbgGVFmE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 22 Jul 2020 01:42:04 -0400
+Received: from smtp.utu.edu.uy ([190.0.150.6]:49256 "EHLO delta45.utu.edu.uy"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726696AbgGVFmD (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 22 Jul 2020 01:42:03 -0400
+X-Greylist: delayed 481 seconds by postgrey-1.27 at vger.kernel.org; Wed, 22 Jul 2020 01:41:53 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by delta45.utu.edu.uy (Postfix) with ESMTP id A0FDF1D0EF10;
+        Wed, 22 Jul 2020 02:32:12 -0300 (GMT+3)
+Received: from delta45.utu.edu.uy ([127.0.0.1])
+        by localhost (delta45.utu.edu.uy [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id j-d5-xIHkuKF; Wed, 22 Jul 2020 02:32:12 -0300 (GMT+3)
+Received: from localhost (localhost [127.0.0.1])
+        by delta45.utu.edu.uy (Postfix) with ESMTP id DC7E81D0EF09;
+        Wed, 22 Jul 2020 02:32:11 -0300 (GMT+3)
+X-Virus-Scanned: amavisd-new at delta45.utu.edu.uy
+Received: from delta45.utu.edu.uy ([127.0.0.1])
+        by localhost (delta45.utu.edu.uy [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id z5KYbxFuF39p; Wed, 22 Jul 2020 02:32:11 -0300 (GMT+3)
+Received: from delta45.utu.edu.uy (delta45 [172.17.1.45])
+        by delta45.utu.edu.uy (Postfix) with ESMTP id 7FB051D0EEFB;
+        Wed, 22 Jul 2020 02:32:10 -0300 (GMT+3)
+Date:   Wed, 22 Jul 2020 02:32:10 -0300 (GMT-03:00)
+From:   Darlehen Bedienung <aemartinez@utu.edu.uy>
+Reply-To: info_innoxcapitalservicesolution@aol.com
+Message-ID: <754360867.138094.1595395930510.JavaMail.zimbra@utu.edu.uy>
 Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [172.17.1.45]
+X-Mailer: Zimbra 8.8.12_GA_3866 (zclient/8.8.12_GA_3866)
+X-Authenticated-User: aemartinez@utu.edu.uy
+Thread-Index: sHxyVNlBzwToKpIuoIGp0++CnI1oLA==
+Thread-Topic: 
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
---=20
-Guten Morgen,
 
-     Ich bin Frau JINGHUA Liu Yang f=C3=BCr die Mitarbeiter der CITIBANK
-KOREA hier in der Republik Korea. Kann ich $9.356.669 USD =C3=BCberweisen?
-Vertrauen?
 
-Mit freundlichen Gr=C3=BC=C3=9Fen
+Schönen Tag,Wir sind zuverlässige, vertrauenswürdige Kreditgeber, Wir bieten Darlehen an Unternehmen und Privatpersonen zu niedrigen und günstigen Zinssatz von 2%. Sind Sie auf der Suche nach einem Business-Darlehen, persönliche Darlehen, Schuldenkonsolidierung, unbesicherte Darlehen, Venture Capital. Kontaktieren Sie uns mit Name, Land, Darlehensbetrag, Dauer und Telefonnummer.GrüßeHerr DA COSTA DARREN FAY
