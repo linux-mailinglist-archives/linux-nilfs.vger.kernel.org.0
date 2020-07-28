@@ -2,48 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE7B23153D
-	for <lists+linux-nilfs@lfdr.de>; Tue, 28 Jul 2020 23:56:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A2A32319F1
+	for <lists+linux-nilfs@lfdr.de>; Wed, 29 Jul 2020 08:59:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729593AbgG1V4P convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Tue, 28 Jul 2020 17:56:15 -0400
-Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:40938
+        id S1727111AbgG2G7q convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 29 Jul 2020 02:59:46 -0400
+Received: from customer-201-134-139-73.uninet-ide.com.mx ([201.134.139.73]:42176
         "EHLO correo.tlalpan.gob.mx" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728149AbgG1V4P (ORCPT
+        by vger.kernel.org with ESMTP id S1727070AbgG2G7q (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 28 Jul 2020 17:56:15 -0400
+        Wed, 29 Jul 2020 02:59:46 -0400
 Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id C14A74DBE63;
-        Tue, 28 Jul 2020 07:11:26 -0500 (CDT)
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 8263E44CFE3;
+        Tue, 28 Jul 2020 04:24:36 -0500 (CDT)
 Received: from correo.tlalpan.gob.mx ([127.0.0.1])
         by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id PT7n-bdZ6mNc; Tue, 28 Jul 2020 07:11:26 -0500 (CDT)
+        with ESMTP id edyDbcIuTFfY; Tue, 28 Jul 2020 04:24:36 -0500 (CDT)
 Received: from localhost (localhost [127.0.0.1])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTP id B01C54DBE6B;
-        Tue, 28 Jul 2020 05:11:22 -0500 (CDT)
+        by correo.tlalpan.gob.mx (Postfix) with ESMTP id 73A7644CFE5;
+        Tue, 28 Jul 2020 03:51:13 -0500 (CDT)
 X-Virus-Scanned: amavisd-new at tlalpan.gob.mx
 Received: from correo.tlalpan.gob.mx ([127.0.0.1])
         by localhost (correo.tlalpan.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id fZYAnZqC00Zd; Tue, 28 Jul 2020 05:11:22 -0500 (CDT)
-Received: from [197.175.64.209] (unknown [197.175.64.209])
-        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id 6DD334DBE7B;
-        Tue, 28 Jul 2020 04:46:52 -0500 (CDT)
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id YHRs_VpY5nXb; Tue, 28 Jul 2020 03:51:13 -0500 (CDT)
+Received: from [10.85.108.11] (unknown [105.8.2.12])
+        by correo.tlalpan.gob.mx (Postfix) with ESMTPSA id D591A432A74;
+        Tue, 28 Jul 2020 03:42:46 -0500 (CDT)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
 Content-Description: Mail message body
-Subject: Spende von 2.000.000,00 Euro.
-To:     Recipients <rdelrazom@tlalpan.gob.mx>
-From:   "manuel franco" <rdelrazom@tlalpan.gob.mx>
-Date:   Tue, 28 Jul 2020 11:51:08 +0200
-Reply-To: manuelfrancospende001@gmail.com
-Message-Id: <20200728094654.6DD334DBE7B@correo.tlalpan.gob.mx>
+Subject: =?utf-8?q?Covid_19_Wohlt=C3=A4tigkeitsfonds?=
+To:     Recipients <aguayenergia@tlalpan.gob.mx>
+From:   ''Tayeb Souami'' <aguayenergia@tlalpan.gob.mx>
+Date:   Tue, 28 Jul 2020 10:47:04 +0200
+Reply-To: Tayebsouam.spende@gmail.com
+Message-Id: <20200728084247.D591A432A74@correo.tlalpan.gob.mx>
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Sie haben eine Spende von 2.000.000,00 Euro.
+Lieber Freund,
 
-Mein Name ist Manuel Franco aus den USA.
-Ich habe die America-Lotterie im Wert von 768 Millionen US-Dollar gewonnen und spende einen Teil davon an nur 5 gl�ckliche Menschen und einige Waisenh�user als Wohlwollen f�r die Menschheit.
+Ich bin Herr Tayeb Souami, New Jersey, Vereinigte Staaten von Amerika, der Mega-Gewinner von $ 315million In Mega Millions Jackpot, spende ich an 5 zufällige Personen, wenn Sie diese E-Mail erhalten, dann wurde Ihre E-Mail nach einem Spinball ausgewählt.Ich habe den größten Teil meines Vermögens auf eine Reihe von Wohltätigkeitsorganisationen und Organisationen verteilt.Ich habe mich freiwillig dazu entschieden, die Summe von € 2.000.000,00 an Sie als eine der ausgewählten 5 zu spenden, um meine Gewinne zu überprüfen, sehen Sie bitte meine You Tube Seite unten.
+
+UHR MICH HIER: https://www.youtube.com/watch?v=Z6ui8ZDQ6Ks
+
+
+Das ist dein Spendencode: [TS530342018]
+
+
+Antworten Sie mit dem SPENDE-CODE an diese
+
+E-Mail:Tayebsouam.spende@gmail.com
+
+
+Ich hoffe, Sie und Ihre Familie glücklich zu machen.
+
+Grüße
+Herr Tayeb Souami
