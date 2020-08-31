@@ -2,97 +2,95 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8340D24580B
-	for <lists+linux-nilfs@lfdr.de>; Sun, 16 Aug 2020 16:31:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7000257A7E
+	for <lists+linux-nilfs@lfdr.de>; Mon, 31 Aug 2020 15:33:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729658AbgHPObj (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 16 Aug 2020 10:31:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57060 "EHLO
+        id S1726714AbgHaNdV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 31 Aug 2020 09:33:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729433AbgHPOaL (ORCPT
+        with ESMTP id S1727883AbgHaN2G (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 16 Aug 2020 10:30:11 -0400
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95AADC061375
-        for <linux-nilfs@vger.kernel.org>; Sun, 16 Aug 2020 07:28:37 -0700 (PDT)
-Received: by mail-wm1-x335.google.com with SMTP id 184so11882427wmb.0
-        for <linux-nilfs@vger.kernel.org>; Sun, 16 Aug 2020 07:28:37 -0700 (PDT)
+        Mon, 31 Aug 2020 09:28:06 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9690C0619F0
+        for <linux-nilfs@vger.kernel.org>; Mon, 31 Aug 2020 06:26:40 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id w3so1673054ljo.5
+        for <linux-nilfs@vger.kernel.org>; Mon, 31 Aug 2020 06:26:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=NAKDDu3zYGlp6/1rTFA3zLXzfLNUWElMFpld1DGXTqZ3f2C1G5vMMGgQBtzYdv61gR
-         j0gW2VjYzcAEQEK9JcrA+yGSHFEXNhE9RNkaz3uxkanP37gacJrIVytgT7/c7zGkA2Dy
-         XJB3L8ToVDoWAD9Rvm7U849RIrxncLk9xI9S/Uu5ZGT/cXsim2IUQmYeZsKFSBsv6kJT
-         3kDR9KLYjND6JPpx0YTAndrQaTelzP3558OkivI4ykhj79/nak1F6z80uX1/EQIXmTKV
-         I+kUa6Zt2XAbNuMItIuLndMdaWWyo32PYvWKoOywYCMLUV2UDlYdbpJ66arhF+MiPCa0
-         yMKA==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=kc8b/w+wOTtF7zLYRjvrR1jPT/ZK7Vk2mKpv3jAxE9VT67C9fVlpfW9Y+phL1vuGxq
+         Hb3x1FpXZuW578gvCk5O04B73B4LZoP7kKsmw9UxgkoXE6gTVKzovNHYGFhIYhijFRil
+         nl0JSzi7hR74DeD8nMnyt6lcP4qNdUY/Lc8F+58ZXu/CzzOM7yUQDtVLUEwdsGkyt5VA
+         d9qEgMSd8orYp0jlQehk7NI5qh7PWtCoIKmsR98GatwAE0LmWdvtpQ20BCG/6na9SXJC
+         dRhbpFzqkzfoYJgpg/F8CGs3itwyW4e/YfM/kFooNAjpi/4QSH5iWMSkHbbwXEQIlTwE
+         oN6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=Duxa+mmNF3T3C2WDKsmzowR2OzvdY892XFjTPp0RWRI=;
-        b=thgA2M2KJRexme6jZgikyS8D7nw8wWTdkZ6INLKLm//zPOJM3142L84W5xxrbrsuAh
-         ZhhD6dLmX4RUYsd4+HVDAyejPIKrVm+e2BTh+Zyv8UjH9+0wbpfarRHxImmWykl2hTmW
-         XP9PQdg3dDqyB0454x2s2ilskWLViceMxdvA6WXdlT3lBAiznOahmpxEGNMVkRrHeve+
-         n+kadGhgw+Ib7fWsN3T7ZExBQ3AJXdBEBtIl6BI+eTTpH9uLL8vVpcegLkaQQGsf7Lra
-         C4NxsQr1Y+tyVo8hTXksLP9oeNxi4FLNInmauJ3KLs3RLvxPJ8G4ACTwAanOzE4mrYJH
-         rqvA==
-X-Gm-Message-State: AOAM5316J6l0N0CR5nex9l1XdnUQNFaObxp3n9gaZMw4NoZjKhCqG8y2
-        ogrr3cUdRC8tDHFgfOPgFf9qChqiSnR8OJE+TnJleDw1SOM=
-X-Google-Smtp-Source: ABdhPJydZZ8FQlFGmrB/EDLy0Z8gH5X03F6EFXypW4K1vf8iv94WhLhI3iwPKgeJEaRZZocHWED4lUmYPOBkTFPeX+4=
-X-Received: by 2002:a1c:a1c7:: with SMTP id k190mr10461870wme.1.1597588111746;
- Sun, 16 Aug 2020 07:28:31 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=o69Nac3LLMj5CDhyPqLcnP7WGq46U4gQb9HzFdG/MvE=;
+        b=T3DByJJ7sYCyZk11Ys0q7hQgz6muMjnjTbP9S8QBj9wHJNWybPwUXvCRWlh9uyxvex
+         l+Vi25KKro5M1tRV/9+KNXVxgPjjT9P/mSPP5zAMhZugwb2ql3rTl+X9dQ/VmYMFteLB
+         LpISIM3tw7CHzBDcWmq44+zwQAH0K4PhXBvAUVvSoXK6Q3+forMXZa9Ahr6ndhVnFJ9l
+         wgUBeSfhmxWiWB24cVXXAHZ+a00Howq3GDgdtvVC+GoSiBgkooLwBvRaEwggoM46ntNE
+         NBgCu6U+GUQrl9oofALKILPpXITihy5oTknRx8W+GMRky1jGWfBSTABaSz5JvIdJKgJ/
+         Sovw==
+X-Gm-Message-State: AOAM532T+JTMqrV/WQQxcF8FNFv9n3oyB/4YQnjk0mrjaH+2H61c62He
+        GDyJ1tm4T3iYUcElLEx0wbjKutZC1PUeERaxwIc=
+X-Google-Smtp-Source: ABdhPJwwxnLJ+boQ5AWjXxG674YSv8HYua8cHn0ffhUvKkWm/U6sy8uO7QhVk0w3Z6JDIeHHrXTyb5x5hxbubByOKbo=
+X-Received: by 2002:a2e:1511:: with SMTP id s17mr724722ljd.81.1598880399293;
+ Mon, 31 Aug 2020 06:26:39 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a5d:6cd3:0:0:0:0:0 with HTTP; Sun, 16 Aug 2020 07:28:30
+Reply-To: marie_avis12@yahoo.com
+Received: by 2002:a2e:9817:0:0:0:0:0 with HTTP; Mon, 31 Aug 2020 06:26:38
  -0700 (PDT)
-Reply-To: sctnld11170@tlen.pl
-From:   "Mr. Scott Donald" <confianzayrentabilidad@gmail.com>
-Date:   Sun, 16 Aug 2020 07:28:30 -0700
-Message-ID: <CANrrfX7wwL97G=jb--8nb9jH8oRO8T90L6NGSfg1HfnzMyyHcw@mail.gmail.com>
-Subject: Hello, Please
+From:   Miss Maris Avis <marie.avis11@gmail.com>
+Date:   Mon, 31 Aug 2020 13:26:38 +0000
+X-Google-Sender-Auth: FfeQe1Uhq_bzJWJ1eFQ7t2v5C-w
+Message-ID: <CADTVshP+AqENJRYaXa3w3RXtbFi9dvwrKoG-vr=u5b93NO3RnQ@mail.gmail.com>
+Subject: Hello
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-nilfs-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
---=20
-Dear Friend,
+My Dear,
 
-I'm Mr. Scott Donald a Successful businessMan dealing with
-Exportation, I got your mail contact through search to let you know my
-intension and my Ugly Situation Am a dying Man here in Los Angeles
-California Hospital Bed in (USA), I Lost my Wife and my only Daughter
-for Covid-19 and I also have a problem in my Health and I can die
-anytime I Know,
+My name is Miss Marie Avis the only daughter of Mr. Gabriel Avis, my
+Father was dealing in Cocoa and Timber in this country before his
+death,  It is my pleasure to contact you for a business venture which
+I intend to establish in your country. Though I have not met with you
+before but I believe one has to risk confiding before you can succeed
+sometimes in life.
 
-I have a project that I am about to hand over to you. and I already
-instructed the Bankia S.A. Madrid, Spain(BSA) to transfer my fund sum
-of =C2=A33,7M GBP. Equivalent to =E2=82=AC4,077,033.91 EUR, to you as to en=
-able you
-to give 50% of this fund to Charitable Home in your State and take 50%
-don't think otherwise and why would anybody send someone you barely
-know to help you deliver a message, help me do this for the happiness
-of my soul and for God to mercy me and my Family and give Us a good
-place.
+I can confide in you for my brighter future since you are a human
+being like me. There is this huge amount of Ten Million five hundred
+thousand United States dollars. ($10.500.000.00) which my late Father
+kept for me in a suspense account with one of the bank here in Abidjan
+Cote d'Ivoire before he was assassinated by unknown persons, Now I
+have decided to invest these money in your country or anywhere safe
+enough for me.
 
-please, do as I said there was someone from your State that I deeply
-love so very very much and I miss her so badly I have no means to
-reach any Charitable Home there. that is why I go for a personal
-search of the Country and State and I got your mail contact through
-search to let you know my Bitterness and please, help me is getting
-Dark I ask my Doctor to help me keep you notice failure for me to
-reach you in person Your urgent Response, here is my Doctor Whats-app
-Number for urgent notice +13019692737
+I want you to help me claim this fund from the bank and have it
+transfer into your personal account in your country for investment
+purposes in your country in these areas:
 
-Hope To Hear From You. I'm sending this email to you for the second
-time yet no response from you.
+1). Telecommunication
+2). The transport Industry
+3). Five Star Hotel
+4). Tourism
+5). Real Estate
 
-My Regards.
+If you can be of assistance to me I will be pleased to offer you 20%
+of the total fund.
 
-Mr. Scott Donald
-CEO
+I await your soonest response.
+
+Respectfully yours,
+Miss Marie Evis
+Tel: +225597438528
