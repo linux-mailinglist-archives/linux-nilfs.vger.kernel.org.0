@@ -2,36 +2,49 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E3862AE629
-	for <lists+linux-nilfs@lfdr.de>; Wed, 11 Nov 2020 03:09:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B92612AEA05
+	for <lists+linux-nilfs@lfdr.de>; Wed, 11 Nov 2020 08:24:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732463AbgKKCJj convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Tue, 10 Nov 2020 21:09:39 -0500
-Received: from bl22-133-207.dsl.telepac.pt ([2.83.133.207]:35879 "HELO
-        BlackDesktop" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with SMTP
-        id S1732081AbgKKCJj (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 10 Nov 2020 21:09:39 -0500
-Message-Id: <7YC2V7YW-1GCM-NW8E-25XI-XHZ0QQZEXS1I@gmail.com>
-Mime-Version: 1.0
-From:   Joe Pereira Guerra <jsguerra513@gmail.com>
-To:     linux-nilfs@vger.kernel.org
-Subject: The Miraculous Fatima Rosary
-Date:   Wed, 11 Nov 2020 02:09:34 GMT
-Content-Type: text/plain; charset=iso-8859-1; format=flowed
+        id S1726573AbgKKHYl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 11 Nov 2020 02:24:41 -0500
+Received: from sw73-70-41.adsl.seed.net.tw ([203.73.70.41]:44889 "EHLO
+        oa.trendtek.com.tw" rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org
+        with ESMTP id S1726739AbgKKHYj (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 11 Nov 2020 02:24:39 -0500
+X-Greylist: delayed 68756 seconds by postgrey-1.27 at vger.kernel.org; Wed, 11 Nov 2020 02:24:38 EST
+Received: from [156.96.44.214] ([156.96.44.214])
+        (authenticated bits=0)
+        by oa.trendtek.com.tw (8.13.8/8.13.1) with ESMTP id 0AB7ONQd025279
+        for <linux-nilfs@vger.kernel.org>; Wed, 11 Nov 2020 15:24:31 +0800
+Message-Id: <202011110724.0AB7ONQd025279@oa.trendtek.com.tw>
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Corporate and Personal Loan *
+To:     linux-nilfs@vger.kernel.org
+From:   "Investment  Corporate" <financialcapability6@gmail.com>
+Date:   Wed, 11 Nov 2020 00:31:43 -0800
+Reply-To: hmurrah39@gmail.com
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-The Miraculous Fatima Rosary
- HYPERLINK "https://dightongroup.files.wordpress.com/2020/11/rosary-brochure-en_pagenumber.001-1.png"
-A specially hand made Rosary made the old fashion way by senior citizens in the area of Fatima, Portugal, which aids them with their low retirement income which in times is not even sufficient for their medication needs. Saddly to say but lets help them as much as possible.
-This Rosary is had-made in Fatima with beads collected from the Holy Trees located in the path of the Apparitions of Our Lady of Fatima. The beads have also been found to have certain healing powers and were used in ancient time for their healing effects.
-Service A
-Request the Rosary free of all costs including shipping. Once received and when it is confortable for you send us your donation to help keep this free program alive.
-Service B
-Request large quantities of the Rosaries and we will facilitate the costs and payment options based on your situation and needs.
-Service C
-Become a resaller and we will ship out the merchandise directly to your clients with your specific instructions.Use our Rosary in your Fund Raising Campaigns and we will participate with donations.
+Hello linux-nilfs@vger.kernel.org
 
 
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
+
+
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
+
+
+Please get back to me if you are interested for more
+
+details.
+
+
+Yours faithfully,
+
+Hashim Murrah
