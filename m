@@ -2,60 +2,54 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02F9F2CD1C1
-	for <lists+linux-nilfs@lfdr.de>; Thu,  3 Dec 2020 09:51:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4651B2CF842
+	for <lists+linux-nilfs@lfdr.de>; Sat,  5 Dec 2020 01:48:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727826AbgLCIvU (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 3 Dec 2020 03:51:20 -0500
-Received: from mail.boldwhite24.com ([80.211.42.67]:54096 "EHLO
-        mail.boldwhite24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726028AbgLCIvU (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 3 Dec 2020 03:51:20 -0500
-Received: by mail.boldwhite24.com (Postfix, from userid 1001)
-        id 33A42A2CE2; Thu,  3 Dec 2020 08:50:13 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=boldwhite24.com;
-        s=mail; t=1606985415;
-        bh=hS3ibs4caZkahrzgcMN2TAJo2B2H5Muwb2NidDYlIzQ=;
-        h=Date:From:To:Subject:From;
-        b=C2JWl9l0LYEhljwzYAho9iEu1RcREImQxQ+lcc4j4zo05kypG96kvNp5XZarRGrj1
-         IRYs7rqDM2wkTFULGl0fCXQ3tGS7x7eQpI42zuJC6UdR5QV4NMJpx4+UBRQky5agoq
-         nzZWaIbPhSPi2J9Op29OEPVhnWS/Wc2Sgv0o+Kyd3N9g2BCSTXNJWK9t/rx12Dz4Wk
-         A7zMyzvpAIoc1H3qHAa1Ndwu7TM9P7Fwb+Y2YhgIMtvDDngrQ3i7l4KttaIhKYKvEc
-         haODMDRnBC2CqTC3ohhXGr2SXRwL/5GhpiTtGS1rfAJLSpBsOnkKDSgPjTiy3caq8F
-         ECUFrR7egQx8g==
-Received: by mail.boldwhite24.com for <linux-nilfs@vger.kernel.org>; Thu,  3 Dec 2020 08:50:11 GMT
-Message-ID: <20201203074501-0.1.2m.an2o.0.jyjdc9p9ph@boldwhite24.com>
-Date:   Thu,  3 Dec 2020 08:50:11 GMT
-From:   =?UTF-8?Q? "Diego_S=C3=A1nchez" ?= <diego.sanchez@boldwhite24.com>
-To:     <linux-nilfs@vger.kernel.org>
-Subject: Disinfection
-X-Mailer: mail.boldwhite24.com
+        id S1731076AbgLEArD (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 4 Dec 2020 19:47:03 -0500
+Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:49526 "EHLO
+        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726485AbgLEAq5 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 4 Dec 2020 19:46:57 -0500
+X-Greylist: delayed 14573 seconds by postgrey-1.27 at vger.kernel.org; Fri, 04 Dec 2020 19:46:41 EST
+Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
+        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id 274A31A5589;
+        Sat,  5 Dec 2020 04:44:55 +0900 (JST)
+Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
+        by postfix.imss71 (Postfix) with ESMTP id E5C39838858;
+        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
+Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
+        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id B84F6838260;
+        Sat,  5 Dec 2020 04:44:54 +0900 (JST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <20201204194454.00002B21.0147@hyogo-dai.ac.jp>
+Date:   Sat, 05 Dec 2020 04:44:54 +0900
+From:   "Dr.Raymond" <tabata@hyogo-dai.ac.jp>
+To:     <infocarferr1@aim.com>
+Reply-To: <infocarfer@aim.com>
+Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
+         Kuo Fung I have Important Matter to Discuss with you concerning
+         my late client. Died without a NEXT OF KIN. Send me your private
+         email for full details information. 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Priority: 3
+X-MAILER: Active! mail
+X-TM-AS-MML: disable
+X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
+X-TM-AS-Result: No--4.326-5.0-31-10
+X-imss-scan-details: No--4.326-5.0-31-10
+X-TM-AS-User-Approved-Sender: No
+X-TMASE-MatchedRID: +T4Z3mpR0x5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce/bj
+        Enpjm61/Gf23dqZJjE4Erxo5p8V1/E1+zyfzlN7y/sToY2qzpx7w5nZ/qYg41XEWw1TkKAjcYff
+        qdBtG2ocgOkCKsW/kbuunGEBqPil++coAzulIP8gMTyJMXCOBhj9BWL7GG0LsKrauXd3MZDUZaR
+        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
+        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good morning,
+infocarfer@aim.com
 
-looking for companies interested in raising additional capital by diversi=
-fying their offer in soaps, liquids and gels for hand disinfection and co=
-smetics for body and hair care.
 
-The distribution of innovative products corresponding to the current pref=
-erences of customers in the field of hygiene and preventive healthcare al=
-lows our partners to gain new markets and achieve better economic results=
-=2E
 
-In addition to products with bactericidal action, our range includes show=
-er gels, shampoos and hair conditioners, as well as efficient, concentrat=
-ed detergents.
-
-The versatility (suitable for all skin types) combined with an affordable=
- price means that customers make an informed choice of a product among ot=
-hers available on the market.
-
-Are you interested in cooperation?
-
-Diego S=C3=A1nchez
