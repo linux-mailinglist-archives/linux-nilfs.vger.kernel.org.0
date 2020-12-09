@@ -2,54 +2,97 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C4A02D1F7E
-	for <lists+linux-nilfs@lfdr.de>; Tue,  8 Dec 2020 01:52:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF5F92D4DAF
+	for <lists+linux-nilfs@lfdr.de>; Wed,  9 Dec 2020 23:29:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728883AbgLHAvl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 7 Dec 2020 19:51:41 -0500
-Received: from vsm-gw.hyogo-dai.ac.jp ([202.244.76.12]:35013 "EHLO
-        vsm-gw.hyogo-dai.ac.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgLHAvk (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 7 Dec 2020 19:51:40 -0500
-X-Greylist: delayed 16991 seconds by postgrey-1.27 at vger.kernel.org; Mon, 07 Dec 2020 19:51:35 EST
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [202.244.77.11])
-        by vsm-gw.hyogo-dai.ac.jp (Postfix) with ESMTP id DE24F1A606F;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from humans-kc.hyogo-dai.ac.jp (humans-kc.hyogo-dai.ac.jp [127.0.0.1])
-        by postfix.imss71 (Postfix) with ESMTP id BC3D8382029;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-Received: from hyogo-dai.ac.jp (unknown [202.244.77.11])
-        by humans-kc.hyogo-dai.ac.jp (Postfix) with SMTP id 426EA83825B;
-        Tue,  8 Dec 2020 04:09:26 +0900 (JST)
-MIME-Version: 1.0
-Message-ID: <20201207190926.000057A2.0664@hyogo-dai.ac.jp>
-Date:   Tue, 08 Dec 2020 04:09:26 +0900
-From:   "Raymond " <hozumi@hyogo-dai.ac.jp>
-To:     <infocarferw1@aim.com>
-Reply-To: <infocarfer@aim.com>
-Subject: I am Vice Chairman of Hang Seng Bank, Dr. Raymond Chien
-         Kuo Fung I have Important Matter to Discuss with you concerning
-         my late client. Died without a NEXT OF KIN. Send me your private
-         email for full details information.
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MAILER: Active! mail
-X-TM-AS-MML: disable
-X-TM-AS-Product-Ver: IMSS-7.1.0.1808-8.2.0.1013-25446.007
-X-TM-AS-Result: No--2.951-5.0-31-10
-X-imss-scan-details: No--2.951-5.0-31-10
-X-TM-AS-User-Approved-Sender: No
-X-TMASE-MatchedRID: X41QhRrT5f5ITndh1lLRASsOycAMAhSTkCM77ifYafsBLhz6t76Ce6P0
-        clhHAFPyJA6GJqxAEzL554DD9nXlqqPFjJEFr+olfeZdJ1XsoriOub3SYcq1hJf7eAx/Ae/AbQo
-        eraIcZBRw7u01FqNA2K1Ia4IbeAdLm9ukrtqhno/rIUidklntLAP5zT0d393cymsk/wUE4hoZaR
-        NzIP3XI5u3uLPgwbAMH5RdHnhWfwyq9gpuf+A6coDeeVSgzszVDx5n520Z3eZyT7DDRtYlKaWBy
-        ZE9nSaC/rhfyjvqkZu/pNa4BidtZEMMprcbiest
+        id S2388816AbgLIW0e (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 9 Dec 2020 17:26:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388803AbgLIW0S (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 9 Dec 2020 17:26:18 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3122C0613D6;
+        Wed,  9 Dec 2020 14:25:37 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id v29so2239068pgk.12;
+        Wed, 09 Dec 2020 14:25:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=8wQM6SGZhatAmTI9tOUrGWUVSmmno5n0WNRbEje9OEI=;
+        b=mknZQBlUBpIaNmmNfvrzMywLKXW4Mw/vpLFSF0lCvqdUXWAbNTm6tJpl1wSsvVVn1p
+         rfOHDGKYlBc3jpgydISN+WfsMekyHOepRVQuW4ZF2LqzlHoBZ3ypp52MJdrXtUa2gn+H
+         pGfyNBh2DI537zi05lWJXgZR4Ed6EGm29VuhvKL61xa3nkhPnIbG+BlqybWBiIPkHZsx
+         A39rfywAUbdFqRGkZ1S/nDWr0bpmBrC0PhPPoojGO8lTmq8BnFMICRei04QLHP5J3wgb
+         w+JK2dj44tukjDJs9x6PUsqZ+JvSs+XIVgif168fbGvwLUKzXoYXuMUDLt/qxs/dR5mG
+         tuAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8wQM6SGZhatAmTI9tOUrGWUVSmmno5n0WNRbEje9OEI=;
+        b=qXPLPF3PtrOK3VWt7E8l7aHotNgg1Gbw52YJ5KAK4F/5M6DP7713P+r8y/q54hQcM7
+         pS0+OGTyxyqVXdJVIoWVwPIYJ9qdSqNtdbghMk2lVRqxmyGUAD9DVzojGC75QHOPbGry
+         lqxuBn3sLfd31zI/wbwvXdgg4KQ3bvLADKcfjp54iUuiWRNYqNAusoUPDZGhdLNwxBIN
+         X5exRxcvVsRM/4fAiaqtm200yp9wXJdO6OutDX9ZOlQ6BsPVLrbiND/Q7K7g7GS28BWW
+         pIiBMh9VvAiYfV9klmBkDjGIxU+i3EkmZWlVaicOxEzLr1zdkiRuycGOUnEyN7ncEE/I
+         h2JQ==
+X-Gm-Message-State: AOAM530acbeWAyWUfh++lIvajnqPCQFSFpaWY1b0+otq9/PlIpiYIic2
+        /cML1Ns8Q+vdSQ5tY0ejieOkXI2j0d8=
+X-Google-Smtp-Source: ABdhPJznvhhpyWlDx7682efPuFdhMhmC1lWUmG5RBtjvgiP+xc32sqH+zpu3kYPVZPFGsaj+IL4HQQ==
+X-Received: by 2002:a63:1c21:: with SMTP id c33mr3854626pgc.161.1607552737093;
+        Wed, 09 Dec 2020 14:25:37 -0800 (PST)
+Received: from carrot.localdomain (i118-19-12-158.s42.a014.ap.plala.or.jp. [118.19.12.158])
+        by smtp.gmail.com with ESMTPSA id c66sm3902852pfa.0.2020.12.09.14.25.35
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 09 Dec 2020 14:25:36 -0800 (PST)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] fs/nilfs2: remove some unused macros to tame gcc
+Date:   Thu, 10 Dec 2020 07:25:33 +0900
+Message-Id: <1607552733-24292-1-git-send-email-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-email:kraymond75@aol.com
+From: Alex Shi <alex.shi@linux.alibaba.com>
 
+There some macros are unused and cause gcc warning. Remove them.
 
+fs/nilfs2/segment.c:137:0: warning: macro "nilfs_cnt32_gt" is not used
+[-Wunused-macros]
+fs/nilfs2/segment.c:144:0: warning: macro "nilfs_cnt32_le" is not used
+[-Wunused-macros]
+fs/nilfs2/segment.c:143:0: warning: macro "nilfs_cnt32_lt" is not used
+[-Wunused-macros]
+
+Signed-off-by: Alex Shi <alex.shi@linux.alibaba.com>
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+ fs/nilfs2/segment.c | 5 -----
+ 1 file changed, 5 deletions(-)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index e3726aca28ed..cd4da9535aed 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -134,14 +134,9 @@ struct nilfs_sc_operations {
+ static void nilfs_segctor_do_immediate_flush(struct nilfs_sc_info *);
+ static void nilfs_dispose_list(struct the_nilfs *, struct list_head *, int);
+ 
+-#define nilfs_cnt32_gt(a, b)   \
+-	(typecheck(__u32, a) && typecheck(__u32, b) && \
+-	 ((__s32)(b) - (__s32)(a) < 0))
+ #define nilfs_cnt32_ge(a, b)   \
+ 	(typecheck(__u32, a) && typecheck(__u32, b) && \
+ 	 ((__s32)(a) - (__s32)(b) >= 0))
+-#define nilfs_cnt32_lt(a, b)  nilfs_cnt32_gt(b, a)
+-#define nilfs_cnt32_le(a, b)  nilfs_cnt32_ge(b, a)
+ 
+ static int nilfs_prepare_segment_lock(struct super_block *sb,
+ 				      struct nilfs_transaction_info *ti)
+-- 
+1.8.3.1
 
