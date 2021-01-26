@@ -2,127 +2,115 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18427302F5B
-	for <lists+linux-nilfs@lfdr.de>; Mon, 25 Jan 2021 23:48:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 100E830412A
+	for <lists+linux-nilfs@lfdr.de>; Tue, 26 Jan 2021 15:59:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732614AbhAYWsA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 25 Jan 2021 17:48:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40152 "EHLO
+        id S2406000AbhAZO6Z (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 26 Jan 2021 09:58:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732804AbhAYWrY (ORCPT
+        with ESMTP id S2405967AbhAZO6L (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 25 Jan 2021 17:47:24 -0500
-Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3913C061573
-        for <linux-nilfs@vger.kernel.org>; Mon, 25 Jan 2021 14:46:43 -0800 (PST)
-Received: by mail-vs1-xe31.google.com with SMTP id e15so8085276vsa.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 25 Jan 2021 14:46:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=97VkMvDoP1Dbpl7DX1wcpsUIZTjbcCuDgJVGwHOnEPg=;
-        b=rBn335H+SByuZCwjVnJNwKysSxpxbZsZXEt/4PFH7arlI7YFN36Bpfsa06NqHLDmdb
-         ONfNwI3Vej1nVifEaJ+b90huNmXMt45uRFARwwzAAsVN1yfV855pWnkKuqBmpvLfgU4/
-         MotcWrsyD09bm3tsRTKOkVqPhXeYRVtxzmFKqtt5K1tf8d8vQ6otBOB7CTKLHKgQBswF
-         6ODel4/nGbDkS1EfCk8t4hOXUdBDUfxxEODtFbA60oZVKe2qsXlHLgmmFl2k8Sr4ZU10
-         WehYsA9I9gQ4Zmf6ezY5HZd+s+mw5Cd01An7Wxbk4mgBwuHlbrkLyWDBM5Ah7OVsa5Ac
-         EVcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=97VkMvDoP1Dbpl7DX1wcpsUIZTjbcCuDgJVGwHOnEPg=;
-        b=nbWVlYlTyXxX3Ui6SwXx2K+zG/Ca63b7pzNO3roKFwOJzmu0aZaSw4QXmCSHiRJwF2
-         RWv7RcIFkuKVW7jxnPkEjqufHWJy4qAMO/SFxWRS65uOa+y7YRoInXjiYG8xpQ8brKRY
-         fmuGjAvPTI2z84ZNKhB5vUtm307B6/O3hZEvYTXhHMzVmqlYGDc8T/V99QQS28ryHhMH
-         kHlJULzCY2lF0SIOn0qPggV5p7z9q4o3fEp3xTEeRkgQ1QmKe5MbCCk6riVD98ODgS39
-         r+mS/Dd1Cxo6siZAtGnd3476GZQx6vX8pWuotvbIz/Ue3Pb1RVeCBtVbeggqOam87PKM
-         Tvsw==
-X-Gm-Message-State: AOAM530UjF3yH2/UuWKOYeWc8wABQLrNebfEzYgjLPwnRlfUeM+hlxSg
-        oHCdm6mUr7eFpDd8LoamYMFAvQ3HduA2pdslyz8=
-X-Google-Smtp-Source: ABdhPJyGRweAGHpkSPhD35ILWt3TIXyEpz1jEa9iMRxcBR5soxLTJTJdodjfo1wTE6p+7Bsr8L2hKTJnMuU4xaz5vk4=
-X-Received: by 2002:a05:6102:20c8:: with SMTP id i8mr2352102vsr.59.1611614803160;
- Mon, 25 Jan 2021 14:46:43 -0800 (PST)
+        Tue, 26 Jan 2021 09:58:11 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36854C0698C2;
+        Tue, 26 Jan 2021 06:57:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=DlGuhvUuF5545bhBTyuoYUED18e0Xo1tptPGH+ZCVWM=; b=jMQTwjqfgxOzhYVUlZs0z9WFMS
+        HRM3mdeuPCtX41haFTd6hK9e25Otzz6mCyGNcv34gLl3lwXKlK5lNyLTebUWNNaFab+hdAbStB327
+        6X13dSBciQr1C4yXzcvGmt62gd3mz/quTqo9WjsRSWJx4E4YtRztVJUQF2aYf33t7c4ozLh5cmFBq
+        jtTnUIVw6VgPNfzXwq64Crdqp9Bei9fIWZOg+evdMuBCYdR8RMjwHbP99COwLm/oF7u4+vzFrU+Tm
+        2WUpSisrQMH9uO9aOlv+vEiHmHKQMMIj8qQj2cijQqFQjcvZAiJ5jVKPz8liZXt3v3QT/yndTE765
+        OTjGoq6g==;
+Received: from [2001:4bb8:191:e347:5918:ac86:61cb:8801] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94 #2 (Red Hat Linux))
+        id 1l4Pi4-005luv-Pc; Tue, 26 Jan 2021 14:53:04 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jens Axboe <axboe@kernel.dk>, Song Liu <song@kernel.org>
+Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
+        Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        linux-nilfs@vger.kernel.org, dm-devel@redhat.com,
+        linux-f2fs-devel@lists.sourceforge.net,
+        linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-mm@kvack.org
+Subject: misc bio allocation cleanups
+Date:   Tue, 26 Jan 2021 15:52:30 +0100
+Message-Id: <20210126145247.1964410-1-hch@lst.de>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Received: by 2002:a67:6941:0:0:0:0:0 with HTTP; Mon, 25 Jan 2021 14:46:42
- -0800 (PST)
-Reply-To: monikasing1971@gmail.com
-From:   Mrs Monika Singh <emmanuelomologo@gmail.com>
-Date:   Mon, 25 Jan 2021 14:46:42 -0800
-Message-ID: <CAPFMupJNFLP1stDHoo+nQa8fFC4R7yeARqBMAu9bHwZKHX94uw@mail.gmail.com>
-Subject: Ich erwarte Ihre dringende Antwort
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Lieber geliebter
+Hi Jens,
 
-Ich m=C3=B6chte, dass Sie diesen Brief sehr sorgf=C3=A4ltig lesen, und ich =
-muss
-mich daf=C3=BCr entschuldigen, dass Sie diese Massage ohne formelle
-Einf=C3=BChrung erhalten haben, da diese Angelegenheit dringend vertraulich
-behandelt wird ...
-Ich bin gl=C3=BCcklich dich zu kennen. Aber der allm=C3=A4chtige Herr kennt=
- dich
-besser und wei=C3=9F, warum er mich an dieser Stelle an dich verwiesen hat.
-Zun=C3=A4chst bin ich auf der Suche nach einem guten n=C3=A4chsten Verwandt=
-en im
-Internet, da ich dringend meinen letzten Wunsch in die Realit=C3=A4t
-umsetzen muss, bevor ich bald sterbe.
-Ich schreibe Ihnen diese Mail mit schweren Tr=C3=A4nen In meinen Augen und
-gro=C3=9Fer Trauer in meinem Herzen. Mein Name ist Frau Monika Singh. Ich
-komme aus Miami, USA. Ich m=C3=B6chte Ihnen dies sagen, weil ich keine
-andere Wahl habe Als ich Ihnen sagte, als ich ber=C3=BChrt war, mich Ihnen
-zu =C3=B6ffnen, war ich mit Herrn Peter Singh verheiratet, der neun Jahre
-lang mit der tunesischen Botschaft in Madrid, Spanien,
-zusammengearbeitet hatte, bevor er im Jahr 2005 starb. Wir waren elf
-Jahre lang ohne Kind verheiratet .
+this series contains various cleanups for how bios are allocated or
+initialized plus related fallout.
 
-Er starb nach einer kurzen Krankheit, die nur f=C3=BCnf Tage dauerte. Seit
-seinem Tod habe ich beschlossen, nicht wieder zu heiraten. Als mein
-verstorbener Ehemann am Leben war, hat er den Betrag von 27.850.000,00
-=E2=82=AC (27 Millionen achthundertf=C3=BCnfzigtausend Euro) bei einer Bank=
- in
-Indien, Neu-Delhi, der Hauptstadt von Neu-Delhi, Indien, hinterlegt.
-Derzeit ist dieses Geld noch auf der Bank, er stellte dieses Geld f=C3=BCr
-den Export von Gold aus dem Bergbau in Madrid, Spanien, vor seinem
-pl=C3=B6tzlichen Tod zur Verf=C3=BCgung. K=C3=BCrzlich sagte mir mein Arzt,=
- dass ich
-wegen eines Krebsproblems nicht 3 Monate durchhalten w=C3=BCrde. Das, was
-mich am meisten st=C3=B6rt, ist meine Schlaganfallkrankheit. Nachdem ich
-meinen Zustand gekannt habe, habe ich beschlossen, Ihnen dieses Geld
-zu =C3=BCbergeben, um sich um die weniger privilegierten Menschen zu
-k=C3=BCmmern. Sie werden dieses Geld so verwenden, wie ich es hier anweisen
-werde.
-
-Ich m=C3=B6chte, dass Sie 30 Prozent des Gesamtgeldes f=C3=BCr Ihren
-pers=C3=B6nlichen Gebrauch und f=C3=BCr Ihre Bem=C3=BChungen und Ihr Engage=
-ment f=C3=BCr
-die Arbeit des Wohlt=C3=A4tigkeitsprojekts verwenden. 70% des Geldes
-flie=C3=9Fen in die Arbeit des Wohlt=C3=A4tigkeitsprojekts, bed=C3=BCrftige=
- Menschen
-von der Stra=C3=9Fe und helfen der Waisenhaus auch, ich bin als Waisenkind
-aufgewachsen und ich habe keinen K=C3=B6rper als mein Familienmitglied.
-Stellen Sie auch sicher, dass das Haus Gottes aus den Mitteln erhalten
-bleibt. Tue dies, damit Gott meine S=C3=BCnden vergibt und meine Seele
-akzeptiert, weil diese Krankheiten mich so sehr gelitten haben. Sobald
-ich Ihre Antwort erhalten habe, werde ich Ihnen den Kontakt der Bank
-in Delhi, Indien, geben und den Bankmanager anweisen, Ihnen ein
-Vollmachtsschreiben auszustellen, das Ihnen den gegenw=C3=A4rtigen
-Beg=C3=BCnstigten des Geldes in der Bank nachweist, wenn dies der Fall ist
-Sie versichern mir, dass Sie entsprechend handeln werden, wie ich es
-hier angegeben habe.
-
-In der Hoffnung, Ihre Antwort zu erhalten, werde ich mit Ihnen zur
-Bank gehen, damit das Geld so schnell wie m=C3=B6glich auf Ihr Bankkonto
-=C3=BCberwiesen wird.
-Das ist, wenn Sie ernst genug sind, um das Projekt zu bearbeiten und
-sich auch daf=C3=BCr einzusetzen, weil ich glaube, dass ich Ihnen ehrlich
-vertrauen kann.
-
-Hochachtungsvoll.
-Frau Monika Singh
+Diffstat:
+ Documentation/filesystems/f2fs.rst |    1 
+ block/bio.c                        |  167 ++++++++++++++++++-------------------
+ block/blk-crypto-fallback.c        |    2 
+ block/blk-flush.c                  |   17 +--
+ drivers/block/drbd/drbd_actlog.c   |    2 
+ drivers/block/drbd/drbd_bitmap.c   |    2 
+ drivers/block/drbd/drbd_int.h      |    2 
+ drivers/block/drbd/drbd_main.c     |   13 --
+ drivers/block/drbd/drbd_req.c      |    5 -
+ drivers/block/drbd/drbd_req.h      |   12 --
+ drivers/block/drbd/drbd_worker.c   |    5 -
+ drivers/md/dm-clone-target.c       |   14 ---
+ drivers/md/dm-zoned-metadata.c     |    6 -
+ drivers/md/md.c                    |   48 +++-------
+ drivers/md/md.h                    |    2 
+ drivers/md/raid1.c                 |    2 
+ drivers/md/raid10.c                |    2 
+ drivers/md/raid5-ppl.c             |    2 
+ drivers/md/raid5.c                 |  108 +++++++++--------------
+ drivers/nvme/target/io-cmd-bdev.c  |    2 
+ fs/block_dev.c                     |    2 
+ fs/btrfs/volumes.c                 |    2 
+ fs/exfat/file.c                    |    2 
+ fs/ext4/fast_commit.c              |    4 
+ fs/ext4/fsync.c                    |    2 
+ fs/ext4/ialloc.c                   |    2 
+ fs/ext4/super.c                    |    2 
+ fs/f2fs/data.c                     |   28 ------
+ fs/f2fs/f2fs.h                     |    2 
+ fs/f2fs/segment.c                  |   12 --
+ fs/f2fs/super.c                    |    1 
+ fs/fat/file.c                      |    2 
+ fs/hfsplus/inode.c                 |    2 
+ fs/hfsplus/super.c                 |    2 
+ fs/jbd2/checkpoint.c               |    2 
+ fs/jbd2/commit.c                   |    4 
+ fs/jbd2/recovery.c                 |    2 
+ fs/libfs.c                         |    2 
+ fs/nfs/blocklayout/blocklayout.c   |    5 -
+ fs/nilfs2/segbuf.c                 |    4 
+ fs/nilfs2/the_nilfs.h              |    2 
+ fs/ocfs2/file.c                    |    2 
+ fs/reiserfs/file.c                 |    2 
+ fs/xfs/xfs_super.c                 |    2 
+ fs/zonefs/super.c                  |    4 
+ include/linux/bio.h                |    6 -
+ include/linux/blkdev.h             |    4 
+ include/linux/swap.h               |    1 
+ mm/page_io.c                       |   45 ++-------
+ mm/swapfile.c                      |   10 --
+ 50 files changed, 213 insertions(+), 363 deletions(-)
