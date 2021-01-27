@@ -2,45 +2,56 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6482A305496
-	for <lists+linux-nilfs@lfdr.de>; Wed, 27 Jan 2021 08:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9B730614F
+	for <lists+linux-nilfs@lfdr.de>; Wed, 27 Jan 2021 17:53:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233363AbhA0HZj (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 27 Jan 2021 02:25:39 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48704 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S233735AbhA0HXm (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 27 Jan 2021 02:23:42 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 3B9EF2074B;
-        Wed, 27 Jan 2021 07:22:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611732179;
-        bh=wys3sZM3KFLi7kSDIT+8OH9R8Mzfn9WfVwnN3287ktM=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=Bec44/no8t56Z502LgnlM+Qg3a7iRfwb8LyhJ+o5g82IaOznb97Gk8xlDwtFm7y0Q
-         4B+/tC5K9lGgUBiHyhE00pi36rFGRQbfNmoExpX38MvaaIEiIlo5Xpl02zb3d2+c9I
-         6QT/NDPMg5Mj36lJBF9f+RFUcTIY2MmljvRbc0DiIULgDdoXmR4KXliM+gH3VlyPk6
-         mHWoOAExmkNvS6m/z6G7b4ZdKBJLDixAbo/Wzlpm3cgdfJxA927Fy/aSbJhFzA/wq4
-         2ciHhZnN+TzrdwTTB4DOYnCFwWnsw1IL4QMJJGrVzDQalyZsi3zFFnOCUMa/DMqtOX
-         AkooKL+eqRW2g==
-Received: by mail-lj1-f174.google.com with SMTP id 3so909613ljc.4;
-        Tue, 26 Jan 2021 23:22:59 -0800 (PST)
-X-Gm-Message-State: AOAM531YWoDEJpp8cDQgEYHd2BYi206VyMREUIK+5Ba7zozGspXdzCHp
-        c+jh1CywFVUWO0gArFcLfSpkGUIVPc6m/ZhnXsY=
-X-Google-Smtp-Source: ABdhPJwT4SgEWFQYI+aGplxcgngrqXZ09YVZXq+be6TcwdS2L0sd+F5PxgqsedykGzzK3GAh/e6zF7ilKInCLGcj5r0=
-X-Received: by 2002:a2e:b8d3:: with SMTP id s19mr5116366ljp.97.1611732177533;
- Tue, 26 Jan 2021 23:22:57 -0800 (PST)
-MIME-Version: 1.0
-References: <20210126145247.1964410-1-hch@lst.de> <20210126145247.1964410-14-hch@lst.de>
-In-Reply-To: <20210126145247.1964410-14-hch@lst.de>
-From:   Song Liu <song@kernel.org>
-Date:   Tue, 26 Jan 2021 23:22:46 -0800
-X-Gmail-Original-Message-ID: <CAPhsuW4AViTNjq1mp6zvbEJ8zKdK7__BfXEsvATTBWraK2u1Jg@mail.gmail.com>
-Message-ID: <CAPhsuW4AViTNjq1mp6zvbEJ8zKdK7__BfXEsvATTBWraK2u1Jg@mail.gmail.com>
-Subject: Re: [PATCH 13/17] md: remove md_bio_alloc_sync
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Jens Axboe <axboe@kernel.dk>, Jaegeuk Kim <jaegeuk@kernel.org>,
-        Chao Yu <chao@kernel.org>,
+        id S231352AbhA0Qw5 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 27 Jan 2021 11:52:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232898AbhA0Qwz (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 27 Jan 2021 11:52:55 -0500
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B75DC061756
+        for <linux-nilfs@vger.kernel.org>; Wed, 27 Jan 2021 08:52:15 -0800 (PST)
+Received: by mail-pj1-x102a.google.com with SMTP id a20so1591620pjs.1
+        for <linux-nilfs@vger.kernel.org>; Wed, 27 Jan 2021 08:52:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kernel-dk.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=lQKD9AgPexRDubj64bboSIKnHej4WVBTeYTVGyeOaHk=;
+        b=0n7IOfJztdBvyCO+NwquWZO/9oDoBxQCCGXsafUQ/GvUYsfJ9GMPAPuFm/2AHz2s7h
+         uCjspaY6eWonaZrU5TNO1bFTgmPIbBbshQEov2cSyySKuYe6JHBj4YtmSsCgqqeJQ0sz
+         TEp+kDX55Ttsnc0J6mELqLNa4WTTuqIBpHFd3WA2ygVL+9LP+Y/h3dPZ0HRlZG6rjvCq
+         o8+mzv9CEKGMlgIZqlWOyLBHKwUPEfZAqrHsgb5eQJ8jwi6mY18MiLv0LfN195kWsU1I
+         9aIP573InHU/7bIMgKM0aes7wOoE1YqdbZK7PAc68mg/7wVOpXqK0JLzoUJL/hUqxtsf
+         yCNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=lQKD9AgPexRDubj64bboSIKnHej4WVBTeYTVGyeOaHk=;
+        b=iXCqFZMbuhcosA6IOTf3G7WPWcu4l9Q0BHGqSljvsxduOh6gmk6mjXmeBHiq5+DNpt
+         LJsvzRez0bGRXbE9aSwG3RbucpIKQmH3tsr5sU/U1v74+yPrJYfupoWmFfoq2HwSJho3
+         FzbdXfpvkQTq0kG390AR8e5I9eqPH9iAxOUy1fE8W5C1DXwx2Mov0SQbAMWyo3D7GvbX
+         nFxOg7Bzn7Fo/7Fke6OwEJcC5Xi1M0EHDw9eRq/D19kEO/ZWCkVFGjpe1ucEm8tWKI2c
+         ZRQwYCUxyrp/iOElBt3AGxew953YPM7vPetKNHnxJM9SM8jbes4Q9Kzs5/VRdnIqZdWu
+         gq5w==
+X-Gm-Message-State: AOAM532uzNtznxb2t53lMwysyY+inYlJyNSj4PistnmGN5hGjC/igZxT
+        E5OS47Rm/J/Bfd5cf7udbv6Hyw==
+X-Google-Smtp-Source: ABdhPJznkZAkmGjzE0K3XJ7r+1OuPOB/uSu+0QVk0qZGt1uSi7gcicfz36VtRv3b8tVtY1Mr6zsRVA==
+X-Received: by 2002:a17:90a:b782:: with SMTP id m2mr6555276pjr.220.1611766334716;
+        Wed, 27 Jan 2021 08:52:14 -0800 (PST)
+Received: from [192.168.4.41] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
+        by smtp.gmail.com with ESMTPSA id z13sm2914261pgf.89.2021.01.27.08.52.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 27 Jan 2021 08:52:14 -0800 (PST)
+Subject: Re: misc bio allocation cleanups
+To:     Christoph Hellwig <hch@lst.de>, Song Liu <song@kernel.org>
+Cc:     Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
         Philipp Reisner <philipp.reisner@linbit.com>,
         Lars Ellenberg <lars.ellenberg@linbit.com>,
         Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
@@ -53,58 +64,32 @@ Cc:     Jens Axboe <axboe@kernel.dk>, Jaegeuk Kim <jaegeuk@kernel.org>,
         linux-nilfs@vger.kernel.org, dm-devel@redhat.com,
         linux-f2fs-devel@lists.sourceforge.net,
         linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bcache@vger.kernel.org,
-        linux-raid <linux-raid@vger.kernel.org>,
-        Linux-Fsdevel <linux-fsdevel@vger.kernel.org>,
-        linux-btrfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-        Linux-MM <linux-mm@kvack.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, linux-mm@kvack.org
+References: <20210126145247.1964410-1-hch@lst.de>
+From:   Jens Axboe <axboe@kernel.dk>
+Message-ID: <53e9b2e0-7169-f2fe-3c33-5f8a28cbd01b@kernel.dk>
+Date:   Wed, 27 Jan 2021 09:52:10 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20210126145247.1964410-1-hch@lst.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Jan 26, 2021 at 7:17 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> md_bio_alloc_sync is never called with a NULL mddev, and ->sync_set is
-> initialized in md_run, so it always must be initialized as well.  Just
-> open code the remaining call to bio_alloc_bioset.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On 1/26/21 7:52 AM, Christoph Hellwig wrote:
+> Hi Jens,
+> 
+> this series contains various cleanups for how bios are allocated or
+> initialized plus related fallout.
 
-Acked-by: Song Liu <song@kernel.org>
+Applied, thanks.
 
-> ---
->  drivers/md/md.c | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/drivers/md/md.c b/drivers/md/md.c
-> index 6a27f52007c871..399c81bddc1ae1 100644
-> --- a/drivers/md/md.c
-> +++ b/drivers/md/md.c
-> @@ -340,14 +340,6 @@ static int start_readonly;
->   */
->  static bool create_on_open = true;
->
-> -static struct bio *md_bio_alloc_sync(struct mddev *mddev)
-> -{
-> -       if (!mddev || !bioset_initialized(&mddev->sync_set))
-> -               return bio_alloc(GFP_NOIO, 1);
-> -
-> -       return bio_alloc_bioset(GFP_NOIO, 1, &mddev->sync_set);
-> -}
-> -
->  /*
->   * We have a system wide 'event count' that is incremented
->   * on any 'interesting' event, and readers of /proc/mdstat
-> @@ -989,7 +981,7 @@ void md_super_write(struct mddev *mddev, struct md_rdev *rdev,
->         if (test_bit(Faulty, &rdev->flags))
->                 return;
->
-> -       bio = md_bio_alloc_sync(mddev);
-> +       bio = bio_alloc_bioset(GFP_NOIO, 1, &mddev->sync_set);
->
->         atomic_inc(&rdev->nr_pending);
->
-> --
-> 2.29.2
->
+-- 
+Jens Axboe
+
