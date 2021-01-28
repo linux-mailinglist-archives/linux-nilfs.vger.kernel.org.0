@@ -2,97 +2,101 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37C51307C67
-	for <lists+linux-nilfs@lfdr.de>; Thu, 28 Jan 2021 18:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 20B6C307F80
+	for <lists+linux-nilfs@lfdr.de>; Thu, 28 Jan 2021 21:24:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232910AbhA1R1g (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 28 Jan 2021 12:27:36 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53686 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232965AbhA1RYo (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 28 Jan 2021 12:24:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id B21F464DF9;
-        Thu, 28 Jan 2021 17:24:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1611854642;
-        bh=Zs2s8ZvTIPYGR4BFwbfSOZLDbQpy7x8YdhBNvxD8Dok=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=dYixlgG2K3aWwDLaJowzYgnOFmByUyz6PjYTAvhTfbvB+e9gPk0mBgRRvBez32mDu
-         g+/BEjUeO2s7tBkV+OtFiT2UlC3mn8gjSXsXC5Xpxm6KRmfDNpc8Z7+gIuibodKK4H
-         l1i2cwlyEJsSukyTcGjNrcpQfEjVAbCBE6DwgrePquTtnF0XcOLlk2eq3YbBOrXlcF
-         50KQtEwBjnE5+b+zJhPCQRu9YN8ISWqvJskcg8GQfdpqKteYo166Aso1a23IfJvuVj
-         VfAojNA36QPu6qz6sKkxuvacugxCY5JwWT3tNh6OxRrRzVwkEqP+vyF3JrdyJAT+Ys
-         o8BRepJ02vTLA==
-Date:   Thu, 28 Jan 2021 09:24:02 -0800
-From:   "Darrick J. Wong" <djwong@kernel.org>
-To:     Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        dm-devel@redhat.com, linux-block@vger.kernel.org,
-        linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        xen-devel@lists.xenproject.org, linux-nvme@lists.infradead.org,
-        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-fscrypt@vger.kernel.org,
-        jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
-        ocfs2-devel@oss.oracle.com, linux-pm@vger.kernel.org,
-        linux-mm@kvack.org, axboe@kernel.dk, philipp.reisner@linbit.com,
-        lars.ellenberg@linbit.com, konrad.wilk@oracle.com,
-        roger.pau@citrix.com, minchan@kernel.org, ngupta@vflare.org,
-        sergey.senozhatsky.work@gmail.com, agk@redhat.com,
-        snitzer@redhat.com, hch@lst.de, sagi@grimberg.me,
-        martin.petersen@oracle.com, viro@zeniv.linux.org.uk, tytso@mit.edu,
-        jaegeuk@kernel.org, ebiggers@kernel.org, shaggy@kernel.org,
-        konishi.ryusuke@gmail.com, mark@fasheh.com, jlbec@evilplan.org,
-        joseph.qi@linux.alibaba.com, damien.lemoal@wdc.com,
-        naohiro.aota@wdc.com, jth@kernel.org, rjw@rjwysocki.net,
-        len.brown@intel.com, pavel@ucw.cz, akpm@linux-foundation.org,
-        hare@suse.de, gustavoars@kernel.org, tiwai@suse.de,
-        alex.shi@linux.alibaba.com, asml.silence@gmail.com,
-        ming.lei@redhat.com, tj@kernel.org, osandov@fb.com,
-        bvanassche@acm.org, jefflexu@linux.alibaba.com
-Subject: Re: [RFC PATCH 18/34] iomap: use bio_new in iomap_dio_bio_actor
-Message-ID: <20210128172402.GO7698@magnolia>
-References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
- <20210128071133.60335-19-chaitanya.kulkarni@wdc.com>
+        id S231283AbhA1UX4 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 28 Jan 2021 15:23:56 -0500
+Received: from spe9-3.ucebox.co.za ([197.242.159.170]:35296 "EHLO
+        spe9-3.ucebox.co.za" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229817AbhA1UXz (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 28 Jan 2021 15:23:55 -0500
+Received: from cornucopia.aserv.co.za ([154.0.175.203])
+        by spe5.ucebox.co.za with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <manornutgrovemanor@gmail.com>)
+        id 1l5BoE-0000tT-KY; Thu, 28 Jan 2021 20:14:51 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by cornucopia.aserv.co.za (Postfix) with ESMTPA id 3AB20C2E22;
+        Thu, 28 Jan 2021 20:13:33 +0200 (SAST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128071133.60335-19-chaitanya.kulkarni@wdc.com>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 28 Jan 2021 20:13:33 +0200
+From:   Nut Grove Manor <manornutgrovemanor@gmail.com>
+To:     undisclosed-recipients:;
+Subject: Invitation To Quote
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <6b6afbe17591d2cf6354daa881775586@gmail.com>
+X-Sender: manornutgrovemanor@gmail.com
+X-Originating-IP: 154.0.175.203
+X-Afrihost-Domain: pesci.aserv.co.za
+X-Afrihost-Username: 154.0.175.203
+Authentication-Results: ucebox.co.za; auth=pass smtp.auth=154.0.175.203@pesci.aserv.co.za
+X-Afrihost-Outgoing-Class: unsure
+X-Afrihost-Outgoing-Evidence: Combined (0.71)
+X-Recommended-Action: accept
+X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT9wzpOYApGxRVhWAiqJiXniPUtbdvnXkggZ
+ 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5y15nJ3XzKsL3EOw9SN2NGlMNg0zc+T5/rTbIkS/O7Uep5k
+ KEcJoGnTHj/eTXn1J1DA5zVArI9Z2btprzyTdttif/vc+ONFmHhsT4YHJi5lcJGNv4ZteSx8ZI3P
+ /XHbshVET5+CQrIVM7NGlz8neGP1BG5YEQzFQe2Vr+A/pB3DN0w3YQnR1deeKck03rVmpY2S3+7Q
+ 7XpRAk7g/Go/8Qj5/7E9+OCrGUh73enWm7WnC2W2ScYoebl0NkffnSwf9q0AULq0WsZhvtYayEAp
+ OyH1uAbGfb9dp1EDHO8cZmoXJnoETh4JVKsKJKaaPZhIcbOF/pyAvi9WMKuJHp4VcQHSjeG+VOqh
+ zfVRWrcgUc5B67uH5HW1fOKV0qNKorW/nYfqRK6VKdkqQNiwatSf4uPOg5Z0rKd5pKdvrq6yzGJS
+ LvGZD2wqpD1z4Pa70l9S5XulqL+IDkA1JyYXEaeMdgq8ulYsuMRrQ8qAvKpUhjs4zUlesOcD1XbM
+ ScrGRY5TQqspDGx6hwzf40iWZTsNdOYeoXRGmSJZGJJ/xjtFDlMyFolwkv4ZC1tMx4v/OHHnO2ZJ
+ YjxiKkaHkr125E7Byeruk/Bt4GXQa1yyX8oQEAGjb1PvO24YoXtZgjjK64egkw98IfVtDynH6J7w
+ amXx/OWOdRlYd5D7UzFOBde7hV/jDFiK+GF8A5Vmiww0RgTYV2UTI+9Kc4LflUhhkX+Lx2JS4xvN
+ 9DOMrF1Zu3WsrDxiE/fdoxPyxL2YDxPw2/rTezShWYjjlrVPDnRepkWU3GrOjNzSiH7n32ylvHnU
+ ezuOz7MOCrp7AtjfD/m0Gg+MyHir45plQ1102Vs1A/5K1TTnO3FSXeyqrykTn/T2XCpw41AKjAbc
+ TUFQuTmbFlQY4d1JbxNvYFttlwoG8gUYy6YjYA0RDuiel2xgpvIClDAj9wIlAjH3wOvZUmpL3hFT
+ 2vim06Qa8Dg8lSuWYUe9oxjePXNLWGixlOaDFKvsD8FznbtMalFkyWroaup6bmf3ofSZ88uoP3ym
+ zU9pcstzSgAYgghG5ueQKBIhNpIKmD+mhFKMCdZ8WJp1A1XQT+DMFrO1uYWwcxCXbnc9nyKw78Qs
+ yyZpAzBGKJ32YgaJnWalCG/Qu7d1SrQ5UtbHoN5wLJzRFfC7o41VH9K3ccXzo8mQlW1i0y6Cx3MQ
+ NeLA0QysZ/Vq7f6BdqHymHnsz2U1vrgBDmS53i76CSksul1/rSj36SvEhDsBpn5+rnACqp/zhwdG
+ i0Ii80aAw9u76d71RQxbLxmLdT9bQCdSBYgGp7AQM7mNCJKisKjv+GRGF5STNWU1PMV382d9nr/S
+ qz9xuQI1yinarGP3zwup1wD0R86PXDdU6/nQEtKlI4ZqRmq/dXpHQqwqteALg4NHB6KPbCXALGH3
+ lIvFRwYoVFFxnuek15X4DXebJ8SvK3Way1GI6dAO+9J/whBTnKgxM6losiAZXKYIr7I4lhrZ1Flr
+ tPmdC74xI5DSf9OpxogDFjV/3UEs775HXvKQf4MlfKgO22X4eGgxrS46ip4XuD1qsRKcsjkjAttd
+ 56BbUqtwVXOnavtydR4GBnxtJikXrEYO6B7U6rak9MizyCCnVkjJbEHKuPXyIiZo00gzaylNvJ5L
+ +NnIBddo6lu6/5yzxkgfcHnuOK9tepgx8NEM7VvijwWeIF5fJYm6bAfAzK3PGRPvOm4fXlgOCcFn
+ QqTqCvD+PNXUd8IE+mF3WnCQe5qSlma30lzh+d1inrDrw5E26bQNNMK/XnzLwHIb5GxzJ7LND51i
+ zwQBIYFF3Qr88E3aahCm3b7ghTUD3B1l3byuoS/0v1vtczkS06UpFUAAYfACaT5E9U0DFW/y+cSy
+ V7hElaawvU4IxQvDbctA8Gr9J8ZyVEPVApJpYD6rKakz9rF5WbF55vwXtb1TytZPtYa6jrWL/fGx
+ xjmwEZ/Uzbir5t6w9GvSB52NrFU5Cd6Grr29UHV4k7G/NqminEdxppJRWxlTWKE/yOER9QkxIsAY
+ irk9gtbp3MtXu4fJVNYxNj3cCNE1voGsOaHRsuopxGKZtjn0oEMriGXTidYuJhC/cDGvGX4fhL0M
+ nwxS3LQq+jdU29vT5ovidnQQOKJvWZjzvkCR/TftLwr8IAWt8Dn3uW7wwHNs0PjIZGFFGJC99ul3
+ KtO297D8NndzysYZsRwzbMvKYYt0VHqxgIENxytAZrD0Ab1/YQ6woKxvTQXCTWcYm4jsjT/0wR3S
+ Utf9z7dBvTO/deP6Jhu+oOkcMCvaDjyxX0jFYHJNmce2Qe1y205rx66XAtuGhOs6cFF/ALIvWpeP
+ rqp4O0+v9qdDjeQEpv9nfZNUwyEG0dUJjCLT9xcc9JXXUGJGzCyVhOimRJPqM7pJ2k51J2e3dUTA
+ iNThLk+pZDk+8Z1NhBuqTmvVivUDyqGazmvhAUV43qI4F3FI8IRbyHSMtWyoR+t7EGF/6fp4xuEC
+ tecS20kVauZZ0tPaevgG8qyiwvqWN4ea32RaZFKBgW7VOmVwNoGuDiETljtBAeuO5TcDeKjrEmYP
+ n2IVWRs6WOllBr/Vu6GxvsK2Vap2Bhl/tM+dkQKq9OSrsODlzRMzN3p7M773kNGAGfF+WnDfgzkC
+ 5scAssrwPFkRoLBsUQWWL9rL2HuGuBKh2HFTW6d6D1WXTG/ig/j0FVl+9g81pfQbF/DO8AgTDJiV
+ 3Rcn
+X-Report-Abuse-To: spam@spe1.ucebox.co.za
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Jan 27, 2021 at 11:11:17PM -0800, Chaitanya Kulkarni wrote:
-> Signed-off-by: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
-> ---
->  fs/iomap/direct-io.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/fs/iomap/direct-io.c b/fs/iomap/direct-io.c
-> index f6c557a1bd25..0737192f7e5c 100644
-> --- a/fs/iomap/direct-io.c
-> +++ b/fs/iomap/direct-io.c
-> @@ -267,9 +267,8 @@ iomap_dio_bio_actor(struct inode *inode, loff_t pos, loff_t length,
->  			goto out;
->  		}
->  
-> -		bio = bio_alloc(GFP_KERNEL, nr_pages);
-> -		bio_set_dev(bio, iomap->bdev);
-> -		bio->bi_iter.bi_sector = iomap_sector(iomap, pos);
-> +		bio = bio_new(iomap->bdev, iomap_sector(iomap, pos), 0, 0,
-> +			      nr_pages, GFP_KERNEL);
+Good Day Sir
 
-op == 0?  It seems a little odd to me that we'd set the field to zero
-and then construct bi_opf later.
+We are please to invite you/your company to quote the following item
+listed
+below:
 
-It also strikes me as a little strange that bi_opf is combined from the
-third and fourth parameters, but maybe some day you'll want to do some
-parameter verification on debug kernels or something...?
+Product/Model No: TM9653 PRESSURE REGULATOR
+Product Name:MEKO
+Qty. 30 units
 
---D
+Compulsory,Kindly send your quotation
+for immediate approval.
 
->  		bio->bi_write_hint = dio->iocb->ki_hint;
->  		bio->bi_ioprio = dio->iocb->ki_ioprio;
->  		bio->bi_private = dio;
-> -- 
-> 2.22.1
-> 
+Kind Regards,
+Albert Bourla
+PFIZER B.V Supply Chain Manager
+Tel: +31(0)208080 880
+ADDRESS: Rivium Westlaan 142, 2909 LD
+Capelle aan den IJssel, Netherlands
