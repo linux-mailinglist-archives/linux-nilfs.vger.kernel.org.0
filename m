@@ -2,101 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20B6C307F80
-	for <lists+linux-nilfs@lfdr.de>; Thu, 28 Jan 2021 21:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D951B3082E5
+	for <lists+linux-nilfs@lfdr.de>; Fri, 29 Jan 2021 02:06:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231283AbhA1UX4 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 28 Jan 2021 15:23:56 -0500
-Received: from spe9-3.ucebox.co.za ([197.242.159.170]:35296 "EHLO
-        spe9-3.ucebox.co.za" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229817AbhA1UXz (ORCPT
+        id S231671AbhA2BFz (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 28 Jan 2021 20:05:55 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:11619 "EHLO
+        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231485AbhA2BE5 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 28 Jan 2021 15:23:55 -0500
-Received: from cornucopia.aserv.co.za ([154.0.175.203])
-        by spe5.ucebox.co.za with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
-        (Exim 4.92)
-        (envelope-from <manornutgrovemanor@gmail.com>)
-        id 1l5BoE-0000tT-KY; Thu, 28 Jan 2021 20:14:51 +0200
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by cornucopia.aserv.co.za (Postfix) with ESMTPA id 3AB20C2E22;
-        Thu, 28 Jan 2021 20:13:33 +0200 (SAST)
+        Thu, 28 Jan 2021 20:04:57 -0500
+Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DRfFz6BZlz1614j;
+        Fri, 29 Jan 2021 09:02:47 +0800 (CST)
+Received: from [10.136.110.154] (10.136.110.154) by smtp.huawei.com
+ (10.3.19.210) with Microsoft SMTP Server (TLS) id 14.3.498.0; Fri, 29 Jan
+ 2021 09:03:59 +0800
+Subject: Re: [f2fs-dev] [PATCH 07/17] f2fs: use blkdev_issue_flush in
+ __submit_flush_wait
+To:     Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+        Song Liu <song@kernel.org>
+CC:     Mike Snitzer <snitzer@redhat.com>, <linux-mm@kvack.org>,
+        <dm-devel@redhat.com>, <drbd-dev@lists.linbit.com>,
+        Naohiro Aota <naohiro.aota@wdc.com>,
+        <linux-nilfs@vger.kernel.org>, Josef Bacik <josef@toxicpanda.com>,
+        <linux-nfs@vger.kernel.org>, Coly Li <colyli@suse.de>,
+        <linux-raid@vger.kernel.org>, <linux-bcache@vger.kernel.org>,
+        David Sterba <dsterba@suse.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        <linux-block@vger.kernel.org>,
+        Damien Le Moal <damien.lemoal@wdc.com>,
+        "Andrew Morton" <akpm@linux-foundation.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        <linux-f2fs-devel@lists.sourceforge.net>,
+        <linux-fsdevel@vger.kernel.org>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        <linux-btrfs@vger.kernel.org>
+References: <20210126145247.1964410-1-hch@lst.de>
+ <20210126145247.1964410-8-hch@lst.de>
+From:   Chao Yu <yuchao0@huawei.com>
+Message-ID: <a36e80ab-20b5-47db-7e20-6ac1c7fc4517@huawei.com>
+Date:   Fri, 29 Jan 2021 09:03:57 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.9.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+In-Reply-To: <20210126145247.1964410-8-hch@lst.de>
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Thu, 28 Jan 2021 20:13:33 +0200
-From:   Nut Grove Manor <manornutgrovemanor@gmail.com>
-To:     undisclosed-recipients:;
-Subject: Invitation To Quote
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <6b6afbe17591d2cf6354daa881775586@gmail.com>
-X-Sender: manornutgrovemanor@gmail.com
-X-Originating-IP: 154.0.175.203
-X-Afrihost-Domain: pesci.aserv.co.za
-X-Afrihost-Username: 154.0.175.203
-Authentication-Results: ucebox.co.za; auth=pass smtp.auth=154.0.175.203@pesci.aserv.co.za
-X-Afrihost-Outgoing-Class: unsure
-X-Afrihost-Outgoing-Evidence: Combined (0.71)
-X-Recommended-Action: accept
-X-Filter-ID: Pt3MvcO5N4iKaDQ5O6lkdGlMVN6RH8bjRMzItlySaT9wzpOYApGxRVhWAiqJiXniPUtbdvnXkggZ
- 3YnVId/Y5jcf0yeVQAvfjHznO7+bT5y15nJ3XzKsL3EOw9SN2NGlMNg0zc+T5/rTbIkS/O7Uep5k
- KEcJoGnTHj/eTXn1J1DA5zVArI9Z2btprzyTdttif/vc+ONFmHhsT4YHJi5lcJGNv4ZteSx8ZI3P
- /XHbshVET5+CQrIVM7NGlz8neGP1BG5YEQzFQe2Vr+A/pB3DN0w3YQnR1deeKck03rVmpY2S3+7Q
- 7XpRAk7g/Go/8Qj5/7E9+OCrGUh73enWm7WnC2W2ScYoebl0NkffnSwf9q0AULq0WsZhvtYayEAp
- OyH1uAbGfb9dp1EDHO8cZmoXJnoETh4JVKsKJKaaPZhIcbOF/pyAvi9WMKuJHp4VcQHSjeG+VOqh
- zfVRWrcgUc5B67uH5HW1fOKV0qNKorW/nYfqRK6VKdkqQNiwatSf4uPOg5Z0rKd5pKdvrq6yzGJS
- LvGZD2wqpD1z4Pa70l9S5XulqL+IDkA1JyYXEaeMdgq8ulYsuMRrQ8qAvKpUhjs4zUlesOcD1XbM
- ScrGRY5TQqspDGx6hwzf40iWZTsNdOYeoXRGmSJZGJJ/xjtFDlMyFolwkv4ZC1tMx4v/OHHnO2ZJ
- YjxiKkaHkr125E7Byeruk/Bt4GXQa1yyX8oQEAGjb1PvO24YoXtZgjjK64egkw98IfVtDynH6J7w
- amXx/OWOdRlYd5D7UzFOBde7hV/jDFiK+GF8A5Vmiww0RgTYV2UTI+9Kc4LflUhhkX+Lx2JS4xvN
- 9DOMrF1Zu3WsrDxiE/fdoxPyxL2YDxPw2/rTezShWYjjlrVPDnRepkWU3GrOjNzSiH7n32ylvHnU
- ezuOz7MOCrp7AtjfD/m0Gg+MyHir45plQ1102Vs1A/5K1TTnO3FSXeyqrykTn/T2XCpw41AKjAbc
- TUFQuTmbFlQY4d1JbxNvYFttlwoG8gUYy6YjYA0RDuiel2xgpvIClDAj9wIlAjH3wOvZUmpL3hFT
- 2vim06Qa8Dg8lSuWYUe9oxjePXNLWGixlOaDFKvsD8FznbtMalFkyWroaup6bmf3ofSZ88uoP3ym
- zU9pcstzSgAYgghG5ueQKBIhNpIKmD+mhFKMCdZ8WJp1A1XQT+DMFrO1uYWwcxCXbnc9nyKw78Qs
- yyZpAzBGKJ32YgaJnWalCG/Qu7d1SrQ5UtbHoN5wLJzRFfC7o41VH9K3ccXzo8mQlW1i0y6Cx3MQ
- NeLA0QysZ/Vq7f6BdqHymHnsz2U1vrgBDmS53i76CSksul1/rSj36SvEhDsBpn5+rnACqp/zhwdG
- i0Ii80aAw9u76d71RQxbLxmLdT9bQCdSBYgGp7AQM7mNCJKisKjv+GRGF5STNWU1PMV382d9nr/S
- qz9xuQI1yinarGP3zwup1wD0R86PXDdU6/nQEtKlI4ZqRmq/dXpHQqwqteALg4NHB6KPbCXALGH3
- lIvFRwYoVFFxnuek15X4DXebJ8SvK3Way1GI6dAO+9J/whBTnKgxM6losiAZXKYIr7I4lhrZ1Flr
- tPmdC74xI5DSf9OpxogDFjV/3UEs775HXvKQf4MlfKgO22X4eGgxrS46ip4XuD1qsRKcsjkjAttd
- 56BbUqtwVXOnavtydR4GBnxtJikXrEYO6B7U6rak9MizyCCnVkjJbEHKuPXyIiZo00gzaylNvJ5L
- +NnIBddo6lu6/5yzxkgfcHnuOK9tepgx8NEM7VvijwWeIF5fJYm6bAfAzK3PGRPvOm4fXlgOCcFn
- QqTqCvD+PNXUd8IE+mF3WnCQe5qSlma30lzh+d1inrDrw5E26bQNNMK/XnzLwHIb5GxzJ7LND51i
- zwQBIYFF3Qr88E3aahCm3b7ghTUD3B1l3byuoS/0v1vtczkS06UpFUAAYfACaT5E9U0DFW/y+cSy
- V7hElaawvU4IxQvDbctA8Gr9J8ZyVEPVApJpYD6rKakz9rF5WbF55vwXtb1TytZPtYa6jrWL/fGx
- xjmwEZ/Uzbir5t6w9GvSB52NrFU5Cd6Grr29UHV4k7G/NqminEdxppJRWxlTWKE/yOER9QkxIsAY
- irk9gtbp3MtXu4fJVNYxNj3cCNE1voGsOaHRsuopxGKZtjn0oEMriGXTidYuJhC/cDGvGX4fhL0M
- nwxS3LQq+jdU29vT5ovidnQQOKJvWZjzvkCR/TftLwr8IAWt8Dn3uW7wwHNs0PjIZGFFGJC99ul3
- KtO297D8NndzysYZsRwzbMvKYYt0VHqxgIENxytAZrD0Ab1/YQ6woKxvTQXCTWcYm4jsjT/0wR3S
- Utf9z7dBvTO/deP6Jhu+oOkcMCvaDjyxX0jFYHJNmce2Qe1y205rx66XAtuGhOs6cFF/ALIvWpeP
- rqp4O0+v9qdDjeQEpv9nfZNUwyEG0dUJjCLT9xcc9JXXUGJGzCyVhOimRJPqM7pJ2k51J2e3dUTA
- iNThLk+pZDk+8Z1NhBuqTmvVivUDyqGazmvhAUV43qI4F3FI8IRbyHSMtWyoR+t7EGF/6fp4xuEC
- tecS20kVauZZ0tPaevgG8qyiwvqWN4ea32RaZFKBgW7VOmVwNoGuDiETljtBAeuO5TcDeKjrEmYP
- n2IVWRs6WOllBr/Vu6GxvsK2Vap2Bhl/tM+dkQKq9OSrsODlzRMzN3p7M773kNGAGfF+WnDfgzkC
- 5scAssrwPFkRoLBsUQWWL9rL2HuGuBKh2HFTW6d6D1WXTG/ig/j0FVl+9g81pfQbF/DO8AgTDJiV
- 3Rcn
-X-Report-Abuse-To: spam@spe1.ucebox.co.za
+X-Originating-IP: [10.136.110.154]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good Day Sir
+On 2021/1/26 22:52, Christoph Hellwig wrote:
+> Use the blkdev_issue_flush helper instead of duplicating it.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-We are please to invite you/your company to quote the following item
-listed
-below:
+Acked-by: Chao Yu <yuchao0@huawei.com>
 
-Product/Model No: TM9653 PRESSURE REGULATOR
-Product Name:MEKO
-Qty. 30 units
-
-Compulsory,Kindly send your quotation
-for immediate approval.
-
-Kind Regards,
-Albert Bourla
-PFIZER B.V Supply Chain Manager
-Tel: +31(0)208080 880
-ADDRESS: Rivium Westlaan 142, 2909 LD
-Capelle aan den IJssel, Netherlands
+Thanks,
