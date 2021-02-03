@@ -2,64 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A04C830A77D
-	for <lists+linux-nilfs@lfdr.de>; Mon,  1 Feb 2021 13:22:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D528530DE52
+	for <lists+linux-nilfs@lfdr.de>; Wed,  3 Feb 2021 16:37:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230159AbhBAMWw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 1 Feb 2021 07:22:52 -0500
-Received: from verein.lst.de ([213.95.11.211]:40973 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229524AbhBAMWu (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 1 Feb 2021 07:22:50 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id CCB7C6736F; Mon,  1 Feb 2021 13:22:04 +0100 (CET)
-Date:   Mon, 1 Feb 2021 13:22:04 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-        Song Liu <song@kernel.org>, Jaegeuk Kim <jaegeuk@kernel.org>,
-        Chao Yu <chao@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Coly Li <colyli@suse.de>, Mike Snitzer <snitzer@redhat.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        Damien Le Moal <damien.lemoal@wdc.com>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        linux-nilfs@vger.kernel.org, dm-devel@redhat.com,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-block@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCH 04/17] block: split bio_kmalloc from bio_alloc_bioset
-Message-ID: <20210201122204.GA22727@lst.de>
-References: <20210126145247.1964410-1-hch@lst.de> <20210126145247.1964410-5-hch@lst.de> <20210130035646.GH308988@casper.infradead.org>
+        id S234443AbhBCPhi (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 3 Feb 2021 10:37:38 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:56722 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234512AbhBCPgR (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 3 Feb 2021 10:36:17 -0500
+X-Greylist: delayed 29383 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 10:35:24 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=BeRp52iTZNZnIj6Yk4q4qmVg1o
+        TGW3OyQQDqdIygbFzrOvnb1VFlTwDZeYzPg7x0gcAhNqpY+RPOU8XZPJCHVzHp7N6NMkd40+DlrAZ
+        BxMd0S46HbScvjeaenOH3+S94exP2AbS+FzziGjhE87mUv7G1Yf3DGvnuFRQOMF8rB7m0VxjRMPDd
+        55/dxUiSnVbBa0JImuQYYXUpRt83SOvMPmEy3tm7HhC6eVNF+f6Wxow3WBSbpKE+vZC1jXRKKl9C1
+        bK6OQxLWFq7P4uMl6BygkP9QC4QklVZQU7qWYFjfzBfV8UP2ROnwJjNJGJIyClrEEjRpgcDNFfVIx
+        4EKHpC7g==;
+Received: from [127.0.0.1] (port=46990 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVy-0005dS-7D; Wed, 03 Feb 2021 01:23:50 -0600
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210130035646.GH308988@casper.infradead.org>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Date:   Wed, 03 Feb 2021 01:23:49 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <6b70d71c493b5c027dd3ef878f38d028@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sat, Jan 30, 2021 at 03:56:46AM +0000, Matthew Wilcox wrote:
-> On Tue, Jan 26, 2021 at 03:52:34PM +0100, Christoph Hellwig wrote:
-> > bio_kmalloc shares almost no logic with the bio_set based fast path
-> > in bio_alloc_bioset.  Split it into an entirely separate implementation.
-> > 
-> > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > ---
-> >  block/bio.c         | 167 ++++++++++++++++++++++----------------------
-> >  include/linux/bio.h |   6 +-
-> >  2 files changed, 86 insertions(+), 87 deletions(-)
-> 
-> This patch causes current linux-next to OOM for me when running xfstests
-> after about ten minutes.  Haven't looked into why yet, this is just the
-> results of a git bisect.
 
-I've run tests on linux-next all weekend and could not reproduce
-the issue.  Can you share your .config?
+
+-- 
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
+
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
+
+Mit freundlichen Grüßen,
+Herr Francois Pinault
