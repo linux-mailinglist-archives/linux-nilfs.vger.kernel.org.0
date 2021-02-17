@@ -2,101 +2,106 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD3ED31316D
-	for <lists+linux-nilfs@lfdr.de>; Mon,  8 Feb 2021 12:53:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2C831E1BC
+	for <lists+linux-nilfs@lfdr.de>; Wed, 17 Feb 2021 23:04:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231814AbhBHLx3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 8 Feb 2021 06:53:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233462AbhBHLvW (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 8 Feb 2021 06:51:22 -0500
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49416C06178A;
-        Mon,  8 Feb 2021 03:50:12 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id bl23so24124693ejb.5;
-        Mon, 08 Feb 2021 03:50:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=2hQUMprtetu+UvLxropQiA6dOXEkpGb4/+OXA3Y0o2E=;
-        b=QKMeCXB1QLNt7s9DCwOXXLyDLXDCgN2X72vq5cR34jUvunGX4bpBduSNxPcjLmejcv
-         TyToD8AWUPl5fClQUJKSlDNUKb/slnnTY8EzIMVN9ams4qqpOQS36XjPwYfq9PNPlJT9
-         /TcnA9WJKPd5fIMdbAAWXFDP9QGKpNP4HHqcJZ30ni0nkN+SYbQgkCC1lCCfvXF7RoCE
-         UVqxun7bYK26oO9LKR61Sc16rDewwgv8/l48ZH0o+sfkTrPzQaBJgreHmz6UIbXcLbTx
-         TVn/Y8GclXvtgCRwxOVRkudEpCT0pX3WysvScSzGEDSD73ymGm1ja1lnMenp3ea8QX3W
-         S6Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=2hQUMprtetu+UvLxropQiA6dOXEkpGb4/+OXA3Y0o2E=;
-        b=gWOhF3aby/R4p6FBseJ9O3rSeZPTf94MkrcB0yM75SY0Xxay8HCQ61GiiW9hCVoCs0
-         yb6+pO1fg0hyYUrJvJDLQGbL7qveiS1/7WUC4qFomE5mFHmuLd9V/oAnGEk/sqY2MLO8
-         226G6ii477B/1vW4WHNtONQ0Qp8pPM1IDldj6CXGmxdBQ+DASXJO0viv+D2OdwJdUVKD
-         Lh4skSLrHbZUX2AUNnvKBJg/YDGVVInYL9/k4OOUwOaPYXWPjKBdQ6ytlSNKZDNsdDtc
-         +K9frtIQJocXAdd/xGu3ldP52zXnjphm+PWgaY8Uzzbc3uRdRrlQgRP+z5GzW4hUdK0o
-         +8zA==
-X-Gm-Message-State: AOAM532V2J6fAyfliuBeHBOAX/vgYNo4urdftp/fW0NU4pFe+dcaQMZr
-        bA+HbiZ45UYstPEFWeH2LQY0hp6xFZZIJ2trqfl+NmgvOECP7g==
-X-Google-Smtp-Source: ABdhPJz2U5X6jzPaCYmWdfFZMTHRwfpQcvW+bJl23QVFJ6SreRILEv5d7DOyImgDssJsPUe+ZNpM0f6I0u1JnaUkQmc=
-X-Received: by 2002:a17:906:af86:: with SMTP id mj6mr16528360ejb.509.1612785010950;
- Mon, 08 Feb 2021 03:50:10 -0800 (PST)
+        id S229707AbhBQWEE (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 17 Feb 2021 17:04:04 -0500
+Received: from jabberwock.ucw.cz ([46.255.230.98]:41148 "EHLO
+        jabberwock.ucw.cz" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231483AbhBQWED (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 17 Feb 2021 17:04:03 -0500
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+        id 88A821C0B8E; Wed, 17 Feb 2021 23:02:59 +0100 (CET)
+Date:   Wed, 17 Feb 2021 23:02:58 +0100
+From:   Pavel Machek <pavel@ucw.cz>
+To:     Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+Cc:     linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        dm-devel@redhat.com, linux-block@vger.kernel.org,
+        linux-kernel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        xen-devel@lists.xenproject.org, linux-nvme@lists.infradead.org,
+        linux-scsi@vger.kernel.org, target-devel@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org,
+        jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
+        ocfs2-devel@oss.oracle.com, linux-pm@vger.kernel.org,
+        linux-mm@kvack.org, axboe@kernel.dk, philipp.reisner@linbit.com,
+        lars.ellenberg@linbit.com, konrad.wilk@oracle.com,
+        roger.pau@citrix.com, minchan@kernel.org, ngupta@vflare.org,
+        sergey.senozhatsky.work@gmail.com, agk@redhat.com,
+        snitzer@redhat.com, hch@lst.de, sagi@grimberg.me,
+        martin.petersen@oracle.com, viro@zeniv.linux.org.uk, tytso@mit.edu,
+        jaegeuk@kernel.org, ebiggers@kernel.org, djwong@kernel.org,
+        shaggy@kernel.org, konishi.ryusuke@gmail.com, mark@fasheh.com,
+        jlbec@evilplan.org, joseph.qi@linux.alibaba.com,
+        damien.lemoal@wdc.com, naohiro.aota@wdc.com, jth@kernel.org,
+        rjw@rjwysocki.net, len.brown@intel.com, akpm@linux-foundation.org,
+        hare@suse.de, gustavoars@kernel.org, tiwai@suse.de,
+        alex.shi@linux.alibaba.com, asml.silence@gmail.com,
+        ming.lei@redhat.com, tj@kernel.org, osandov@fb.com,
+        bvanassche@acm.org, jefflexu@linux.alibaba.com
+Subject: Re: [RFC PATCH 29/34] power/swap: use bio_new in hib_submit_io
+Message-ID: <20210217220257.GA10791@amd>
+References: <20210128071133.60335-1-chaitanya.kulkarni@wdc.com>
+ <20210128071133.60335-30-chaitanya.kulkarni@wdc.com>
 MIME-Version: 1.0
-References: <1612784101-14353-1-git-send-email-konishi.ryusuke@gmail.com>
-In-Reply-To: <1612784101-14353-1-git-send-email-konishi.ryusuke@gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Mon, 8 Feb 2021 20:50:01 +0900
-Message-ID: <CAKFNMok_h7pDFmy-h3DALawpUkTK=diHBUAGGP5eRhpMY2EUQA@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: make splice write available again
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha1;
+        protocol="application/pgp-signature"; boundary="LQksG6bCIzRHxTLp"
+Content-Disposition: inline
+In-Reply-To: <20210128071133.60335-30-chaitanya.kulkarni@wdc.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Andrew,
 
-Please send this to upstream.  This fixes a regression of splice() on nilfs2.
+--LQksG6bCIzRHxTLp
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks,
-Ryusuke Konishi
+Hi!
+>=20
+> diff --git a/kernel/power/swap.c b/kernel/power/swap.c
+> index c73f2e295167..e92e36c053a6 100644
+> --- a/kernel/power/swap.c
+> +++ b/kernel/power/swap.c
+> @@ -271,13 +271,12 @@ static int hib_submit_io(int op, int op_flags, pgof=
+f_t page_off, void *addr,
+>  		struct hib_bio_batch *hb)
+>  {
+>  	struct page *page =3D virt_to_page(addr);
+> +	sector_t sect =3D page_off * (PAGE_SIZE >> 9);
+>  	struct bio *bio;
+>  	int error =3D 0;
+> =20
+> -	bio =3D bio_alloc(GFP_NOIO | __GFP_HIGH, 1);
+> -	bio->bi_iter.bi_sector =3D page_off * (PAGE_SIZE >> 9);
+> -	bio_set_dev(bio, hib_resume_bdev);
+> -	bio_set_op_attrs(bio, op, op_flags);
+> +	bio =3D bio_new(hib_resume_bdev, sect, op, op_flags, 1,
+> +		      GFP_NOIO | __GFP_HIGH);
+> =20
 
-On Mon, Feb 8, 2021 at 8:35 PM Ryusuke Konishi
-<konishi.ryusuke@gmail.com> wrote:
->
-> From: Joachim Henke <joachim.henke@t-systems.com>
->
-> Since 5.10, splice() or sendfile() to NILFS2 return EINVAL. This was
-> caused by commit 36e2c7421f02 ("fs: don't allow splice read/write
-> without explicit ops").
->
-> This patch initializes the splice_write field in file_operations, like
-> most file systems do, to restore the functionality.
->
-> Signed-off-by: Joachim Henke <joachim.henke@t-systems.com>
-> Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> Cc: stable@vger.kernel.org # 5.10+
-> ---
->  fs/nilfs2/file.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
-> index 64bc81363c6c..e1bd592ce700 100644
-> --- a/fs/nilfs2/file.c
-> +++ b/fs/nilfs2/file.c
-> @@ -141,6 +141,7 @@ static int nilfs_file_mmap(struct file *file, struct vm_area_struct *vma)
->         /* .release     = nilfs_release_file, */
->         .fsync          = nilfs_sync_file,
->         .splice_read    = generic_file_splice_read,
-> +       .splice_write   = iter_file_splice_write,
->  };
->
->  const struct inode_operations nilfs_file_inode_operations = {
-> --
-> 1.8.3.1
->
+C function with 6 arguments... dunno. Old version looks comparable or
+even more readable...
+
+Best regards,
+							Pavel
+
+--=20
+http://www.livejournal.com/~pavelmachek
+
+--LQksG6bCIzRHxTLp
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iEYEARECAAYFAmAtkpEACgkQMOfwapXb+vL5ywCguk9XRtMJ4/rJgwKlR42qzH7B
+ww4AoK8H3c5uHgpu/eHAUqpvoYMrxHuL
+=Rk1V
+-----END PGP SIGNATURE-----
+
+--LQksG6bCIzRHxTLp--
