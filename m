@@ -2,60 +2,112 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7866337077
-	for <lists+linux-nilfs@lfdr.de>; Thu, 11 Mar 2021 11:50:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6EC339FEF
+	for <lists+linux-nilfs@lfdr.de>; Sat, 13 Mar 2021 19:36:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232286AbhCKKtg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 11 Mar 2021 05:49:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40266 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232343AbhCKKtc (ORCPT
+        id S234320AbhCMSgR convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Sat, 13 Mar 2021 13:36:17 -0500
+Received: from smtp.econet.co.zw ([77.246.51.158]:65277 "EHLO
+        ironportDMZ.econet.co.zw" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234286AbhCMSf6 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 11 Mar 2021 05:49:32 -0500
-Received: from mail-vk1-xa31.google.com (mail-vk1-xa31.google.com [IPv6:2607:f8b0:4864:20::a31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBAFC061760
-        for <linux-nilfs@vger.kernel.org>; Thu, 11 Mar 2021 02:49:30 -0800 (PST)
-Received: by mail-vk1-xa31.google.com with SMTP id p62so378753vkp.4
-        for <linux-nilfs@vger.kernel.org>; Thu, 11 Mar 2021 02:49:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=CXY5RNGycwH9v0qa4wtJSmJE42Rt6XrZ8QX6Tzpfz2w=;
-        b=mel+VW+zGDGov5BBvb8KvdcktQtXSRNagoCfwvnUIWsvtEcK23Hj17ZD5BkzZ8D9qX
-         ErWBLiVbOCu9emKme704zmtPDr5UGiCPl6PE4bhBmMvzpLEDKf6RE8rX9LZENew0HeSk
-         EKSh7mLhL/VnWKEaa1TtBUSxC/n3+N0qlmvV0GQx5dN2WOrlYv51IojRrKaReQl3q0xl
-         W5sCWazth0C5PWahWvV4RsCh8UKaMse8W1yUhFjeyeZlffm9QBFV/orMzASgqqiqAnGl
-         m4QH3ptsP7RzBi2vrr6DV63Rw9RNnfk11SWCqCHrxbcjez+Uuf+bFnfip6x+5MOC/skL
-         DedA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=CXY5RNGycwH9v0qa4wtJSmJE42Rt6XrZ8QX6Tzpfz2w=;
-        b=hFcjwEv6MYYkCVnMl4ESjiqn+oX91xBFPeAZ90USfMV+wXffNxRnTJvblNjiaABccK
-         JqNQK87lgnTOeyxOOa+VhpE4BrHi8cd6X/aBU4Apb7qEtT552dbln2oZDCTsAJj5aAIU
-         HbMBrwljUAD/h5lQ8vK8FuhWgb1DLgFRqu720P7sHjPAiWCG6HKENDEpCaaE8OUNu2x3
-         s1aGlWX3CvvZUnRGr0gL/mFkuZ326EjSkZ20qdCrpiG66ZrV6U5+rw8ZSVOAWvR+QzIB
-         yI8zX6cier33Aco/MvKGKOMzRh4PHIHlVM3TlhasLfVy9AStUcZJE/BK8jdYMOsIN0yU
-         rCAA==
-X-Gm-Message-State: AOAM531FTQay+JSuxUwpGVyyS/dPWKflKu/rLzEaN+ovzRJwerfGcooS
-        pIrqYZ+Puf1+1V0wBuM6GztYNd/vJFHXQFfFPNU=
-X-Google-Smtp-Source: ABdhPJxTK4HkHOQem6BBXAROmQrDhVNcgBVawMMYACaUnCx5NIALjDQ4uWjhYBXSWRdFDqX4DeU53M2TPHoFPnvRjK4=
-X-Received: by 2002:a1f:1f96:: with SMTP id f144mr4176027vkf.16.1615459769860;
- Thu, 11 Mar 2021 02:49:29 -0800 (PST)
+        Sat, 13 Mar 2021 13:35:58 -0500
+X-Greylist: delayed 472 seconds by postgrey-1.27 at vger.kernel.org; Sat, 13 Mar 2021 13:35:46 EST
+IronPort-SDR: 2VH7uDjPUxuRF84kGIuoHHaISSCuqZi+ufUVCFmh+/0u/DCFCtj5VFDT1b4h9dNnVvA6flspH+
+ 3h9rw6M4gXRTOO/x00E/RP0IaZ5bJ/VFJjak29BaaBMRsZ8SomhBLF6NshxP1CgwykLJQtbFhT
+ f57yb5yFlreJnhCu99okX5fHlhFOs37BIGqeR55agFxRF7WOiDsNKvGtFuzjle44yqE/60PUcB
+ eSRuIQK9gCbtZaBXI6W4OKIxrnCmM+n1gcMJCNZUjbl9kcbsSMLo+94gqXFyBTYwkpasFfSfmL
+ xM0=
+IronPort-HdrOrdr: A9a23:z3onBKxoaNoCa6u/wVCbKrPwgr1zdoIgy1knxilNYDZSddGVkN
+ 3roe8S0gX6hC1UdHYrn92BP6foewK+ybde544NMbC+GDT3oWfAFuFfxKbr3jGIIUPD38FH06
+ MIScRDIfnRKXQ/ssrg+gm/FL8boeWv1Kyzn+/RwzNMYGhRGsddxjx0AAqaDUF6LTMubfFSKL
+ Om6tNDt36cfx0sA/iTPXUZQ/PF4+TCiZOOW29/Ozcc9AKMgTm0gYSULzGk2H4lIkpy6IZn1V
+ Lgmwz9opy5s/ehygLNvlWjiqh+qZ/EwttHCNfksLlwFhzcziKpYIhGfpHqhkFTnMifrG8wkN
+ /WowoxVv4DiU/sQg==
+X-IronPort-AV: E=Sophos;i="5.81,245,1610402400"; 
+   d="scan'208";a="3444522"
+Received: from unknown (HELO WVALE-MB-SVR-05.econetzw.local) ([192.168.101.173])
+  by ironportLAN.econet.co.zw with ESMTP; 13 Mar 2021 20:27:52 +0200
+Received: from WVALE-CAS-SVR-9.econetzw.local (192.168.101.184) by
+ WVALE-MB-SVR-05.econetzw.local (192.168.101.173) with Microsoft SMTP Server
+ (TLS) id 15.0.1473.3; Sat, 13 Mar 2021 20:27:48 +0200
+Received: from User (165.231.148.189) by WVALE-CAS-SVR-9.econetzw.local
+ (10.10.11.230) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Sat, 13 Mar 2021 20:27:59 +0200
+Reply-To: <r19772744@daum.net>
+From:   "Reem E. A" <chawora@econet.co.zw>
+Subject: Re:
+Date:   Sat, 13 Mar 2021 18:27:46 -0800
 MIME-Version: 1.0
-Received: by 2002:a67:2601:0:0:0:0:0 with HTTP; Thu, 11 Mar 2021 02:49:29
- -0800 (PST)
-Reply-To: markcarissa7@gmail.com
-From:   Mark Carissa <hammangoni@gmail.com>
-Date:   Thu, 11 Mar 2021 10:49:29 +0000
-Message-ID: <CAB2dg0iN4kj2Yay-Dv0ZEoFPYBDwEY1pHZbaEQK=JwUfvtONAQ@mail.gmail.com>
-Subject: Re:_
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="Windows-1251"
+Content-Transfer-Encoding: 8BIT
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+Message-ID: <96f8ff6fe77b4507830ab5cf78a93340@WVALE-CAS-SVR-9.econetzw.local>
+To:     Undisclosed recipients:;
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Greetings, why haven't you replied to me? I sent you an email a few
-days ago but you haven't responded.
+Hello,
+
+My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
+and Petroleum" also "Minister of State for International Cooperation"
+in UAE. I write to you on behalf of my other "three (2) colleagues"
+who has approved me to solicit for your "partnership in claiming of
+{us$47=Million}" from a Financial Home on their behalf and
+for our "Mutual Benefits".
+
+The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
+deal with Turkish Government within 2013/2014, however, we
+don't want our government to know about the fund. If this proposal
+interests you, let me know, by sending me an email and I will send to
+you detailed information on how this business would be successfully
+transacted. Be informed that nobody knows about the secret of this
+fund except us, and we know how to carry out the entire transaction.
+So I am compelled to ask, that you will stand on our behalf and
+receive this fund into any account that is solely controlled by you.
+
+We will compensate you with 15% of the total amount involved as
+gratification for being our partner in this transaction. Reply to:
+reem.alhashimi@yandex.com
+
+Regards,
+Ms. Reem.
+This mail was sent through Econet Wireless, a Global telecoms leader.
+
+DISCLAIMER
+
+The information in this message is confidential and is legally privileged. It is intended solely for the addressee. Access to this message by anyone else is unauthorized. If received in error please accept our apologies and notify the sender immediately. You must also delete the original message from your machine. If you are not the intended recipient, any use, disclosure, copying, distribution or action taken in reliance of it, is prohibited and may be unlawful. The information, attachments, opinions or advice contained in this email are not the views or opinions of Econet Wireless, its subsidiaries or affiliates. Econet Wireless therefore accepts no liability for claims, losses, or damages arising from the inaccuracy, incorrectness, or lack of integrity of such information.
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/AgileBanner.png]
+WORK ISN'T A PLACE
+IT'S WHAT WE DO
+________________________________
+
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/telephone.png]
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/email.png]
+
+<mailto:>
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/location.png]
+
+
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/website.png]
+
+www.econet.co.zw<https://www.econet.co.zw>
+
+
+[https://mail.econet.co.zw/OWA/auth/current/themes/resources/Agile/inspired.jpg]
