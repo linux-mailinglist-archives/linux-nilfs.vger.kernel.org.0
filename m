@@ -2,63 +2,81 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CE75364CF6
-	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Apr 2021 23:20:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DA0C376CB2
+	for <lists+linux-nilfs@lfdr.de>; Sat,  8 May 2021 00:26:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234559AbhDSVVO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 19 Apr 2021 17:21:14 -0400
-Received: from mbox.abcom.al ([217.73.143.249]:55720 "EHLO mbox.abcom.al"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229734AbhDSVVN (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 19 Apr 2021 17:21:13 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mbox.abcom.al (Postfix) with ESMTP id B239E1232773F;
-        Mon, 19 Apr 2021 22:30:53 +0200 (CEST)
-Received: from mbox.abcom.al ([127.0.0.1])
-        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id LktBtavGBLKK; Mon, 19 Apr 2021 22:30:53 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by mbox.abcom.al (Postfix) with ESMTP id 6BC8811ADF7D3;
-        Mon, 19 Apr 2021 22:30:53 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mbox.abcom.al 6BC8811ADF7D3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=abcom.al;
-        s=0F3BA0EE-D5D4-11E8-9596-F9115129F2F4; t=1618864253;
-        bh=BZv72htijiAiJQlxop8ucT2O5E8VQfLYZFZIV1NskB4=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=B0h8Mb8QtPZ4Bo9laikiQVRt+XPY11Clizmka/FNnaPWCVZhBaqfhWCT8/OjFRZzl
-         +6RHxPFxkcM7az3YFFN8RoGgYwcoi5oKorKI872GXgBWTphJScQ3v8xGlOGuwzOpZR
-         IuVRKocwQTkKJ9cJuhMiqzvxBk85TcF+KYItJT4VDOLaNBrfK4daWneBXeP2VQu45j
-         mm7+lqmgZoHM5aE/0ZB4hFHzoeQ6Pj7bPx0FAP0mUDsHBPHPhP/mLpSTeg5bC/e8jM
-         IX8r9u2WaDcPBFP6pnRA90NQAXEe+nKNUpRpcA10xLN1GoXg0aROLOjhoB+HUpRDu2
-         36a+VHJ+Drnxw==
-X-Virus-Scanned: amavisd-new at mbox.abcom.al
-Received: from mbox.abcom.al ([127.0.0.1])
-        by localhost (mbox.abcom.al [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 0R-dYMhc5ajX; Mon, 19 Apr 2021 22:30:53 +0200 (CEST)
-Received: from [192.168.43.60] (unknown [105.4.5.77])
-        by mbox.abcom.al (Postfix) with ESMTPSA id 9FD0B1232773F;
-        Mon, 19 Apr 2021 22:30:45 +0200 (CEST)
-Content-Type: text/plain; charset="utf-8"
+        id S230094AbhEGW1j (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 7 May 2021 18:27:39 -0400
+Received: from bosmailout01.eigbox.net ([66.96.190.1]:36027 "EHLO
+        bosmailout01.eigbox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229470AbhEGW1h (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 7 May 2021 18:27:37 -0400
+X-Greylist: delayed 1929 seconds by postgrey-1.27 at vger.kernel.org; Fri, 07 May 2021 18:27:30 EDT
+Received: from bosmailscan09.eigbox.net ([10.20.15.9])
+        by bosmailout01.eigbox.net with esmtp (Exim)
+        id 1lf8QO-00068o-JJ; Fri, 07 May 2021 17:54:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=godsofu4.com; s=dkim; h=Sender:Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=aM9bUFGSTpfnep8zAVAJMnojqhcwpuHDFPgQnPqW4M4=; b=bjgKomV6NO5Eg5D3qsCBps1llx
+        tj4k2teSfIdfo/duBtOSoC/FW1+C1nXiYJbrvf2JDobx8fDCsgnxHFoPWOCb5eI+OJOIgvnnfKlpl
+        ZqidIuDnjEPTMao1vFwrg6M9FUKU/cz6TT5/KN4ccsk+aQli3Wgs3G1cQz5vdbC1Y2SXULFY8Mu2t
+        1PShwmiDRn71EPzgUHUVu0GG39z6uSTEuRgOXhiNl9ekuZ5QXUAEykoocvC5/DkORRmERAA91o1HY
+        Sl76pPWw9UBVGbuFbfdVPfVcFxJM5xZDrmgt6uCf9J+dn/n7LFOSOxBaL9svxxYdhOkJwdz4uh075
+        2gI+xJSw==;
+Received: from [10.115.3.32] (helo=bosimpout12)
+        by bosmailscan09.eigbox.net with esmtp (Exim)
+        id 1lf8QO-0003aD-AI; Fri, 07 May 2021 17:54:20 -0400
+Received: from boswebmail06.eigbox.net ([10.20.16.6])
+        by bosimpout12 with 
+        id 1xuH2500407qujN01xuLVi; Fri, 07 May 2021 17:54:20 -0400
+X-EN-SP-DIR: OUT
+X-EN-SP-SQ: 1
+Received: from [127.0.0.1] (helo=homestead)
+        by boswebmail06.eigbox.net with esmtp (Exim)
+        id 1lf8QL-0006fx-UG; Fri, 07 May 2021 17:54:17 -0400
+Received: from [197.239.81.229]
+ by emailmg.homestead.com
+ with HTTP (HTTP/1.1 POST); Fri, 07 May 2021 17:54:17 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?Hallo=2C_Sie_haben_eine_Spende_von_=E2=82=AC_2=2E000=2E000=2C00?=
-To:     Recipients <abashi@abcom.al>
-From:   <abashi@abcom.al>
-Date:   Mon, 19 Apr 2021 22:30:06 +0200
-Reply-To: tayebsouamidonationorg@gmail.com
-Message-Id: <20210419203045.9FD0B1232773F@mbox.abcom.al>
+Date:   Fri, 07 May 2021 21:54:17 +0000
+From:   Mrs Suzara Maling Wan <fast65@godsofu4.com>
+To:     undisclosed-recipients:;
+Subject: URGENT REPLY NEEDED
+Reply-To: suzara2017malingwan@gmail.com
+Mail-Reply-To: suzara2017malingwan@gmail.com
+Message-ID: <36acfe805efde59f3f399df1324ce6b9@godsofu4.com>
+X-Sender: fast65@godsofu4.com
+User-Agent: Roundcube Webmail/1.3.14
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-EN-AuthUser: fast65@godsofu4.com
+Sender:  Mrs Suzara Maling Wan <fast65@godsofu4.com>
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-I'm Tayeb Souami, 55-year-old an elderly citizen of New Jersey, USA. I won =
-a $315.3 million jackpot, On behalf of my family and act of good will, we a=
-re donating to you and your family the sum of (=E2=82=AC 2,000,000.00 EUR) =
-I try to reach the public charity orphanages. Contribute to poverty reducti=
-on and ensure adequate health care for individuals. I also want you to inve=
-st part of this donation in public infrastructure to provide jobs for unemp=
-loyed citizens in your country.You can Watch me on youtube Claimed  https:/=
-/www.youtube.com/watch?v=3DZ6ui8ZDQ6Ks I choose you because I believe in yo=
-u. I need your full cooperation regarding this donation. Please contact me =
-back here at my private email: tayebsouamidonationorg@gmail.com
+
+
+My names are Mrs Suzara Maling Wan, I am a Nationality of the Republic
+of the Philippine presently base in West Africa B/F, dealing with
+exportation of Gold, I was diagnose of blood Causal decease, and my
+doctor have announce to me that I have few days to leave due to the
+condition of my sickness.
+
+I have a desire to build an orphanage home in your country of which i
+cannot execute the project myself due to my present health condition,
+I am willing to hand over the project under your care for you to help
+me fulfill my dreams and desire of building an orphanage home in your
+country.
+
+Reply in you are will to help so that I can direct you to my bank for
+the urgent transfer of the fund/money require for the project to your
+account as I have already made the fund/money available.
+
+With kind regards
+Mrs Suzara Maling Wan
