@@ -2,36 +2,31 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D82838242A
-	for <lists+linux-nilfs@lfdr.de>; Mon, 17 May 2021 08:21:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3CE0382C6A
+	for <lists+linux-nilfs@lfdr.de>; Mon, 17 May 2021 14:42:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232913AbhEQGWf (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 17 May 2021 02:22:35 -0400
-Received: from mga18.intel.com ([134.134.136.126]:58163 "EHLO mga18.intel.com"
+        id S237093AbhEQMoA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 17 May 2021 08:44:00 -0400
+Received: from mx2.suse.de ([195.135.220.15]:43594 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S232218AbhEQGWf (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 17 May 2021 02:22:35 -0400
-IronPort-SDR: ZlFeQ66o4K72j6LEypN4Ec23gPjiSXxrz9q/m5YWKEJvEVW9se24p8llF5nDJ4aLOc6bRBryTg
- I9Z+fcDiVsTw==
-X-IronPort-AV: E=McAfee;i="6200,9189,9986"; a="187798130"
-X-IronPort-AV: E=Sophos;i="5.82,306,1613462400"; 
-   d="scan'208";a="187798130"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2021 23:21:18 -0700
-IronPort-SDR: ucTslSVrfm3Dr7fBX9XveScssOvJXF8A+PoVzICYkR7EOlQpPaKaAxwPSXA5dOhVeMulwInDJF
- 8ZsWmYFEWLOQ==
-X-IronPort-AV: E=Sophos;i="5.82,306,1613462400"; 
-   d="scan'208";a="611468871"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2021 23:21:12 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1liWcn-00CfzY-8g; Mon, 17 May 2021 09:21:09 +0300
-Date:   Mon, 17 May 2021 09:21:09 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
-        Joe Perches <joe@perches.com>,
+        id S237076AbhEQMn7 (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 17 May 2021 08:43:59 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1621255362; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=aiM3vKTum70TM7QOTT95hhDvPgS+x6dBjBJHzOjqx/I=;
+        b=QdHKMwN4ulSsBGSBhH8tgLkK/uK0lznYQ65rTGPzuAamhg9LRNvAXtLDtw55K3SeGMptAC
+        mLZeVf1yRsjPEaeTYwz4gl6GaUAjHL30L91sdoOGhkvtei20FOKGwFmvBzKfTXRM6/oLc0
+        jQAaOIrt5Gt3ZNxhECuaCrvSKfWTi4Q=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0E5F2B1C3;
+        Mon, 17 May 2021 12:42:41 +0000 (UTC)
+Date:   Mon, 17 May 2021 14:42:39 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     JC Kuo <jckuo@nvidia.com>, Joe Perches <joe@perches.com>,
         Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         linux-tegra@vger.kernel.org, linux-nilfs@vger.kernel.org,
@@ -46,48 +41,37 @@ Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         Jason Wessel <jason.wessel@windriver.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
         Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 2/4] kdb: Switch to use %ptTs
-Message-ID: <YKILVUc3stIWeHpo@smile.fi.intel.com>
+Subject: Re: [PATCH v2 1/4] lib/vsprintf: Allow to override ISO 8601 date and
+ time separator
+Message-ID: <YKJkv2qik314kjAB@alley>
 References: <20210511153958.34527-1-andriy.shevchenko@linux.intel.com>
- <20210511153958.34527-2-andriy.shevchenko@linux.intel.com>
- <20210513093130.qzbh6tm7lbclgayh@maple.lan>
+ <YJzymZ7m3R1ELjGD@alley>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210513093130.qzbh6tm7lbclgayh@maple.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <YJzymZ7m3R1ELjGD@alley>
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, May 13, 2021 at 10:31:30AM +0100, Daniel Thompson wrote:
-> On Tue, May 11, 2021 at 06:39:56PM +0300, Andy Shevchenko wrote:
-> > Use %ptTs instead of open-coded variant to print contents
-> > of time64_t type in human readable form.
+On Thu 2021-05-13 11:34:18, Petr Mladek wrote:
+> On Tue 2021-05-11 18:39:55, Andy Shevchenko wrote:
+> > ISO 8601 defines 'T' as a separator between date and time. Though,
+> > some ABIs use time and date with ' ' (space) separator instead.
 > > 
-> > Cc: Jason Wessel <jason.wessel@windriver.com>
-> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
-> > Cc: kgdb-bugreport@lists.sourceforge.net
+> > Add a flavour to the %pt specifier to override default separator.
+> > 
 > > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> > Reviewed-by: Petr Mladek <pmladek@suse.com>
-> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > 
-> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
 > 
-> Any clue what route this will take into the kernel? I'm certainly happy
-> for someone else to take the kdb bits alongside the vsprintf stuff
-> (so here's an acked-by too in case they are fussy about that sort of
-> thing ;-) ):
+> I am going to queue the entire patchset for 5.14 via the printk tree
+> the following week unless anyone complains in the meantime.
 
-I hope Petr will take it thru PRINTK tree.
+The patchset has been committed into print/linux.git, branch
+for-5.14-vsprintf-pts.
 
-> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
-
-Thanks!
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Best Regards,
+Petr
