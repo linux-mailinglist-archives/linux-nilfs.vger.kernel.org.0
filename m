@@ -2,27 +2,34 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FF2C37F829
-	for <lists+linux-nilfs@lfdr.de>; Thu, 13 May 2021 14:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D82838242A
+	for <lists+linux-nilfs@lfdr.de>; Mon, 17 May 2021 08:21:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233502AbhEMMuN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 13 May 2021 08:50:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46704 "EHLO mail.kernel.org"
+        id S232913AbhEQGWf (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 17 May 2021 02:22:35 -0400
+Received: from mga18.intel.com ([134.134.136.126]:58163 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231140AbhEMMuM (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 13 May 2021 08:50:12 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 5905761154;
-        Thu, 13 May 2021 12:49:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1620910142;
-        bh=HgdIHeZib83/Z6f6pPdeUSwiU8GORWLQNoCbyvVNcgk=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QqB7EoJa4CcvhF8HCHcdnZ2K9lMjmXCjBboQ56AK9f5SL6WjgDN+zN+f6bzaoffT7
-         BvSw3FfZCNhqnIbMcIuMMaVLeOrM9UYEpISIds0VQnR85HtvUw9Xl5Tb5Ik3kp/MJN
-         R8UvQ/VH0xuASqMM+aTS5dVnuLCeHpB80bBGMCxY=
-Date:   Thu, 13 May 2021 14:49:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+        id S232218AbhEQGWf (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 17 May 2021 02:22:35 -0400
+IronPort-SDR: ZlFeQ66o4K72j6LEypN4Ec23gPjiSXxrz9q/m5YWKEJvEVW9se24p8llF5nDJ4aLOc6bRBryTg
+ I9Z+fcDiVsTw==
+X-IronPort-AV: E=McAfee;i="6200,9189,9986"; a="187798130"
+X-IronPort-AV: E=Sophos;i="5.82,306,1613462400"; 
+   d="scan'208";a="187798130"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2021 23:21:18 -0700
+IronPort-SDR: ucTslSVrfm3Dr7fBX9XveScssOvJXF8A+PoVzICYkR7EOlQpPaKaAxwPSXA5dOhVeMulwInDJF
+ 8ZsWmYFEWLOQ==
+X-IronPort-AV: E=Sophos;i="5.82,306,1613462400"; 
+   d="scan'208";a="611468871"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2021 23:21:12 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1liWcn-00CfzY-8g; Mon, 17 May 2021 09:21:09 +0300
+Date:   Mon, 17 May 2021 09:21:09 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
 Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
         Joe Perches <joe@perches.com>,
         Sumit Garg <sumit.garg@linaro.org>, linux-doc@vger.kernel.org,
@@ -34,32 +41,53 @@ Cc:     Petr Mladek <pmladek@suse.com>, JC Kuo <jckuo@nvidia.com>,
         Rasmus Villemoes <linux@rasmusvillemoes.dk>,
         Jonathan Corbet <corbet@lwn.net>,
         Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
         Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         Jason Wessel <jason.wessel@windriver.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
         Douglas Anderson <dianders@chromium.org>
-Subject: Re: [PATCH v2 4/4] usb: host: xhci-tegra: Switch to use %ptTs
-Message-ID: <YJ0gPBHHP6VkhSdb@kroah.com>
+Subject: Re: [PATCH v2 2/4] kdb: Switch to use %ptTs
+Message-ID: <YKILVUc3stIWeHpo@smile.fi.intel.com>
 References: <20210511153958.34527-1-andriy.shevchenko@linux.intel.com>
- <20210511153958.34527-4-andriy.shevchenko@linux.intel.com>
+ <20210511153958.34527-2-andriy.shevchenko@linux.intel.com>
+ <20210513093130.qzbh6tm7lbclgayh@maple.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210511153958.34527-4-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20210513093130.qzbh6tm7lbclgayh@maple.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, May 11, 2021 at 06:39:58PM +0300, Andy Shevchenko wrote:
-> Use %ptTs instead of open coded variant to print contents
-> of time64_t type in human readable form.
+On Thu, May 13, 2021 at 10:31:30AM +0100, Daniel Thompson wrote:
+> On Tue, May 11, 2021 at 06:39:56PM +0300, Andy Shevchenko wrote:
+> > Use %ptTs instead of open-coded variant to print contents
+> > of time64_t type in human readable form.
+> > 
+> > Cc: Jason Wessel <jason.wessel@windriver.com>
+> > Cc: Daniel Thompson <daniel.thompson@linaro.org>
+> > Cc: kgdb-bugreport@lists.sourceforge.net
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > Reviewed-by: Douglas Anderson <dianders@chromium.org>
 > 
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Jonathan Hunter <jonathanh@nvidia.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Reviewed-by: Daniel Thompson <daniel.thompson@linaro.org>
+> 
+> Any clue what route this will take into the kernel? I'm certainly happy
+> for someone else to take the kdb bits alongside the vsprintf stuff
+> (so here's an acked-by too in case they are fussy about that sort of
+> thing ;-) ):
+
+I hope Petr will take it thru PRINTK tree.
+
+> Acked-by: Daniel Thompson <daniel.thompson@linaro.org>
+
+Thanks!
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
