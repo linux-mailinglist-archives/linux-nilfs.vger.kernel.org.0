@@ -2,66 +2,97 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 96CE03B1E07
-	for <lists+linux-nilfs@lfdr.de>; Wed, 23 Jun 2021 17:54:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52A123B34D9
+	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Jun 2021 19:34:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231495AbhFWP4s convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Wed, 23 Jun 2021 11:56:48 -0400
-Received: from [183.90.58.236] ([183.90.58.236]:51702 "EHLO ns1.zackeruz.tk"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S231491AbhFWP4r (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 23 Jun 2021 11:56:47 -0400
-Received: from johnlewis.com (unknown [192.168.20.1])
-        by ns1.zackeruz.tk (Postfix) with ESMTPSA id 7E6D5846329
-        for <linux-nilfs@vger.kernel.org>; Wed, 23 Jun 2021 23:54:28 +0800 (+08)
-Reply-To: robert_turner@johnlewis-trading.com,
-          pippawicks.sales@johnlewis-trading.com
-From:   John Lewis & Partnersip <robert.turner107@johnlewis.com>
-To:     linux-nilfs@vger.kernel.org
-Subject: 6/23/2021 Product Inquiry 
-Date:   23 Jun 2021 15:54:27 +0000
-Message-ID: <20210623094114.14C24D92098EB577@johnlewis.com>
+        id S230116AbhFXRhL (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 24 Jun 2021 13:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58568 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229721AbhFXRhK (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Thu, 24 Jun 2021 13:37:10 -0400
+Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DF60C061574;
+        Thu, 24 Jun 2021 10:34:51 -0700 (PDT)
+Received: by mail-ej1-x636.google.com with SMTP id mj3so3336498ejb.4;
+        Thu, 24 Jun 2021 10:34:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+1dHCIjVGu+VUQzg64ApXX1v4ulkFxMzGJoEo7mlEN8=;
+        b=AARHRFZK4+BCpIFSAR4Ai01+dvIC2tHWRomTVTb1qj8A98A4rj7a7RL0a1YxshGXjS
+         ylJERtxccirnh2JtFVERSbZqjqFkZv151h58DU7fxtNvk1ymxTwBWWxeK4CRSorRYFX3
+         ZH3KmSFqkl+0HpUw+VOEJPP+aZsXVDgdooZjimavAs28OTJ+5nW7jqV+w2VtbIyI875S
+         JDEA8jR5UG1z465hHft34VuKxHIYrEfwcZwk6JTrJ/qGaWKaRZPXFasqE5z8e2nzzQMG
+         uXVmd7OVicFr2VZlaFpLatGxVSRkMPTjImm4rK45atjpd8bgjoYlhpjMHni+J2lrE74m
+         44vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+1dHCIjVGu+VUQzg64ApXX1v4ulkFxMzGJoEo7mlEN8=;
+        b=YULjqUZyxxazIk8p+0A/+qIXMwMwKdDJDfAPBrh+IUiB2lRqcaJOulpFqach9816zQ
+         qIxoKUoZqcWZ4UTgEGMV00HJim2I1YbCuaC0+BLJfA9wvl4ax3b8SBiWvHT1WlCA4T2W
+         0KMl0wrGO3DFi0KjjSwv2EajNCT4HiKQRWVxIE3Y1e+c7AYTIq3cyFtj83vmINI+kHNr
+         oY9ZDRkRpJpCJwUcARgwWqvHLoM6yoQLtR75oK6KAWjj0bJ9cSADENQaLWpybz3QWptx
+         FJVLdOrVOqtfJ9nuiLYwhwqKLeEYuGehzVeYaebXyIWMfGy9YEM93Su726nTWFOuh7JF
+         Dd0w==
+X-Gm-Message-State: AOAM533cPMkcaPFR4UUePffJVONIA7m2J+YNUB8EwzUclj7lPbdoZxqb
+        TB9tzfCVyW9KOqG8Eeb5HB5pMjynjP5nsK3jCOM=
+X-Google-Smtp-Source: ABdhPJwtErtzq1+hHcQMB5rM9v6vcBduXUsJyHaoWqc3HwRhLcDrty3aCQ7bdHIlsFcpiQypqmQkzot764eK+TZffv8=
+X-Received: by 2002:a17:906:3d3:: with SMTP id c19mr6297403eja.202.1624556090041;
+ Thu, 24 Jun 2021 10:34:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: 8BIT
+References: <20210621100519.10257-1-colin.king@canonical.com>
+In-Reply-To: <20210621100519.10257-1-colin.king@canonical.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Fri, 25 Jun 2021 02:34:38 +0900
+Message-ID: <CAKFNMomw60BGObwF2ZOFriFwPnEk5hFZgC-5vJwJjPnrW3RyPw@mail.gmail.com>
+Subject: Re: [PATCH] nilfs2: remove redundant continue statement in a while-loop
+To:     Colin King <colin.king@canonical.com>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dear linux-nilfs
+Thank you.  This change is correct also in view of the expected
+behavior of the function
+(it really is unnecessary).
+I will send this to upstream.
 
-The famous brand John Lewis Partnership, is UK's largest multi-
-channel retailer with over 126 shops and multiple expansion in 
-Africa furnished by European/Asian/American products. We are 
-sourcing new products to attract new customers and also retain 
-our existing ones, create new partnerships with companies dealing 
-with different kinds of goods globally.
+Regards,
+Ryusuke Konishi
 
-Your company's products are of interest to our market as we have 
-an amazing market for your products.
-
-Provide us your current catalog through email to review more. We 
-hope to be able to order with you and start a long-term friendly,
-respectable and solid business partnership. Please we would 
-appreciate it if you could send us your stock availability via 
-email if any.
-
-Our payment terms are 15 days net in Europe, 30 days Net in UK 
-and 30 days net in Asia/USA as we operate with over 5297 
-suppliers around the globe for the past 50 years now. For 
-immediate response Send your reply to robert_turner@johnlewis-
-trading.com for us to be able to 
-treat with care and urgency.
-
-
-Best Regards
-
-Rob Turner
-Head Of Procurement Operations
-John Lewis & Partners.
-robert_turner@johnlewis-trading.com
-Tel: +44-7451-274090
-WhatsApp: +447497483925
-www.johnlewis.com
-REGISTERED OFFICE: 171 VICTORIA STREET, LONDON SW1E 5NN 
+On Mon, Jun 21, 2021 at 7:05 PM Colin King <colin.king@canonical.com> wrote:
+>
+> From: Colin Ian King <colin.king@canonical.com>
+>
+> The continue statement at the end of the while-loop is redundant,
+> remove it.
+>
+> Addresses-Coverity: ("Continue has no effect")
+> Signed-off-by: Colin Ian King <colin.king@canonical.com>
+> ---
+>  fs/nilfs2/btree.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
+> index f42ab57201e7..ab9ec073330f 100644
+> --- a/fs/nilfs2/btree.c
+> +++ b/fs/nilfs2/btree.c
+> @@ -738,7 +738,6 @@ static int nilfs_btree_lookup_contig(const struct nilfs_bmap *btree,
+>                         if (ptr2 != ptr + cnt || ++cnt == maxblocks)
+>                                 goto end;
+>                         index++;
+> -                       continue;
+>                 }
+>                 if (level == maxlevel)
+>                         break;
+> --
+> 2.31.1
+>
