@@ -2,71 +2,59 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C20343B5C94
-	for <lists+linux-nilfs@lfdr.de>; Mon, 28 Jun 2021 12:39:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F84A3B6C51
+	for <lists+linux-nilfs@lfdr.de>; Tue, 29 Jun 2021 03:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232617AbhF1Klt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 28 Jun 2021 06:41:49 -0400
-Received: from flippiebeckerswealthmgr.xyz ([62.173.147.16]:49408 "EHLO
-        host.flippiebeckerswealthmgr.xyz" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S231935AbhF1Kls (ORCPT
+        id S231236AbhF2B5D (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 28 Jun 2021 21:57:03 -0400
+Received: from szxga01-in.huawei.com ([45.249.212.187]:6018 "EHLO
+        szxga01-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S230145AbhF2B5B (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 28 Jun 2021 06:41:48 -0400
-X-Greylist: delayed 1106 seconds by postgrey-1.27 at vger.kernel.org; Mon, 28 Jun 2021 06:41:48 EDT
-Received: from flippiebeckerswealthmgr.xyz (ec2-54-157-176-210.compute-1.amazonaws.com [54.157.176.210])
-        by host.flippiebeckerswealthmgr.xyz (Postfix) with ESMTPA id 805A616F2C
-        for <linux-nilfs@vger.kernel.org>; Mon, 28 Jun 2021 13:13:37 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealthmgr.xyz 805A616F2C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippiebeckerswealthmgr.xyz; s=default; t=1624875218;
-        bh=G3PrS2ssLE6xKmHDCm5hvScMpvbJPlyTw8R1AuPMkGc=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=yuq7cZksaoAQUBpM4cNhoudKlVHJhp6Mfx2njLQuqOtEdr1T9S8+DuOCec28aBP3r
-         wOYs+FRZsTZE5tCCiuDz5FHxneSqUuqWek6nWQItAQWaNElETEZ6RPc/ADT7wO5KhF
-         7E5Ws3IXDJZ1+HkJZMMEpJ3YqtxXLj2L9HqCodjU=
-DKIM-Filter: OpenDKIM Filter v2.11.0 host.flippiebeckerswealthmgr.xyz 805A616F2C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flippiebeckerswealthmgr.xyz; s=default; t=1624875217;
-        bh=G3PrS2ssLE6xKmHDCm5hvScMpvbJPlyTw8R1AuPMkGc=;
-        h=Reply-To:From:To:Subject:Date:From;
-        b=LIYaMoJk+VivgsBqrPuYNpquWZF8ZVqvuoWSjEwpKF5opOBMfScQAMnBnhuiEu/99
-         3zMFMftHUG76Lh3v9QPat8ofiBxTbgAsTUkAjMEhR7EcmX/3IMIaOgxnihKEuEeG5F
-         Nwevnc0pmZEaF5GaxksB1vwXkOc4zrJ8xYpOi9nc=
-Reply-To: jmasuku09@flippiebecker.com
-From:   Jotham Masuku <jmasuku09@flippiebeckerswealthmgr.xyz>
-To:     linux-nilfs@vger.kernel.org
-Subject: Projects
-Date:   28 Jun 2021 10:13:37 +0000
-Message-ID: <20210628101337.73C406EE50BA5C0E@flippiebeckerswealthmgr.xyz>
-Mime-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        Mon, 28 Jun 2021 21:57:01 -0400
+Received: from dggemv711-chm.china.huawei.com (unknown [172.30.72.55])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4GDS7q1bhtzXm1h;
+        Tue, 29 Jun 2021 09:49:11 +0800 (CST)
+Received: from dggpemm000001.china.huawei.com (7.185.36.245) by
+ dggemv711-chm.china.huawei.com (10.1.198.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2176.2; Tue, 29 Jun 2021 09:54:28 +0800
+Received: from huawei.com (10.175.113.32) by dggpemm000001.china.huawei.com
+ (7.185.36.245) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2176.2; Tue, 29 Jun
+ 2021 09:54:28 +0800
+From:   Nanyong Sun <sunnanyong@huawei.com>
+To:     <konishi.ryusuke@gmail.com>
+CC:     <linux-nilfs@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <sunnanyong@huawei.com>, <wangkefeng.wang@huawei.com>
+Subject: [PATCH 0/6] nilfs2: fix incorrect usage of kobject
+Date:   Tue, 29 Jun 2021 10:25:50 +0800
+Message-ID: <20210629022556.3985106-1-sunnanyong@huawei.com>
+X-Mailer: git-send-email 2.18.0.huawei.25
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.175.113.32]
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpemm000001.china.huawei.com (7.185.36.245)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello there,
+This patchset fix the memory leak problems and NULL pointer problem
+caused by incorrect usage of kobject in nilfs2 sysfs driver.
 
-I hope this message finds you in good spirits especially during=20
-this challenging time of coronavirus pandemic. I hope you and=20
-your family are well and keeping safe. Anyway, I am Jotham=20
-Masuku, a broker working with Flippiebecker Wealth. I got your=20
-contact through an online business directory and I thought I=20
-should contact you to see if you are interested in this=20
-opportunity. I am contacting you because one of my high profile=20
-clients is interested in investing abroad and has asked me to=20
-look for individuals and companies in your country with=20
-interesting business ideas and projects that he can invest in. He=20
-wants to invest a substantial amount of asset abroad.
+Nanyong Sun (6):
+  nilfs2: fix memory leak in nilfs_sysfs_create_device_group
+  nilfs2: fix NULL pointer in nilfs_##name##_attr_release
+  nilfs2: fix memory leak in nilfs_sysfs_create_##name##_group
+  nilfs2: fix memory leak in nilfs_sysfs_delete_##name##_group
+  nilfs2: fix memory leak in nilfs_sysfs_create_snapshot_group
+  nilfs2: fix memory leak in nilfs_sysfs_delete_snapshot_group
 
-I have decided to keep this brief for now but please kindly=20
-respond back to this email if you are interested in this=20
-opportunity. Once I receive your response, I will give you more=20
-details and we can plan a strategy that will be beneficial to all=20
-parties.
+ fs/nilfs2/sysfs.c | 26 +++++++++++---------------
+ 1 file changed, 11 insertions(+), 15 deletions(-)
 
-Best regards
+-- 
+2.18.0.huawei.25
 
-J Masuku
-Flippiebecker Wealth
