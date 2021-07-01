@@ -2,53 +2,86 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 43C1F3B72AD
-	for <lists+linux-nilfs@lfdr.de>; Tue, 29 Jun 2021 14:55:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB0D93B91F0
+	for <lists+linux-nilfs@lfdr.de>; Thu,  1 Jul 2021 15:01:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232937AbhF2M5o convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Tue, 29 Jun 2021 08:57:44 -0400
-Received: from [218.75.92.58] ([218.75.92.58]:49193 "EHLO WIN-VTPUBHNS72V"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S232755AbhF2M5o (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 29 Jun 2021 08:57:44 -0400
-Received: from [192.168.43.47] (Unknown [197.210.85.75])
-        by WIN-VTPUBHNS72V with ESMTPA
-        ; Thu, 24 Jun 2021 20:46:56 +0800
-Message-ID: <2A435363-CF2B-455A-AC40-6C3345A7E76E@WIN-VTPUBHNS72V>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S236576AbhGANDV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 1 Jul 2021 09:03:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S236614AbhGANDO (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 1 Jul 2021 09:03:14 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 847A7C0613A3;
+        Thu,  1 Jul 2021 06:00:42 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id yy20so10262124ejb.6;
+        Thu, 01 Jul 2021 06:00:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=DaPUpeGq4S3Zxelp1iJnw2sl2vB3LeguXSMXQNFZYHM=;
+        b=rhIz2OrWRKxx/a+2VkK9ig3LnQCF7LQXVySbjUv8Tg6gNS0I4aIvQOzCSEyYgaZb4u
+         YAYu/GPDCdpRaiQLtYQt5rz0kW4tf8JVYJo3LN8BXGNuQAIzuKdCmWshN56S9LwXguVz
+         YspgpuH7e8ZaM4g7DckGHTqp1DCIGeQJDQEniLGRqxZWvbD1k+JC8cIMCYI872EJ/Odw
+         EAZDjMw+UR3GoDBZTf0U/VVjdEEFvqL9W9gXKk2dhWK4vVniJqxK+MPpf+yYmW6oNUB4
+         9qojbls90/gqdbIfySZruC2Bk5JfnON22bIsCvVeEAFepc8VSZxxtLfAWEJus0psMhl9
+         z08Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=DaPUpeGq4S3Zxelp1iJnw2sl2vB3LeguXSMXQNFZYHM=;
+        b=CBiZwYI6zdp4/AnFYPsRysf7bBiF447JWaPQ41JjQQ+JWxS1YHz4XbePrPfINuuh2M
+         KT0s/yJ7JhE3uK8lvJbAcgKiMjVA36xM6ubBsUZZbA+umc1Pbgs+bZXyU53HUcPwssR9
+         aeTSO1SGKX8lRzmGXvle+tV1bAFEXfkflKx4IyOxE2u7TS75DW2yG0HDFxFEIf8Jop0e
+         5g5eOjP1rIPyHNmZqPujg5lH7j0OJx85Q4v5rlIcOOkg+twB0bOuRwW6Djvu0WTHR4+t
+         7wes/4Eoe1L4L6C4tmznWHQK/8NclVX8roWilpsX4G7xU/MWQPZuhAIWCwm9Q3CyxKty
+         ohsQ==
+X-Gm-Message-State: AOAM531/i+UFDz4avVQ4Sna7R95iJ6PqVurHms8VL/XQYdKgRRBKDvnM
+        VuinFKyISjtNCweG5jloAOKtm7rizNktPKXfj6M=
+X-Google-Smtp-Source: ABdhPJzM3yEoovZnwfVb1Qa1kPEwNFYhhKiuEdFzc3Sy5RSkQBbOJ6ZPP9WgO14NEHXiTrQNvMot4A0DR9NplaDpDNw=
+X-Received: by 2002:a17:906:2844:: with SMTP id s4mr40598906ejc.263.1625144441012;
+ Thu, 01 Jul 2021 06:00:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: URGENT ATTENTION
-To:     Recipients <wjjt@wjjt.cn>
-From:   "Andres Auchincloss" <wjjt@wjjt.cn>
-Date:   Thu, 24 Jun 2021 14:46:31 +0200
-Reply-To: andresauchincloss926@gmail.com
+References: <20210629022556.3985106-1-sunnanyong@huawei.com>
+In-Reply-To: <20210629022556.3985106-1-sunnanyong@huawei.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Thu, 1 Jul 2021 22:00:28 +0900
+Message-ID: <CAKFNMokmN5fZZ5_SUABYGOzEyd+sr3jYtfZNWmUTZwQAZa4NFg@mail.gmail.com>
+Subject: Re: [PATCH 0/6] nilfs2: fix incorrect usage of kobject
+To:     Nanyong Sun <sunnanyong@huawei.com>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>, wangkefeng.wang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+Hi, Nanyong
 
-I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
+Thank you so much for sending this patchset.  I will review each and
+send them upstream if applicable as is.
 
-I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
+Thanks,
+Ryusuke Konishi
 
-Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
-
-
-
-Best Regards
-
-
-
-
-Tel: +1 (587) 770-0485
-Andres .B. Auchincloss
-Chief financial officerBP Petroleum p.l.c.
-
-
-
-
-                                  Copyright ©? 1996-2021
-
+On Tue, Jun 29, 2021 at 10:54 AM Nanyong Sun <sunnanyong@huawei.com> wrote:
+>
+> This patchset fix the memory leak problems and NULL pointer problem
+> caused by incorrect usage of kobject in nilfs2 sysfs driver.
+>
+> Nanyong Sun (6):
+>   nilfs2: fix memory leak in nilfs_sysfs_create_device_group
+>   nilfs2: fix NULL pointer in nilfs_##name##_attr_release
+>   nilfs2: fix memory leak in nilfs_sysfs_create_##name##_group
+>   nilfs2: fix memory leak in nilfs_sysfs_delete_##name##_group
+>   nilfs2: fix memory leak in nilfs_sysfs_create_snapshot_group
+>   nilfs2: fix memory leak in nilfs_sysfs_delete_snapshot_group
+>
+>  fs/nilfs2/sysfs.c | 26 +++++++++++---------------
+>  1 file changed, 11 insertions(+), 15 deletions(-)
+>
+> --
+> 2.18.0.huawei.25
+>
