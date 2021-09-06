@@ -2,91 +2,92 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDF093FE1DA
-	for <lists+linux-nilfs@lfdr.de>; Wed,  1 Sep 2021 20:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C4D2401563
+	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Sep 2021 06:15:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346778AbhIASMT (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 1 Sep 2021 14:12:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53690 "EHLO
+        id S229501AbhIFEOy (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 6 Sep 2021 00:14:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346649AbhIASMS (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 1 Sep 2021 14:12:18 -0400
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A75FC0617A8
-        for <linux-nilfs@vger.kernel.org>; Wed,  1 Sep 2021 11:11:21 -0700 (PDT)
-Received: by mail-pf1-x436.google.com with SMTP id s29so480670pfw.5
-        for <linux-nilfs@vger.kernel.org>; Wed, 01 Sep 2021 11:11:21 -0700 (PDT)
+        with ESMTP id S229468AbhIFEOx (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 6 Sep 2021 00:14:53 -0400
+Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3296C061575;
+        Sun,  5 Sep 2021 21:13:48 -0700 (PDT)
+Received: by mail-pj1-x1032.google.com with SMTP id g13-20020a17090a3c8d00b00196286963b9so3464926pjc.3;
+        Sun, 05 Sep 2021 21:13:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
-         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
-         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
-         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
-         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
-         0RlA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DDfs506elfVQtwvsSc35KPZpNEn95r25l9p9sqG0B24=;
+        b=ojfO4IOtMRTy69WphW9Tmy1bAz8RPBeEY38eHzq8DFTANyDHjGN0aHRotHC/g2+3LW
+         O7vb9rhbjFmuj4qOI3SCSfq8YtGdoIbcDhNEtw8xUMSMY8xSUlg4O6+QqofS7oRkgwkj
+         T9/WH3HKF7xuJFaO/FYSidOxBt0LgN4fWcWK1EYFLOW0uzkaVBlCF5cu1Icjd2O9ygjA
+         tKyruamwlIESAymZeo/cEi+2AbLLAjfv62HODSGcVFhWDwZ1KYovTCTC7JfODcT7G3cm
+         uiaSgzwRzjDav2ahkjb5jEKQf0exIXIJ9xqT6hrt7lM2CmzMiXe2t1K4lGTlgrfaBgwu
+         5SQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
-        b=SZ9XH4lqR5Qq/B9pMJCIvdcPUJfca9qkElzQ2AomXqYhl1xqQRATtiG0Qf/hhY5QBp
-         eLaBX7O/nCIn0BakuJIoWtjLQaXe6fr0XQ6robzOEoS5D8t20CvuKw69QbcnAUEaTasA
-         PpJVYyYgRN0vqDNGidfBB1fNljSzBYDsje7MBpbGx0dLVs4lOTStvY7JmgXYvVy3zIrj
-         XD0xlbZyR/eXXUkCz1SHafmfKm8ZE+dmn9sRe/HdTd14pd6PPLwo0GjQXg8Eu/jmFixS
-         GLbv5uQzbLC4ioCVM3IGxpm6WHLrP4/Tg49/PW/Ph6uh5r6+PW33ftmWzqNr62hs4msR
-         HpIQ==
-X-Gm-Message-State: AOAM53298Q9S+DOwV4cEiGh3P+CqnqcWAcrBSQcl4fgRO4NTMFlwBhCx
-        k3WJnPNGziaZfjPljhMMVsFojF16NUd5AwFuVgVskh62dg5SNA==
-X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
-X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
- Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DDfs506elfVQtwvsSc35KPZpNEn95r25l9p9sqG0B24=;
+        b=qnkikaG/ehC8IIDhQkDKL+9GDkxVZS5q9fTncZdGtB7tLiLD0nkBNy0WVy5h9Jb0UM
+         uNxxEaHI8UDZ/JHnyF1ucLKh+9f9puaQO3ufagApaDwzm6YehTkrjPIARwf9RyLTbGVE
+         OyPJbQNH1Duj+kpHfMI2oKa0tFmzyJLLt8mafmA9nmKSBWpsvoe8zUbDfnnWQsebJ0cr
+         l5HJLu6A7k8X0xKajWoZ3URJGVW5bZ5/voIqdyN2bnhU2oocf7TFIx08nys8W9OVtKMt
+         0bFSdE3ESDeLHeVgqwRnqRNvm6+iG9i2xvi3rwM62RZe/VE4iep+0YYPJH2gP+GkidOF
+         tjsA==
+X-Gm-Message-State: AOAM5334C2qoPTtYsBsTA9awAk1E+aC6RVTnSONZ0t6WIEexTNEuUMbl
+        frasxeQvCWrZqAg9bsm4rXeh7CsZbiJwszk4
+X-Google-Smtp-Source: ABdhPJxMIxT7Ba2K2PSJoYH9cYbCR30P8NeyOKCf252DtbTCRww6vB8Dg9SHUzoeDxjQVatLA9j6AA==
+X-Received: by 2002:a17:90a:5107:: with SMTP id t7mr12145885pjh.74.1630901627994;
+        Sun, 05 Sep 2021 21:13:47 -0700 (PDT)
+Received: from localhost.localdomain ([45.135.186.104])
+        by smtp.gmail.com with ESMTPSA id mv1sm5797989pjb.29.2021.09.05.21.13.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Sep 2021 21:13:47 -0700 (PDT)
+From:   Dongliang Mu <mudongliangabcd@gmail.com>
+To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     paskripkin@gmail.com, Dongliang Mu <mudongliangabcd@gmail.com>,
+        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] nilfs2: fix memory leak in nilfs_sysfs_create_device_group
+Date:   Mon,  6 Sep 2021 12:13:30 +0800
+Message-Id: <20210906041330.2065214-1-mudongliangabcd@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
-From:   CorisBank International <corisbankintlbf@gmail.com>
-Date:   Wed, 1 Sep 2021 11:11:10 -0700
-Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
-Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Att: Client
+The commit 8fd0c1b0647a ("nilfs2: fix memory leak in
+nilfs_sysfs_delete_device_group") adds a kobject_put to free the leaking
+object name. However, it is incomplete to only add kobject_put in the
+nilfs_sysfs_delete_device_group. The function
+nilfs_sysfs_create_device_group also needs the kobject_put to
+free the object name in the error handling part.
 
+Fix this by adding kobject_put in the error handling code of
+nilfs_sysfs_create_device_group.
 
-CORISBANK INTERNATIONAL URGENT NOTIFICATION
+Signed-off-by: Dongliang Mu <mudongliangabcd@gmail.com>
+---
+ fs/nilfs2/sysfs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Notification / Notification/ Notification
+diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
+index 68e8d61e28dd..7ab60711ca76 100644
+--- a/fs/nilfs2/sysfs.c
++++ b/fs/nilfs2/sysfs.c
+@@ -1024,6 +1024,7 @@ int nilfs_sysfs_create_device_group(struct super_block *sb)
+ 
+ cleanup_dev_kobject:
+ 	kobject_del(&nilfs->ns_dev_kobj);
++	kobject_put(&nilfs->ns_dev_kobj);
+ 
+ free_dev_subgroups:
+ 	kfree(nilfs->ns_dev_subgroups);
+-- 
+2.25.1
 
-Note, We are writing to inform you officially that Finally the Central
-Bank Financial Authority have approved to transfer your $8.2Million
-which was signed by late Mrs Rose Banneth the COVID.19 victim to
-transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
-transfer her fund in our bank to you for Orphanage work before she
-died by the COVID.19
-and as it is now, you will receive your fund through our corresponding
-bank in Dubai [Emirate Investment Bank ] for security reason. Please
-you should reconfirm your details to receive the $8.2Million.
-
-Name, Country, Address, occupations, Age, Telephone number, account
-Details so that we can immediately forward to the World Bank to
-transfer the fund.
-You are advised to comply on timely manner to permit this esteem bank
-transfer your fund as scheduled.
-
-We look forward to serving you better
-Your Financial Comfort Is A Priority
-Thank you for choosing Corisbank International.
-
-Sincerely,
-
-----
-
-Mr Diakarya Ouattara
-Managing Director
-Bank Coris
-Burkina Faso
-+226 556 163 37
-financial_bf_info@accountant.com
