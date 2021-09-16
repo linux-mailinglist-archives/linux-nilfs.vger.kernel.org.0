@@ -2,76 +2,60 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 464F740AB11
-	for <lists+linux-nilfs@lfdr.de>; Tue, 14 Sep 2021 11:43:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0796E40D216
+	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Sep 2021 05:40:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229885AbhINJoZ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 14 Sep 2021 05:44:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbhINJoX (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 14 Sep 2021 05:44:23 -0400
-Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6A2FC061574
-        for <linux-nilfs@vger.kernel.org>; Tue, 14 Sep 2021 02:43:06 -0700 (PDT)
-Received: by mail-yb1-xb33.google.com with SMTP id s16so26939605ybe.0
-        for <linux-nilfs@vger.kernel.org>; Tue, 14 Sep 2021 02:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=glzbzmrCPWLsOheQe4o1My9WgmGNFkD73CJ7Z8e0T5E=;
-        b=oUjKPSIw1KxBDayBD8+lj9oZQIVnH3igcTRawWvFwtpzcp2mMwwfbg9lvYlRyS3Ldf
-         P1nbGltTZ8RjPqIZo1ZiZYWXTqP4KAEl3EXe+BAb+UdHrI8ZLC06Z4Q0CjIU/pbF5i2X
-         g9ewSJSL/qkrFP+2w4uTkOqxFAc05Zs+QxfCmU4epNxAxv6jYcYq1M6y2w0rHB1aT6Dr
-         98RbIqHMQIT7wbIccCIM9F+CC6MV8PSa815vRcJRGTAB/+v6NcWCXSR8l2T8hdPnE26I
-         gCimbas2Suv4MG7u4u0wwX4m7Kq//moW9DgKBl8/RxvJ0qOzV2rb9N4vUmRVGYFMF0Kp
-         Ljsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=glzbzmrCPWLsOheQe4o1My9WgmGNFkD73CJ7Z8e0T5E=;
-        b=IWbn9LcThH4wCP1ipM4/1xSMqtmKi0KamHFWrf/oowcvebQzoqzmzQIMyNg4AA/T8G
-         s1Fyk7kMv2Vc/oMjcx5d+GXGkV8QNb8himeCW7m8ezRUtmCn7ivtQeG3j+Nk10PIpncb
-         MXY6RnWLin/8i0uk0w7BUyL8u6aW/VNCegXyoOIMm1YA1qH2ez8tlo7wMzfB2tkIJ/uj
-         UfiFCYPbTwwhV5WoZepkrUIxf/hrPLfY8+GYU+n3/dhKKBVfbKT+LWqCC/kybbaw2gwO
-         jIJ8x/EcqY5JutzGV9d2TlSETVDWVmcDf6UiYjYC95rl8JFzwoaKkWbfe+1zj1DpSVCV
-         ageA==
-X-Gm-Message-State: AOAM5329F4gQ1oKiml/F5Meu1OEd9zB6wzFlAk7DeIoJLhVd+VSLJ8Gt
-        5p3C+o/ydonMC/QIFXemZh8vuWs4x4hmPBHXZQNi2V96WY4=
-X-Google-Smtp-Source: ABdhPJyNPCmgH2Rv6fFcWdflnumndeE8vDbMsmYNLoWVaffuBkIOaX2zFlcscijN3STaGHnZp4hskuN+0xh0hKzqVRM=
-X-Received: by 2002:a25:2302:: with SMTP id j2mr21034053ybj.507.1631612585815;
- Tue, 14 Sep 2021 02:43:05 -0700 (PDT)
+        id S232541AbhIPDlV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 15 Sep 2021 23:41:21 -0400
+Received: from dkpb0ek.cn ([106.75.27.222]:60932 "EHLO dkpb0ek.cn"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S229471AbhIPDlV (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Wed, 15 Sep 2021 23:41:21 -0400
+X-Greylist: delayed 580 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 23:41:21 EDT
+Received: from yr (unknown [122.226.180.195])
+        by dkpb0ek.cn (Postfix) with ESMTPA id 1AF6F336B24A
+        for <linux-nilfs@vger.kernel.org>; Thu, 16 Sep 2021 11:28:27 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dkpb0ek.cn; s=default;
+        t=1631762907;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=7OG5HK1ikEWZfgbEbSLXNTvXo+2OIyuJMpw9SBNkqqQ=;
+        b=abCuJ6giNCvHuSADL2Iz7utUdbGeviRqTa1QcYs6dLtYZaWgntfh23JA/LeLqQYbXY76A7
+        D2IV8lO4Xro3r16x7kCQTbg4rQb0A875C4smzAY9FpJvqtZ1TBAaErvjhyD9AlQxNjj3cl
+        HPDYUEEO2fE5DUFmTQHBPDsk0ToNxDY=
+Message-ID: <20210916112827544203@dkpb0ek.cn>
+From:   =?utf-8?B?RVRD44K144O844OT44K56YCa55+l?= 
+        <etc-account-update@dkpb0ek.cn>
+To:     <linux-nilfs@vger.kernel.org>
+Subject: =?utf-8?B?77yl77y077yj44K144O844OT44K5?=
+Date:   Thu, 16 Sep 2021 11:28:22 +0800
 MIME-Version: 1.0
-From:   dexen deVries <dexen.devries@gmail.com>
-Date:   Tue, 14 Sep 2021 11:42:54 +0200
-Message-ID: <CAJUT6o672tBVfPRSBqz2RRwLhWqfhD2EHuNY-s6GyASYdFwD4g@mail.gmail.com>
-Subject: Filesystem crash and unexpected recovery
-To:     linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: base64
+X-mailer: Vngufimpl 0
+X-Spam: Yes
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Writhing this in case somebody finds it helpful.
+RVRD44K144O844OT44K544KS44GU5Yip55So44Gu44GK5a6i5qeYOg0KDQpFVEPjgrXjg7zjg5Pj
+grnjga/nhKHlirnjgavjgarjgorjgb7jgZfjgZ/jgIINCuW8leOBjee2muOBjeOCteODvOODk+OC
+ueOCkuOBlOWIqeeUqOOBhOOBn+OBoOOBjeOBn+OBhOWgtOWQiOOBr+OAgeS4i+iomOODquODs+OC
+r+OCiOOCiuips+e0sOOCkuOBlOeiuuiqjeOBj+OBoOOBleOBhOOAgg0KDQrkuIvoqJjjga7mjqXn
+tprjgYvjgonlgZzmraLljp/lm6DjgpLnorroqo3jgZfjgabjgY/jgaDjgZXjgYQNCg0KaHR0cHM6
+Ly9ldGMtbWVpc2FpLmpwLmZuLWluZm8udG9wLw0KDQoo55u05o6l44Ki44Kv44K744K544Gn44GN
+44Gq44GE5aC05ZCI44Gv44CB5omL5YuV44Gn44OW44Op44Km44K244Gr44Kz44OU44O844GX44Gm
+6ZaL44GE44Gm44GP44Gg44GV44GEKQ0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILn
+lKjjgafjgZnjgIINCuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOB
+puOCgui/lOS/oeOBhOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOB
+lOS6huaJv+mhmOOBhOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk
+44GN44G+44GX44Gm44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQogIEVUQ+OCteODvOODk+OC
+ueS6i+WLmeWxgOOBq+OBiuWVj+OBhOWQiOOCj+OBm+OBj+OBoOOBleOBhOOAgg0KDQrilqBFVEPl
+iKnnlKjnhafkvJrjgrXjg7zjg5Pjgrnkuovli5nlsYANCuW5tOS4reeEoeS8keOAgDk6MDDvvZ4x
+ODowMA0K44OK44OT44OA44Kk44Ok44Or44CAMDU3MC0wMTAxMzkNCu+8iOODiuODk+ODgOOCpOOD
+pOODq+OBjOOBlOWIqeeUqOOBhOOBn+OBoOOBkeOBquOBhOOBiuWuouOBleOBvuOAgDA0NS03NDQt
+MTM3Mu+8iQ0KMDQ1LTc0NC01NjYNCg==
 
-tl;dr: filesystem crashed due to overfilling, refused to mount with
-errno -5, was recovered automatically by nilfs-resize
 
-Due do my mix-up I have over-filled my root filesystem (220GB) with
-large file (~150GB), as root. The filesystem locked up (kernel
-5.14.0-rc6), after forced restart refused to mount, returning errno
--5. The nilfs-tune tool indicated seemingly correct content. other
-tools could not access the filesystem.
-
-Under pressure of time I have given up on it and decided to re-install
-system; using nilfs-resize (through gparted) unexpectedly recovered
-the filesystem. The tool correctly detected filesystem and was able to
-work with it, but for completion required a number of extra blocks to
-perform the operation. The filesystem worked since. Again, due to time
-pressure I wasn't able to preserve filesystem snapshot or anything -
-only this written summary is available.
-
-Best regards,
---
-dexen
