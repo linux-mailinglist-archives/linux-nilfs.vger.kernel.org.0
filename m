@@ -2,60 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0796E40D216
-	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Sep 2021 05:40:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C794410796
+	for <lists+linux-nilfs@lfdr.de>; Sat, 18 Sep 2021 18:19:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232541AbhIPDlV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 15 Sep 2021 23:41:21 -0400
-Received: from dkpb0ek.cn ([106.75.27.222]:60932 "EHLO dkpb0ek.cn"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229471AbhIPDlV (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 15 Sep 2021 23:41:21 -0400
-X-Greylist: delayed 580 seconds by postgrey-1.27 at vger.kernel.org; Wed, 15 Sep 2021 23:41:21 EDT
-Received: from yr (unknown [122.226.180.195])
-        by dkpb0ek.cn (Postfix) with ESMTPA id 1AF6F336B24A
-        for <linux-nilfs@vger.kernel.org>; Thu, 16 Sep 2021 11:28:27 +0800 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dkpb0ek.cn; s=default;
-        t=1631762907;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=7OG5HK1ikEWZfgbEbSLXNTvXo+2OIyuJMpw9SBNkqqQ=;
-        b=abCuJ6giNCvHuSADL2Iz7utUdbGeviRqTa1QcYs6dLtYZaWgntfh23JA/LeLqQYbXY76A7
-        D2IV8lO4Xro3r16x7kCQTbg4rQb0A875C4smzAY9FpJvqtZ1TBAaErvjhyD9AlQxNjj3cl
-        HPDYUEEO2fE5DUFmTQHBPDsk0ToNxDY=
-Message-ID: <20210916112827544203@dkpb0ek.cn>
-From:   =?utf-8?B?RVRD44K144O844OT44K56YCa55+l?= 
-        <etc-account-update@dkpb0ek.cn>
-To:     <linux-nilfs@vger.kernel.org>
-Subject: =?utf-8?B?77yl77y077yj44K144O844OT44K5?=
-Date:   Thu, 16 Sep 2021 11:28:22 +0800
+        id S236635AbhIRQVR (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 18 Sep 2021 12:21:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231415AbhIRQVR (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Sat, 18 Sep 2021 12:21:17 -0400
+Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B35D2C061574
+        for <linux-nilfs@vger.kernel.org>; Sat, 18 Sep 2021 09:19:53 -0700 (PDT)
+Received: by mail-io1-xd30.google.com with SMTP id f6so16297682iox.0
+        for <linux-nilfs@vger.kernel.org>; Sat, 18 Sep 2021 09:19:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=d9LACUmIecceR6UiqWib9al5ARerCLeE0qa6IgUSZVE=;
+        b=dJGz+agfy0lLdgO4PNKgEwuOEwFoMO+EB0xrDXqh9KQzSbNxyBhepbC7PGnJhrMbru
+         LX1SOqY3ajOsPXA6wLOYvHtbepqSbe8Sv15En/OE8/SL/9k5xRvpUn4kh35IcASkCOyI
+         uXdU7I1ZofFgMq/W36m9UJrQwVR1RfdFmf81bqfyFVKUM4/Awi2VnpE1NqxfC1EIGxto
+         KxVB0WNZYKAU8cL3GAEFFsov6+f6yqWPGUSQThJKqJxjvbLL5mf/bKWEN4LPJ6ywWey5
+         /4T0xmWXqQvVqdVrEzUBsSv8NIuRSGKuFfvC2ntJTVtBGJ5XeGv8K/Ssn3WL+j2ybfN8
+         U6mA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=d9LACUmIecceR6UiqWib9al5ARerCLeE0qa6IgUSZVE=;
+        b=b61jwhJ0Qp3KkgjZ/+yb98Szz5HK1XG+0QAQm9BhO3jUC4kxyIhQgDA307iuoKWG4t
+         IyTVS9X5OLlZk7wHt+KQbTZSZ71htsci6YbBIY0AnOR9043B6RGwzyjArkTxPPjJZS4h
+         1c0zU3FDqsTQu7PztzsnWMR1whWrbhmdnrjilWRwpgvY81g2iVAQoxFHz3ePFnziQiFp
+         aENzirzDUlL++ydAhvdKSE1ko1S1FoU+xz80a418oiVodEcO6xR9Ls+jJ/XhZ9HUakMW
+         lldh75wbwp7H3IIB2//MPHeP5PxbYMr274IM1DwXDsam3HG4pYOt5MU5rETnpzyXK5Uo
+         mkmw==
+X-Gm-Message-State: AOAM530Nfgaui57aK8UXrUeNKwD/160MyzKvMqw6S+N+gkeCObRWZBUv
+        r7JwFs4AFjYmWxT9lgnrEMLrfNxuLF1ySbXS434=
+X-Google-Smtp-Source: ABdhPJw0yDT4B7wVeOqK1AEQVJDWNhyQSp1b5GmNW3PoCsQJmT8AnFoCv2yAnm+6uaD1Gy5p46dI+S0gWm0X4ueQXHM=
+X-Received: by 2002:a5e:850f:: with SMTP id i15mr12627064ioj.83.1631981993172;
+ Sat, 18 Sep 2021 09:19:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="utf-8"
-Content-Transfer-Encoding: base64
-X-mailer: Vngufimpl 0
-X-Spam: Yes
+Reply-To: 5kabiruwahid@gmail.com
+Sender: acknowledgementnetworksolutio@gmail.com
+Received: by 2002:a4f:6c97:0:0:0:0:0 with HTTP; Sat, 18 Sep 2021 09:19:52
+ -0700 (PDT)
+From:   MR KABIRU WAHID <5kabiruwahid@gmail.com>
+Date:   Sat, 18 Sep 2021 09:19:52 -0700
+X-Google-Sender-Auth: HqDN9ADjmCFw6dKVM01fIcb34Wo
+Message-ID: <CAJPMsjko_JqqV_1d-JWv=1XowbH4L3D9AGt=-BtjgAyApDExjQ@mail.gmail.com>
+Subject: I NEED YOUR URGENT RESPOND
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-RVRD44K144O844OT44K544KS44GU5Yip55So44Gu44GK5a6i5qeYOg0KDQpFVEPjgrXjg7zjg5Pj
-grnjga/nhKHlirnjgavjgarjgorjgb7jgZfjgZ/jgIINCuW8leOBjee2muOBjeOCteODvOODk+OC
-ueOCkuOBlOWIqeeUqOOBhOOBn+OBoOOBjeOBn+OBhOWgtOWQiOOBr+OAgeS4i+iomOODquODs+OC
-r+OCiOOCiuips+e0sOOCkuOBlOeiuuiqjeOBj+OBoOOBleOBhOOAgg0KDQrkuIvoqJjjga7mjqXn
-tprjgYvjgonlgZzmraLljp/lm6DjgpLnorroqo3jgZfjgabjgY/jgaDjgZXjgYQNCg0KaHR0cHM6
-Ly9ldGMtbWVpc2FpLmpwLmZuLWluZm8udG9wLw0KDQoo55u05o6l44Ki44Kv44K744K544Gn44GN
-44Gq44GE5aC05ZCI44Gv44CB5omL5YuV44Gn44OW44Op44Km44K244Gr44Kz44OU44O844GX44Gm
-6ZaL44GE44Gm44GP44Gg44GV44GEKQ0KDQrigLvjgZPjga7jg6Hjg7zjg6vjga/pgIHkv6HlsILn
-lKjjgafjgZnjgIINCuOAgOOBk+OBruOCouODieODrOOCueOBq+mAgeS/oeOBhOOBn+OBoOOBhOOB
-puOCgui/lOS/oeOBhOOBn+OBl+OBi+OBreOBvuOBmeOBruOBp+OAgeOBguOCieOBi+OBmOOCgeOB
-lOS6huaJv+mhmOOBhOOBvuOBmeOAgg0K4oC744Gq44GK44CB44GU5LiN5piO44Gq54K544Gr44Gk
-44GN44G+44GX44Gm44Gv44CB44GK5omL5pWw44Gn44GZ44GM44CBDQogIEVUQ+OCteODvOODk+OC
-ueS6i+WLmeWxgOOBq+OBiuWVj+OBhOWQiOOCj+OBm+OBj+OBoOOBleOBhOOAgg0KDQrilqBFVEPl
-iKnnlKjnhafkvJrjgrXjg7zjg5Pjgrnkuovli5nlsYANCuW5tOS4reeEoeS8keOAgDk6MDDvvZ4x
-ODowMA0K44OK44OT44OA44Kk44Ok44Or44CAMDU3MC0wMTAxMzkNCu+8iOODiuODk+ODgOOCpOOD
-pOODq+OBjOOBlOWIqeeUqOOBhOOBn+OBoOOBkeOBquOBhOOBiuWuouOBleOBvuOAgDA0NS03NDQt
-MTM3Mu+8iQ0KMDQ1LTc0NC01NjYNCg==
-
-
+Hello Dear Friend, I came across your e-mail contact prior a private
+search while in need of your assistance.I have investment funds worth
+million of dollars and i need a trusted investment Manager/Partner
+because of my current status If you are willing to handle this project
+on my behalf kindly reply urgent to enable me provide you more
+information  (kabiruwahidy47@gmail.com)
