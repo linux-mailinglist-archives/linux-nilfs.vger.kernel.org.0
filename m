@@ -2,127 +2,116 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66585432B61
-	for <lists+linux-nilfs@lfdr.de>; Tue, 19 Oct 2021 03:05:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DE5D4391BE
+	for <lists+linux-nilfs@lfdr.de>; Mon, 25 Oct 2021 10:51:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233395AbhJSBHO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 18 Oct 2021 21:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51630 "EHLO
+        id S232190AbhJYIxa (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 25 Oct 2021 04:53:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46668 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233343AbhJSBHL (ORCPT
+        with ESMTP id S232160AbhJYIx3 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 18 Oct 2021 21:07:11 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8D6AC061769
-        for <linux-nilfs@vger.kernel.org>; Mon, 18 Oct 2021 18:04:59 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id n7so18535562iod.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 18 Oct 2021 18:04:59 -0700 (PDT)
+        Mon, 25 Oct 2021 04:53:29 -0400
+Received: from mail-pg1-x532.google.com (mail-pg1-x532.google.com [IPv6:2607:f8b0:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0267CC061745;
+        Mon, 25 Oct 2021 01:51:08 -0700 (PDT)
+Received: by mail-pg1-x532.google.com with SMTP id r2so10213103pgl.10;
+        Mon, 25 Oct 2021 01:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=W5z0exFABNpBPX1hRqcH8nqG0V53/7e/1qraB3crDBc=;
-        b=vB+wFpSQtfAUhwdXcfynbmYwp0hdBEQZvbX6X9F6PNzCrR7jlF3UU0FKlXz+m74FXo
-         fYCfnp+UOHId9lQV8O9fyEh4YEI0b538At136V3n0vh4OZ/YzMev/Q7gmlb/eOGGE5cU
-         0c1i9lZ2acvXLmYa878iz+lCi3R78xqn0ZDpYtIVtZNxoFJsKdSEsj9/YVhugl90Ar3H
-         SoUxghi0wJ6VSD6JvL3P+s/JM6f3Wm0mmMYFgaEag1ojhi+wlEeYXumrYWwARkL2eroz
-         Ue9QqS/6wvsrqGxlajrxCGxhjXwobZTI+icumh8oCIQgK1Jfr75Nwh+NZuFxcTfoqOvP
-         WcvQ==
+        d=gmail.com; s=20210112;
+        h=from:to:cc:subject:date:message-id;
+        bh=r21X5ADW0WlJHmSicl9xy7PcAUT0+LrXxeiJShv+0ng=;
+        b=pHL+ZgfxUV119tjBOMgg1P7U3VLBbIgEZz7n0cuL4yKX61leTCTD0n6VszCTgkAbKI
+         BpxtmAhDxnn/wVhgZdnBv3z/sDOeASnPTIQOfGJMOgH/FCcbZAI8iO7AOUbVyR/l0oAy
+         ceufvvsw4YdJi3P6TZVxUsikdTsfVs3tj61ZvTihgcZfO9BuOZ2bxZ/YaTwSvALZqeII
+         ijN8GrsxOBqab61T1suYoXJcB1mp051xfLlZcGsvZ0X4MHPO2yDLNP0LXA2KC1k/CrUE
+         A+YyjsfIw8BWHYMvSSNFXJMKLfMDm8fLgGAs7trXdhIEWnjRfxU66lhG9q5uDKwEsToE
+         SUew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=W5z0exFABNpBPX1hRqcH8nqG0V53/7e/1qraB3crDBc=;
-        b=FEAtAh85vVvodCY7r0uUpIzcz+GbW59dbxIPtrTVoOIZnl968hdvbAXT2mlGCva4nZ
-         QTVI+GFIfgVOO8XI2YH75vPHoR0C5O114o06WzU6il78UxvWWn0/bfdx2diPTsfS4L85
-         qmS2H3A5z3tyHHBMHv718LL1mDOF+T6e5liskgtCQ8D1PvMSlhCixfUDOY3alA/8D7tr
-         dhiHhk/QA/8pcQUyiJF1NMGdMVx2qsThwRYIluSu1ZlXHH9r8Y4zb3JKlGKnfHAj4VdK
-         XsmrCtM7Nk7F82TasiGOl3PwRzAaXdTACx+u0DaBkP134x1mjp9z7hszjOma/7QSAqat
-         UYkA==
-X-Gm-Message-State: AOAM532moqdHjCLWZ0UkjKbsm9xRQcayW4MPjbz2tmfm6Cy49RpflIiZ
-        Kl9CD3mqroMOC3ed/5On2ny9cJJE2qXr2w==
-X-Google-Smtp-Source: ABdhPJxThXMAcCMjPpDBYOBzNUVp6z4TAqcvNSoJJDW60phmikuRtzHD4NR4koFPUymcotmxVpLHsA==
-X-Received: by 2002:a6b:102:: with SMTP id 2mr16592131iob.185.1634605499259;
-        Mon, 18 Oct 2021 18:04:59 -0700 (PDT)
-Received: from [192.168.1.116] ([66.219.217.159])
-        by smtp.gmail.com with ESMTPSA id g13sm116963ilf.60.2021.10.18.18.04.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Oct 2021 18:04:58 -0700 (PDT)
-Subject: Re: don't use ->bd_inode to access the block device size v3
-To:     Kari Argillander <kari.argillander@gmail.com>
-Cc:     Christoph Hellwig <hch@lst.de>, Coly Li <colyli@suse.de>,
-        Mike Snitzer <snitzer@redhat.com>, Song Liu <song@kernel.org>,
-        David Sterba <dsterba@suse.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Theodore Ts'o <tytso@mit.edu>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Dave Kleikamp <shaggy@kernel.org>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Anton Altaparmakov <anton@tuxera.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Kees Cook <keescook@chromium.org>,
-        Phillip Lougher <phillip@squashfs.org.uk>,
-        Jan Kara <jack@suse.com>, linux-block@vger.kernel.org,
-        dm-devel@redhat.com, drbd-dev@lists.linbit.com,
-        linux-bcache@vger.kernel.org, linux-raid@vger.kernel.org,
-        linux-nvme@lists.infradead.org, linux-scsi@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, reiserfs-devel@vger.kernel.org
-References: <20211018101130.1838532-1-hch@lst.de>
- <4a8c3a39-9cd3-5b2f-6d0f-a16e689755e6@kernel.dk>
- <20211018171843.GA3338@lst.de>
- <2f5dcf79-8419-45ff-c27c-68d43242ccfe@kernel.dk>
- <20211018174901.GA3990@lst.de>
- <e0784f3e-46c8-c90c-870b-60cc2ed7a2da@kernel.dk>
- <20211019010416.vgecxu6wnvwi7fii@kari-VirtualBox>
-From:   Jens Axboe <axboe@kernel.dk>
-Message-ID: <81f9ad59-4c15-b265-1274-62c987ad879b@kernel.dk>
-Date:   Mon, 18 Oct 2021 19:04:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20211019010416.vgecxu6wnvwi7fii@kari-VirtualBox>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=r21X5ADW0WlJHmSicl9xy7PcAUT0+LrXxeiJShv+0ng=;
+        b=1TqQLykfZf+5AOEx6uWqDL1zJ64uAxTFGCX3EW8vLjhk4583Km1xRSSIEeV0QP5jun
+         xuID2n0crpt0ltm2Ag5f5fEQPPXWak1qsQqUJowsGHl9OEraKNjcnOJm8/0sjnvrk38Y
+         7rz1LARu2Qd5OSOWUp4dcGvuhWCupx5z8TxtKI1XaAQNvXt0C3nnkk4IDAGsElvQBrpe
+         Aian+t6wfXNDOhJxTb/iHLT0MHhQ2wqJnQZWlAbKOJqORbwSktp0cXmidOQmyoRsGLtU
+         uQ4Q3cEuW5HfvtnSqy12oqKIVwIm9t8PpnSxgGlbS2djPijUzMbnJDrjBTdvPmC6C+DM
+         JUpg==
+X-Gm-Message-State: AOAM531UyrzBC+esvskvl9nGMddW5wIy0dz2oeIsmCReaC+S9Xx5TDw5
+        BWLHa90GoByOH7CsT8MhX7si3VYmCdI=
+X-Google-Smtp-Source: ABdhPJyRok74CvRp7i3r6GKNP3crvuaGdzO3k0T8wYo5y5ZDcuGTNQyyHUEjwnxClgwFcozhHbBmSQ==
+X-Received: by 2002:a63:6c06:: with SMTP id h6mr12485238pgc.281.1635151867079;
+        Mon, 25 Oct 2021 01:51:07 -0700 (PDT)
+Received: from carrot.localdomain (i220-108-45-205.s42.a014.ap.plala.or.jp. [220.108.45.205])
+        by smtp.gmail.com with ESMTPSA id j126sm18667378pfd.113.2021.10.25.01.51.04
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 25 Oct 2021 01:51:05 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] nilfs2 updates
+Date:   Mon, 25 Oct 2021 17:51:00 +0900
+Message-Id: <1635151862-11547-1-git-send-email-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On 10/18/21 7:04 PM, Kari Argillander wrote:
-> On Mon, Oct 18, 2021 at 11:53:08AM -0600, Jens Axboe wrote:
-> 
-> snip..
-> 
->> diff --git a/include/linux/genhd.h b/include/linux/genhd.h
->> index 7b0326661a1e..a967b3fb3c71 100644
->> --- a/include/linux/genhd.h
->> +++ b/include/linux/genhd.h
->> @@ -236,14 +236,14 @@ static inline sector_t get_start_sect(struct block_device *bdev)
->>  	return bdev->bd_start_sect;
->>  }
->>  
->> -static inline loff_t bdev_nr_bytes(struct block_device *bdev)
->> +static inline sector_t bdev_nr_sectors(struct block_device *bdev)
->>  {
->> -	return i_size_read(bdev->bd_inode);
->> +	return bdev->bd_nr_sectors;
->>  }
->>  
->> -static inline sector_t bdev_nr_sectors(struct block_device *bdev)
->> +static inline loff_t bdev_nr_bytes(struct block_device *bdev)
->>  {
->> -	return bdev_nr_bytes(bdev) >> SECTOR_SHIFT;
->> +	return bdev_nr_setors(bdev) << SECTOR_SHIFT;
-> 
-> setors -> sectors
+Hi, Andrew
 
-Yep, did catch that prior.
+Please queue the following changes for the next merge window:
+
+Qing Wang (1):
+  nilfs2: replace snprintf in show functions with sysfs_emit
+
+Ryusuke Konishi (1):
+  nilfs2: remove filenames from file comments
+
+Thanks,
+Ryusuke Konishi
+--
+ fs/nilfs2/alloc.c     |  2 +-
+ fs/nilfs2/alloc.h     |  2 +-
+ fs/nilfs2/bmap.c      |  2 +-
+ fs/nilfs2/bmap.h      |  2 +-
+ fs/nilfs2/btnode.c    |  2 +-
+ fs/nilfs2/btnode.h    |  2 +-
+ fs/nilfs2/btree.c     |  2 +-
+ fs/nilfs2/btree.h     |  2 +-
+ fs/nilfs2/cpfile.c    |  2 +-
+ fs/nilfs2/cpfile.h    |  2 +-
+ fs/nilfs2/dat.c       |  2 +-
+ fs/nilfs2/dat.h       |  2 +-
+ fs/nilfs2/dir.c       |  2 +-
+ fs/nilfs2/direct.c    |  2 +-
+ fs/nilfs2/direct.h    |  2 +-
+ fs/nilfs2/file.c      |  2 +-
+ fs/nilfs2/gcinode.c   |  2 +-
+ fs/nilfs2/ifile.c     |  2 +-
+ fs/nilfs2/ifile.h     |  2 +-
+ fs/nilfs2/inode.c     |  2 +-
+ fs/nilfs2/ioctl.c     |  2 +-
+ fs/nilfs2/mdt.c       |  2 +-
+ fs/nilfs2/mdt.h       |  2 +-
+ fs/nilfs2/namei.c     |  2 +-
+ fs/nilfs2/nilfs.h     |  2 +-
+ fs/nilfs2/page.c      |  2 +-
+ fs/nilfs2/page.h      |  2 +-
+ fs/nilfs2/recovery.c  |  2 +-
+ fs/nilfs2/segbuf.c    |  2 +-
+ fs/nilfs2/segbuf.h    |  2 +-
+ fs/nilfs2/segment.c   |  2 +-
+ fs/nilfs2/segment.h   |  2 +-
+ fs/nilfs2/sufile.c    |  2 +-
+ fs/nilfs2/sufile.h    |  2 +-
+ fs/nilfs2/super.c     |  2 +-
+ fs/nilfs2/sysfs.c     | 78 +++++++++++++++++++++++++--------------------------
+ fs/nilfs2/sysfs.h     |  2 +-
+ fs/nilfs2/the_nilfs.c |  2 +-
+ fs/nilfs2/the_nilfs.h |  2 +-
+ 39 files changed, 77 insertions(+), 77 deletions(-)
 
 -- 
-Jens Axboe
+1.8.3.1
 
