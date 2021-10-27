@@ -2,580 +2,196 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FFFC4391C0
-	for <lists+linux-nilfs@lfdr.de>; Mon, 25 Oct 2021 10:51:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF35E43BF1C
+	for <lists+linux-nilfs@lfdr.de>; Wed, 27 Oct 2021 03:38:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232354AbhJYIxh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 25 Oct 2021 04:53:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46696 "EHLO
+        id S234439AbhJ0Bks (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 26 Oct 2021 21:40:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232160AbhJYIxg (ORCPT
+        with ESMTP id S232003AbhJ0Bkr (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 25 Oct 2021 04:53:36 -0400
-Received: from mail-pg1-x52a.google.com (mail-pg1-x52a.google.com [IPv6:2607:f8b0:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 940CCC061745;
-        Mon, 25 Oct 2021 01:51:14 -0700 (PDT)
-Received: by mail-pg1-x52a.google.com with SMTP id 83so4009361pgc.8;
-        Mon, 25 Oct 2021 01:51:14 -0700 (PDT)
+        Tue, 26 Oct 2021 21:40:47 -0400
+Received: from mail-pj1-x102a.google.com (mail-pj1-x102a.google.com [IPv6:2607:f8b0:4864:20::102a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51384C061570;
+        Tue, 26 Oct 2021 18:38:23 -0700 (PDT)
+Received: by mail-pj1-x102a.google.com with SMTP id k2-20020a17090ac50200b001a218b956aaso864042pjt.2;
+        Tue, 26 Oct 2021 18:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Nv98mPif22qA+oqqbcCmi2QFJkv72OA0pxbhj9BmcG8=;
-        b=mhuFylsTXHZgzx4e4a0JGhhb46FxbJlPpYZxio+kJKr4fMVWONWAQpDgOpD54m6c2Q
-         +6rVhsxlxScfk6ZAJl393CVGgs3Kmrg2HP460ULEnWxWkzJLPtHlP+Xgd/g1R57Tpqfj
-         zyUipa4oA/VusO0cohQO1j4Wwj6wGJndUPxhMXrXehdg6lJjSPEsCcpBj0wdUTO7glCa
-         LpZcSVenktUbTZeVO/f/t4OO5wDbgpbSvdFqwNzuzJISMmPQU7H3Z3hzLauDMFoHkqKy
-         AI7mrPcyXaqdS4OmrS30Q0SInT7O3aF8l4DogbbogUui2yZUhoja8Gz8F+Q0AE+Y7rYx
-         eFoQ==
+        h=mime-version:from:date:message-id:subject:to;
+        bh=oYQVmMJEoaZXJx1iKV6fcufM5Yl2qMlRosIGlfzyPlU=;
+        b=bNsqkIWVoVMFeZa1vRGFiIDhiVzMn/Id4C9vIP+rktDQwZdzeilXjcIn97SzbyZlIR
+         1V9spmKxX/OVxdtDFA2Bb0xTTY+6eb7pVchezAe/N/40duF3MtWcAINQdCbCk3NeXIo1
+         LczfMvLR29KbLHce+QmOHwLpfWGf0Rwz1h6wzoyUzBdxfw70bY2gNmO9BzEkoYapucMr
+         ZUZANyPdzPTrBWjB1cCem37hmdpl4a5xrDBaHVGwLtu5cdAgnfxfSyBoMLQpvmxYtXm5
+         ixy0adXkLWr2RiJAD0llqIFgytyDTApfolTazbz26GPIZ6PWSDYZBqxF9jyRG8SDP4/H
+         5MRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Nv98mPif22qA+oqqbcCmi2QFJkv72OA0pxbhj9BmcG8=;
-        b=aGX+Tt3ilwYdsn2SX4r3lOFf8rIJxfp8RP1eyKOzNxq80hQqhMF4/UplemjxBxpQiT
-         r5udfDRXDt5rrwaLCUDOKQayW+TZ7i9eNL3/aPCSLHYPP2GcJokmNaPT+Qw3YsvMJhVW
-         ygktDr1yUsDyzIU4lWLzj/i2WHb8LRbHxec42bsJSI0Xf6oosYeMW08fYM97YVMXfn3r
-         W1ziJytW7DSrFO2IRA0GQO3H6H7Sb3c6gtrLlBFwOdhbQ2T610k32INTZHHTw9P37bhv
-         +ebEhIHg+/wT6QBYMpBSk3w3vrn0hGzFrnYZehZYGSY5Bu3L7Cgks6IogWUQwO+iPTzL
-         m9Iw==
-X-Gm-Message-State: AOAM530+9jYUo3dBJS4d6Xz9K1KdAh9Xv78787v9LVD+sMy98yi5ZzBE
-        jWPjtHTPP15RAs0zsgIZMxZGdvLA+6Q=
-X-Google-Smtp-Source: ABdhPJw9aPPGbK4GQjhQSEgulHYKx/uZTlPxqJ6dq4n67qjbcEcoLIYuecvaTwQda8YA9rljM3xMVA==
-X-Received: by 2002:aa7:8149:0:b0:44c:916c:1fdb with SMTP id d9-20020aa78149000000b0044c916c1fdbmr17643963pfn.34.1635151873780;
-        Mon, 25 Oct 2021 01:51:13 -0700 (PDT)
-Received: from carrot.localdomain (i220-108-45-205.s42.a014.ap.plala.or.jp. [220.108.45.205])
-        by smtp.gmail.com with ESMTPSA id j126sm18667378pfd.113.2021.10.25.01.51.11
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 25 Oct 2021 01:51:12 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH 2/2] nilfs2: remove filenames from file comments
-Date:   Mon, 25 Oct 2021 17:51:02 +0900
-Message-Id: <1635151862-11547-3-git-send-email-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1635151862-11547-1-git-send-email-konishi.ryusuke@gmail.com>
-References: <1635151862-11547-1-git-send-email-konishi.ryusuke@gmail.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=oYQVmMJEoaZXJx1iKV6fcufM5Yl2qMlRosIGlfzyPlU=;
+        b=K2Tv53HCxvF26LK65DD9/5kdkKFlBhoONwEeAJHYmIQnMIIedOIpyOdM6BO1Do89Yq
+         OQ0XHjjfCww+NXklEZsLhP7/yGAJPUSsB0LIKJvxIg4iEYNRAlyrsJjh0JWYH4Lnz6+K
+         JaicvzVL3z+GAexGwiIQbjNNvRYKWKbhoCjsL4nwweVujg/Ee16grZmnHBnKjKPZb06l
+         fZ2tgmm94xop3M2870J67LKdXAh5pTAyKs+dCY46IaRG0/rlxIzmx4QIfLU8nRN1sgvQ
+         hp6uTE6qpcTJf1+zzMAIEoCRkvw3NhFhxtUWUADO+4dh/SSQzRZm0M6CKQmqt7mn5jLV
+         cgMg==
+X-Gm-Message-State: AOAM533x7HGYao/SymJW/e5fKHp11iIQpDlIFlj4Bbd6EjxGL8KXeAhT
+        MLy5yMU3AFQogZY1H9VJc8vC9aInvV3xlB/jvoZtfiZz0umULVcWWw==
+X-Google-Smtp-Source: ABdhPJxiH3dKp0MG13LU2NMoeyhmg1JgXw3tMa+YW0ty4p0V3Pi6v6hOWnuZohNY2BZDlMQQ0473hRrMuqvWaGJUsOM=
+X-Received: by 2002:a17:90a:a78f:: with SMTP id f15mr2561040pjq.106.1635298702649;
+ Tue, 26 Oct 2021 18:38:22 -0700 (PDT)
+MIME-Version: 1.0
+From:   Hao Sun <sunhao.th@gmail.com>
+Date:   Wed, 27 Oct 2021 09:38:09 +0800
+Message-ID: <CACkBjsaFTVOA-dhRuw8OLG8GWjTPy3yR9sSVXGD46as7i2-rUg@mail.gmail.com>
+Subject: kernel BUG in nilfs_mdt_destroy
+To:     konishi.ryusuke@gmail.com, linux-nilfs@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Remove filenames that are not particularly useful in file comments,
-and suppress checkpatch warnings "WARNING: It's generally not useful
-to have the filename in the file".
+Hello,
 
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
----
- fs/nilfs2/alloc.c     | 2 +-
- fs/nilfs2/alloc.h     | 2 +-
- fs/nilfs2/bmap.c      | 2 +-
- fs/nilfs2/bmap.h      | 2 +-
- fs/nilfs2/btnode.c    | 2 +-
- fs/nilfs2/btnode.h    | 2 +-
- fs/nilfs2/btree.c     | 2 +-
- fs/nilfs2/btree.h     | 2 +-
- fs/nilfs2/cpfile.c    | 2 +-
- fs/nilfs2/cpfile.h    | 2 +-
- fs/nilfs2/dat.c       | 2 +-
- fs/nilfs2/dat.h       | 2 +-
- fs/nilfs2/dir.c       | 2 +-
- fs/nilfs2/direct.c    | 2 +-
- fs/nilfs2/direct.h    | 2 +-
- fs/nilfs2/file.c      | 2 +-
- fs/nilfs2/gcinode.c   | 2 +-
- fs/nilfs2/ifile.c     | 2 +-
- fs/nilfs2/ifile.h     | 2 +-
- fs/nilfs2/inode.c     | 2 +-
- fs/nilfs2/ioctl.c     | 2 +-
- fs/nilfs2/mdt.c       | 2 +-
- fs/nilfs2/mdt.h       | 2 +-
- fs/nilfs2/namei.c     | 2 +-
- fs/nilfs2/nilfs.h     | 2 +-
- fs/nilfs2/page.c      | 2 +-
- fs/nilfs2/page.h      | 2 +-
- fs/nilfs2/recovery.c  | 2 +-
- fs/nilfs2/segbuf.c    | 2 +-
- fs/nilfs2/segbuf.h    | 2 +-
- fs/nilfs2/segment.c   | 2 +-
- fs/nilfs2/segment.h   | 2 +-
- fs/nilfs2/sufile.c    | 2 +-
- fs/nilfs2/sufile.h    | 2 +-
- fs/nilfs2/super.c     | 2 +-
- fs/nilfs2/sysfs.c     | 2 +-
- fs/nilfs2/sysfs.h     | 2 +-
- fs/nilfs2/the_nilfs.c | 2 +-
- fs/nilfs2/the_nilfs.h | 2 +-
- 39 files changed, 39 insertions(+), 39 deletions(-)
+When using Healer to fuzz the latest Linux kernel, the following crash
+was triggered.
 
-diff --git a/fs/nilfs2/alloc.c b/fs/nilfs2/alloc.c
-index adf3bb0a8048..6ce8617b562d 100644
---- a/fs/nilfs2/alloc.c
-+++ b/fs/nilfs2/alloc.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * alloc.c - NILFS dat/inode allocator
-+ * NILFS dat/inode allocator
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/alloc.h b/fs/nilfs2/alloc.h
-index 0303c3968cee..b667e869ac07 100644
---- a/fs/nilfs2/alloc.h
-+++ b/fs/nilfs2/alloc.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * alloc.h - persistent object (dat entry/disk inode) allocator/deallocator
-+ * Persistent object (dat entry/disk inode) allocator/deallocator
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/bmap.c b/fs/nilfs2/bmap.c
-index 5900879d5693..798a2c1b38c6 100644
---- a/fs/nilfs2/bmap.c
-+++ b/fs/nilfs2/bmap.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * bmap.c - NILFS block mapping.
-+ * NILFS block mapping.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/bmap.h b/fs/nilfs2/bmap.h
-index 2c63858e81c9..608168a5cb88 100644
---- a/fs/nilfs2/bmap.h
-+++ b/fs/nilfs2/bmap.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * bmap.h - NILFS block mapping.
-+ * NILFS block mapping.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/btnode.c b/fs/nilfs2/btnode.c
-index 4391fd3abd8f..66bdaa2cf496 100644
---- a/fs/nilfs2/btnode.c
-+++ b/fs/nilfs2/btnode.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * btnode.c - NILFS B-tree node cache
-+ * NILFS B-tree node cache
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/btnode.h b/fs/nilfs2/btnode.h
-index 0f88dbc9bcb3..11663650add7 100644
---- a/fs/nilfs2/btnode.h
-+++ b/fs/nilfs2/btnode.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * btnode.h - NILFS B-tree node cache
-+ * NILFS B-tree node cache
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
-index ab9ec073330f..3594eabe1419 100644
---- a/fs/nilfs2/btree.c
-+++ b/fs/nilfs2/btree.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * btree.c - NILFS B-tree.
-+ * NILFS B-tree.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/btree.h b/fs/nilfs2/btree.h
-index d1421b646ce4..92868e1a48ca 100644
---- a/fs/nilfs2/btree.h
-+++ b/fs/nilfs2/btree.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * btree.h - NILFS B-tree.
-+ * NILFS B-tree.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/cpfile.c b/fs/nilfs2/cpfile.c
-index ce144776b4ef..9ebefb3acb0e 100644
---- a/fs/nilfs2/cpfile.c
-+++ b/fs/nilfs2/cpfile.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * cpfile.c - NILFS checkpoint file.
-+ * NILFS checkpoint file.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/cpfile.h b/fs/nilfs2/cpfile.h
-index 6336222df24a..edabb2dc5756 100644
---- a/fs/nilfs2/cpfile.h
-+++ b/fs/nilfs2/cpfile.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * cpfile.h - NILFS checkpoint file.
-+ * NILFS checkpoint file.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/dat.c b/fs/nilfs2/dat.c
-index 8bccdf1158fc..dc51d3b7a7bf 100644
---- a/fs/nilfs2/dat.c
-+++ b/fs/nilfs2/dat.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * dat.c - NILFS disk address translation.
-+ * NILFS disk address translation.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/dat.h b/fs/nilfs2/dat.h
-index b17ee34580ae..468c82d26183 100644
---- a/fs/nilfs2/dat.h
-+++ b/fs/nilfs2/dat.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * dat.h - NILFS disk address translation.
-+ * NILFS disk address translation.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/dir.c b/fs/nilfs2/dir.c
-index 81394e22d0a0..f8f4c2ff52f4 100644
---- a/fs/nilfs2/dir.c
-+++ b/fs/nilfs2/dir.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * dir.c - NILFS directory entry operations
-+ * NILFS directory entry operations
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/direct.c b/fs/nilfs2/direct.c
-index f353101955e3..a35f2795b242 100644
---- a/fs/nilfs2/direct.c
-+++ b/fs/nilfs2/direct.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * direct.c - NILFS direct block pointer.
-+ * NILFS direct block pointer.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/direct.h b/fs/nilfs2/direct.h
-index ec9a23c77994..b7ca896269af 100644
---- a/fs/nilfs2/direct.h
-+++ b/fs/nilfs2/direct.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * direct.h - NILFS direct block pointer.
-+ * NILFS direct block pointer.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
-index 7cf765258fda..a265d391ffe9 100644
---- a/fs/nilfs2/file.c
-+++ b/fs/nilfs2/file.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * file.c - NILFS regular file handling primitives including fsync().
-+ * NILFS regular file handling primitives including fsync().
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/gcinode.c b/fs/nilfs2/gcinode.c
-index 448320496856..a8f5315f01e3 100644
---- a/fs/nilfs2/gcinode.c
-+++ b/fs/nilfs2/gcinode.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * gcinode.c - dummy inodes to buffer blocks for garbage collection
-+ * Dummy inodes to buffer blocks for garbage collection
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/ifile.c b/fs/nilfs2/ifile.c
-index 02727ed3a7c6..a8a4bc8490b4 100644
---- a/fs/nilfs2/ifile.c
-+++ b/fs/nilfs2/ifile.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * ifile.c - NILFS inode file
-+ * NILFS inode file
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/ifile.h b/fs/nilfs2/ifile.h
-index a1e1e5711a05..35c5273f4821 100644
---- a/fs/nilfs2/ifile.h
-+++ b/fs/nilfs2/ifile.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * ifile.h - NILFS inode file
-+ * NILFS inode file
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-index 2e8eb263cf0f..e3d807d5b83a 100644
---- a/fs/nilfs2/inode.c
-+++ b/fs/nilfs2/inode.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * inode.c - NILFS inode operations.
-+ * NILFS inode operations.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
-index 640ac8fe891e..efa76a80ee25 100644
---- a/fs/nilfs2/ioctl.c
-+++ b/fs/nilfs2/ioctl.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * ioctl.c - NILFS ioctl operations.
-+ * NILFS ioctl operations.
-  *
-  * Copyright (C) 2007, 2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-index 97769fe4d588..4b3d33cf0041 100644
---- a/fs/nilfs2/mdt.c
-+++ b/fs/nilfs2/mdt.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * mdt.c - meta data file for NILFS
-+ * Meta data file for NILFS
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/mdt.h b/fs/nilfs2/mdt.h
-index e77aea4bb921..8f86080a436d 100644
---- a/fs/nilfs2/mdt.h
-+++ b/fs/nilfs2/mdt.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * mdt.h - NILFS meta data file prototype and definitions
-+ * NILFS meta data file prototype and definitions
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/namei.c b/fs/nilfs2/namei.c
-index 91eebeb0c48b..23899e0ae850 100644
---- a/fs/nilfs2/namei.c
-+++ b/fs/nilfs2/namei.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * namei.c - NILFS pathname lookup operations.
-+ * NILFS pathname lookup operations.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/nilfs.h b/fs/nilfs2/nilfs.h
-index 60b21b6eeac0..a7b81755c350 100644
---- a/fs/nilfs2/nilfs.h
-+++ b/fs/nilfs2/nilfs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * nilfs.h - NILFS local header file.
-+ * NILFS local header file.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/page.c b/fs/nilfs2/page.c
-index 171fb5cd427f..bc3e2cd4117f 100644
---- a/fs/nilfs2/page.c
-+++ b/fs/nilfs2/page.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * page.c - buffer/page management specific to NILFS
-+ * Buffer/page management specific to NILFS
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/page.h b/fs/nilfs2/page.h
-index 62b9bb469e92..569263b23c0c 100644
---- a/fs/nilfs2/page.h
-+++ b/fs/nilfs2/page.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * page.h - buffer/page management specific to NILFS
-+ * Buffer/page management specific to NILFS
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/recovery.c b/fs/nilfs2/recovery.c
-index 2217f904a7cf..9e2ed76c0f25 100644
---- a/fs/nilfs2/recovery.c
-+++ b/fs/nilfs2/recovery.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * recovery.c - NILFS recovery logic
-+ * NILFS recovery logic
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
-index 56872e93823d..43287b0d3e9b 100644
---- a/fs/nilfs2/segbuf.c
-+++ b/fs/nilfs2/segbuf.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * segbuf.c - NILFS segment buffer
-+ * NILFS segment buffer
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/segbuf.h b/fs/nilfs2/segbuf.h
-index 9bea1bd59041..e20091ededba 100644
---- a/fs/nilfs2/segbuf.h
-+++ b/fs/nilfs2/segbuf.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * segbuf.h - NILFS Segment buffer prototypes and definitions
-+ * NILFS Segment buffer prototypes and definitions
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 686c8ee7b29c..85a853334771 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * segment.c - NILFS segment constructor.
-+ * NILFS segment constructor.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/segment.h b/fs/nilfs2/segment.h
-index f5cf5308f3fc..1060f72ebf5a 100644
---- a/fs/nilfs2/segment.h
-+++ b/fs/nilfs2/segment.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * segment.h - NILFS Segment constructor prototypes and definitions
-+ * NILFS Segment constructor prototypes and definitions
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/sufile.c b/fs/nilfs2/sufile.c
-index 63722475e17e..e385cca2004a 100644
---- a/fs/nilfs2/sufile.c
-+++ b/fs/nilfs2/sufile.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * sufile.c - NILFS segment usage file.
-+ * NILFS segment usage file.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/sufile.h b/fs/nilfs2/sufile.h
-index c4e2c7a7add1..8e8a1a5a0402 100644
---- a/fs/nilfs2/sufile.h
-+++ b/fs/nilfs2/sufile.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * sufile.h - NILFS segment usage file.
-+ * NILFS segment usage file.
-  *
-  * Copyright (C) 2006-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/super.c b/fs/nilfs2/super.c
-index f6b2d280aab5..63cffe010c6e 100644
---- a/fs/nilfs2/super.c
-+++ b/fs/nilfs2/super.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * super.c - NILFS module and super block management.
-+ * NILFS module and super block management.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/sysfs.c b/fs/nilfs2/sysfs.c
-index be407072def7..81f35c5b5a40 100644
---- a/fs/nilfs2/sysfs.c
-+++ b/fs/nilfs2/sysfs.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * sysfs.c - sysfs support implementation.
-+ * Sysfs support implementation.
-  *
-  * Copyright (C) 2005-2014 Nippon Telegraph and Telephone Corporation.
-  * Copyright (C) 2014 HGST, Inc., a Western Digital Company.
-diff --git a/fs/nilfs2/sysfs.h b/fs/nilfs2/sysfs.h
-index d001eb862dae..78a87a016928 100644
---- a/fs/nilfs2/sysfs.h
-+++ b/fs/nilfs2/sysfs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * sysfs.h - sysfs support declarations.
-+ * Sysfs support declarations.
-  *
-  * Copyright (C) 2005-2014 Nippon Telegraph and Telephone Corporation.
-  * Copyright (C) 2014 HGST, Inc., a Western Digital Company.
-diff --git a/fs/nilfs2/the_nilfs.c b/fs/nilfs2/the_nilfs.c
-index c8bfc01da5d7..2044a2058be7 100644
---- a/fs/nilfs2/the_nilfs.c
-+++ b/fs/nilfs2/the_nilfs.c
-@@ -1,6 +1,6 @@
- // SPDX-License-Identifier: GPL-2.0+
- /*
-- * the_nilfs.c - the_nilfs shared structure.
-+ * the_nilfs shared structure.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
-diff --git a/fs/nilfs2/the_nilfs.h b/fs/nilfs2/the_nilfs.h
-index 987c8ab02aee..47c7dfbb7ea5 100644
---- a/fs/nilfs2/the_nilfs.h
-+++ b/fs/nilfs2/the_nilfs.h
-@@ -1,6 +1,6 @@
- /* SPDX-License-Identifier: GPL-2.0+ */
- /*
-- * the_nilfs.h - the_nilfs shared structure.
-+ * the_nilfs shared structure.
-  *
-  * Copyright (C) 2005-2008 Nippon Telegraph and Telephone Corporation.
-  *
--- 
-1.8.3.1
+HEAD commit: 519d81956ee2 Linux 5.15-rc6
+git tree: upstream
+console output:
+https://drive.google.com/file/d/1kiBZK6oiSXPTCnvaFCepaFbsxSfO1KTC/view?usp=sharing
+kernel config: https://drive.google.com/file/d/12PUnxIM1EPBgW4ZJmI7WJBRaY1lA83an/view?usp=sharing
 
+Sorry, I don't have a reproducer for this crash, hope the symbolized
+report can help.
+If you fix this issue, please add the following tag to the commit:
+Reported-by: Hao Sun <sunhao.th@gmail.com>
+
+loop15: detected capacity change from 0 to 4081
+NILFS (loop15): broken superblock, retrying with spare superblock
+(blocksize = 1024)
+NILFS (loop15): broken superblock, retrying with spare superblock
+(blocksize = 2048)
+NILFS (loop15): mounting unchecked fs
+NILFS (loop15): recovery complete
+FAULT_INJECTION: forcing a failure.
+name failslab, interval 1, probability 0, space 0, times 0
+CPU: 0 PID: 16429 Comm: syz-executor Not tainted 5.15.0-rc6 #4
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+1.13.0-1ubuntu1.1 04/01/2014
+Call Trace:
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xcd/0x134 lib/dump_stack.c:106
+ fail_dump lib/fault-inject.c:52 [inline]
+ should_fail.cold+0x5/0xa lib/fault-inject.c:146
+ should_failslab+0x5/0x10 mm/slab_common.c:1328
+ slab_pre_alloc_hook mm/slab.h:494 [inline]
+ slab_alloc_node mm/slub.c:3120 [inline]
+ slab_alloc mm/slub.c:3214 [inline]
+ kmem_cache_alloc+0x62/0x340 mm/slub.c:3219
+ kmem_cache_zalloc include/linux/slab.h:711 [inline]
+ lsm_inode_alloc security/security.c:593 [inline]
+ security_inode_alloc+0x34/0x160 security/security.c:1018
+ inode_init_always+0x603/0xe50 fs/inode.c:170
+ alloc_inode+0x82/0x1e0 fs/inode.c:244
+ new_inode_pseudo+0x14/0xe0 fs/inode.c:938
+ new_inode+0x1b/0x40 fs/inode.c:967
+ nilfs_new_inode+0xca/0x7e0 fs/nilfs2/inode.c:333
+ nilfs_create+0xfe/0x300 fs/nilfs2/namei.c:85
+ lookup_open+0xfae/0x13a0 fs/namei.c:3282
+ open_last_lookups fs/namei.c:3352 [inline]
+ path_openat+0xa93/0x2710 fs/namei.c:3558
+ do_filp_open+0x1c1/0x290 fs/namei.c:3588
+ do_sys_openat2+0x61b/0x9a0 fs/open.c:1200
+ do_sys_open+0xc3/0x140 fs/open.c:1216
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f13bd8dcc4d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
+89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f13bae44c58 EFLAGS: 00000246 ORIG_RAX: 0000000000000055
+RAX: ffffffffffffffda RBX: 00007f13bda030a0 RCX: 00007f13bd8dcc4d
+RDX: 0000000000000000 RSI: 0000000000000021 RDI: 0000000020005580
+RBP: 00007f13bae44c90 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000a
+R13: 00007ffd7026ebdf R14: 00007ffd7026ed80 R15: 00007f13bae44dc0
+page:ffffea0000053000 refcount:1 mapcount:0 mapping:0000000000000000
+index:0x0 pfn:0x14c0
+flags: 0xfff00000001000(reserved|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000001000 ffffea0000053008 ffffea0000053008 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: VM_BUG_ON_PAGE(!PageCompound(page))
+page_owner info is not present (never set?)
+------------[ cut here ]------------
+kernel BUG at mm/slub.c:3516!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 16429 Comm: syz-executor Not tainted 5.15.0-rc6 #4
+Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
+1.13.0-1ubuntu1.1 04/01/2014
+RIP: 0010:free_nonslab_page mm/slub.c:3516 [inline]
+RIP: 0010:free_nonslab_page mm/slub.c:3512 [inline]
+RIP: 0010:kfree+0x6d1/0x700 mm/slub.c:4540
+Code: 5e 41 5f e9 31 f3 ff ff 0f 0b 48 c7 c6 80 6c 18 8b 4c 89 e7 e8
+20 c3 ec ff 0f 0b 48 c7 c6 58 14 1a 8b 4c 89 e7 e8 0f c3 ec ff <0f> 0b
+e8 b8 8b 75 07 e9 26 ff ff ff 8b 75 1c 48 89 df e8 48 f2 28
+RSP: 0018:ffffc90004dff680 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffffffff814c0d90 RCX: 0000000000040000
+RDX: ffffc90001ac1000 RSI: ffff888024289c80 RDI: 0000000000000002
+RBP: ffff8881088d0200 R08: ffffffff81bd5321 R09: 0000000000000000
+R10: 0000000000000005 R11: ffffed100c7c3f53 R12: ffffea0000053000
+R13: ffff888033efd8c8 R14: ffff88801d8c2000 R15: ffff888033efd8f0
+FS:  00007f13bae45700(0000) GS:ffff888063e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000400000 CR3: 0000000016eed000 CR4: 0000000000350ef0
+Call Trace:
+ nilfs_mdt_destroy+0x59/0x80 fs/nilfs2/mdt.c:486
+ nilfs_free_inode+0x3e/0x60 fs/nilfs2/super.c:167
+ i_callback+0x3f/0x70 fs/inode.c:226
+ alloc_inode+0x13e/0x1e0 fs/inode.c:251
+ new_inode_pseudo+0x14/0xe0 fs/inode.c:938
+ new_inode+0x1b/0x40 fs/inode.c:967
+ nilfs_new_inode+0xca/0x7e0 fs/nilfs2/inode.c:333
+ nilfs_create+0xfe/0x300 fs/nilfs2/namei.c:85
+ lookup_open+0xfae/0x13a0 fs/namei.c:3282
+ open_last_lookups fs/namei.c:3352 [inline]
+ path_openat+0xa93/0x2710 fs/namei.c:3558
+ do_filp_open+0x1c1/0x290 fs/namei.c:3588
+ do_sys_openat2+0x61b/0x9a0 fs/open.c:1200
+ do_sys_open+0xc3/0x140 fs/open.c:1216
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x44/0xae
+RIP: 0033:0x7f13bd8dcc4d
+Code: 02 b8 ff ff ff ff c3 66 0f 1f 44 00 00 f3 0f 1e fa 48 89 f8 48
+89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d
+01 f0 ff ff 73 01 c3 48 c7 c1 bc ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f13bae44c58 EFLAGS: 00000246 ORIG_RAX: 0000000000000055
+RAX: ffffffffffffffda RBX: 00007f13bda030a0 RCX: 00007f13bd8dcc4d
+RDX: 0000000000000000 RSI: 0000000000000021 RDI: 0000000020005580
+RBP: 00007f13bae44c90 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000000000a
+R13: 00007ffd7026ebdf R14: 00007ffd7026ed80 R15: 00007f13bae44dc0
+Modules linked in:
+Dumping ftrace buffer:
+   (ftrace buffer empty)
+---[ end trace 07725c0702aaad66 ]---
+RIP: 0010:free_nonslab_page mm/slub.c:3516 [inline]
+RIP: 0010:free_nonslab_page mm/slub.c:3512 [inline]
+RIP: 0010:kfree+0x6d1/0x700 mm/slub.c:4540
+Code: 5e 41 5f e9 31 f3 ff ff 0f 0b 48 c7 c6 80 6c 18 8b 4c 89 e7 e8
+20 c3 ec ff 0f 0b 48 c7 c6 58 14 1a 8b 4c 89 e7 e8 0f c3 ec ff <0f> 0b
+e8 b8 8b 75 07 e9 26 ff ff ff 8b 75 1c 48 89 df e8 48 f2 28
+RSP: 0018:ffffc90004dff680 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffffffff814c0d90 RCX: 0000000000040000
+RDX: ffffc90001ac1000 RSI: ffff888024289c80 RDI: 0000000000000002
+RBP: ffff8881088d0200 R08: ffffffff81bd5321 R09: 0000000000000000
+R10: 0000000000000005 R11: ffffed100c7c3f53 R12: ffffea0000053000
+R13: ffff888033efd8c8 R14: ffff88801d8c2000 R15: ffff888033efd8f0
+FS:  00007f13bae45700(0000) GS:ffff888063e00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000400000 CR3: 0000000016eed000 CR4: 0000000000350ef0
