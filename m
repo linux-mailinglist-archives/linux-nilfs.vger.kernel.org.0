@@ -2,59 +2,55 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05AA24592B2
-	for <lists+linux-nilfs@lfdr.de>; Mon, 22 Nov 2021 17:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 551C145F6E7
+	for <lists+linux-nilfs@lfdr.de>; Fri, 26 Nov 2021 23:37:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232629AbhKVQOg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 22 Nov 2021 11:14:36 -0500
-Received: from mx08-00227901.pphosted.com ([91.207.212.184]:52378 "EHLO
-        mx08-00227901.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S229955AbhKVQOf (ORCPT
+        id S244783AbhKZWk1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 26 Nov 2021 17:40:27 -0500
+Received: from tk2-211-15105.vs.sakura.ne.jp ([160.16.70.109]:54202 "EHLO
+        tk2-211-15105.vs.sakura.ne.jp" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S245120AbhKZWi1 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 22 Nov 2021 11:14:35 -0500
-Received: from pps.filterd (m0097674.ppops.net [127.0.0.1])
-        by mx08-.pphosted.com (8.16.1.2/8.16.1.2) with ESMTP id 1AJ7wixf018132;
-        Fri, 19 Nov 2021 10:27:13 +0100
-Received: from zbw2k16ex01.bardusch.net ([185.80.186.174])
-        by mx08-.pphosted.com (PPS) with ESMTPS id 3cdmdm1455-6
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
-        Fri, 19 Nov 2021 10:27:13 +0100
-Received: from zbw2k16ex02.bardusch.net (172.25.1.2) by
- ZBW2K16EX01.bardusch.net (172.25.1.1) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA) id 15.1.2308.20;
- Fri, 19 Nov 2021 10:27:11 +0100
-Received: from User (172.25.1.131) by zbw2k16ex02.bardusch.net (172.25.1.2)
- with Microsoft SMTP Server id 15.1.2308.20 via Frontend Transport; Fri, 19
- Nov 2021 10:27:00 +0100
-Reply-To: <josechoondak@gmail.com>
-From:   Joseph Choondak <info@ndd.co.mz>
-Subject: I hope this email finds you well.
-Date:   Fri, 19 Nov 2021 01:27:14 -0800
-MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
+        Fri, 26 Nov 2021 17:38:27 -0500
+X-Greylist: delayed 449 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 17:38:27 EST
+Received: by tk2-211-15105.vs.sakura.ne.jp (Postfix, from userid 48)
+        id F3FA3421E2D; Sat, 27 Nov 2021 07:27:41 +0900 (JST)
+To:     linux-nilfs@vger.kernel.org
+Subject: =?ISO-2022-JP?B?bGg0aTBn?=
+X-PHP-Originating-Script: 500:class-phpmailer.php
+Date:   Fri, 26 Nov 2021 22:27:41 +0000
+From:   =?ISO-2022-JP?B?Pz8gQWxpY2Ugd2FudCB0byBtZWV0IHlvdSEgQ2xpY2sgSGVyZTogaHR0cDovL2JpdC5kby9mU0dYdT80anVoID8/?= 
+        <linux-nilfs@vger.kernel.org>
+Message-ID: <2ab4c059febe4110bc70ef9c7f49a43f@digitalcast.jp>
 X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <e36b6b33-d3b3-4f08-8033-0aba2c4cece8@zbw2k16ex02.bardusch.net>
-To:     Undisclosed recipients:;
-X-Proofpoint-GUID: TLQLmM0KGMyKZ2pptUvqji1PrJ_tMJCL
-X-Proofpoint-ORIG-GUID: TLQLmM0KGMyKZ2pptUvqji1PrJ_tMJCL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.205,Aquarius:18.0.790,Hydra:6.0.425,FMLib:17.0.607.475
- definitions=2021-11-19_08,2021-11-17_01,2020-04-07_01
-X-Proofpoint-Spam-Reason: orgsafe
+X-Mailer: PHPMailer (phpmailer.sourceforge.net) [version 2.0.4]
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="ISO-2022-JP"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-May I please ask with considerable urgency for your kind assistance with the following matter.
-I'm a financial person, I think  I have something huge you might be interested in.
+当サイトよりお問い合せ頂きまして、誠にありがとうございます。
 
-Looking forward to hearing from you.
+このメールはお問い合せ頂きましたお客様へ自動的に返信されます、お問い合せ確認メールです。
 
+以下の内容にてお問い合せを受け付けました。
 
-Respectfully!!
-Joseph Choondak
-Account Executive.
+―――――――――――――――――――――――――――――
+お名前:
+?? Alice want to meet you! Click Here: http://bit.do/fSGXu?4juh ?? 
+
+メールアドレス:
+linux-nilfs@vger.kernel.org
+
+件名:
+lh4i0g
+
+メッセージ本文:
+k48xz5
+
+―――――――――――――――――――――――――――――
+Digitalcast
+http://www.digitalcast.jp/
+
