@@ -2,55 +2,60 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C0F145FC6B
-	for <lists+linux-nilfs@lfdr.de>; Sat, 27 Nov 2021 04:42:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F1A5460B7E
+	for <lists+linux-nilfs@lfdr.de>; Mon, 29 Nov 2021 01:15:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1351682AbhK0Dpe (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 26 Nov 2021 22:45:34 -0500
-Received: from tk2-214-16617.vs.sakura.ne.jp ([160.16.76.121]:41760 "EHLO
-        tsukino-pro.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1351936AbhK0Dne (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 26 Nov 2021 22:43:34 -0500
-X-Greylist: delayed 398 seconds by postgrey-1.27 at vger.kernel.org; Fri, 26 Nov 2021 22:43:34 EST
-Received: by tsukino-pro.com (Postfix, from userid 1000)
-        id A78DE149E4; Sat, 27 Nov 2021 12:33:41 +0900 (JST)
-To:     linux-nilfs@vger.kernel.org
-Subject: =?ISO-2022-JP?B?GyRCJTUlJCVIJFgkTiQqTGQkJDlnJG8kOyFDJUQlLSVON11HPSVXJW0lQCUvJTclZyVzGyhCIC0bJEIlRCUtJU4lVyVtGyhCLQ==?=
-X-PHP-Originating-Script: 1001:class-phpmailer.php
-Date:   Sat, 27 Nov 2021 03:33:41 +0000
-From:   =?ISO-2022-JP?B?GyRCJUQlLSVON11HPSVXJW0lQCUvJTclZyVzGyhCIC0bJEIlRCUtJU4lVyVtGyhCLQ==?= 
-        <tsukiuta@movic.co.jp>
-Reply-To: tsukiuta@movic.co.jp
-Message-ID: <b061b094d020aee7dccfc1c34c23888d@tsukino-pro.com>
-X-Mailer: PHPMailer 5.2.27 (https://github.com/PHPMailer/PHPMailer)
+        id S1359713AbhK2ASe (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 28 Nov 2021 19:18:34 -0500
+Received: from mail.vallenar.cl ([200.54.241.89]:39018 "EHLO mail.vallenar.cl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S233716AbhK2AQd (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
+        Sun, 28 Nov 2021 19:16:33 -0500
+X-Greylist: delayed 20294 seconds by postgrey-1.27 at vger.kernel.org; Sun, 28 Nov 2021 19:16:30 EST
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id B6B9E1CC54D2;
+        Sun, 28 Nov 2021 12:29:34 -0300 (-03)
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id KoyW2nH7GhDD; Sun, 28 Nov 2021 12:29:34 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id 3122B1D06842;
+        Sun, 28 Nov 2021 11:45:20 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vallenar.cl 3122B1D06842
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vallenar.cl;
+        s=EC098874-C7DE-11E7-B3B1-1A9A6030413E; t=1638110720;
+        bh=IQxUcKgLaEia+DMrVj9OEHbWOH8TffrzQMeZgAxYubI=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=ZNBNFUZbmFa2MHgDVnqeLUNmN1jhvIoIkMHZTp8rDDfwo5mpNBsBVbO8RAJCiC7El
+         +VRB+SyXtRcilNrHQXQaPXnqwriKkMY96p2U9JdvT25Pvs30y1yC0idQP7feAgHN5C
+         510coTQH0yXzg/N7bnGVoeOODT5Bq+9YByGo+oB7uh3zNaT8MZoWKyls6hJSsulfKm
+         cY+YKvYAYXu9tmAGuln574ixcTAY/PY44NpBwFzV7BnN1KA3q0ALEHKkThQ+on5UML
+         Xti6+OBaIapzFEFuHoclzm2AFuLehO8hi0kLvqToLxvFHB2HkAyWBX6wCFV/7hgDMI
+         hu2+d/o+eTobg==
+X-Virus-Scanned: amavisd-new at vallenar.cl
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id Wnon1U2B1Kbm; Sun, 28 Nov 2021 11:45:19 -0300 (-03)
+Received: from [192.168.8.101] (unknown [105.0.3.102])
+        by mail.vallenar.cl (Postfix) with ESMTPSA id 756591D08C9F;
+        Sun, 28 Nov 2021 11:21:39 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=ISO-2022-JP
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: 2.000.000,00. Euro
+To:     Recipients <yperez@vallenar.cl>
+From:   "manuel franco" <yperez@vallenar.cl>
+Date:   Sun, 28 Nov 2021 16:29:09 +0200
+Reply-To: manuelfrancospende00@gmail.com
+Message-Id: <20211128142139.756591D08C9F@mail.vallenar.cl>
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-この度は、ツキノ芸能プロダクションへお問い合わせいただき、ありがとうございました。
+Sie haben eine Spende von 2.000.000,00. Euro
 
-このメールは自動で返信されています。
-
-以下の内容でお問い合わせしています。
-------------------------------------------------------------
-
-
-お名前:
-?? Alice sent you a hot video! Watch Here: https://bit.ly/3113Lyn?bp2py ??
-
-E-MAIL:
-linux-nilfs@vger.kernel.org
-
-お問い合わせ詳細:
-kip15lmb
-
-
-
-----------------------------------------------------------
-　ツキノ芸能プロダクション
-　http://www.tsukino-pro.com
-----------------------------------------------------------
-
+Mein Name ist Manuel Franco aus den Vereinigten Staaten.
+Ich habe die Amerika-Lotterie im Wert von 768 Millionen US-Dollar gewonnen =
+und spende einen Teil davon an nur 5 gl=FCckliche Menschen und ein paar Wai=
+senh=E4user als Wohlwollen f=FCr die Menschheit.
