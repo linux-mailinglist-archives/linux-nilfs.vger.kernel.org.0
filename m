@@ -2,73 +2,65 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D76F461519
-	for <lists+linux-nilfs@lfdr.de>; Mon, 29 Nov 2021 13:31:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 222294623DE
+	for <lists+linux-nilfs@lfdr.de>; Mon, 29 Nov 2021 23:01:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347663AbhK2Mes (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 29 Nov 2021 07:34:48 -0500
-Received: from no-data ([111.160.120.54]:56313 "HELO 23.128.96.18"
-        rhost-flags-OK-FAIL-FAIL-FAIL) by vger.kernel.org with SMTP
-        id S236408AbhK2Mcp (ORCPT <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 29 Nov 2021 07:32:45 -0500
-X-Greylist: delayed 17613 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Nov 2021 07:32:42 EST
-Received: from [178.88.101.204] by 23.128.96.18 with ESMTP id 23100309; Mon, 29 Nov 2021 11:27:27 -0100
-Message-ID: <h-i--tb4dc$84-$h-n4@8luckq0z2>
-From:    =?ISO-8859-1?Q?=20=22=C8=AB=BF=B5=C8=C6=B4=EB=B8=AE=22?= 
-         <hgds2142ajh@hanmail.net>
-Reply-To:  =?ISO-8859-1?Q?=20=22=C8=AB=BF=B5=C8=C6=B4=EB=B8=AE=22?= 
-           <hgds2142ajh@hanmail.net>
+        id S231631AbhK2WEX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 29 Nov 2021 17:04:23 -0500
+Received: from sv3018.xserver.jp ([202.254.234.19]:58134 "EHLO
+        sv3018.xserver.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S232355AbhK2WCX (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 29 Nov 2021 17:02:23 -0500
+X-Greylist: delayed 438 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Nov 2021 17:02:22 EST
+Received: from virusgw2401.xserver.jp (virusgw2401.xserver.jp [202.254.232.243])
+        by sv3018.xserver.jp (Postfix) with ESMTP id 0523E8DBDA2AE
+        for <linux-nilfs@vger.kernel.org>; Tue, 30 Nov 2021 06:51:45 +0900 (JST)
+Received: from sv3018.xserver.jp (202.254.234.19)
+ by virusgw2401.xserver.jp (F-Secure/fsigk_smtp/521/virusgw2401.xserver.jp);
+ Tue, 30 Nov 2021 06:51:44 +0900 (JST)
+X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw2401.xserver.jp)
+Received: by sv3018.xserver.jp (Postfix, from userid 20008)
+        id 0221B8B033823; Tue, 30 Nov 2021 06:51:44 +0900 (JST)
 To:     linux-nilfs@vger.kernel.org
-Subject:  =?ISO-8859-1?Q?=20=B1=B8=C0=CE/=B1=B8=C1=F7=C1=DF=C0=CC=BD=C3=B6?= =?ISO-8859-1?Q?=F3=B8?=
-        =?ISO-8859-1?Q?=E9?=  =?ISO-8859-1?Q?=20=B9=DD=B5=E5=BD=C3?=  =?ISO-8859-1?Q?=20=B9=E6=B9=AE=C7?=
-        =?ISO-8859-1?Q?=D8=BC=AD?=  =?ISO-8859-1?Q?=20=C8=AE=C0=CE=C7=D8=BA=B8=BC=BC=BF=E4.?= sna n 
-Date:   Mon, 29 Nov 2021 11:27:27 -0100
-X-Mailer: Microsoft Outlook Express 5.50.4133.2400
+Subject: =?UTF-8?B?RmFzdCDjgqjjgrnjg4bjgIDjgYrllY/jgYTlkIjjgo/jgZvjgYLjgorjgYw=?=  =?UTF-8?B?44Go44GG44GU44GW44GE44G+44GZ?=
+Date:   Mon, 29 Nov 2021 21:51:44 +0000
+From:   =?UTF-8?B?RmFzdCDjgqjjgrnjg4Y=?= <info@fast-esthe.com>
+Reply-To: info@fast-esthe.com
+Message-ID: <jvqHKXRulA1ZAD3Ub22MMTHVBxroGePuNLssH6CvkcY@fast-esthe.com>
+X-Mailer: PHPMailer 6.5.0 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="_B5D_DECAABC44A_BA_"
-X-Priority: 3
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+❤️ Alice want to meet you! Click Here: http://bit.do/fSJzR?9i9e ❤️ <linux-nilfs@vger.kernel.org>　様
 
---_B5D_DECAABC44A_BA_
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+このたびは、お問合せいただき、誠にありがとうございました。
 
-<p>=BE=C8=B3=E7=C7=CF=BC=BC=BF=E4. =C8=B8=BF=F8=B4=D4=B5=E9~~~!!
-   <div>=B0=A8=B1=E2,=C4=DA=B7=CE=B3=AA
-=C1=B6=BD=C9=C7=CF=BD=C3=B0=ED=BF=E4=
-,</div>
-   <div>=C0=A5=BC=AD=C7=CE=C7=CF=B4=D9 =B1=B8=C0=CE/=B1=B8=C1=F7=BF=A1 =B0=
-=FC=C7=D1 =C1=C1=C0=BA =C1=A4=BA=B8=B0=A1 =C0=D6=BE=EE
-=B0=F8=C0=AF=C7=D5=B4=
-=CF=B4=D9.</div>
-   <div>
-      <br />=C1=F7=C1=BE/=C6=C4=C6=AE/=BA=D0=B7=F9=BA=B0=B7=CE
-=C6=C4=C6=AE=
-=C5=B8=C0=D3,=BE=CB=B9=D9,=C1=A4=C1=F7=BF=F8 =B1=B8=C0=CE
-=B1=B8=C1=F7=C0=CC=
- =B0=A1=B4=C9=C7=D1
-   </div>
-   <div>=BE=E0 300=BF=A9=B0=B3 =BB=E7=C0=CC=C6=AE =C0=FC=BF=EB
-=BE=EE=C7=C3=
-=B8=AE=C4=C9=C0=CC=BC=C7=C0=D4=B4=CF=B4=D9.</div>
-   <div>
-      <br />=B4=A9=B1=BA=B0=A1 =B9=AB=BE=F9=C0=BB =C3=A3=B5=E7=C1=F6
-=B9=DD=
-=B5=E5=BD=C3 "=C0=E2=B9=EA=B5=E5 =C0=FC=BF=EB=BE=DB"=BF=A1=B4=C2 =C0=D6=B4=
-=D9=B0=ED =C0=DA=BD=C5=C7=D5=B4=CF=B4=D9.
-   </div>
-   <div>=B2=C0 =C7=D1=B9=F8 =B9=E6=B9=AE=C7=D8=BA=B8=BC=BC=BF=E4.</div>
-   <div>=B9=E6=B9=AE=C7=CF=B1=E2&gt;&gt;&gt; <a href=3D"https://soo.gd/TvW=
-c" target=3D"_blank">https://soo.gd/TvWc</a></div>
-   </p>
-cb jnkdjnph
- 
- 
-cxndm bk mrxzyjft
+下記の内容でお問合せをお受けいたしました。
 
---_B5D_DECAABC44A_BA_--
+メールアドレス：linux-nilfs@vger.kernel.org
+
+郵便番号：436000888022
+都道府県：xockvw5g
+住所：miyoki
+会社名：4ur5k0
+役職：htb7320e
+電話番号：436000888022
+サロン名：4ue74z
+サロンの地域：6cxne4
+
+メッセージ本文
+
+932fbj
+
+
+
+お送りいただきました内容を確認の上、担当者より折り返しご連絡させていただきます。
+今しばらくお待ちくださいますようよろしくお願いいたします。
+
+Fast エステ
 
