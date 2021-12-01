@@ -2,65 +2,77 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 222294623DE
-	for <lists+linux-nilfs@lfdr.de>; Mon, 29 Nov 2021 23:01:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EAF1A464CC5
+	for <lists+linux-nilfs@lfdr.de>; Wed,  1 Dec 2021 12:34:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231631AbhK2WEX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 29 Nov 2021 17:04:23 -0500
-Received: from sv3018.xserver.jp ([202.254.234.19]:58134 "EHLO
-        sv3018.xserver.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232355AbhK2WCX (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 29 Nov 2021 17:02:23 -0500
-X-Greylist: delayed 438 seconds by postgrey-1.27 at vger.kernel.org; Mon, 29 Nov 2021 17:02:22 EST
-Received: from virusgw2401.xserver.jp (virusgw2401.xserver.jp [202.254.232.243])
-        by sv3018.xserver.jp (Postfix) with ESMTP id 0523E8DBDA2AE
-        for <linux-nilfs@vger.kernel.org>; Tue, 30 Nov 2021 06:51:45 +0900 (JST)
-Received: from sv3018.xserver.jp (202.254.234.19)
- by virusgw2401.xserver.jp (F-Secure/fsigk_smtp/521/virusgw2401.xserver.jp);
- Tue, 30 Nov 2021 06:51:44 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw2401.xserver.jp)
-Received: by sv3018.xserver.jp (Postfix, from userid 20008)
-        id 0221B8B033823; Tue, 30 Nov 2021 06:51:44 +0900 (JST)
-To:     linux-nilfs@vger.kernel.org
-Subject: =?UTF-8?B?RmFzdCDjgqjjgrnjg4bjgIDjgYrllY/jgYTlkIjjgo/jgZvjgYLjgorjgYw=?=  =?UTF-8?B?44Go44GG44GU44GW44GE44G+44GZ?=
-Date:   Mon, 29 Nov 2021 21:51:44 +0000
-From:   =?UTF-8?B?RmFzdCDjgqjjgrnjg4Y=?= <info@fast-esthe.com>
-Reply-To: info@fast-esthe.com
-Message-ID: <jvqHKXRulA1ZAD3Ub22MMTHVBxroGePuNLssH6CvkcY@fast-esthe.com>
-X-Mailer: PHPMailer 6.5.0 (https://github.com/PHPMailer/PHPMailer)
+        id S242895AbhLALhc (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 1 Dec 2021 06:37:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1348955AbhLALhY (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 1 Dec 2021 06:37:24 -0500
+Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 800AAC0613F1
+        for <linux-nilfs@vger.kernel.org>; Wed,  1 Dec 2021 03:34:00 -0800 (PST)
+Received: by mail-ua1-x92f.google.com with SMTP id l24so48290159uak.2
+        for <linux-nilfs@vger.kernel.org>; Wed, 01 Dec 2021 03:34:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
+         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
+         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
+         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
+         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
+         Af5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
+        b=6YnBqhUtxwSflKChrMGI33gUG0GzNG9frWHHzcw2sB+lUAGOSDJhRC5X1V4T+kMzrv
+         xOokVMmzqowq4Bb6RPmJYj6CM+Q9UkpUVXgootadN8drqNtLIey50JNDlS6vX9oOogZ0
+         6YGh71Wh9wMug7wEC0HD917BvYVZ8jFDYaYCXAjf9SVitzQjTKPNeQtchsxrAZ5wTwEe
+         v1ZDyR/2+0ch8ymyjPjoqJplCbSDoFpwNHEWYbzYYjq/92YBBe87MnG5zSl2CrRBUB/9
+         AueWavxNkEM8st6VYpf1D5zyCJwKam6+OWQMjlDYpwHX0UHNGZyt7x6u20g3gwU4bRBb
+         dspA==
+X-Gm-Message-State: AOAM5313UOdeQhU4YdpVuzZYsHUu9hap52oU47vlLFYZZO9dtTc5/R/o
+        EDeieAGHudRS+g0uJ2lFLxm6nVrFNozDGaz4GII=
+X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
+X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
+ Wed, 01 Dec 2021 03:33:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Sender: unitednationawardwinner@gmail.com
+Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
+From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
+Date:   Wed, 1 Dec 2021 03:33:58 -0800
+X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
+Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
+Subject: Your long awaited part payment of $2.5.000.00Usd
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-❤️ Alice want to meet you! Click Here: http://bit.do/fSJzR?9i9e ❤️ <linux-nilfs@vger.kernel.org>　様
+Attention: Beneficiary, Your long awaited part payment of
+$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
+Dollars) is ready for immediate release to you, and it was
+electronically credited into an ATM Visa Card for easy delivery.
 
-このたびは、お問合せいただき、誠にありがとうございました。
+Your new Payment Reference No.- 6363836,
+Pin Code No: 1787
+Your Certificate of Merit Payment No: 05872,
 
-下記の内容でお問合せをお受けいたしました。
+Your Names: |
+Address: |
 
-メールアドレス：linux-nilfs@vger.kernel.org
+Person to Contact:MR KELLY HALL the Director of the International
+Audit unit ATM Payment Center,
 
-郵便番号：436000888022
-都道府県：xockvw5g
-住所：miyoki
-会社名：4ur5k0
-役職：htb7320e
-電話番号：436000888022
-サロン名：4ue74z
-サロンの地域：6cxne4
+Email: uba-bf@e-ubabf.com
+TELEPHONE: +226 64865611 You can whatsApp the bank
 
-メッセージ本文
-
-932fbj
-
-
-
-お送りいただきました内容を確認の上、担当者より折り返しご連絡させていただきます。
-今しばらくお待ちくださいますようよろしくお願いいたします。
-
-Fast エステ
-
+Regards.
+Mrs ORGIL BAATAR
