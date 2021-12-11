@@ -2,100 +2,79 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A30D471549
-	for <lists+linux-nilfs@lfdr.de>; Sat, 11 Dec 2021 19:10:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A5547170E
+	for <lists+linux-nilfs@lfdr.de>; Sat, 11 Dec 2021 22:59:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231644AbhLKSJ7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 11 Dec 2021 13:09:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60636 "EHLO
+        id S231472AbhLKV6d (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 11 Dec 2021 16:58:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54122 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231627AbhLKSJ6 (ORCPT
+        with ESMTP id S231898AbhLKV6a (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 11 Dec 2021 13:09:58 -0500
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E583C061714;
-        Sat, 11 Dec 2021 10:09:58 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id p18so9076956wmq.5;
-        Sat, 11 Dec 2021 10:09:58 -0800 (PST)
+        Sat, 11 Dec 2021 16:58:30 -0500
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45383C0617A1
+        for <linux-nilfs@vger.kernel.org>; Sat, 11 Dec 2021 13:58:30 -0800 (PST)
+Received: by mail-ed1-x533.google.com with SMTP id y13so40107898edd.13
+        for <linux-nilfs@vger.kernel.org>; Sat, 11 Dec 2021 13:58:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=from:to:cc:subject:date:message-id:mime-version
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
          :content-transfer-encoding;
-        bh=zA92V1btmrTrQKYhZyZjsNIHT2URvEbAj4KA4p/lKAY=;
-        b=TSvkTe2LbjI08HFOsXQoUB44oUbVFIbH8+rZ8sj176haMNUQuvdORHM/2G9niiMIqM
-         lhfDm0VOHIQ9hnZvat3NTIw8AM6qSUGFnU7D+iZWNdumFncXmrJ1kOPId/OeUqxK+kYs
-         uq0oMVW1dWSCA3vvffKxV/Aam3WOQdrhXeLz+Wg6FfCKWB/Jr7WV3eSSA6FDp/TTkydq
-         tXP28aSP2ScgT4d/KuHMGL2COCHfpaAUVhFNG/eG9/W2/b1nWheliIl07ZqlamO5B0HI
-         sjLGnKD+fvW8eoy3eH0Yw57bg7p9W5U+40+wxirgxGKPqH43g6OemiEZTCPiN1jsmWFQ
-         UrNg==
+        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
+        b=SOBkDHN1upt351fJGA10IENq8Lskn6OtfiA/mtFXWwbxNo6rK0VqMIikUbNdR10QL9
+         NEz57nH7+DwD4ui2QjR5G0PDUg/x30DeYlpAViKmfLpj6c8owgTXHIRe2HlXrWJIYspc
+         p1qexb7VgQzyxOs2U317jKWC2PVt5FsJQNP/qzuU8HlodfKZxoIrg2Y5u0+UlgiuF7n+
+         KF6xHlFhNhhV0WZH+n1XpQNFkro1//sIniT/eC7+Qq7omDixZHJ42uWefxucVRQsgqoP
+         MP9jAyQEdDJw2KiXunMshfyB4wcDGfWvxehuLHSr6op0i/Er4qRI4zT2OKxsbV2QjSnP
+         PYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=zA92V1btmrTrQKYhZyZjsNIHT2URvEbAj4KA4p/lKAY=;
-        b=bpbDt9HnhVDLTe9ZveicGfTLrVBg3elOoqymTsIKfVRvyEQrhA1vM7nCGCXo42mGuc
-         SDc5NfBNIrbkjFOr6LOP3v3roEXMnKXEGo8W2PXunM6BiPuku5nCWY6vYZVEdcQ4Wzxh
-         tdq2EfLBCXkNtrdyYpUzKcvBDNlihn6zgkMhbkxxKdjJS9F6wClWsNWrzi8vLfQO+JF2
-         HyysQTHnDFD1J8OTBpUZe3+dfbcUQNTpJDBp29GJ3bVTLcFN83wF3PlT0ebKAo8RKWJz
-         Zv5efy1aBrT/WE7kdHtgCWhuzoxEw1U9ewW+ROH05sEkFRsxydpjJAaV4lwJQdR2rxTv
-         zybA==
-X-Gm-Message-State: AOAM532n9NOa2VyD0cegPMJ/Rjwx0kfC4wF8CW/qwkldP0DbMF25+ZyI
-        tatCVtipQvYwlljLhQTS025R/Y/OHu5Ae8FF
-X-Google-Smtp-Source: ABdhPJyfr/+qyNj7EVGW/LU9V1sTrzoTLBRcl8C0CJQgQQYbFeMNxL1/sm0g3FRmeJ9gbC005AafHA==
-X-Received: by 2002:a1c:21d7:: with SMTP id h206mr25088757wmh.60.1639246196992;
-        Sat, 11 Dec 2021 10:09:56 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id w22sm2049694wmi.27.2021.12.11.10.09.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Dec 2021 10:09:56 -0800 (PST)
-From:   Colin Ian King <colin.i.king@gmail.com>
-To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        linux-nilfs@vger.kernel.org
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: remove redundant pointer sbufs
-Date:   Sat, 11 Dec 2021 18:09:55 +0000
-Message-Id: <20211211180955.550380-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.33.1
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=hD0jfu1MWy/UXBkBYsVvOAZPApZLyir6gKavdc4BceI=;
+        b=CeG6JeUsp1kowFKlattmw9FBw4BcKTxEIL1JhkyDRYOLntfXnI5hINX/Rp3BDbwrD+
+         KPI0+KGkdY7rfINVB7/mJvse4ZXBCrvnMQp6uVvBG3mhKL+H3HF3U99+CWMELsAch1kC
+         PU8uW7jPOrxfB9737HHCAPFQy+1I+dDn7pD6jWM5wkrkFd4B8nV1ezuBcQ/ITbtnatY6
+         BFCVVSeZjjQGtA8cwbtRa0KwblQw4oZMQGCkIHXNPKupj2hmZOiClajJxpPbD6DU0p6s
+         PaHIeYnbTUwZYSj3hdUz5ihbL50ktbF8GtvJsyeeloGkF1E49RhfL6Q7fFX02xnJ996P
+         b0hw==
+X-Gm-Message-State: AOAM533NLy1hw31ZcAI2XSS7wEJGA5LnlT0qNhjlS/pdLgEnt8xADd7a
+        w6L9esgSk62KvJCkeW8Ob6RTpbgZlejwK/3kKudzg9wI2TgbzEUC7lI=
+X-Google-Smtp-Source: ABdhPJxTVLquc00JfCv8xmVg6F+Df36Ax6F8m8eI1vWHtjjPBaUzu2dvtxl/29t2QJINStCFpJhLct20UqzajIEroTA=
+X-Received: by 2002:a17:907:6da2:: with SMTP id sb34mr33325880ejc.509.1639259897490;
+ Sat, 11 Dec 2021 13:58:17 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Reply-To: martinafrancis022@gmail.com
+Sender: rebeccaalhajidangombe@gmail.com
+Received: by 2002:a17:907:94d3:0:0:0:0 with HTTP; Sat, 11 Dec 2021 13:58:16
+ -0800 (PST)
+From:   Martina Francis <martinafrancis61@gmail.com>
+Date:   Sat, 11 Dec 2021 13:58:16 -0800
+X-Google-Sender-Auth: QI6h_ccu4Os7HpLN5lf7FmNkMqQ
+Message-ID: <CANadOMYJBdKak2aObykULF4gdU88=OTR03g+XDqpCofMfFracg@mail.gmail.com>
+Subject: Bom Dia meu querido
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Pointer sbufs is being assigned a value but it's not being used
-later on. The pointer is redundant and can be removed. Cleans up
-scan-build static analysis warning:
+--=20
+Bom Dia meu querido,
+Como vai voc=C3=AA hoje, meu nome =C3=A9 Dona Martina Francis, uma vi=C3=BA=
+va doente.
+Eu tenho um fundo de doa=C3=A7=C3=A3o de ($ 2.700.000,00 USD) MILH=C3=95ES =
+que quero
+doar atrav=C3=A9s de voc=C3=AA para ajudar os =C3=B3rf=C3=A3os, vi=C3=BAvas=
+, deficientes
+f=C3=ADsicos e casas de caridade.
 
-fs/nilfs2/page.c:203:8: warning: Although the value stored to 'sbufs'
-is used in the enclosing expression, the value is never actually read
-from 'sbufs' [deadcode.DeadStores]
-        sbh = sbufs = page_buffers(src);
+Por favor, volte para mim imediatamente ap=C3=B3s ler esta mensagem para
+obter mais detalhes sobre esta agenda humanit=C3=A1ria.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- fs/nilfs2/page.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Deus te aben=C3=A7oe enquanto espero sua resposta.
+Sua irm=C3=A3.
 
-diff --git a/fs/nilfs2/page.c b/fs/nilfs2/page.c
-index bc3e2cd4117f..063dd16d75b5 100644
---- a/fs/nilfs2/page.c
-+++ b/fs/nilfs2/page.c
-@@ -195,12 +195,12 @@ void nilfs_page_bug(struct page *page)
-  */
- static void nilfs_copy_page(struct page *dst, struct page *src, int copy_dirty)
- {
--	struct buffer_head *dbh, *dbufs, *sbh, *sbufs;
-+	struct buffer_head *dbh, *dbufs, *sbh;
- 	unsigned long mask = NILFS_BUFFER_INHERENT_BITS;
- 
- 	BUG_ON(PageWriteback(dst));
- 
--	sbh = sbufs = page_buffers(src);
-+	sbh = page_buffers(src);
- 	if (!page_has_buffers(dst))
- 		create_empty_buffers(dst, sbh->b_size, 0);
- 
--- 
-2.33.1
-
+Sra. Martina Francis.
