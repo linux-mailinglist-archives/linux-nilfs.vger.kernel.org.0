@@ -2,86 +2,70 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93AA94770B5
-	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Dec 2021 12:42:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D027A47B285
+	for <lists+linux-nilfs@lfdr.de>; Mon, 20 Dec 2021 19:03:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233400AbhLPLmv (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60232 "EHLO
+        id S229633AbhLTSDx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 20 Dec 2021 13:03:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233738AbhLPLmm (ORCPT
+        with ESMTP id S240335AbhLTSDw (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 16 Dec 2021 06:42:42 -0500
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F6BC061378
-        for <linux-nilfs@vger.kernel.org>; Thu, 16 Dec 2021 03:42:40 -0800 (PST)
-Received: by mail-qt1-x830.google.com with SMTP id t34so25107019qtc.7
-        for <linux-nilfs@vger.kernel.org>; Thu, 16 Dec 2021 03:42:40 -0800 (PST)
+        Mon, 20 Dec 2021 13:03:52 -0500
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74EDFC061747
+        for <linux-nilfs@vger.kernel.org>; Mon, 20 Dec 2021 10:03:48 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id a83-20020a1c9856000000b00344731e044bso469773wme.1
+        for <linux-nilfs@vger.kernel.org>; Mon, 20 Dec 2021 10:03:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=XAiY5JQCbKhUV3kfV68NxknTY8076aQ+jZiIG+NNSnrj8SbWsLA5ZyVis9Hv7MDsX5
-         Wp1aJ8rEmDfQ1U3vhA+W5Q6fUW0sQxhqwaHiosPbQFbyYijHt4Icvm/T0vEK5/kKmBc+
-         QqELCOAj0es+5TzRQyWwGBhwQGehjbOewfhMN3/S4hQw7QoR6Y3+tDzh1TbUcqm1TT9t
-         NYT2/qpfB6ahTcpnyVYoBu/0br0EmuZ66fyA68h0ieuZcBkGcxPgfheRqd2GHCJMPyzP
-         6QgpFUXd/uCVTtz1/hZUUGudKd9Q0ZImcSJeB1tjd8lIsCPvJkt1eKVnbTcB60Kk9v0/
-         CoRA==
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=UtoF0r4yG8U/T8UOLxn8dacSd49m7zi2Qvhr7fGOaoo=;
+        b=JEStVySRLr2GINyxh3VkR+D/zIXkJGB5FmVtEynirFjv9heyeO9+wCUnTk1Ykaxx/t
+         EMo/Yp+1bfNDVDTpdjOXRhh5tDn0BQoiR6U/VmTFzYwKUHWRAEZ/ydtKIgUKoU25eNWF
+         F1QWvFtporkaURhF1h+MOK82iPEjQ6E49k4jA8JmWJD5wCJW5zaa77SoqsK9cE2qagqo
+         tXpOl90cbImvjbkO70RWpNqjz6qu+itSYZ5gKdqub+kKOGX4YeDI6b3m5gqMOmN5cqqL
+         qrakXPAsyvl8Amk+YKAH2MU1yRnf4qmkAfcIcPsvZXJfjnDFJ6pXywp3WrX6hR3cyEjY
+         wbBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=p6JsU/P4cdRYOJkWOqli3ugUJwVeiGeet05faNdQiJP9Hh9lCJVwGabKRI9CGrniDG
-         nhOL4L8C7QeY7OrRW84Uj6sDa/rfcGytTMNXqc76XfB4f1BogW9f+HwRwd2RSHEUvBa+
-         +rlWKIF1qm78g9uwWpKPPYjxItZn08j2Cg3WWqmknND/3fbDgBt16cO8uQ2piynNtC3f
-         XfpRbw/SNM0uHVqP+KlsGkQfF0f6EX2AnTdKh+CuzU3ZF1gHfqgAEkZQ9uuCoiQiKvHl
-         CmBlPS5/GP+u10/Es10hUc8xCWR29YmDMlWX1ommyctq4oLrbyAGzA/C9aJxZmL+QE23
-         a1JA==
-X-Gm-Message-State: AOAM533YKR/th5yfcggL6820tNTn/Dra6myBh7hokWvMPHX7ZyMHKIYx
-        gKZVD3wUb6PAN0ia/IDeQCuGVXvavVVzlMh6nBlzdx/ueuE=
-X-Google-Smtp-Source: ABdhPJxzAaV5DauAecsJzqBWmheSvDxk3ghiLfb6YRovClVg4kL4yUlGwYUFAnV+1q8jYrfo3AT6l8iJutzsg/2jTPA=
-X-Received: by 2002:a05:622a:1d4:: with SMTP id t20mr16497208qtw.84.1639654948506;
- Thu, 16 Dec 2021 03:42:28 -0800 (PST)
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=UtoF0r4yG8U/T8UOLxn8dacSd49m7zi2Qvhr7fGOaoo=;
+        b=wlhq27bQxb/ErTv6KNa+/XrWjYuJhN/6nAcEVdFdXlwICgWhcGzvfQa99DLR0C8Iw1
+         WMuTI65CLDrVjN/ThjKSbB5mSuXfYUtEcNPcWZfonXKlqZyiV8swNEeztBx6lS2tSugI
+         UJ6JfKOZ/XVs/kvHgKJOCXcxhU6DWUBcz9jXQjZJNtJba21DLUWcTb9TLRbF/iWi7Xo7
+         hALsV/GvUaGMCgjArVXMTTKSz07wC8ckayEZa1eHdXm5/44cFgKp01hFfI0q1VFLL5Fi
+         ckL9UA6yhJIQ3oMWxXOYAN+LAHVMUcIwb0QLq4WyJOzeHyE74iW3+Zp5daZftmgb8AeA
+         p1jw==
+X-Gm-Message-State: AOAM533muRllxLgq7CLTP4YamAkFG70DGasMnY4Ah9SboU+Y+C/XgUm4
+        HX4DOTowlC0DkxkG3uEwZJU=
+X-Google-Smtp-Source: ABdhPJzNTYC2MEc9Vgv5PjqY4/qVjH44P0K6tufj5zrfbofHRvE8N+Kk4lqQ5Owb5q/e/v6PbsaWJw==
+X-Received: by 2002:a1c:2:: with SMTP id 2mr95796wma.41.1640023427155;
+        Mon, 20 Dec 2021 10:03:47 -0800 (PST)
+Received: from [192.168.9.102] ([129.205.112.56])
+        by smtp.gmail.com with ESMTPSA id o64sm46568wme.28.2021.12.20.10.03.43
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Mon, 20 Dec 2021 10:03:46 -0800 (PST)
+Message-ID: <61c0c582.1c69fb81.1ea54.0554@mx.google.com>
+From:   Margaret Leung KO May-y <kshirsha16@gmail.com>
+X-Google-Original-From: Margaret Leung KO May-y
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:28
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:28 +0000
-Message-ID: <CAONDhKOtxcgjB1YEPd0RXNOVbbQ8k-9k32v_cdFxEKFzk62kJg@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: =?utf-8?q?Gesch=C3=A4ftsvorschlag?=
+To:     Recipients <Margaret@vger.kernel.org>
+Date:   Mon, 20 Dec 2021 19:03:40 +0100
+Reply-To: la67737777@gmail.com
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
--- 
-Urgent
+Bin Frau Margaret Leung Ich habe einen Gesch=E4ftsvorschlag f=FCr Sie, erre=
+ichen Sie mich unter: la67737777@gmail.com
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
-
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
-
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
-
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
-
-Remain blessed.
-Mrs Selvia Santiago.
+Margaret Leung
+Managing Director of Chong Hing Bank
