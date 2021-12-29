@@ -2,110 +2,67 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CAC0C480C23
-	for <lists+linux-nilfs@lfdr.de>; Tue, 28 Dec 2021 18:38:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EFE14810FA
+	for <lists+linux-nilfs@lfdr.de>; Wed, 29 Dec 2021 09:34:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236154AbhL1RiH (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 28 Dec 2021 12:38:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42318 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236127AbhL1RiH (ORCPT
+        id S234530AbhL2IeU (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 29 Dec 2021 03:34:20 -0500
+Received: from ams.source.kernel.org ([145.40.68.75]:47926 "EHLO
+        ams.source.kernel.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233240AbhL2IeU (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 28 Dec 2021 12:38:07 -0500
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8DA7C061574;
-        Tue, 28 Dec 2021 09:38:06 -0800 (PST)
-Received: by mail-lf1-x12c.google.com with SMTP id u13so42712898lff.12;
-        Tue, 28 Dec 2021 09:38:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0iA2h+wer53P6FVdsWUB/3fyhSEZS9hzOIF1Qivilbk=;
-        b=hw9yKAdgPw32JhUrnTtpeh7k8wj0alJVyY9un/DAdKvfPsIIQPUO1M/ZJtTHHKAGTL
-         1udXmC1zDfiep2LU6yggAHy5QxESq3X63XJYIhqTbz8gjwEmJzevAETt42+WDqwG4/nQ
-         qPTFKc/yhFKtd59prJsQZgOUAEAHvUMMTrxeaKQUjZx6Nkzxq7J3UhtiprV/NXTQ6dv7
-         rvpjwDcToOfS29ZWdizzZifFuyiiRspP6TNvyKCDAQm8cofQ5qljoPbXbHbV9Pvogm9u
-         roXY0cE90yagFRy45cKKAYOd72E60U/Xrm40aSJS/FM9NW3ZncVMkoFyHsG/RVyzrYkd
-         Tz2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0iA2h+wer53P6FVdsWUB/3fyhSEZS9hzOIF1Qivilbk=;
-        b=N6bw9Sol4ZlDUO2ZjxhssraLssw073KGqk8WbkFaDG3eVBWPrBjo4pYDM4E8nMSix1
-         yMIxFedO2+owdRz5S89SrcU9NZbAk+ZTfEkWzqegNW7/lRFl9WTPKfdXREz7kukHXbrK
-         WvYfrhNWQGUqouT2Nf1qD2U4sJGTQSe+vuS74yYhjeG93pm3KRxni/8u0VNwV1aggkXZ
-         B9yGv0xaXUlSvfCvWvywyNPBlv2gY0g+b8PPbrVJJDK4VGtGRjtAvDcQaYENEBPLTFK6
-         UQaYiTCyHXlmZN65BNAWFGC55S02nVJnOocami8/R+EggcoM69P7SqpR9neCvZPoMA//
-         lJxg==
-X-Gm-Message-State: AOAM530/BwmJha+2tewrbH0VtBGVeR0bKOQ+7ZAYUPJwJuvRGnx/3u97
-        fNCkwjiM8DnQUcl80TQnNBWfB/6vZ7kq0Xe5mGyW8a9RYAM=
-X-Google-Smtp-Source: ABdhPJy/ZgDqYsWOcF41BMUBLRJVKq/SwcedpIZfOmUChdw9tq1lHDRfkXQSrHJEEBMl02hggQ4s91fJJF+UxH+MRBc=
-X-Received: by 2002:a05:6512:3e28:: with SMTP id i40mr19361746lfv.436.1640713085111;
- Tue, 28 Dec 2021 09:38:05 -0800 (PST)
+        Wed, 29 Dec 2021 03:34:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id C75EBB8118D;
+        Wed, 29 Dec 2021 08:34:18 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E2B7C36AE9;
+        Wed, 29 Dec 2021 08:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1640766857;
+        bh=3YYTIhgtu9x2zEKV9hLL4n5kqGn91yi/zx7hbmucWnY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=b9fhPAsFNDjc2j+nMQEzEvora6eV8/CASo2FFxz4GjgIDiU8aVbdZkjQwqt7N3VHp
+         AJyN/fqklP4LJ6Xb7mZYD01xObrP2lJ6EI5kv3u4371C/ZyP3p2E0iqpshcPxfaP5j
+         s0HRmkB1Ay3I6C5Jpbn2LFLuPUEYBF2wVh4AjA3Q=
+Date:   Wed, 29 Dec 2021 09:34:10 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        linux-nilfs <linux-nilfs@vger.kernel.org>
+Subject: Re: [PATCH] nilfs2: use default_groups in kobj_type
+Message-ID: <YcwdgkuScucp7ELG@kroah.com>
+References: <20211228144252.390554-1-gregkh@linuxfoundation.org>
+ <CAKFNMona12jPJMGveSHgVDks_EYd_ZAJ_gDRLZo=exyFD3Y8+g@mail.gmail.com>
 MIME-Version: 1.0
-References: <1640712476-15136-1-git-send-email-konishi.ryusuke@gmail.com>
-In-Reply-To: <1640712476-15136-1-git-send-email-konishi.ryusuke@gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 29 Dec 2021 02:37:53 +0900
-Message-ID: <CAKFNMo=7eaneb6oeCECZ-p-N=ZuANtpZEsseBtx_pBumo2GW4g@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: remove redundant pointer sbufs
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKFNMona12jPJMGveSHgVDks_EYd_ZAJ_gDRLZo=exyFD3Y8+g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Andrew,
+On Wed, Dec 29, 2021 at 01:52:15AM +0900, Ryusuke Konishi wrote:
+> On Tue, Dec 28, 2021 at 11:42 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> >
+> > There are currently 2 ways to create a set of sysfs files for a
+> > kobj_type, through the default_attrs field, and the default_groups
+> > field.  Move the nilfs2 code to use default_groups field which has been
+> > the preferred way since aa30f47cf666 ("kobject: Add support for default
+> > attribute groups to kobj_type") so that we can soon get rid of the
+> > obsolete default_attrs field.
+> >
+> > Cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+> > Cc: linux-nilfs@vger.kernel.org
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> 
+> Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+> 
+> Looks good to me.
+> Please take it through your tree for your convenience, thanks.
 
-Please queue this for the next merge window.
+Will do, thanks!
 
-Thank you,
-Ryusuke Konishi
-
-On Wed, Dec 29, 2021 at 2:27 AM Ryusuke Konishi
-<konishi.ryusuke@gmail.com> wrote:
->
-> From: Colin Ian King <colin.i.king@gmail.com>
->
-> Pointer sbufs is being assigned a value but it's not being used
-> later on. The pointer is redundant and can be removed. Cleans up
-> scan-build static analysis warning:
->
-> fs/nilfs2/page.c:203:8: warning: Although the value stored to 'sbufs'
-> is used in the enclosing expression, the value is never actually read
-> from 'sbufs' [deadcode.DeadStores]
->         sbh = sbufs = page_buffers(src);
->
-> Link: https://lkml.kernel.org/r/20211211180955.550380-1-colin.i.king@gmail.com
-> Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
-> Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> ---
->  fs/nilfs2/page.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/fs/nilfs2/page.c b/fs/nilfs2/page.c
-> index bc3e2cd4117f..063dd16d75b5 100644
-> --- a/fs/nilfs2/page.c
-> +++ b/fs/nilfs2/page.c
-> @@ -195,12 +195,12 @@ void nilfs_page_bug(struct page *page)
->   */
->  static void nilfs_copy_page(struct page *dst, struct page *src, int copy_dirty)
->  {
-> -       struct buffer_head *dbh, *dbufs, *sbh, *sbufs;
-> +       struct buffer_head *dbh, *dbufs, *sbh;
->         unsigned long mask = NILFS_BUFFER_INHERENT_BITS;
->
->         BUG_ON(PageWriteback(dst));
->
-> -       sbh = sbufs = page_buffers(src);
-> +       sbh = page_buffers(src);
->         if (!page_has_buffers(dst))
->                 create_empty_buffers(dst, sbh->b_size, 0);
->
-> --
-> 1.8.3.1
->
+greg k-h
