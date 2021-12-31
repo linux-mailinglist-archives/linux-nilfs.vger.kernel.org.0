@@ -2,96 +2,81 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1E30481CE9
-	for <lists+linux-nilfs@lfdr.de>; Thu, 30 Dec 2021 15:15:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0FA8C48231C
+	for <lists+linux-nilfs@lfdr.de>; Fri, 31 Dec 2021 10:51:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239898AbhL3OPI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 30 Dec 2021 09:15:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239895AbhL3OPG (ORCPT
+        id S229787AbhLaJvX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 31 Dec 2021 04:51:23 -0500
+Received: from hk1.smtp-gateway.net ([158.255.208.113]:45392 "EHLO
+        hk1.smtp-gateway.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229592AbhLaJvW (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 30 Dec 2021 09:15:06 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8924DC061574;
-        Thu, 30 Dec 2021 06:15:05 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id j11so52971240lfg.3;
-        Thu, 30 Dec 2021 06:15:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AyX/x7WeCJ1rGnhhYHPa05Mi1k4ufPsoH8p2YYLDsHY=;
-        b=J/9CTJGtGVHWZo494R1vS6mUFDwKYW0telpmKTOgr5cD+JlvVj+QhQU4V0uTfIZwYe
-         /aEnGf/ZAUl2gFaFkmgCzdalDa8vhuwsHw89CgcWR7SJDuU/Bcba2XNl1n3Kx8z1ZWl5
-         2ZSh4a3isbzjlEDJN1mrQt+lfiSK9KCmw2hTdTuKQD5tkJkltEHH03QM/RFyxpKwLzNT
-         SzongPQia4d7MDNJpEY95MdpWmfkC+7REAiDXdHDhCEwoFkkXXFo9o0IKOF2Ld7+NX/d
-         Cb/H7cTBFBXlx51eqlJqShndIqO0r1qv3DPM33lOWAl8WeCVoAmc9w8+nGqS+i5XfHWC
-         FF6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AyX/x7WeCJ1rGnhhYHPa05Mi1k4ufPsoH8p2YYLDsHY=;
-        b=46tSESQftkLwGq4c8CQ2Ct42SLiGgNbVNPinhmekpykmWnYAtQgftMFe97slnAcN9w
-         TCq6ti7372c7IDAtI31Gy1nFuMHTNfmRyqg4UmDRUXSLDtacpy1AB4iHJ2H5FCySmP2h
-         +ZnZyEqC85X91v3eqjgb+J6CQG/7bxA00Kc0qqa3OSabsbjioGmubX0YcFFTwCJpBA7G
-         oH0bvCau4AOpEDW/bn+axJFUfD3j642nTn7WPcCJ9zp35I4NdxYGTF10zZTiuOmydEjT
-         f7HZr+gH/2HTF1kHthXvOFlexTg8YMUlM2KwnOJbrKLoUUz9Zu9QS/CwRX8EadW1Rm63
-         GM6Q==
-X-Gm-Message-State: AOAM5318iN1fro6J9FIFCcsSrdB/QsaeMuQoKME6XXs92M6TB6Eou/7w
-        o8DWOhxRhC9c1Mh1qiRhTVRDRLEmudeF0nmGuk+y07SpwCk=
-X-Google-Smtp-Source: ABdhPJzEu1J+3OhZ37dG2jprpEv4TQEXwD/mftpOsBat7vCcvqspy8cwq853xARWjhUM9Y7TIhseAmDt26tG/lBIPhk=
-X-Received: by 2002:ac2:5d64:: with SMTP id h4mr3467669lft.390.1640873703672;
- Thu, 30 Dec 2021 06:15:03 -0800 (PST)
+        Fri, 31 Dec 2021 04:51:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=smtp-gateway.net; s=dkim2k; h=Date:Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Message-ID:From:To:References:Subject:Sender:
+        Reply-To:Cc:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=NZfBPdhn9i80u94sz0Gh7qjgp+uPxKd4IcmGVnPPy7I=; b=AMYqrpPU7gvAvWd8dPvoUOpIX6
+        PNZqROTVyOUXurDk2ABDnaSp23zGmoo/kNhA/0e6Jb157TXJmgSFImbTVhzViAsxSkzlWlB/Ld8XA
+        cXRvBHVPUKyzJn77aBYnl05+S1ebTEI5GUIdKNGTM5L3mPwlX9TWd7GYbid9I5grjImYJp0CVe+R8
+        +Icu9QdbMzmG/tq7B9K0s0+4GTzJK0WWazG34h5AEhEtXhUVrV4DaGGzbKYgq6BJfsRQrqCMt3sCf
+        OD8+Ih2uAOlJCrRBoFUc7vE8Z+jsIx0sbC2xp/UOMtnsxyaFgRXxcVycmFS96lIWGfh0FZKcs/O6Z
+        xPDg9xVQ==;
+Subject: Re: couldn't mount because of unsupported optional features
+ (477e7ad1e859f753)
+References: <39575f5e-b47a-d971-6c15-35985a35c9d5@levsen.org>
+ <25037.40801.808565.662504@cyme.ty.sabi.co.uk>
+To:     linux-nilfs@vger.kernel.org
+From:   Hendrik Levsen <hendrik@levsen.org>
+Message-ID: <37be5d12-adea-6399-65c3-6d50008c18ff@levsen.org>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.14.0
 MIME-Version: 1.0
-References: <CAKXUXMxh=QK4C5OfLL1wSvoGFJZ8U+EhSr5dy9ddExtVhAdU-Q@mail.gmail.com>
-In-Reply-To: <CAKXUXMxh=QK4C5OfLL1wSvoGFJZ8U+EhSr5dy9ddExtVhAdU-Q@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Thu, 30 Dec 2021 23:14:51 +0900
-Message-ID: <CAKFNMom0tzQy7ygcburkhOHSoVCO+d1_VPG24ofn=Y+KAO-4Jw@mail.gmail.com>
-Subject: Re: References to non-existing configs in the NILFS2 FILESYSTEM
-To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <25037.40801.808565.662504@cyme.ty.sabi.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+Date:   Fri, 31 Dec 2021 09:51:23 +0000
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+On 30/12/21 11:00 pm, Peter Grandi wrote:
+>> Trying to mount a NILFS partition
+> To be pedantic, but it matters, it is "block device" in UNIX-like
+> systems, and more "NILFS2 instance", as here could be multiple
+> NILFS2 instances even in a single block device (but that is a
+> very rare setup usually requiring 'losetup' mounts).
 
-On Thu, Dec 30, 2021 at 9:59 PM Lukas Bulwahn <lukas.bulwahn@gmail.com> wrote:
->
-> Dear Ryusuke Konishi-san,
->
->
-> The script ./scripts/checkkconfigsymbols.py identifies references to
-> non-existing configs in the NILFS2 FILESYSTEM:
->
-> NILFS_POSIX_ACL
-> Referencing files: fs/nilfs2/nilfs.h
->
-> NILFS_XATTR
-> Referencing files: fs/nilfs2/nilfs.h, fs/nilfs2/super.c
->
-> I assume this filesystem support is simply not yet developed to
-> support those two configs fully, and these code blocks are just some
-> first steps in that direction, but are currently just intended to be
-> dead code in the repository. If you do not see this support to be
-> added in the future, you could also just delete these ifdef blocks and
-> these references to non-existing configs.
->
-> This is just to share this information with you; there is no need for
-> further action.
->
->
-> Best regards,
->
-> Lukas
+Correct, being sloppy here in my terminology, it's a block device which
+is a RAID-1 (+ dmcrypt/luks) which gives me confidence that the
+underlying hardware is ok.
 
-Thank you for the feedback on the check script warnings.
-I will put the decision on hold, however, I recognized it.
+>> fails with "couldn't mount because of unsupported optional
+>> features (477e7ad1e859f753)". [...]
+> That does not look a lucky situation. You can use 'lscp
+> /dev/...'  to list the checkpoints and try to mount an older
+> checkpoint with 'mount -t nilfs2 -o cp=... /dev/... ...' to
+> mount it and resume work from that. In theory older checkpoints
+> will be fully consistent even if the latest one is corrupted.
 
-Thanks,
-Ryusuke Konishi
+Thanks Peter, it seems both lscp and mount -o cp need a functioning
+super block though.
+
+> Unless that  message means that the NILFS2 instance is corrupted
+> because of "issues" (usually hardware, most common with block
+> devices on USB storage devices).
+
+I might dig into this a little deeper, the data isn't that important but
+gaining a correct understanding of NILFS working principles is. My
+understanding so far was that it's quite hard for data to become
+entirely inaccessible.
+
+This looks like a good idea, linear scan for segment nodes:
+https://www.spinics.net/lists/linux-nilfs/msg02198.html Could be the
+start of the fsck that never happened.
+
+-- h.
+
