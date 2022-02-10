@@ -2,54 +2,55 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AB2524B0536
-	for <lists+linux-nilfs@lfdr.de>; Thu, 10 Feb 2022 06:38:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5668E4B0546
+	for <lists+linux-nilfs@lfdr.de>; Thu, 10 Feb 2022 06:39:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233993AbiBJFig (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 10 Feb 2022 00:38:36 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35132 "EHLO
+        id S232082AbiBJFjR (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 10 Feb 2022 00:39:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:35508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233968AbiBJFie (ORCPT
+        with ESMTP id S234243AbiBJFiw (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 10 Feb 2022 00:38:34 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31FA410D6;
-        Wed,  9 Feb 2022 21:38:30 -0800 (PST)
+        Thu, 10 Feb 2022 00:38:52 -0500
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5061D10CC;
+        Wed,  9 Feb 2022 21:38:54 -0800 (PST)
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 807BD212BF;
-        Thu, 10 Feb 2022 05:38:29 +0000 (UTC)
+        by smtp-out2.suse.de (Postfix) with ESMTPS id D576F1F43F;
+        Thu, 10 Feb 2022 05:38:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1644471509; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+        t=1644471532; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-        b=auHoL5UkDA+g+STXd2fTFeL3cTfMH9KQgn4il9BORLboaA+LBd59sP0b5doGLioeVsK7jS
-        NShc0YB+A9Hl8fbDJUMCdNeyKFFuCjUVWYjrf+jYzzgjFshprl/gW+8UNyMq+HxYzzky2n
-        Df0gmTbPZ1tSdb71oNen1V3bKLmTvAs=
+        bh=Tft3SoinWu7UxepEf8WEuD+UlaGfn26eHEwniJocVAs=;
+        b=AZtdCcwJujZVCHcdXkKOM6szi0SH98wyFfZVUIfLZbgfuKnWcUV9h+nOyBGfZYHb4fgg9q
+        0bzK8zlrysy2kvIK7aPM5QM5vklJlDnFMRJyEFrhh2ywPGPQAZRjcJ0eaWwg/TWCT1jT1c
+        Y7P/mxpVQ0jyTZnT5empOfYlfVQmIKo=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1644471509;
+        s=susede2_ed25519; t=1644471532;
         h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
          mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-        b=Kanl6OTnMHXJGXAfirc08l5F/NB5YY6FVkspt6BY1Mm/9aCVURAybuHge0yPu9tXIJs/5P
-        A9fVQ05kFoLISgCQ==
+        bh=Tft3SoinWu7UxepEf8WEuD+UlaGfn26eHEwniJocVAs=;
+        b=yNiRicVz0d7OW6BOtosPuVbsxI1wCRGRy4fi5NKnYLY2dFaJO1i8uBQffBceecqdSDIthz
+        JkyQL6tOSv8newBg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C124B13519;
-        Thu, 10 Feb 2022 05:38:21 +0000 (UTC)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 4058513519;
+        Thu, 10 Feb 2022 05:38:44 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
         by imap2.suse-dmz.suse.de with ESMTPSA
-        id i2fSHs2kBGKsOAAAMHmgww
-        (envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 05:38:21 +0000
-Subject: [PATCH 01/11] DOC: convert 'subsection' to 'section' in gfp.h
+        id AC9zO+SkBGLMOAAAMHmgww
+        (envelope-from <neilb@suse.de>); Thu, 10 Feb 2022 05:38:44 +0000
+Subject: [PATCH 03/11] MM: improve cleanup when ->readpages doesn't process
+ all pages.
 From:   NeilBrown <neilb@suse.de>
 To:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
         Wu Fengguang <fengguang.wu@intel.com>,
@@ -72,7 +73,7 @@ Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
         ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
         linux-kernel@vger.kernel.org, linux-block@vger.kernel.org
 Date:   Thu, 10 Feb 2022 16:37:52 +1100
-Message-ID: <164447147255.23354.3738954641174277133.stgit@noble.brown>
+Message-ID: <164447147258.23354.15753542879688740872.stgit@noble.brown>
 In-Reply-To: <164447124918.23354.17858831070003318849.stgit@noble.brown>
 References: <164447124918.23354.17858831070003318849.stgit@noble.brown>
 User-Agent: StGit/0.23
@@ -89,65 +90,61 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Various DOC: sections in gfp.h have subsection headers (~~~) but the
-place where they are included in mm-api.rst does not have section, only
-chapters.
-So convert to section headers (---) to avoid confusion.  Specifically if
-section are added later in mm-api.rst, an error results.
+If ->readpages doesn't process all the pages, then it is best to act as
+though they weren't requested so that a subsequent readahead can try
+again.
+So:
+  - remove any 'ahead' pages from the page cache so they can be loaded
+    with ->readahead() rather then multiple ->read()s
+  - update the file_ra_state to reflect the reads that were actually
+    submitted.
+
+This allows ->readpages() to abort early due e.g.  to congestion, which
+will then allow us to remove the inode_read_congested() test from
+page_Cache_async_ra().
 
 Signed-off-by: NeilBrown <neilb@suse.de>
 ---
- include/linux/gfp.h |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ mm/readahead.c |   19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 80f63c862be5..20f6fbe12993 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -79,7 +79,7 @@ struct vm_area_struct;
-  * DOC: Page mobility and placement hints
-  *
-  * Page mobility and placement hints
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ---------------------------------
-  *
-  * These flags provide hints about how mobile the page is. Pages with similar
-  * mobility are placed within the same pageblocks to minimise problems due
-@@ -112,7 +112,7 @@ struct vm_area_struct;
-  * DOC: Watermark modifiers
-  *
-  * Watermark modifiers -- controls access to emergency reserves
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ------------------------------------------------------------
-  *
-  * %__GFP_HIGH indicates that the caller is high-priority and that granting
-  * the request is necessary before the system can make forward progress.
-@@ -144,7 +144,7 @@ struct vm_area_struct;
-  * DOC: Reclaim modifiers
-  *
-  * Reclaim modifiers
-- * ~~~~~~~~~~~~~~~~~
-+ * -----------------
-  * Please note that all the following flags are only applicable to sleepable
-  * allocations (e.g. %GFP_NOWAIT and %GFP_ATOMIC will ignore them).
-  *
-@@ -224,7 +224,7 @@ struct vm_area_struct;
-  * DOC: Action modifiers
-  *
-  * Action modifiers
-- * ~~~~~~~~~~~~~~~~
-+ * ----------------
-  *
-  * %__GFP_NOWARN suppresses allocation failure reports.
-  *
-@@ -256,7 +256,7 @@ struct vm_area_struct;
-  * DOC: Useful GFP flag combinations
-  *
-  * Useful GFP flag combinations
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ----------------------------
-  *
-  * Useful GFP flag combinations that are commonly used. It is recommended
-  * that subsystems start with one of these combinations and then set/clear
+diff --git a/mm/readahead.c b/mm/readahead.c
+index c44b2957f59f..35a7ebfcb504 100644
+--- a/mm/readahead.c
++++ b/mm/readahead.c
+@@ -104,7 +104,13 @@
+  * for necessary resources (e.g.  memory or indexing information) to
+  * become available.  Pages in the final ``async_size`` may be
+  * considered less urgent and failure to read them is more acceptable.
+- * They will eventually be read individually using ->readpage().
++ * In this case it is best to use delete_from_page_cache() to remove the
++ * pages from the page cache as is automatically done for pages that
++ * were not fetched with readahead_page().  This will allow a
++ * subsequent synchronous read ahead request to try them again.  If they
++ * are left in the page cache, then they will be read individually using
++ * ->readpage().
++ *
+  */
+ 
+ #include <linux/kernel.h>
+@@ -226,8 +232,17 @@ static void read_pages(struct readahead_control *rac, struct list_head *pages,
+ 
+ 	if (aops->readahead) {
+ 		aops->readahead(rac);
+-		/* Clean up the remaining pages */
++		/*
++		 * Clean up the remaining pages.  The sizes in ->ra
++		 * maybe be used to size next read-ahead, so make sure
++		 * they accurately reflect what happened.
++		 */
+ 		while ((page = readahead_page(rac))) {
++			rac->ra->size -= 1;
++			if (rac->ra->async_size > 0) {
++				rac->ra->async_size -= 1;
++				delete_from_page_cache(page);
++			}
+ 			unlock_page(page);
+ 			put_page(page);
+ 		}
 
 
