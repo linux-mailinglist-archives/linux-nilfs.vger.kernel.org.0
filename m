@@ -2,74 +2,151 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F04DA4BB3D5
-	for <lists+linux-nilfs@lfdr.de>; Fri, 18 Feb 2022 09:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 774074BF0A0
+	for <lists+linux-nilfs@lfdr.de>; Tue, 22 Feb 2022 05:10:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232332AbiBRID2 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Fri, 18 Feb 2022 03:03:28 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41314 "EHLO
+        id S239852AbiBVDSR (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 21 Feb 2022 22:18:17 -0500
+Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:40288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231416AbiBRID1 (ORCPT
+        with ESMTP id S233775AbiBVDSQ (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 18 Feb 2022 03:03:27 -0500
-Received: from fjxxll.cn (unknown [IPv6:240e:37a:2bb:f700:211:32ff:fe2c:a785])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D37E29B9E9;
-        Fri, 18 Feb 2022 00:03:11 -0800 (PST)
-Received: from Unknown (unknown [103.210.28.54])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        Mon, 21 Feb 2022 22:18:16 -0500
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2908F73;
+        Mon, 21 Feb 2022 19:17:51 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
         (No client certificate requested)
-        by fjxxll.cn (Postfix) with ESMTPSA id C4D7D7663A6F;
-        Thu, 17 Feb 2022 21:16:23 +0800 (CST)
-Message-ID: <4540F6A5AE7A54E73B3E77CA2E8ADF91@orrqr>
-Reply-To: "Fredrik Elvebakk" <fcresswell9@gmail.com>
-From:   "Fredrik Elvebakk" <investment@dnb.no>
-Subject: Re:
-Date:   Thu, 17 Feb 2022 05:16:20 -0800
+        by smtp-out1.suse.de (Postfix) with ESMTPS id 0FB2C210FF;
+        Tue, 22 Feb 2022 03:17:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+        t=1645499870; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=GhZHme0nl7A4JBQ0S74qk0HiW5RevCCShdffmTtXtEE=;
+        b=ljl5hpqnn8XItaz2pgS0/dFbp8Or7nFEcXyK3PPQX3y1pOij2ACiitVFo1ZW1KHULTSA32
+        YPbDwlZKpapBzbobU/O0VXr6WOOcd4WDNGQESKT4qQihx0Fj189ZP5Cn2KjOfrjZWle1nr
+        sSBZtznZf5z+aAaHk0OnFJ6IwVJ/iwo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+        s=susede2_ed25519; t=1645499870;
+        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=GhZHme0nl7A4JBQ0S74qk0HiW5RevCCShdffmTtXtEE=;
+        b=ZXJr3TPlVf5poY4reMjaSwIa54LBqaPVcDT+//ErMovmrjU1PnyR6RQJgfl+heyxghO0fc
+        BsR4trFirlMhFPDw==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+        (No client certificate requested)
+        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 323C613BA7;
+        Tue, 22 Feb 2022 03:17:41 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+        by imap2.suse-dmz.suse.de with ESMTPSA
+        id 6vPPN9VVFGJPWgAAMHmgww
+        (envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:17:41 +0000
+Subject: [PATCH 00/11]  Remove remaining parts of congestion tracking code.
+From:   NeilBrown <neilb@suse.de>
+To:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
+        Wu Fengguang <fengguang.wu@intel.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Jeff Layton <jlayton@kernel.org>,
+        Ilya Dryomov <idryomov@gmail.com>,
+        Miklos Szeredi <miklos@szeredi.hu>,
+        Trond Myklebust <trond.myklebust@hammerspace.com>,
+        Anna Schumaker <anna.schumaker@netapp.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        "Darrick J. Wong" <djwong@kernel.org>,
+        Philipp Reisner <philipp.reisner@linbit.com>,
+        Lars Ellenberg <lars.ellenberg@linbit.com>,
+        Paolo Valente <paolo.valente@linaro.org>,
+        Jens Axboe <axboe@kernel.dk>
+Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
+        linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        linux-kernel@vger.kernel.org
+Date:   Tue, 22 Feb 2022 14:17:17 +1100
+Message-ID: <164549971112.9187.16871723439770288255.stgit@noble.brown>
+User-Agent: StGit/0.23
 MIME-Version: 1.0
-Content-Type: text/plain;
-        format=flowed;
-        charset="windows-1251";
-        reply-type=original
-Content-Transfer-Encoding: 8BIT
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Windows Live Mail 16.4.3528.331
-X-MimeOLE: Produced By Microsoft MimeOLE V16.4.3528.331
-X-Spam-Status: Yes, score=7.6 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,MISSING_HEADERS,
-        RDNS_NONE,REPLYTO_WITHOUT_TO_CC,SPF_HELO_NONE,SPF_SOFTFAIL,
-        STOX_REPLY_TYPE,T_SCC_BODY_TEXT_LINE,XPRIO autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.4 STOX_REPLY_TYPE No description available.
-        *  1.0 MISSING_HEADERS Missing To: header
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [fcresswell9[at]gmail.com]
-        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  1.6 REPLYTO_WITHOUT_TO_CC No description available.
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-        *  0.0 XPRIO Has X-Priority header
-X-Spam-Level: *******
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Here is another refresh of my "remove congestion tracking" series.
 
-Am Fredrik Elvebakk an Investment Manager from Norway. I wish to solicit 
-your interest in an investment project that is currently ongoing in my 
-company (DNB); It is a short term investment with good returns. Simply 
-reply for me to confirm the validity of your email so i shall give you 
-comprehensive details about the project.
+I removed the small tweaks to read-ahead code because they raised
+questions and are actually required for this series.
 
-Best Regards,
-Fredrik Elvebakk
-Business Consultant
+Everything else is the same.
+
+Andrew: please drop the version of this that is currently in your tree
+even if you don't take this.  The changes to fuse/nfs/ceph are not
+appropriate and I wouldn't want them to land by mistake.
+
+Thanks,
+NeilBrown
+
+---
+
+NeilBrown (11):
+      DOC: convert 'subsection' to 'section' in gfp.h
+      MM: document and polish read-ahead code.
+      MM: improve cleanup when ->readpages doesn't process all pages.
+      fuse: remove reliance on bdi congestion
+      nfs: remove reliance on bdi congestion
+      ceph: remove reliance on bdi congestion
+      Remove inode_congested()
+      Remove bdi_congested() and wb_congested() and related functions
+      f2fs: replace congestion_wait() calls with io_schedule_timeout()
+      block/bfq-iosched.c: use "false" rather than "BLK_RW_ASYNC"
+      Remove congestion tracking framework.
+
+
+ Documentation/core-api/mm-api.rst |  19 ++++-
+ Documentation/filesystems/vfs.rst |  16 ++--
+ block/bfq-iosched.c               |   2 +-
+ drivers/block/drbd/drbd_int.h     |   3 -
+ drivers/block/drbd/drbd_req.c     |   3 +-
+ fs/ceph/addr.c                    |  22 +++---
+ fs/ceph/super.c                   |   1 +
+ fs/ceph/super.h                   |   1 +
+ fs/ext2/ialloc.c                  |   5 --
+ fs/f2fs/compress.c                |   4 +-
+ fs/f2fs/data.c                    |   3 +-
+ fs/f2fs/f2fs.h                    |   6 ++
+ fs/f2fs/segment.c                 |   8 +-
+ fs/f2fs/super.c                   |   6 +-
+ fs/fs-writeback.c                 |  37 ---------
+ fs/fuse/control.c                 |  17 -----
+ fs/fuse/dev.c                     |   8 --
+ fs/fuse/file.c                    |  17 +++++
+ fs/nfs/write.c                    |  14 +++-
+ fs/nilfs2/segbuf.c                |  15 ----
+ fs/xfs/xfs_buf.c                  |   3 -
+ include/linux/backing-dev-defs.h  |   8 --
+ include/linux/backing-dev.h       |  50 ------------
+ include/linux/fs.h                |   9 ++-
+ include/linux/nfs_fs_sb.h         |   1 +
+ include/trace/events/writeback.h  |  28 -------
+ mm/backing-dev.c                  |  57 --------------
+ mm/fadvise.c                      |   5 +-
+ mm/readahead.c                    | 122 ++++++++++++++++++++++++++++--
+ mm/vmscan.c                       |  21 +----
+ 30 files changed, 212 insertions(+), 299 deletions(-)
+
+--
+Signature
+
