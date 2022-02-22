@@ -2,152 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 21E0B4BF0BF
-	for <lists+linux-nilfs@lfdr.de>; Tue, 22 Feb 2022 05:10:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EBD104BFD52
+	for <lists+linux-nilfs@lfdr.de>; Tue, 22 Feb 2022 16:46:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239897AbiBVDSa (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 21 Feb 2022 22:18:30 -0500
-Received: from mxb-00190b01.gslb.pphosted.com ([23.128.96.19]:41000 "EHLO
+        id S233376AbiBVPrJ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 22 Feb 2022 10:47:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52428 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233775AbiBVDS3 (ORCPT
+        with ESMTP id S231300AbiBVPrH (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 21 Feb 2022 22:18:29 -0500
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E0A1019;
-        Mon, 21 Feb 2022 19:18:04 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by smtp-out1.suse.de (Postfix) with ESMTPS id 7DAB821100;
-        Tue, 22 Feb 2022 03:18:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-        t=1645499883; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-        b=kR91uGJ/RTS+8au54fMBC4GFPKvaC1Yv8WHhfvVKpqmM16g4nNPlQcAHLBtdr5ZLLG+RJF
-        0AU++6qtEyJii20SGyIpbVs10MuwPMU/4wT7WXwMaLbceGreQ8aBE66tHihRjhfbzWVvpS
-        hiYuCHmmNxooYdfWYOf9cBPIOhc4FRg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-        s=susede2_ed25519; t=1645499883;
-        h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=TNOQTzqXc1dwn0sxVclyo5qS7TsZyCY45jkw8WmjP7o=;
-        b=8txKd6I/x+pP445IuPzI3CE1ZWl4VGR/oru7gKU7G5Ico3dFFmNbzJjmpXh2/2uBC9kTFG
-        dbGnv5+lrLnOa2CQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-        (No client certificate requested)
-        by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id C05A113BA7;
-        Tue, 22 Feb 2022 03:17:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-        by imap2.suse-dmz.suse.de with ESMTPSA
-        id 7k2IH+JVFGJZWgAAMHmgww
-        (envelope-from <neilb@suse.de>); Tue, 22 Feb 2022 03:17:54 +0000
-Subject: [PATCH 01/11] DOC: convert 'subsection' to 'section' in gfp.h
-From:   NeilBrown <neilb@suse.de>
-To:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
-        Wu Fengguang <fengguang.wu@intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Jeff Layton <jlayton@kernel.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>
-Cc:     linux-doc@vger.kernel.org, linux-mm@kvack.org,
-        linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 22 Feb 2022 14:17:17 +1100
-Message-ID: <164549983733.9187.17894407453436115822.stgit@noble.brown>
-In-Reply-To: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-User-Agent: StGit/0.23
+        Tue, 22 Feb 2022 10:47:07 -0500
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A76E1A804;
+        Tue, 22 Feb 2022 07:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=Huls1rFGB2qZ4Fp0OAzd0z5j8dCiIe4CcnDjsirdHE0=; b=NY5NPM4j7DAPbkK2cuMwVlfa9+
+        pLtx2zKV51IUpxN7o0axOaaHbuz+beKtzWxc4XEL07ug7leB4Yspk738ozlaaKjWJovbBXQBqXNyf
+        om34hTqCcGkdiUHf+j/bfamzv5QoP6KfFuYt2iBA9s5Y4ATbsQwK9gN/MJN48svGIBCqS9zotUV+L
+        CTqIQMCatfRCPBM05BCxZnW65Ugl3HjvA8UkzHDlR4rS9aSSxve7S5y2Tl0bO4fthkP8GFtlc0YjN
+        xl33J386SdqkhSC5ccdG2hBr/4vQv6x6zo+nDpY9jP1EcQLa4ccie6/aCoShiKC0TTSycbGcHjdEa
+        XD5+2vxA==;
+Received: from [2001:4bb8:198:f8fc:c22a:ebfc:be8d:63c2] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1nMXN6-00ANW4-Kb; Tue, 22 Feb 2022 15:46:37 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Jens Axboe <axboe@kernel.dk>, "Theodore Ts'o" <tytso@mit.edu>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-nilfs@vger.kernel.org
+Subject: simple file system cleanups for the new bio_alloc calling conventions
+Date:   Tue, 22 Feb 2022 16:46:31 +0100
+Message-Id: <20220222154634.597067-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Various DOC: sections in gfp.h have subsection headers (~~~) but the
-place where they are included in mm-api.rst does not have section, only
-chapters.
-So convert to section headers (---) to avoid confusion.  Specifically if
-section are added later in mm-api.rst, an error results.
+Hi all,
 
-Signed-off-by: NeilBrown <neilb@suse.de>
----
- include/linux/gfp.h |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+this fixes up the remaining fairly trivial file system bio alloctions to
+directly pass the bdev to bio_alloc.  f2fs and btrfs will need more work and
+will be handled separately.
 
-diff --git a/include/linux/gfp.h b/include/linux/gfp.h
-index 80f63c862be5..20f6fbe12993 100644
---- a/include/linux/gfp.h
-+++ b/include/linux/gfp.h
-@@ -79,7 +79,7 @@ struct vm_area_struct;
-  * DOC: Page mobility and placement hints
-  *
-  * Page mobility and placement hints
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ---------------------------------
-  *
-  * These flags provide hints about how mobile the page is. Pages with similar
-  * mobility are placed within the same pageblocks to minimise problems due
-@@ -112,7 +112,7 @@ struct vm_area_struct;
-  * DOC: Watermark modifiers
-  *
-  * Watermark modifiers -- controls access to emergency reserves
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ------------------------------------------------------------
-  *
-  * %__GFP_HIGH indicates that the caller is high-priority and that granting
-  * the request is necessary before the system can make forward progress.
-@@ -144,7 +144,7 @@ struct vm_area_struct;
-  * DOC: Reclaim modifiers
-  *
-  * Reclaim modifiers
-- * ~~~~~~~~~~~~~~~~~
-+ * -----------------
-  * Please note that all the following flags are only applicable to sleepable
-  * allocations (e.g. %GFP_NOWAIT and %GFP_ATOMIC will ignore them).
-  *
-@@ -224,7 +224,7 @@ struct vm_area_struct;
-  * DOC: Action modifiers
-  *
-  * Action modifiers
-- * ~~~~~~~~~~~~~~~~
-+ * ----------------
-  *
-  * %__GFP_NOWARN suppresses allocation failure reports.
-  *
-@@ -256,7 +256,7 @@ struct vm_area_struct;
-  * DOC: Useful GFP flag combinations
-  *
-  * Useful GFP flag combinations
-- * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+ * ----------------------------
-  *
-  * Useful GFP flag combinations that are commonly used. It is recommended
-  * that subsystems start with one of these combinations and then set/clear
+This is against Jens' for-5.18/block branch.  It would probably make sense to
+also merge it through that.
 
-
+Diffstat:
+ ext4/page-io.c  |    7 +++----
+ mpage.c         |   50 +++++++++++++++++++++-----------------------------
+ nilfs2/segbuf.c |   20 +++++++++-----------
+ 3 files changed, 33 insertions(+), 44 deletions(-)
