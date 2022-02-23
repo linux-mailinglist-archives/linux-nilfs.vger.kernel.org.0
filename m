@@ -2,50 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46B174BFD5F
-	for <lists+linux-nilfs@lfdr.de>; Tue, 22 Feb 2022 16:46:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 780AA4C16AE
+	for <lists+linux-nilfs@lfdr.de>; Wed, 23 Feb 2022 16:25:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233520AbiBVPrQ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 22 Feb 2022 10:47:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
+        id S235824AbiBWP0F (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 23 Feb 2022 10:26:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233416AbiBVPrO (ORCPT
+        with ESMTP id S232823AbiBWP0B (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 22 Feb 2022 10:47:14 -0500
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BADAF2A711;
-        Tue, 22 Feb 2022 07:46:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender
-        :Reply-To:Content-Type:Content-ID:Content-Description;
-        bh=+U8cxPvWKrvxpKekOCC5dqw8suy2lTzpNt0Z4iXLejo=; b=mQLRZJy2Jqv/KuVeCdT4HHJA2U
-        LzZMFpfze3cdBygMl4Y+GIuFDPE9conHrq+1Z67JdBTeJj7tbFMFHwQBw02hHjZNk2R2w+IBOjxLV
-        mDcJGmbFGfRqceK5/HLSqQEhbj07Vd3QDvMYzJcI/7hJaC6ftH6nJOQlsViYOp9x/4YdDgWEliOpw
-        z2mY5ccVq7YrV1/UHe+ZHKWRYa92h5bPSz65+tl2q49fTAEsM+VebGcYK+oP6oi9fCFvjUOKFmSuL
-        0bn4Ine/T86sqivRxd7n6ifRuO0eeMbVVn2BsO53n2b/01OqxIpBN50r5w9eOTHvyf1KA6kBYYEP0
-        mVB0lqOQ==;
-Received: from [2001:4bb8:198:f8fc:c22a:ebfc:be8d:63c2] (helo=localhost)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nMXNE-00ANbH-Lr; Tue, 22 Feb 2022 15:46:45 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     Jens Axboe <axboe@kernel.dk>, "Theodore Ts'o" <tytso@mit.edu>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-nilfs@vger.kernel.org
-Subject: [PATCH 3/3] nilfs2: pass the operation to bio_alloc
-Date:   Tue, 22 Feb 2022 16:46:34 +0100
-Message-Id: <20220222154634.597067-4-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20220222154634.597067-1-hch@lst.de>
-References: <20220222154634.597067-1-hch@lst.de>
+        Wed, 23 Feb 2022 10:26:01 -0500
+Received: from mail-yw1-x1132.google.com (mail-yw1-x1132.google.com [IPv6:2607:f8b0:4864:20::1132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD56473B5;
+        Wed, 23 Feb 2022 07:25:33 -0800 (PST)
+Received: by mail-yw1-x1132.google.com with SMTP id 00721157ae682-2d07ae0b1c4so214821327b3.11;
+        Wed, 23 Feb 2022 07:25:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1BZ0n/VXuB4e+b9N79/HKBcV1lFL5+uSe4QaX/5c2kY=;
+        b=V2NZd/1W3V3wsR/bZWYyX1ajF8T1xlMT/2MYjmionIym5JJTz6F7twH//YkxTeQXF0
+         Kl20Sy5kTW/v6HoyzBLeCETx+N4AdOINs6qDKzRuG3W2fy+aXUDyv/m0zaPGncxe4I1u
+         U3bUQiCGDQpT7A01SNUUM6g6qEuhVWOb/IRTr1AI0+1n8G8QcByT00Xo3SRhCOth+fsj
+         y4xWLsZaDWB88jTXzBz44uVgddZfj/PLsM6onazKGdpTpjZPWMnoX9w615Dmc0u99a7t
+         s0YnWE+yLWNVg3lL3Wg9hc5WjZwM0qWAWiMX9IUwTjThS7HKVT6Rog9SkZEqohzBzPNd
+         5YYQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1BZ0n/VXuB4e+b9N79/HKBcV1lFL5+uSe4QaX/5c2kY=;
+        b=bGuJSTPBBfWFv5yy3GtmyPAo6JIOVnsOewYZLDHcedHRl3P/Z9MIwGsCXSTAHR34ob
+         f27J0jC403vzqMKgzs64QNuNnsFFBWWqxgJFLvmB/KkByWTtWUTFbHkyG6Ixc3In2Jch
+         oSVCsDxx9fwHy40xDH0aqiVv4zj4s16sEAuqCghxyJ5ZwAm+vPCCZC0Ke0SNkijXQwD2
+         1jzIdMt9S3+bil8yBHVNFB82ifWt/v7BoumDPmrhSTwMVT/oaQQkY/GfzT9dA3JbYtDd
+         PGVaI6Kdqk/XwHsKmSJranlqfENspV8vJuwbqDvGhJKYrc01/lTwayQ8YT9AnzhxZNTy
+         jUtA==
+X-Gm-Message-State: AOAM532/Z8Z7deW8pSiwfslbKoe8J/ew11U8onXb8He3EhbTrRMjeOqA
+        1cY8vKczfeA68qcwVIZBn32MHdTskoJ1XOYSqIIGpGGc
+X-Google-Smtp-Source: ABdhPJyeqHjhcCImk4QzATMuArw+7dpHnaPy8utN0ldunJqR5gL8RUjRcWxhwdTz3ztUkb43QesA9QxZjD6AkrjNkd8=
+X-Received: by 2002:a0d:df81:0:b0:2d0:8db5:1a7e with SMTP id
+ i123-20020a0ddf81000000b002d08db51a7emr133238ywe.359.1645629932664; Wed, 23
+ Feb 2022 07:25:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
-X-Spam-Status: No, score=-4.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+References: <20220222154634.597067-1-hch@lst.de> <20220222154634.597067-4-hch@lst.de>
+In-Reply-To: <20220222154634.597067-4-hch@lst.de>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Thu, 24 Feb 2022 00:25:20 +0900
+Message-ID: <CAKFNMomTz6cpQNv1ABT6UaT8z=Ou98E9juoZupc71FUxN46_qg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] nilfs2: pass the operation to bio_alloc
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, "Theodore Ts'o" <tytso@mit.edu>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-block@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org,
+        linux-nilfs <linux-nilfs@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,91 +69,19 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Refactor the segbuf write code to pass the op to bio_alloc instead of
-setting it just before the submission.
+On Wed, Feb 23, 2022 at 12:46 AM Christoph Hellwig <hch@lst.de> wrote:
+>
+> Refactor the segbuf write code to pass the op to bio_alloc instead of
+> setting it just before the submission.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  fs/nilfs2/segbuf.c | 20 +++++++++-----------
+>  1 file changed, 9 insertions(+), 11 deletions(-)
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- fs/nilfs2/segbuf.c | 20 +++++++++-----------
- 1 file changed, 9 insertions(+), 11 deletions(-)
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
-index 4f71faacd8253..a3bb0c856ec80 100644
---- a/fs/nilfs2/segbuf.c
-+++ b/fs/nilfs2/segbuf.c
-@@ -337,8 +337,7 @@ static void nilfs_end_bio_write(struct bio *bio)
- }
- 
- static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
--				   struct nilfs_write_info *wi, int mode,
--				   int mode_flags)
-+				   struct nilfs_write_info *wi)
- {
- 	struct bio *bio = wi->bio;
- 	int err;
-@@ -356,7 +355,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
- 
- 	bio->bi_end_io = nilfs_end_bio_write;
- 	bio->bi_private = segbuf;
--	bio_set_op_attrs(bio, mode, mode_flags);
- 	submit_bio(bio);
- 	segbuf->sb_nbio++;
- 
-@@ -384,15 +382,15 @@ static void nilfs_segbuf_prepare_write(struct nilfs_segment_buffer *segbuf,
- 
- static int nilfs_segbuf_submit_bh(struct nilfs_segment_buffer *segbuf,
- 				  struct nilfs_write_info *wi,
--				  struct buffer_head *bh, int mode)
-+				  struct buffer_head *bh)
- {
- 	int len, err;
- 
- 	BUG_ON(wi->nr_vecs <= 0);
-  repeat:
- 	if (!wi->bio) {
--		wi->bio = bio_alloc(wi->nilfs->ns_bdev, wi->nr_vecs, 0,
--				    GFP_NOIO);
-+		wi->bio = bio_alloc(wi->nilfs->ns_bdev, wi->nr_vecs,
-+				    REQ_OP_WRITE, GFP_NOIO);
- 		wi->bio->bi_iter.bi_sector = (wi->blocknr + wi->end) <<
- 			(wi->nilfs->ns_blocksize_bits - 9);
- 	}
-@@ -403,7 +401,7 @@ static int nilfs_segbuf_submit_bh(struct nilfs_segment_buffer *segbuf,
- 		return 0;
- 	}
- 	/* bio is FULL */
--	err = nilfs_segbuf_submit_bio(segbuf, wi, mode, 0);
-+	err = nilfs_segbuf_submit_bio(segbuf, wi);
- 	/* never submit current bh */
- 	if (likely(!err))
- 		goto repeat;
-@@ -433,13 +431,13 @@ static int nilfs_segbuf_write(struct nilfs_segment_buffer *segbuf,
- 	nilfs_segbuf_prepare_write(segbuf, &wi);
- 
- 	list_for_each_entry(bh, &segbuf->sb_segsum_buffers, b_assoc_buffers) {
--		res = nilfs_segbuf_submit_bh(segbuf, &wi, bh, REQ_OP_WRITE);
-+		res = nilfs_segbuf_submit_bh(segbuf, &wi, bh);
- 		if (unlikely(res))
- 			goto failed_bio;
- 	}
- 
- 	list_for_each_entry(bh, &segbuf->sb_payload_buffers, b_assoc_buffers) {
--		res = nilfs_segbuf_submit_bh(segbuf, &wi, bh, REQ_OP_WRITE);
-+		res = nilfs_segbuf_submit_bh(segbuf, &wi, bh);
- 		if (unlikely(res))
- 			goto failed_bio;
- 	}
-@@ -449,8 +447,8 @@ static int nilfs_segbuf_write(struct nilfs_segment_buffer *segbuf,
- 		 * Last BIO is always sent through the following
- 		 * submission.
- 		 */
--		res = nilfs_segbuf_submit_bio(segbuf, &wi, REQ_OP_WRITE,
--					      REQ_SYNC);
-+		wi.bio->bi_opf |= REQ_SYNC;
-+		res = nilfs_segbuf_submit_bio(segbuf, &wi);
- 	}
- 
-  failed_bio:
--- 
-2.30.2
+Looks good for the 'for-5.18' branch of linux-block tree.
 
+Thanks,
+Ryusuke Konishi
