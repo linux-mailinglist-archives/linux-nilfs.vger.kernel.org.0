@@ -2,152 +2,117 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CCE7A4C2AE9
-	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Feb 2022 12:30:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 478C74C33C3
+	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Feb 2022 18:31:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231263AbiBXLbI (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 24 Feb 2022 06:31:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38078 "EHLO
+        id S231739AbiBXRbY (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 24 Feb 2022 12:31:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229525AbiBXLbH (ORCPT
+        with ESMTP id S230400AbiBXRbY (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 24 Feb 2022 06:31:07 -0500
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC5928A113;
-        Thu, 24 Feb 2022 03:30:37 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 75964B82575;
-        Thu, 24 Feb 2022 11:30:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE696C340E9;
-        Thu, 24 Feb 2022 11:30:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1645702235;
-        bh=NEiEy8aPQXv4YCvSSvu1CrwZcw8hIl0XdkWsb+8kvdc=;
-        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=lzpWsjsxoWJp5qkJ96UqX80NBnU+UC1GaWf56BLmCibrCohLLcjWbwrFK+UFLdIgS
-         M3+IVpmCOF1k1d18hfO0Yq0UaOYTv8twIThmyrZyJtS0BaI+IBuZ8GbGCLoCA4Nfky
-         uw0HWHltyCjHAtOKREnE0y6956nBervDeobT4ihNlqBT6q1gMuJz1O6ENY8jS1nD30
-         C4oS6GqmHNV9tEmM4VTc/rfnlTTnWEqSE78JNNYFLUpVx8tkL5Lpk/To+UfIvaeCaj
-         xXDDgEeajWU/EpVj5VTsQF8+WQbltJex+TSRMA276bz7hfF54LMk8fLTqs2VgkV0uj
-         ELHbDgvjlTNSA==
-Message-ID: <e8ec98a9c4fab9b7aa099001f09ff9b11f0c3f96.camel@kernel.org>
-Subject: Re: [PATCH 06/11] ceph: remove reliance on bdi congestion
-From:   Jeff Layton <jlayton@kernel.org>
-To:     NeilBrown <neilb@suse.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>, Jan Kara <jack@suse.cz>,
-        Wu Fengguang <fengguang.wu@intel.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna.schumaker@netapp.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        Paolo Valente <paolo.valente@linaro.org>,
-        Jens Axboe <axboe@kernel.dk>, linux-doc@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        linux-nfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        ceph-devel@vger.kernel.org, drbd-dev@lists.linbit.com,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 24 Feb 2022 06:30:31 -0500
-In-Reply-To: <164568131640.25116.884631856219777713@noble.neil.brown.name>
-References: <164549971112.9187.16871723439770288255.stgit@noble.brown>
-        , <164549983739.9187.14895675781408171186.stgit@noble.brown>
-        , <ccc81eb5c23f933137c5da8d5050540cc54e58f0.camel@kernel.org>
-         <164568131640.25116.884631856219777713@noble.neil.brown.name>
-Content-Type: text/plain; charset="ISO-8859-15"
-User-Agent: Evolution 3.42.4 (3.42.4-1.fc35) 
+        Thu, 24 Feb 2022 12:31:24 -0500
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7D2186B9C;
+        Thu, 24 Feb 2022 09:30:53 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id b35so865187ybi.13;
+        Thu, 24 Feb 2022 09:30:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YN3o5AHfbGVmbeaZUJjmbDqTCWv/jzMc3EILlut6Oww=;
+        b=a1WdcUy4rP1D+h2JWaW3NZ7cj7mMuh72pwuxNzL9nm3dxxunfRyAUaKgFx/ynm5sJk
+         Fb1eD1BUAyDPcJJIbAP+2TYtWC0umJJBRstjSjWNhhYYMgeLf9AwliKwI8oye4bFPRVX
+         /cERCPKOAMd8igNl35lFYoXqAeAiEv5fxAii3NUBubgd4ffDG9xJuES8SyZbJbORPbyz
+         Qu35wM6y4ILBESw64aV6Qg5yPH3fmmw3qsoMAUgp4NkVgt7qryVSYkLc7L3crqEnNA7H
+         5wi2UDdYC8vTpVkeMgL3pw1bhWDOOFOU6OTN0oYLmJPHo1cqf+lmkaDhGf5CHGp25mPa
+         avXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YN3o5AHfbGVmbeaZUJjmbDqTCWv/jzMc3EILlut6Oww=;
+        b=62NaEoyawj7nHPCFiyFvEB2/XSHFwAG/93cho+K0PFgYLPQj/74ilMR5V+BOLw1Rry
+         ZPTXwTc1R9kOtqYaWFD1o6lYgybibw1qzb0pWk1ZT1jlgEOPxw3s5shKPno18qsAXQPg
+         dGfwguUDYPdoz6nuUh4tLoRAxFH3XZ2CrIcRToRThqTl4krl/gwbhO7h98ImP1x5xwBu
+         5vnY6uwLsHYmeTZnZ+ES0zlCvjM/aCTa2/J+4Sa76rla2NoorWmK7FqtXjU4DG/kpx45
+         QXSnVlZiQsFYIo4Sugzd6mNMcEONdziO5ACsDB3khKWwzRYVEVqTepaLveucOZBJTUIu
+         SeEg==
+X-Gm-Message-State: AOAM533LLNtG9BjcMkQ6oiqAB98gDb9CsIzXhdwVUxjbyrmUvzeULqUM
+        B73sH/123JBipilcL5c7h08NEQYIW/fC813tspY8KJqbQTg=
+X-Google-Smtp-Source: ABdhPJwVE+iLZioAdIPSMXrJNMwFqMMEtMyE883chlGCzYhTLHZADwd1z+5sE5iGyyZNus3T/vJIrX8Y52GSTTvISaw=
+X-Received: by 2002:a05:6902:567:b0:624:649e:1b14 with SMTP id
+ a7-20020a056902056700b00624649e1b14mr3297272ybt.84.1645723852614; Thu, 24 Feb
+ 2022 09:30:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20220207103738.103661-1-jiapeng.chong@linux.alibaba.com>
+In-Reply-To: <20220207103738.103661-1-jiapeng.chong@linux.alibaba.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Fri, 25 Feb 2022 02:30:40 +0900
+Message-ID: <CAKFNMokx2Qk4jJx6s0vzseYRbfjejZwoDY3MnPODWhT7-_1K=g@mail.gmail.com>
+Subject: Re: [PATCH] mm/fs: Remove redundant code
+To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, 2022-02-24 at 16:41 +1100, NeilBrown wrote:
-> On Thu, 24 Feb 2022, Jeff Layton wrote:
-> > On Tue, 2022-02-22 at 14:17 +1100, NeilBrown wrote:
-> > > The bdi congestion tracking in not widely used and will be removed.
-> > > 
-> > > CEPHfs is one of a small number of filesystems that uses it, setting
-> > > just the async (write) congestion flags at what it determines are
-> > > appropriate times.
-> > > 
-> > > The only remaining effect of the async flag is to cause (some)
-> > > WB_SYNC_NONE writes to be skipped.
-> > > 
-> > > So instead of setting the flag, set an internal flag and change:
-> > >  - .writepages to do nothing if WB_SYNC_NONE and the flag is set
-> > >  - .writepage to return AOP_WRITEPAGE_ACTIVATE if WB_SYNC_NONE
-> > >     and the flag is set.
-> > > 
-> > > The writepages change causes a behavioural change in that pageout() can
-> > > now return PAGE_ACTIVATE instead of PAGE_KEEP, so SetPageActive() will
-> > > be called on the page which (I think) wil further delay the next attempt
-> > > at writeout.  This might be a good thing.
-> > > 
-> > > Signed-off-by: NeilBrown <neilb@suse.de>
-> > 
-> > Maybe. I have to wonder whether all of this is really useful.
-> > 
-> > When things are congested we'll avoid trying to issue new writeback
-> > requests. Note that we don't prevent new pages from being dirtied here -
-> > - only their being written back.
-> > 
-> > This also doesn't do anything in the DIO or sync_write cases, so if we
-> > lose caps or are doing DIO, we'll just keep churning out "unlimited"
-> > writes in those cases anyway.
-> 
-> I think the point of congestion tracking is to differentiate between
-> sync and async IO.  Or maybe "required" and "optional".
-> Eventually the "optional" IO will become required, but if we can delay
-> it until a time when there is less "required" io, then maybe we can
-> improve perceived latency.
-> 
-> "optional" IO here is write-back and read-ahead.  If the load of
-> "required" IO is bursty, and if we can shuffle that optional stuff into
-> the quiet periods, we might win.
-> 
+Hi Jiapeng,
 
-In that case, maybe we should be counting in-flight reads too and deny
-readahead when the count crosses some threshold? It seems a bit silly to
-only look at writes when it comes to "congestion".
+On Mon, Feb 7, 2022 at 7:37 PM Jiapeng Chong
+<jiapeng.chong@linux.alibaba.com> wrote:
+>
+> Clean up the following smatch warning:
+>
+> fs/nilfs2/segbuf.c:358 nilfs_segbuf_submit_bio() warn: ignoring
+> unreachable code.
+>
+> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> ---
+>  fs/nilfs2/segbuf.c | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
+> index 9e5dd6324ea1..50d7e2e4daed 100644
+> --- a/fs/nilfs2/segbuf.c
+> +++ b/fs/nilfs2/segbuf.c
+> @@ -341,7 +341,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+>                                    int mode_flags)
+>  {
+>         struct bio *bio = wi->bio;
+> -       int err;
+>
+>         bio->bi_end_io = nilfs_end_bio_write;
+>         bio->bi_private = segbuf;
+> @@ -354,9 +353,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+>         wi->nr_vecs = min(wi->max_pages, wi->rest_blocks);
+>         wi->start = wi->end;
+>         return 0;
+> -
+> -       wi->bio = NULL;
+> -       return err;
+>  }
 
-> Whether this is a real need is an important question that I don't have an
-> answer for.  And whether it is better to leave delayed requests in the
-> page cache, or in the low-level queue with sync requests able to
-> over-take them - I don't know.  If you have multiple low-level queue as
-> you say you can with ceph, then lower might be better.
-> 
-> The block layer has REQ_RAHEAD ..  maybe those request get should get a
-> lower priority ... though I don't think they do.
-> NFS has a 3 level priority queue, with write-back going at a lower
-> priority ... I think... for NFSv3 at least.
-> 
-> Sometimes I suspect that as all our transports have become faster, we
-> have been able to ignore the extra latency caused by poor scheduling of
-> optional requests.  But at other times when my recently upgraded desktop
-> is struggling to view a web page while compiling a kernel ...  I wonder
-> if maybe we don't have the balance right any more.
-> 
-> So maybe you are right - maybe we can rip all this stuff out.
-> 
+Sorry for my late reply.
 
-I lean more toward just removing it. The existing implementation seems a
-bit half-baked with the gaps in what's being counted. Granted, the
-default congestion threshold is pretty high with modern memory sizes, so
-it probably doesn't come into play much in practice, but removing it
-would reduce some complexity in the client.
+I will send this to Andrew to report and fix the regression on the -mm
+patch series.
 
--- 
-Jeff Layton <jlayton@kernel.org>
+I'd like to change the patch title to something like "nilfs2: Remove
+redundant code"
+since the "mm/fs" prefix does not properly represent what it applies to.
+(this patch may be folded into the patch that is causing the warning)
+
+Regards,
+Ryusuke Konishi
