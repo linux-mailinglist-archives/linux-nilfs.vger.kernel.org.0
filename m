@@ -2,55 +2,55 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 478C74C33C3
-	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Feb 2022 18:31:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B51854C3415
+	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Feb 2022 18:54:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231739AbiBXRbY (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 24 Feb 2022 12:31:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56898 "EHLO
+        id S230100AbiBXRyb (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 24 Feb 2022 12:54:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49634 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230400AbiBXRbY (ORCPT
+        with ESMTP id S230094AbiBXRya (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 24 Feb 2022 12:31:24 -0500
-Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B7D2186B9C;
-        Thu, 24 Feb 2022 09:30:53 -0800 (PST)
-Received: by mail-yb1-xb2d.google.com with SMTP id b35so865187ybi.13;
-        Thu, 24 Feb 2022 09:30:53 -0800 (PST)
+        Thu, 24 Feb 2022 12:54:30 -0500
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 496EB2221AE;
+        Thu, 24 Feb 2022 09:54:00 -0800 (PST)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-2d66f95f1d1so7001187b3.0;
+        Thu, 24 Feb 2022 09:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YN3o5AHfbGVmbeaZUJjmbDqTCWv/jzMc3EILlut6Oww=;
-        b=a1WdcUy4rP1D+h2JWaW3NZ7cj7mMuh72pwuxNzL9nm3dxxunfRyAUaKgFx/ynm5sJk
-         Fb1eD1BUAyDPcJJIbAP+2TYtWC0umJJBRstjSjWNhhYYMgeLf9AwliKwI8oye4bFPRVX
-         /cERCPKOAMd8igNl35lFYoXqAeAiEv5fxAii3NUBubgd4ffDG9xJuES8SyZbJbORPbyz
-         Qu35wM6y4ILBESw64aV6Qg5yPH3fmmw3qsoMAUgp4NkVgt7qryVSYkLc7L3crqEnNA7H
-         5wi2UDdYC8vTpVkeMgL3pw1bhWDOOFOU6OTN0oYLmJPHo1cqf+lmkaDhGf5CHGp25mPa
-         avXw==
+        bh=eq0rhSJW/1Sw11xhooN6LOA8GL16OGqICWs9SpqOzME=;
+        b=ovlMUCBoPHm0Ng7jBHgOGMvsivibBY0eFjYSXrf3lveZO9y7J2WPN15pjxopiEooRf
+         jPMf3/Zbrl33kMLio4YHaGFu/g0gHEoxnq6wMuDCigvid5G32wBFY4FwqI6X3TqCQKq5
+         s7OhTDCOZJ4i0qXn57rbq8Ygjw6NGONXkOhHCYlCpilq99mqAILegufcLLdORRqVk9TO
+         ul4bgzurtbgclnajz6YRvaRZDtc6tgxRenOvk76+cIAjaOihY0FZq8LTCujURAMByF06
+         xwZrGcr5kT+BK+kj0pQyLbeubQwxi7aY00qKJ9mawM7Pnf1MmavxrN5t9ESMA4xU+lOL
+         Bp1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YN3o5AHfbGVmbeaZUJjmbDqTCWv/jzMc3EILlut6Oww=;
-        b=62NaEoyawj7nHPCFiyFvEB2/XSHFwAG/93cho+K0PFgYLPQj/74ilMR5V+BOLw1Rry
-         ZPTXwTc1R9kOtqYaWFD1o6lYgybibw1qzb0pWk1ZT1jlgEOPxw3s5shKPno18qsAXQPg
-         dGfwguUDYPdoz6nuUh4tLoRAxFH3XZ2CrIcRToRThqTl4krl/gwbhO7h98ImP1x5xwBu
-         5vnY6uwLsHYmeTZnZ+ES0zlCvjM/aCTa2/J+4Sa76rla2NoorWmK7FqtXjU4DG/kpx45
-         QXSnVlZiQsFYIo4Sugzd6mNMcEONdziO5ACsDB3khKWwzRYVEVqTepaLveucOZBJTUIu
-         SeEg==
-X-Gm-Message-State: AOAM533LLNtG9BjcMkQ6oiqAB98gDb9CsIzXhdwVUxjbyrmUvzeULqUM
-        B73sH/123JBipilcL5c7h08NEQYIW/fC813tspY8KJqbQTg=
-X-Google-Smtp-Source: ABdhPJwVE+iLZioAdIPSMXrJNMwFqMMEtMyE883chlGCzYhTLHZADwd1z+5sE5iGyyZNus3T/vJIrX8Y52GSTTvISaw=
-X-Received: by 2002:a05:6902:567:b0:624:649e:1b14 with SMTP id
- a7-20020a056902056700b00624649e1b14mr3297272ybt.84.1645723852614; Thu, 24 Feb
- 2022 09:30:52 -0800 (PST)
+        bh=eq0rhSJW/1Sw11xhooN6LOA8GL16OGqICWs9SpqOzME=;
+        b=juZ5mGOZGXbyCxBl+X9EYqoekE9Mjz3oM9fxoV8y9uncWYLnNep3QG4BMUXWlWXe4Q
+         EFCTPgV/Tp9xGP3qysbfxFZ5+OQ3PfPUHG3Rwx9KUn41HjiuCBzvUhCBRONubmuTNvyP
+         eJs/hot7tD+7Aj5yL0NVE2zGA8vw0oIJZwT/aAXmoOwo6B7DnyuDOu26SaG1gOawtI8K
+         +/k2B0qXwOA3xJSDojnPtXC6+zvDHhR7fUgtg/erpRTXrgCErYEffzk7GH+Gni89WdQL
+         HR0rHv6scfSINzB8n5Y7aQ66OSej6LhiSpCyam5wTdSGvTFZR7djgYGvme3VOUT2dfrH
+         MIrw==
+X-Gm-Message-State: AOAM530AVSZMnVslyklvr/SWq4pyKTjXlwiJDGiLlO17xsZbp3qT79FY
+        J7/dTTHOtX2Skkk9W5hzrexbaVuWtECIgzRa47fJA4UO
+X-Google-Smtp-Source: ABdhPJxZp7Dh9XnMn1jok5IIVuFXG8ISgSBdeWyaZRCCEUUTGIHlI1sJNlJ0ObUBALgQDfzFy67N/QQEgUJvocgwQo4=
+X-Received: by 2002:a0d:d748:0:b0:2d7:549a:552d with SMTP id
+ z69-20020a0dd748000000b002d7549a552dmr3559431ywd.261.1645725239362; Thu, 24
+ Feb 2022 09:53:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20220207103738.103661-1-jiapeng.chong@linux.alibaba.com>
-In-Reply-To: <20220207103738.103661-1-jiapeng.chong@linux.alibaba.com>
+References: <20220207103738.103661-1-jiapeng.chong@linux.alibaba.com> <CAKFNMokx2Qk4jJx6s0vzseYRbfjejZwoDY3MnPODWhT7-_1K=g@mail.gmail.com>
+In-Reply-To: <CAKFNMokx2Qk4jJx6s0vzseYRbfjejZwoDY3MnPODWhT7-_1K=g@mail.gmail.com>
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 25 Feb 2022 02:30:40 +0900
-Message-ID: <CAKFNMokx2Qk4jJx6s0vzseYRbfjejZwoDY3MnPODWhT7-_1K=g@mail.gmail.com>
+Date:   Fri, 25 Feb 2022 02:53:47 +0900
+Message-ID: <CAKFNMo=jrEwV_U4wkfKvWeMoTJ9Ojbb0xx2cMrhr1KXD2gnxeg@mail.gmail.com>
 Subject: Re: [PATCH] mm/fs: Remove redundant code
 To:     Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
 Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
@@ -67,52 +67,65 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Jiapeng,
+Hi,
 
-On Mon, Feb 7, 2022 at 7:37 PM Jiapeng Chong
-<jiapeng.chong@linux.alibaba.com> wrote:
+On Fri, Feb 25, 2022 at 2:30 AM Ryusuke Konishi
+<konishi.ryusuke@gmail.com> wrote:
 >
-> Clean up the following smatch warning:
+> Hi Jiapeng,
 >
-> fs/nilfs2/segbuf.c:358 nilfs_segbuf_submit_bio() warn: ignoring
-> unreachable code.
+> On Mon, Feb 7, 2022 at 7:37 PM Jiapeng Chong
+> <jiapeng.chong@linux.alibaba.com> wrote:
+> >
+> > Clean up the following smatch warning:
+> >
+> > fs/nilfs2/segbuf.c:358 nilfs_segbuf_submit_bio() warn: ignoring
+> > unreachable code.
+> >
+> > Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+> > Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+> > ---
+> >  fs/nilfs2/segbuf.c | 4 ----
+> >  1 file changed, 4 deletions(-)
+> >
+> > diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
+> > index 9e5dd6324ea1..50d7e2e4daed 100644
+> > --- a/fs/nilfs2/segbuf.c
+> > +++ b/fs/nilfs2/segbuf.c
+> > @@ -341,7 +341,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+> >                                    int mode_flags)
+> >  {
+> >         struct bio *bio = wi->bio;
+> > -       int err;
+> >
+> >         bio->bi_end_io = nilfs_end_bio_write;
+> >         bio->bi_private = segbuf;
+> > @@ -354,9 +353,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
+> >         wi->nr_vecs = min(wi->max_pages, wi->rest_blocks);
+> >         wi->start = wi->end;
+> >         return 0;
+> > -
+> > -       wi->bio = NULL;
+> > -       return err;
+> >  }
 >
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
-> ---
->  fs/nilfs2/segbuf.c | 4 ----
->  1 file changed, 4 deletions(-)
+> Sorry for my late reply.
 >
-> diff --git a/fs/nilfs2/segbuf.c b/fs/nilfs2/segbuf.c
-> index 9e5dd6324ea1..50d7e2e4daed 100644
-> --- a/fs/nilfs2/segbuf.c
-> +++ b/fs/nilfs2/segbuf.c
-> @@ -341,7 +341,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
->                                    int mode_flags)
->  {
->         struct bio *bio = wi->bio;
-> -       int err;
+> I will send this to Andrew to report and fix the regression on the -mm
+> patch series.
 >
->         bio->bi_end_io = nilfs_end_bio_write;
->         bio->bi_private = segbuf;
-> @@ -354,9 +353,6 @@ static int nilfs_segbuf_submit_bio(struct nilfs_segment_buffer *segbuf,
->         wi->nr_vecs = min(wi->max_pages, wi->rest_blocks);
->         wi->start = wi->end;
->         return 0;
-> -
-> -       wi->bio = NULL;
-> -       return err;
->  }
+> I'd like to change the patch title to something like "nilfs2: Remove
+> redundant code"
+> since the "mm/fs" prefix does not properly represent what it applies to.
+> (this patch may be folded into the patch that is causing the warning)
+>
+> Regards,
+> Ryusuke Konishi
 
-Sorry for my late reply.
+Sorry again.
 
-I will send this to Andrew to report and fix the regression on the -mm
-patch series.
+The reported issue was already corrected in NeilBrown's revised patch set, so I
+will suspend this.
 
-I'd like to change the patch title to something like "nilfs2: Remove
-redundant code"
-since the "mm/fs" prefix does not properly represent what it applies to.
-(this patch may be folded into the patch that is causing the warning)
-
-Regards,
+Thanks,
 Ryusuke Konishi
