@@ -2,96 +2,93 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D6B74C5675
-	for <lists+linux-nilfs@lfdr.de>; Sat, 26 Feb 2022 15:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BEB94C5F3C
+	for <lists+linux-nilfs@lfdr.de>; Sun, 27 Feb 2022 22:55:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231584AbiBZOTc (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 26 Feb 2022 09:19:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50898 "EHLO
+        id S231182AbiB0V4a (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 27 Feb 2022 16:56:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229878AbiBZOTb (ORCPT
+        with ESMTP id S230511AbiB0V43 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 26 Feb 2022 09:19:31 -0500
-Received: from mail-pj1-x1032.google.com (mail-pj1-x1032.google.com [IPv6:2607:f8b0:4864:20::1032])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD29C28B636
-        for <linux-nilfs@vger.kernel.org>; Sat, 26 Feb 2022 06:18:56 -0800 (PST)
-Received: by mail-pj1-x1032.google.com with SMTP id em10-20020a17090b014a00b001bc3071f921so10871934pjb.5
-        for <linux-nilfs@vger.kernel.org>; Sat, 26 Feb 2022 06:18:56 -0800 (PST)
+        Sun, 27 Feb 2022 16:56:29 -0500
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 111166E4D5
+        for <linux-nilfs@vger.kernel.org>; Sun, 27 Feb 2022 13:55:52 -0800 (PST)
+Received: by mail-wr1-x430.google.com with SMTP id s13so12597633wrb.6
+        for <linux-nilfs@vger.kernel.org>; Sun, 27 Feb 2022 13:55:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
-        h=from:to:cc:in-reply-to:references:subject:message-id:date
-         :mime-version:content-transfer-encoding;
-        bh=YLa//Mj+DxSVB6ps7DGXFT54Z3VfJ89NQIGANWGG0d8=;
-        b=4ZL0rPQtivoPekslBbHbwd4MefOSslZozUIbdtrwySGfwrmJgBc+4NYFds5wDTHm4t
-         2becxLEhcY0AudOFZ4Leuds9nQWinUKLxN6SxVY8v/DeIiB7zFc+sge2xTZt7HZ22E4c
-         wI8SYLYmz84xi4a9xzyzJHo9eCJMOD1cjl7Bb1Nv4I02Ks91P50Txh6GFwxAX+nN/N2O
-         4a3u/5VfFZioKhCo+T586yBD3Fo6GXnd1mbYw8bBPJ4/YmkfAFihTXT5w4NyzBoo6HyQ
-         98T2uukeyBcSTCwQEyXQsaWbpdGz1EsLyNLehoM9MUUXu2vWcjMBduc3+jxZEqlAQhXS
-         njbA==
+        d=gmail.com; s=20210112;
+        h=message-id:from:mime-version:content-transfer-encoding
+         :content-description:subject:to:date:reply-to;
+        bh=ixHVzoz696qN1Cmrg9x1bmR8vdWLOLbXCVjc9DtTLhI=;
+        b=bjlGuub+IuYbM5VbMwzwikwhgii3WM+pPSrDV10hnDWHxjHBzW/HoRzF75V4FkUlrV
+         n/egZy0FECXorU1cNqc4dpeG5c9dKTzoKlyoeZj7x/Ljd0oF1bTXGMSXilz62lD5HcFy
+         gPG5f5SaPYc8RtX5C68dV44HE0KYbUnFQxqpeLUeJ94GZlqpkhF6v/Nlt5GKdNaxg7aH
+         oyrtrIKWTShB3rZZm8mOeNzdhfZlloUlbh0/hKz1ajBfmLgmkAA+5EdHr3QSSpHNPrtC
+         ZUFJT2CLschbfQpn0Bmyfx/WIiqCoUJ4Bh1Hn6kTEz7euTuSKu+CW9AfZ4ZG1ndbx8hP
+         kPYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
-         :message-id:date:mime-version:content-transfer-encoding;
-        bh=YLa//Mj+DxSVB6ps7DGXFT54Z3VfJ89NQIGANWGG0d8=;
-        b=rLHNZiHPYO2foJ8V04OI9e0b/RCQtEeFZq7TELA1U5oGJiEpRTZceIw67eZV9kvRPR
-         CBCrq2x81DUUoxjiBtscxzXwzBtuDmbXyxm27in2LAndosFW8ETEfp/2/+1bLyHrhPY3
-         Qy4kJZD6RfC6E1Cj+0kcpB2m5BR/wCqxFrb7pm124HDHsRVwmKP5+As828MWdiucZOyt
-         pLpiVUnwyZZiQTek+Hqqr4Zj9REKYivP6Ak+qOacwMG9tksZ2Pwe52mkKBHXoe8hRdMJ
-         CojsrWMYKVdsh2h3MV7O7Jc8x0ajE4wQEwq+jvN7qXfdsvybUVvm14SR9CCnsk7w7PE3
-         QqUA==
-X-Gm-Message-State: AOAM53335PlUIfFR7RZvO0VUI4U0ID4RILPSXx1VmrQgs6Dy8IBfPQdt
-        qNdK/ONarxJadDVfsaismiTeZw==
-X-Google-Smtp-Source: ABdhPJyJKVuE7IehtiPL55TmKVwMJ1sfKAPOT8bfarpBPlYkibZZVH3H7ViDApTvLOtrG+Q1QJrxKA==
-X-Received: by 2002:a17:902:b60b:b0:150:c60:28d0 with SMTP id b11-20020a170902b60b00b001500c6028d0mr12147643pls.116.1645885136312;
-        Sat, 26 Feb 2022 06:18:56 -0800 (PST)
-Received: from [127.0.1.1] (cpe-72-132-29-68.dc.res.rr.com. [72.132.29.68])
-        by smtp.gmail.com with ESMTPSA id x23-20020a63fe57000000b0036490068f12sm5767222pgj.90.2022.02.26.06.18.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Feb 2022 06:18:55 -0800 (PST)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Christoph Hellwig <hch@lst.de>, Theodore Ts'o <tytso@mit.edu>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc:     linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs@vger.kernel.org, linux-block@vger.kernel.org
-In-Reply-To: <20220222154634.597067-1-hch@lst.de>
-References: <20220222154634.597067-1-hch@lst.de>
-Subject: Re: simple file system cleanups for the new bio_alloc calling conventions
-Message-Id: <164588513511.8353.16195805858154505642.b4-ty@kernel.dk>
-Date:   Sat, 26 Feb 2022 07:18:55 -0700
+        h=x-gm-message-state:message-id:from:mime-version
+         :content-transfer-encoding:content-description:subject:to:date
+         :reply-to;
+        bh=ixHVzoz696qN1Cmrg9x1bmR8vdWLOLbXCVjc9DtTLhI=;
+        b=0qXEG4fc14rl+VYqy1AdI9MtFp6TdmTpxrbt6egUvoH2EH1PArLnZpKVhGWVVYkupt
+         ef/BUBNjVWsMEKh5OiJyYQ2N34tiAoLDlj/ksbkvLpmQep9nEdLqjn6zfHsbqp/F9Vb0
+         2e5b6YkAjkxZWC6G/PHtMDbBU1om01Lyh0xNSkHxCRjM0yI1GKJZD36GEC75SPiWMV29
+         W5a2C5EZ8IsaHN6ZjPSgsLc6IlGOcdnkfsOm/e/wwyEuK7DevzKcLX8oVS3qVSaTvmxB
+         Vtx6Ja+sr6rvXJm+434Lam750ZnkFSpjv1nPX8e60ij6UdXbKL6MJMpMKfCbZSJMee1G
+         p2zA==
+X-Gm-Message-State: AOAM533Yu7DjMh/LfRa/He8/QcgxVzz6rPSQMxD4wgS4wegw44dCIZI+
+        JbT2ttllntPb3xi+gCeLOkg=
+X-Google-Smtp-Source: ABdhPJwfcrHUTmra8dBMLOSxGftNkRSRjMXRtEvC7aABHS+tGwtLczTI+wqcsJJA7hAuJL73jfI/7g==
+X-Received: by 2002:adf:a58a:0:b0:1ef:603f:fb58 with SMTP id g10-20020adfa58a000000b001ef603ffb58mr10144192wrc.472.1645998950690;
+        Sun, 27 Feb 2022 13:55:50 -0800 (PST)
+Received: from [192.168.0.133] ([5.193.9.142])
+        by smtp.gmail.com with ESMTPSA id r4-20020a05600c35c400b0037e9868e364sm13244215wmq.33.2022.02.27.13.55.46
+        (version=TLS1 cipher=AES128-SHA bits=128/128);
+        Sun, 27 Feb 2022 13:55:50 -0800 (PST)
+Message-ID: <621bf366.1c69fb81.14b70.c0e1@mx.google.com>
+From:   Mrs Maria Elisabeth Schaeffler <dr5mike77@gmail.com>
+X-Google-Original-From: Mrs Maria Elisabeth Schaeffler
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <Mrs@vger.kernel.org>
+Date:   Mon, 28 Feb 2022 01:55:42 +0400
+Reply-To: mariaeisaeth001@gmail.com
+X-Spam-Status: No, score=2.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,TO_MALFORMED,T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, 22 Feb 2022 16:46:31 +0100, Christoph Hellwig wrote:
-> this fixes up the remaining fairly trivial file system bio alloctions to
-> directly pass the bdev to bio_alloc.  f2fs and btrfs will need more work and
-> will be handled separately.
-> 
-> This is against Jens' for-5.18/block branch.  It would probably make sense to
-> also merge it through that.
-> 
-> [...]
+Hallo,
 
-Applied, thanks!
+Ich bin Frau Maria Elisabeth Schaeffler, eine deutsche Wirtschaftsmagnatin,=
+ Investorin und Philanthropin. Ich bin der Vorsitzende von Wipro Limited. I=
+ch habe 25 Prozent meines pers=F6nlichen Verm=F6gens f=FCr wohlt=E4tige Zwe=
+cke ausgegeben. Und ich habe auch versprochen zu geben
+der Rest von 25% geht dieses Jahr 2021 an Einzelpersonen. Ich habe mich ent=
+schlossen, Ihnen 1.500.000,00 Euro zu spenden. Wenn Sie an meiner Spende in=
+teressiert sind, kontaktieren Sie mich f=FCr weitere Informationen.
 
-[1/3] mpage: pass the operation to bio_alloc
-      commit: 8020990b8e1be0b4e325371ccb45a427acbabf9e
-[2/3] ext4: pass the operation to bio_alloc
-      commit: 6a9856721a18208a50c826ed84b3665c4851dfe8
-[3/3] nilfs2: pass the operation to bio_alloc
-      commit: 91f6bd2d4d0aa91abf11b5780221d776f30cbac1
-
-Best regards,
--- 
-Jens Axboe
+Sie k=F6nnen auch =FCber den untenstehenden Link mehr =FCber mich lesen
 
 
+https://en.wikipedia.org/wiki/Maria-Elisabeth_Schaeffler
+
+Sch=F6ne Gr=FC=DFe
+Gesch=E4ftsf=FChrer Wipro Limited
+Maria-Elisabeth_Schaeffler
+Email: mariaeisaeth001@gmail.com
