@@ -2,131 +2,113 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 915FE4E55ED
-	for <lists+linux-nilfs@lfdr.de>; Wed, 23 Mar 2022 17:05:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4226E4E5C52
+	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Mar 2022 01:30:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237588AbiCWQHO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 23 Mar 2022 12:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40246 "EHLO
+        id S1346773AbiCXAbg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 23 Mar 2022 20:31:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234639AbiCWQHN (ORCPT
+        with ESMTP id S241068AbiCXAbg (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 23 Mar 2022 12:07:13 -0400
-X-Greylist: delayed 1341 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 23 Mar 2022 09:05:43 PDT
-Received: from gateway23.websitewelcome.com (gateway23.websitewelcome.com [192.185.49.60])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB8E61706C
-        for <linux-nilfs@vger.kernel.org>; Wed, 23 Mar 2022 09:05:43 -0700 (PDT)
-Received: from cm11.websitewelcome.com (cm11.websitewelcome.com [100.42.49.5])
-        by gateway23.websitewelcome.com (Postfix) with ESMTP id DF600CD77
-        for <linux-nilfs@vger.kernel.org>; Wed, 23 Mar 2022 10:43:21 -0500 (CDT)
-Received: from 162-215-252-75.unifiedlayer.com ([208.91.199.152])
-        by cmsmtp with SMTP
-        id X38rnVprXdx86X38rnFU1l; Wed, 23 Mar 2022 10:43:21 -0500
-X-Authority-Reason: nr=8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=roeck-us.net; s=default; h=Content-Type:MIME-Version:Message-ID:Subject:Cc:
-        To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=lagRXHohghy8kR3woCuBBmkrcJ/jzmeeFU/A5c+1noo=; b=SKVgFgGANbObFf6amjfV24eu+h
-        n0xWMkM27kPmvFAgvKcqFv+hfIHThLfoWcRnd1X8xFUcQP3HR13LA4VzmRqW+O6FeAgRVxjx27KSe
-        hl2iN+faBt50LA0zMJAn8QRAKthN0v2Vcku3E5ajko0c30LSgmQO+U3vw8gVUULYf32KGgJo+PCIE
-        flVfEntmD6Pxj237DGMtNbwdJvCMhuo0fSfOesmqg5BySHh87KeT7TljcegAXg6iNDlRbUWxBpB1P
-        33QYer1vvhIIEQ4VhMb6a9eCkP1nCGe/5sBMPEQF8lCzmBRQ54ViRtb5zi3O8POeIPCXsSH7hXR8d
-        33EJ51dQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:57638 helo=localhost)
-        by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <linux@roeck-us.net>)
-        id 1nX38q-0034li-Mc; Wed, 23 Mar 2022 15:43:20 +0000
-Date:   Wed, 23 Mar 2022 08:43:19 -0700
-From:   Guenter Roeck <linux@roeck-us.net>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
-        linux-nfs@vger.kernel.org,
-        linux-nilfs <linux-nilfs@vger.kernel.org>,
-        Mike Snitzer <snitzer@redhat.com>,
-        Philipp Reisner <philipp.reisner@linbit.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Roger Pau =?iso-8859-1?Q?Monn=E9?= <roger.pau@citrix.co>,
-        device-mapper development <dm-devel@redhat.com>,
-        "Md . Haris Iqbal" <haris.iqbal@ionos.com>,
-        Lars Ellenberg <lars.ellenberg@linbit.com>,
-        linux-fsdevel@vger.kernel.org, xen-devel@lists.xenproject.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        ntfs3@lists.linux.dev, Jack Wang <jinpu.wang@ionos.com>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        drbd-dev@lists.linbit.com
-Subject: Re: [dm-devel] [PATCH 01/19] fs: remove mpage_alloc
-Message-ID: <20220323154319.GA2268247@roeck-us.net>
+        Wed, 23 Mar 2022 20:31:36 -0400
+Received: from out30-45.freemail.mail.aliyun.com (out30-45.freemail.mail.aliyun.com [115.124.30.45])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8A43A887B3;
+        Wed, 23 Mar 2022 17:30:04 -0700 (PDT)
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R441e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04407;MF=yang.lee@linux.alibaba.com;NM=1;PH=DS;RN=5;SR=0;TI=SMTPD_---0V81tl.v_1648081801;
+Received: from localhost(mailfrom:yang.lee@linux.alibaba.com fp:SMTPD_---0V81tl.v_1648081801)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Thu, 24 Mar 2022 08:30:02 +0800
+From:   Yang Li <yang.lee@linux.alibaba.com>
+To:     konishi.ryusuke@gmail.com
+Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Yang Li <yang.lee@linux.alibaba.com>,
+        Abaci Robot <abaci@linux.alibaba.com>
+Subject: [PATCH -next] fs: Fix some kernel-doc comments
+Date:   Thu, 24 Mar 2022 08:29:59 +0800
+Message-Id: <20220324002959.48592-1-yang.lee@linux.alibaba.com>
+X-Mailer: git-send-email 2.20.1.7.g153144c
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1nX38q-0034li-Mc
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (localhost) [108.223.40.66]:57638
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 27
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-9.9 required=5.0 tests=BAYES_00,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H5,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNPARSEABLE_RELAY,USER_IN_DEF_SPF_WL autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Mar 23, 2022 at 07:42:48AM +0100, Christoph Hellwig wrote:
-> On Wed, Mar 23, 2022 at 06:38:22AM +0900, Ryusuke Konishi wrote:
-> > This looks because the mask of GFP_KERNEL is removed along with
-> > the removal of mpage_alloc().
-> > 
-> 
-> > The default value of the gfp flag is set to GFP_HIGHUSER_MOVABLE by
-> > inode_init_always().
-> > So, __GFP_HIGHMEM hits the gfp warning at bio_alloc() that
-> > do_mpage_readpage() calls.
-> 
-> Yeah.  Let's try this to match the iomap code:
-> 
-> diff --git a/fs/mpage.c b/fs/mpage.c
-> index 9ed1e58e8d70b..d465883edf719 100644
-> --- a/fs/mpage.c
-> +++ b/fs/mpage.c
-> @@ -148,13 +148,11 @@ static struct bio *do_mpage_readpage(struct mpage_readpage_args *args)
->  	int op = REQ_OP_READ;
->  	unsigned nblocks;
->  	unsigned relative_block;
-> -	gfp_t gfp;
-> +	gfp_t gfp = mapping_gfp_constraint(page->mapping, GFP_KERNEL);
->  
->  	if (args->is_readahead) {
->  		op |= REQ_RAHEAD;
-> -		gfp = readahead_gfp_mask(page->mapping);
-> -	} else {
-> -		gfp = mapping_gfp_constraint(page->mapping, GFP_KERNEL);
-> +		gfp |= __GFP_NORETRY | __GFP_NOWARN;
->  	}
->  
->  	if (page_has_buffers(page))
+The description of @flags in nilfs_dirty_inode() kernel-doc
+comment is missing, and some functions had kernel-doc that
+used a hash instead of a colon to separate the parameter
+name from the one line description.
 
-That fixes the problem for me.
+Fix them to remove some warnings found by running scripts/kernel-doc,
+which is caused by using 'make W=1'.
 
-Tested-by: Guenter Roeck <linux@roeck-us.net>
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'inode' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'blkoff' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'bh_result'
+not described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'create' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:145: warning: Function parameter or member 'file' not
+described in 'nilfs_readpage'
+fs/nilfs2/inode.c:145: warning: Function parameter or member 'page' not
+described in 'nilfs_readpage'
+fs/nilfs2/inode.c:968: warning: Function parameter or member 'flags' not
+described in 'nilfs_dirty_inode'
 
-Guenter
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+---
+ fs/nilfs2/inode.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
+
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index 476a4a649f38..eb1ba17acb0b 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -59,10 +59,10 @@ void nilfs_inode_sub_blocks(struct inode *inode, int n)
+ 
+ /**
+  * nilfs_get_block() - get a file block on the filesystem (callback function)
+- * @inode - inode struct of the target file
+- * @blkoff - file block number
+- * @bh_result - buffer head to be mapped on
+- * @create - indicate whether allocating the block or not when it has not
++ * @inode: inode struct of the target file
++ * @blkoff: file block number
++ * @bh_result: buffer head to be mapped on
++ * @create: indicate whether allocating the block or not when it has not
+  *      been allocated yet.
+  *
+  * This function does not issue actual read request of the specified data
+@@ -138,8 +138,8 @@ int nilfs_get_block(struct inode *inode, sector_t blkoff,
+ /**
+  * nilfs_readpage() - implement readpage() method of nilfs_aops {}
+  * address_space_operations.
+- * @file - file struct of the file to be read
+- * @page - the page to be read
++ * @file: file struct of the file to be read
++ * @page: the page to be read
+  */
+ static int nilfs_readpage(struct file *file, struct page *page)
+ {
+@@ -957,6 +957,8 @@ int __nilfs_mark_inode_dirty(struct inode *inode, int flags)
+ /**
+  * nilfs_dirty_inode - reflect changes on given inode to an inode block.
+  * @inode: inode of the file to be registered.
++ * @flags: tell the filesystem if we just updated timestamp(I_DIRTY_SYNC)
++ *	or anything else
+  *
+  * nilfs_dirty_inode() loads a inode block containing the specified
+  * @inode and copies data from a nilfs_inode to a corresponding inode
+-- 
+2.20.1.7.g153144c
+
