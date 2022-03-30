@@ -2,106 +2,114 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 41D1F4E5D9A
-	for <lists+linux-nilfs@lfdr.de>; Thu, 24 Mar 2022 04:39:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FF7D4ECC2E
+	for <lists+linux-nilfs@lfdr.de>; Wed, 30 Mar 2022 20:28:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241909AbiCXDkl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 23 Mar 2022 23:40:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52380 "EHLO
+        id S1350147AbiC3S1Z (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 30 Mar 2022 14:27:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234878AbiCXDki (ORCPT
+        with ESMTP id S1350603AbiC3S0s (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 23 Mar 2022 23:40:38 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DE8191AC3;
-        Wed, 23 Mar 2022 20:39:07 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-2e64a6b20eeso38408117b3.3;
-        Wed, 23 Mar 2022 20:39:07 -0700 (PDT)
+        Wed, 30 Mar 2022 14:26:48 -0400
+Received: from mail-oa1-x2b.google.com (mail-oa1-x2b.google.com [IPv6:2001:4860:4864:20::2b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DABD4B1CC
+        for <linux-nilfs@vger.kernel.org>; Wed, 30 Mar 2022 11:23:50 -0700 (PDT)
+Received: by mail-oa1-x2b.google.com with SMTP id 586e51a60fabf-de3ca1efbaso22885576fac.9
+        for <linux-nilfs@vger.kernel.org>; Wed, 30 Mar 2022 11:23:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vZfjREZ8FUx9c4b2sjgAYGes5irtI27++mGowWVmjkw=;
-        b=ntKuFibhVve4a7LxVr5qFm2l6asluhgUYiBbNXbbG519O8SWFGDkD48XG9bR/K+3C2
-         mikBUfGDpYgGA1Q22jX6mDTMzaEE3x0LgrJ1wAZ35rXzLbQkp3BNwkT3jzpfuRJ0Pu8X
-         uHdmq0tJX5aJp7+ZxA0XizGLdFf9QNeWEnHtPu1XcfL/aZRsUwF9J4L7o/s9/5VcbsCe
-         xzMzMGLC3zDLco+k+bPJmunRD6jNStzHhm/8A4QfRjqvOUaWRaKOMA6Pq4bylynz3aK9
-         0SJARn8TGmcY+nF/wosRM1wjEKhBb1rD3P2dw4WX24Qpiv4reZyGHOIjuKiFaxHp7riA
-         vJXA==
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
+        b=U1oUia1Thamt6Z7oWm6PGNKOk9RXK6Jv76DGrI1cLcYRcY5/d1Tt5qepQRdZm6lsyq
+         RBa/xpJM28ShOu5ibphzafHjPKptRC4OMeOVco0xYKihrCNFhnaGQOBDSvUdgHWgE3gf
+         cWTbx+dPO2nv/wujOZrrbxfJpePUzp7QZ1RCloUPxJhGXTvBKUziPieC1LSkK8oSaB+t
+         E85QJNBGnQK8HE8wei7Zq5jQSpeI5JY8kzofCGcJSUHLIHQXWsBy6ta+brl9WPLZzyWA
+         2jPBZlOFyxLxFI8awBJCcZtcLmSyu35IRMr8cJ72zb2pokIUUqe6EUB9pKUwVKwbq4my
+         ou5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vZfjREZ8FUx9c4b2sjgAYGes5irtI27++mGowWVmjkw=;
-        b=03eBtaQ3sY/eAzgGCyCw3B9IDwFbi77891XeL6YfRiPZVKXbCksRf//QWbOFQ/GhFP
-         c0wlddZ1kSNhZBNhBwf2JK1dZJ4epKNPTFbAge0JhnJQuW7fQYi8K+QoFPMBhxZKmg8L
-         tzRHi1E2xo+9EWjStxiRpf82J4Q5IIns7YbrVkMV/C+hTJ9wWnsublqUeeva9ZP14TV4
-         VrjHYPU1aqmvCuqIaPO9vz0mT00HhSwziPXhS8+Q/LD9UpRx+93fIrFaOWMaeYp+cC1n
-         2O/Ntk6L6jRbKM9aTe79n0leebvSKPtumeeiTGmoVhnscpHde2xvoHsWXnzcdKFIMOFq
-         LkNQ==
-X-Gm-Message-State: AOAM532mamv+/bwhqW8mpbTRhHARTBCbSk7ZqNd33/kPdmr7Vj289cvw
-        uXKJXlZiVGzp8sR1jVP1uptrg6Wn7hXg5iLEcNNoRLQdU0Q=
-X-Google-Smtp-Source: ABdhPJx9nDMhV8NDnDiiOKbDfR23FcyYDLgJZ4iqf1SU0za962OhftUhWW1C7y8bnqwqHZN5A2OvpBrvUhGeEcJuBRs=
-X-Received: by 2002:a81:23ce:0:b0:2e5:c9c7:2005 with SMTP id
- j197-20020a8123ce000000b002e5c9c72005mr2936591ywj.261.1648093146315; Wed, 23
- Mar 2022 20:39:06 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to:content-transfer-encoding;
+        bh=6PnxJaVdYHTfEoSreao3ANO+XeqxY/p/4dxKSObIH1I=;
+        b=bDWmhaIy9TN/07iffyyjhFYJAcK73pLYBhclpq5ZnqWeHXPC6/JYCwWagcoIK3ak8Y
+         hMI7VorFbH7swTM26BR6836xeUsCvVLmzcpyb1CX9ZXL+iuQo7ECE7Q+cs0DMXxhczBb
+         dXsU5GLdmBPzMGUvOhYVawhWBr6GA9NjuIgPgkLXNhLKO033CgHlVrjxqnxO1lC7k1Gv
+         vIIwpmxzGU64uGueY3/RkiFq9/H6ECGn0uQIrGWd2o6lSwJ33A8Cm7Aytj21jv1wdK+L
+         uAw1oxF9E02VhcDWGq/ABshsLIA/FDa/5vb9YsjxrdFU9kFqV3TnRVws6p1LzpFlv09T
+         KKGA==
+X-Gm-Message-State: AOAM532S5z4/qbSFEojJLEo/y0qvNaKUa8XR0Md5YXFj0oMV7MSarQ++
+        1bLN+nexTG2buvAC+hTCQ3rAEx+oAf4615/S0v/9hszmWnP2
+X-Google-Smtp-Source: ABdhPJzkTl+tJbylc9dRvis6ZhULbTl7j4ynIkLgm4b/Lu4YSrf6PCWjehKBvofPJCmWKHUKJGD0xbE01MjL0VC50Jo=
+X-Received: by 2002:a17:90b:3143:b0:1c7:5cee:3948 with SMTP id
+ ip3-20020a17090b314300b001c75cee3948mr852445pjb.140.1648664618224; Wed, 30
+ Mar 2022 11:23:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220324024215.63479-1-yang.lee@linux.alibaba.com>
-In-Reply-To: <20220324024215.63479-1-yang.lee@linux.alibaba.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Thu, 24 Mar 2022 12:38:54 +0900
-Message-ID: <CAKFNMokxqD1ouhaNf5KeMD3gEO32QOBJUdSEZbWHmmi2Oj9s+Q@mail.gmail.com>
-Subject: Re: [PATCH -next v2] fs: Fix some kernel-doc comments
-To:     Yang Li <yang.lee@linux.alibaba.com>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Abaci Robot <abaci@linux.alibaba.com>
+Reply-To: isabellasayouba0@gmail.com
+Sender: 040stherchurch@gmail.com
+Received: by 2002:a05:6a20:691d:b0:76:6cf5:d552 with HTTP; Wed, 30 Mar 2022
+ 11:23:37 -0700 (PDT)
+From:   Mrs Isabella Sayouba <isabellasayouba0@gmail.com>
+Date:   Wed, 30 Mar 2022 18:23:37 +0000
+X-Google-Sender-Auth: _Xe1kByDkvq-Dn04BagO7gok_qM
+Message-ID: <CAAzQq761QVaWKiKernxpKjqNCK+6V9mRKHBnOcqF8rXJO9Y+aA@mail.gmail.com>
+Subject: =?UTF-8?B?44GC44GE44GV44Gk44CC?=
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Transfer-Encoding: base64
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_99,BAYES_999,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_HK_NAME_FM_MR_MRS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ***
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, Mar 24, 2022 at 11:42 AM Yang Li <yang.lee@linux.alibaba.com> wrote:
->
-> The description of @flags in nilfs_dirty_inode() kernel-doc
-> comment is missing, and some functions had kernel-doc that
-> used a hash instead of a colon to separate the parameter
-> name from the one line description.
->
-> Fix them to remove some warnings found by running scripts/kernel-doc,
-> which is caused by using 'make W=1'.
->
-> fs/nilfs2/inode.c:73: warning: Function parameter or member 'inode' not
-> described in 'nilfs_get_block'
-> fs/nilfs2/inode.c:73: warning: Function parameter or member 'blkoff' not
-> described in 'nilfs_get_block'
-> fs/nilfs2/inode.c:73: warning: Function parameter or member 'bh_result'
-> not described in 'nilfs_get_block'
-> fs/nilfs2/inode.c:73: warning: Function parameter or member 'create' not
-> described in 'nilfs_get_block'
-> fs/nilfs2/inode.c:145: warning: Function parameter or member 'file' not
-> described in 'nilfs_readpage'
-> fs/nilfs2/inode.c:145: warning: Function parameter or member 'page' not
-> described in 'nilfs_readpage'
-> fs/nilfs2/inode.c:968: warning: Function parameter or member 'flags' not
-> described in 'nilfs_dirty_inode'
->
-> Reported-by: Abaci Robot <abaci@linux.alibaba.com>
-> Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
-> ---
->
-> --Changes in v2:
-> Modified description of @flags in nilfs_dirty_inode() kernel-doc comment
->
->  fs/nilfs2/inode.c | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
-
-Will apply, thanks!
-
-Ryusuke Konishi
+44GC44GE44GV44Gk44CCDQoNCua2meOCkua1geOBl+OBquOBjOOCieOBk+OBruODoeODvOODq+OC
+kuabuOOBhOOBpuOBhOOBvuOBmeOAguengeOBruebruOBq+OBr+Wkp+OBjeOBquaCsuOBl+OBv+OB
+jOOBguOCiuOBvuOBmeOAguengeOBruWQjeWJjeOBr+OCpOOCtuODmeODqeODu+OCteODqOOCpuOD
+kOOBleOCk+OBp+OBmeOAguODgeODpeODi+OCuOOCouWHuui6q+OBp+OAgeODluODq+OCreODiuOD
+leOCoeOCveOBrueXhemZouOBi+OCiemAo+e1oeOCkuWPluOCiuOBvuOBmeOAguengeOBr+OBguOB
+quOBn+OBq+W/g+OCkumWi+OBhOOBpuaEn+WLleOBl+OBn+OBruOBp+OAgeOBguOBquOBn+OBq+ip
+seOBmeS7peWkluOBq+mBuOaKnuiCouOBr+OBguOCiuOBvuOBm+OCk+OAguengeOBr+OAgTIwMTHl
+ubTjgavkuqHjgY/jgarjgovliY3jgavjg5bjg6vjgq3jg4rjg5XjgqHjgr3jga7jg4Hjg6Xjg4vj
+grjjgqLlpKfkvb/jgag55bm06ZaT5YON44GE44Gm44GE44GfU2F5b3ViYQ0KQnJvd27msI/jgajn
+tZDlqZrjgZfjgb7jgZfjgZ/jgILlrZDkvpvjgarjgZfjgacxMeW5tOmWk+e1kOWpmuOBl+OBn+OA
+gg0KDQrlvbzjga/jgZ/jgaPjgZ815pel6ZaT57aa44GE44Gf55+t44GE55eF5rCX44Gu5b6M44Gn
+5q2744Gr44G+44GX44Gf44CC5b2844Gu5q275b6M44CB56eB44Gv5YaN5ama44GX44Gq44GE44GT
+44Go44Gr5rG644KB44G+44GX44Gf44CC5Lqh44GP44Gq44Gj44Gf5aSr44GM55Sf44GN44Gm44GE
+44Gf44Go44GN44CB5b2844Gv57eP6aGNODUw5LiH44OJ44Or44KS6aCQ44GR44G+44GX44Gf44CC
+DQrvvIg4MDDkuIc1MDAw44OJ44Or77yJ6KW/44Ki44OV44Oq44Kr44Gu44OW44Or44Kt44OK44OV
+44Kh44K944Gu6aaW6YO944Ov44Ks44OJ44Kl44Kw44O844Gu6YqA6KGM44Gn44CC54++5Zyo44CB
+44GT44Gu44GK6YeR44Gv44G+44Gg6YqA6KGM44Gr44GC44KK44G+44GZ44CC5b2844Gv44GT44Gu
+44GK6YeR44KS44OW44Or44Kt44OK44OV44Kh44K944Gu6Ymx5qWt44GL44KJ44Gu6YeR44Gu6Ly4
+5Ye644Gr5Yip55So44Gn44GN44KL44KI44GG44Gr44GX44G+44GX44Gf44CCDQoNCuacgOi/keOA
+geengeOBruWMu+iAheOBr+engeOBjOeZjOOBqOiEs+WNkuS4reOBruWVj+mhjOOBruOBn+OCgeOB
+qzfjg7bmnIjplpPjga/ntprjgYvjgarjgYTjgaDjgo3jgYbjgajnp4HjgavoqIDjgYTjgb7jgZfj
+gZ/jgILnp4HjgpLmnIDjgoLmgqnjgb7jgZvjgabjgYTjgovjga7jga/ohLPljZLkuK3jga7nl4Xm
+sJfjgafjgZnjgILnp4Hjga7nirbmhYvjgpLnn6XjgaPjgZ/jga7jgafjgIHnp4Hjga/jgZPjga7j
+gYrph5HjgpLjgYLjgarjgZ/jgavmuKHjgZfjgabjgIHmgbXjgb7jgozjgarjgYTkurrjgIXjga7k
+uJboqbHjgpLjgZnjgovjgZPjgajjgavjgZfjgb7jgZfjgZ/jgILjgYLjgarjgZ/jga/jgZPjga7j
+gYrph5HjgpLnp4HjgYzjgZPjgZPjgafmjIfnpLrjgZnjgovmlrnms5XjgafliKnnlKjjgZnjgovj
+gafjgZfjgofjgYbjgILnp4Hjga/jgYLjgarjgZ/jgavjgYLjgarjgZ/jga7lgIvkurrnmoTjgark
+vb/nlKjjga7jgZ/jgoHjgavnt4/jgYrph5Hjga4zMOODkeODvOOCu+ODs+ODiOOCkuWPluOBo+OB
+puassuOBl+OBhOOBp+OBmeOAguOBiumHkeOBrjcw77yF44Gv56eB44Gu5ZCN5YmN44Gn5a2k5YWQ
+6Zmi44KS5bu644Gm44CB6YCa44KK44Gu6LKn44GX44GE5Lq644CF44KS5Yqp44GR44KL44Gf44KB
+44Gr5L2/44GG44Gn44GX44KH44GG44CC56eB44Gv5a2k5YWQ44Go44GX44Gm6IKy44Gh44G+44GX
+44Gf44GM44CB56We44Gu5a6244KS57at5oyB44GZ44KL44Gf44KB44Gg44GR44Gr44CB5a625peP
+44Gr44Gv6Kqw44KC44GE44G+44Gb44KT44CC44GT44Gu55eF5rCX44GM56eB44KS44Go44Gm44KC
+6Ium44GX44KB44Gf44Gu44Gn44CB56We44GM56eB44Gu572q44KS6LWm44GX44CB5qW95ZyS44Gn
+56eB44Gu6a2C44KS5Y+X44GR5YWl44KM44KL44KI44GG44Gr44GT44KM44KS44GX44Gm44GE44KL
+44Gu44Gn44GZ44CCDQoNCui/lOS/oeOCkuWPl+OBkeWPluOCiuasoeesrOOAgeODluODq+OCreOD
+iuODleOCoeOCveOBrumKgOihjOOBrumAo+e1oeWFiOOCkuOBiuefpeOCieOBm+OBl+OBvuOBmeOA
+guOBvuOBn+OAgemKgOihjOOBruePvuWcqOOBruWPl+WPluS6uuOBp+OBguOCi+OBk+OBqOOCkuio
+vOaYjuOBmeOCi+aoqemZkOabuOOCkueZuuihjOOBmeOCi+OCiOOBhumKgOihjOmVt+OBq+aMh+ek
+uuOBl+OBvuOBmeOAguengeOBjOOBk+OBk+OBp+i/sOOBueOBn+OCiOOBhuOBq+OBguOBquOBn+OB
+jOOBneOCjOOBq+W/nOOBmOOBpuihjOWLleOBmeOCi+OBk+OBqOOCkuengeOBq+S/neiovOOBl+OB
+puOBj+OBoOOBleOBhOOAgg0KDQrjgqTjgrbjg5njg6njg7vjgrXjg6jjgqbjg5DlpKvkurrjgYvj
+gonjgIINCg==
