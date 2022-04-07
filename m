@@ -2,405 +2,179 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90F4C4F70A6
-	for <lists+linux-nilfs@lfdr.de>; Thu,  7 Apr 2022 03:20:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 127174F728E
+	for <lists+linux-nilfs@lfdr.de>; Thu,  7 Apr 2022 05:08:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238973AbiDGBWL (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 6 Apr 2022 21:22:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60770 "EHLO
+        id S239634AbiDGDJb (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 6 Apr 2022 23:09:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240488AbiDGBUC (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 6 Apr 2022 21:20:02 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B30CA1834E3;
-        Wed,  6 Apr 2022 18:16:45 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 4F6C361DE0;
-        Thu,  7 Apr 2022 01:16:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A0D1C385A3;
-        Thu,  7 Apr 2022 01:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1649294204;
-        bh=deQcE5huTZNxSBkP31w2RjSrH7C3S05UosG3oIPcmm0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XjKedp0d7XQJRPleMKXDYdTslyKC02Fh1fptR2Ngi2ucScQHp80TJFmddtY6ogQiM
-         4WNLEFmoNgn/1BiZfAscEz3pHXkQJXF7cQOteCeGuyIZ0Q172tXQ7mmRi4KTu1cEVU
-         GbEBHBH8MJMvPGJJ+vZpus/w/MTXZnYe3BTDGXqC5XKcBZtG6GN4AWpJ858XuUnG1O
-         0pCB2np/j+cNtXV/8tYu+sJyYJxtdWDkkA9uSs6Cyrw50Wko0zN7VDaDWY4A+uwvmy
-         jJ/p2KtvZirqkW6DMqRQJ18MInAXDY6W5svPwxW3A/H4gKqqSj+ciQhcxFpHq1WWjY
-         SrybQlpQzdamA==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Matthew Wilcox <willy@infradead.org>,
-        David Hildenbrand <david@redhat.com>,
-        Hao Sun <sunhao.th@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-nilfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 11/11] nilfs2: fix lockdep warnings during disk space reclamation
-Date:   Wed,  6 Apr 2022 21:16:08 -0400
-Message-Id: <20220407011609.115258-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220407011609.115258-1-sashal@kernel.org>
-References: <20220407011609.115258-1-sashal@kernel.org>
+        with ESMTP id S236613AbiDGDJ2 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 6 Apr 2022 23:09:28 -0400
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC1601F8936;
+        Wed,  6 Apr 2022 20:07:27 -0700 (PDT)
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+        by mx0b-00069f02.pphosted.com (8.16.1.2/8.16.1.2) with SMTP id 236LpIFL004895;
+        Thu, 7 Apr 2022 03:05:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=to : cc : subject :
+ from : message-id : references : date : in-reply-to : content-type :
+ mime-version; s=corp-2021-07-09;
+ bh=YsLEXwzHHuhF8Y2ubKs7WB5IRORi93e0Vmn68Bi4rNA=;
+ b=NfkaK2NCMW3x6JiAe6CyDENNOARvHDPb02I5fwoWxOu6QfcjwiXHY8Xrx4mcDWkinikI
+ 6y4iSHee4zyBe8QJm5tGfgOkAj83SF9OykxjXn7vNSW2mJgWYrf5/fUSzDfg0XfmCs1J
+ +oAbW8F3tDhDUqTy+eCamQ91BX21vJ4MJB4EGZR8HynPhZNqhlYoDA/HLfQDBP+Bo4CR
+ x9rTg/eQ+/XOfhq/Ik5Mn266beB4VlXnYt6pQZmsHu7vA+BBuG6FRivVgrT/mpZl+pEH
+ mlVBoOLNp7A97wLDUSOK5yHa7XAT643O9e2NZAIcfD0zc10YNOs0pYfWr7nlIIE2mlT4 XQ== 
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+        by mx0b-00069f02.pphosted.com with ESMTP id 3f6d932m5e-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 07 Apr 2022 03:05:19 +0000
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.16.1.2/8.16.1.2) with SMTP id 23730Wj4013140;
+        Thu, 7 Apr 2022 03:05:19 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
+        by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com with ESMTP id 3f9803h1d3-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 07 Apr 2022 03:05:18 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Pp4OarTXw+ZWc+bEDRdAMXK755D2xX211YX+owPz9Du0TAvRUTo0JMux+A2OBM8Q2RUIis1E841+yCJs3xSxOmManJFMNq/HKUK46nW4ugGIOqLPGPgQd14A1tT8dQfZlck321dug3Mlr2oaMTCQFvDd9E0upVxo+d9LhdX4SwQT3T8h8pK6k6iRAaCjv4YL50Q0xnldBeKAjs11+DaPoBl3CCRMJKr7fmlIrDoclgTj6ihaJnWuAbqLIm7qh9YvCfak7EPF5C9DPbF1lWENUC42C9Z7b0y7xOYJ+PhU/FYlCF6pgrdVPLHHqR7SIoekmjE054OxDImP2k0DAwej/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YsLEXwzHHuhF8Y2ubKs7WB5IRORi93e0Vmn68Bi4rNA=;
+ b=MJpc+Q7Ee5f5cXgLArRFIO4GyTTByPQx/d+m/IktmZG1Q2KjRsf3Svl5A68hZNXDF7kpuKr0pGRYjRw0C4XD7EoN0n07HUtxAO+b5dM7h/Uz6tdrf8b4he6u5lJlRmKgpr04K9z+au2MRXr+x8POHZP/ZqFMZA1PvWr7ZZXtfD3C99pZ5FRmFQM/9TdsrBDSlVYpU73UGohcFQJ3GfN9i3QL1W+5s2ONRlUGdyHlytwDfgucSyTx6OZi/RwSYs2QdaJqUc1nlht+1irrCCn5KicE7KDAfgGur/oyN7PP7VCj97AuEL+jFJAmbHFPbZB+igWeXGiRoFpF9eKUVY46cA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YsLEXwzHHuhF8Y2ubKs7WB5IRORi93e0Vmn68Bi4rNA=;
+ b=nQ1EV2Z2MwlvkJGlLAO7iFJYI6/mpP6qHesyCjyJNkoNah/7fILGtoubqQmqI1YcRdlyln9Kt9HjWF/h9c7R0jKk1BKfkc8enXMa4DreRin9+h1VJ4fFvcD86VOH7JoEWo+TzBXyBlfYYFG+s2hxLrvDcOlC6vYzT0JUfYneq2c=
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com (2603:10b6:510:3d::12)
+ by CY4PR1001MB2152.namprd10.prod.outlook.com (2603:10b6:910:4a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5123.31; Thu, 7 Apr
+ 2022 03:05:16 +0000
+Received: from PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::48e3:d153:6df4:fbed]) by PH0PR10MB4759.namprd10.prod.outlook.com
+ ([fe80::48e3:d153:6df4:fbed%4]) with mapi id 15.20.5144.022; Thu, 7 Apr 2022
+ 03:05:16 +0000
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Jens Axboe <axboe@kernel.dk>, jfs-discussion@lists.sourceforge.net,
+        linux-nvme@lists.infradead.org,
+        virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+        dm-devel@redhat.com, target-devel@vger.kernel.org,
+        linux-mtd@lists.infradead.org, drbd-dev@lists.linbit.com,
+        linux-s390@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        linux-scsi@vger.kernel.org, cluster-devel@redhat.com,
+        xen-devel@lists.xenproject.org, linux-ext4@vger.kernel.org,
+        linux-um@lists.infradead.org, nbd@other.debian.org,
+        linux-block@vger.kernel.org, linux-bcache@vger.kernel.org,
+        ceph-devel@vger.kernel.org, linux-raid@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-xfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+        linux-fsdevel@vger.kernel.org, ntfs3@lists.linux.dev,
+        linux-btrfs@vger.kernel.org
+Subject: Re: [dm-devel] [PATCH 01/27] target: remove an incorrect unmap
+ zeroes data deduction
+From:   "Martin K. Petersen" <martin.petersen@oracle.com>
+Organization: Oracle Corporation
+Message-ID: <yq1wng1k2zn.fsf@ca-mkp.ca.oracle.com>
+References: <20220406060516.409838-1-hch@lst.de>
+        <20220406060516.409838-2-hch@lst.de>
+Date:   Wed, 06 Apr 2022 23:05:13 -0400
+In-Reply-To: <20220406060516.409838-2-hch@lst.de> (Christoph Hellwig's message
+        of "Wed, 6 Apr 2022 08:04:50 +0200")
+Content-Type: text/plain
+X-ClientProxiedBy: DM5PR07CA0068.namprd07.prod.outlook.com
+ (2603:10b6:4:ad::33) To PH0PR10MB4759.namprd10.prod.outlook.com
+ (2603:10b6:510:3d::12)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 446c5253-2f86-4e5c-b24c-08da184370bf
+X-MS-TrafficTypeDiagnostic: CY4PR1001MB2152:EE_
+X-Microsoft-Antispam-PRVS: <CY4PR1001MB2152E05222F1BBC5E98158F98EE69@CY4PR1001MB2152.namprd10.prod.outlook.com>
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: /nK5r/MuRnz8ktLCSFU22KjRIztZG5J+F4JDyOjXsdc31ie4LJRCbfsRVHM01SOjoWooWtF/OnruYEf2sJXIEJue+piPjYr79bmJhLuQxBTBaQMOegKNCL9P2RvPOPpM8gfjxEr2yp80dF71knzsUCiBPN97PDjwemHuidm0+ofeUYw32YiEMBOy+1Iswc5HiqLGRnNF0e3b6Kc4eUmHS5wX2i2DpHYidv4jAIaSRvP/UhzP3/8X+TMW52/5lz7HRoqyi+sOrCXAsCpWuXfg/E5nkUNHBjyV4ftC4ywCqRzk3NtYhWbzdvu0h+jV5tT9PvegMNvV8rz9qOzTy/mZcIGQ8D0GMCS3y0XjDGIJnAO1ORk75BbzU928Z1XBN6iT1tS/rKgnjO9Ql8iLGFulJ/lh7kVVnbOazr4/rqcL+YEoNsRgPBL02Y95X/uBSe7ksFXUETPP6a93DCohbGGlDToepS4lrXNrU4ROpdJoK55bybd5iNINiXPe3iivRayOLl6+iGGxfChhwp9ku/zix51NXgP9T4nGMBQ6OTYoMYhKm5hcti/urkEGQOejQc8TFc2MKf0a5e/IusjLKxQksMTYESwPmzNuRnrIgR0MIGkNtfxCCxtk3G2DtlJNoyCblF0gBziHq5pkVPTHzLnkyYZSvfhYWtCtSxeacZo2xalKWfaSiplfVJx53owNYdHAAejIzZINATBpKhooZ+F4Vw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB4759.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230001)(366004)(38350700002)(38100700002)(26005)(6916009)(316002)(186003)(52116002)(2906002)(6506007)(6666004)(66556008)(86362001)(7416002)(508600001)(66946007)(8676002)(8936002)(66476007)(5660300002)(6486002)(4326008)(4744005)(36916002)(6512007)(83380400001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?qY1nBGMXTuj8DG81dMRc1M9V4GVzuBIJ9qlOqc0uEdupd1bv+wCC59Ok6bo6?=
+ =?us-ascii?Q?xybN22YVd/YDX8pGkxRCTpNSAXeh7lEoIdjnKlD4FPDjd1Q/zUsgbz5nMYM8?=
+ =?us-ascii?Q?ITgNiQBp3NFaZGQCH225g0rN4jvLRSrMbzrlQ1xNMKU/mw2v54+/JIO8KuXG?=
+ =?us-ascii?Q?Ivbo2zsRUjQQ4GiFmEtFh3YswKW7gJqMaRHsb9UcYsfregBwGVUrDiqZxBM2?=
+ =?us-ascii?Q?ZSTlD0veR8ee7l0+5ApD/bKF/A/9kyzPsB3OusFL8ArYkHJfgCBJFqbfUuvr?=
+ =?us-ascii?Q?t2lClIH4fAcA/eivwaSfLdMv7MEccMoyc2BbqUCvwG1DmCVjdjclfmwAkipO?=
+ =?us-ascii?Q?3cVkfQRz8YKcbBcMV1KRP/DTMct+zBYnFNpfNy1Qmu27R8foSFqOKBVouGru?=
+ =?us-ascii?Q?ydHGK86lkXLIYlfgwAtlU54MpAwHPpbVGHexsYhVbhXFm/jv1Rox725aNt8Z?=
+ =?us-ascii?Q?KWzLwwQMSFGclLUtjLxxwuk3VjPY5HQPq02436NzC6gE5QTAUJH7PAVReXyp?=
+ =?us-ascii?Q?d7iS93ChD8r2pGPAW2Q7cV8HeCT3GZR8cP9/5sLujMHhYrIwuJ0JyRWQs2AA?=
+ =?us-ascii?Q?S7WO1oE7n00OGyZxnzbPhh86u4clsYw7nu+zWEccbvkd3H73a+s55DBdhBsX?=
+ =?us-ascii?Q?EOSm3vUpPdWqd/NFB6Buav//MlAsh1j0ZetHi6J7XNmG3MCK2Ypd/KLkWxAQ?=
+ =?us-ascii?Q?a9JJtEKXaG44jB8I6cCApuB5Evi/JP6sDm1C2LHDGy5MPg1jOeU1NpYahRbs?=
+ =?us-ascii?Q?BZaDVmD3jyJ6H+SXWlW6MyKUScTXOMH/E8C02jCKsizLJbM5dOaJXCtJjp0t?=
+ =?us-ascii?Q?ocGw9J1Eb7HZ+X3pYDM0/GO2ev238mT65vcSA0MrvfeeTKVuByoBoqy+7GJT?=
+ =?us-ascii?Q?9I+REuB5mK3DT7ngexEU0TSy/hk6IDvbjLBPBEV8ak75ftSp40C5v14WbuvC?=
+ =?us-ascii?Q?p9XcjGOhncF8nf1NCaLAY7wO9zgOnk+DzCaUG9pnt2iKGS+x12y3tFeqyupG?=
+ =?us-ascii?Q?rlNVlp41NrsO2WD0Dj38OPI/CmJX+a/V3QxYrZs2pzCxwUxBkaS16BYJ19gs?=
+ =?us-ascii?Q?utAJkPO9UcbMD1+p215yuOrF92OGRwnXIWUhWR0j1jnarPXh8Rx1g6WU5kIw?=
+ =?us-ascii?Q?o6D5qM6yCgzqQS4ti8CR3a7YAUU+5K+Lur1IQbZ0jZ0UNcYqVAiRb0j1EDB9?=
+ =?us-ascii?Q?snHxE2XKWTJ2Mc9tza3YxNjH+GoOVSmXsYmD/HLDjJ2rIDVtDmwZIuKlFStA?=
+ =?us-ascii?Q?omkqKxn9xz8TAkZMov+tIAv3gSUfwB5k0yQH/9rv/TBeVR4K2/YqKhDBQffa?=
+ =?us-ascii?Q?HgYYBLKVuV6ceja2TdZ/CiHIWMujNH3OPXFFfldRfkuoslxSbRk+AFl/0nul?=
+ =?us-ascii?Q?bEYpvSqdZTuzCkhL/2DBp/sbtQHmJ1NkWMfGzA61MWF1wKm83Y36Nsrkqf9E?=
+ =?us-ascii?Q?o+E8ycTJrFoj0R5DpHdN6kYroViJ50Gz89cLuSVSSDfXQc10hX06ize9gyU+?=
+ =?us-ascii?Q?/ZOQYRwRDYL3DvU4idJibgI/zufed0BUnXDaI40FReyrrjtz8aMUU5sjQQEy?=
+ =?us-ascii?Q?iUXFTa/BX37Lp80KVcYTfRZjxe1N/PeHsQwdyGpPuGOQjqHIVhWZPyD+I1ld?=
+ =?us-ascii?Q?8qv1/Uxosiz61rt1qgrjx2Rcvox57kV9ZCsNKzW9mdJtSBiSCDurcEV+OILv?=
+ =?us-ascii?Q?wHo9IC8tCyj7fQ3lZr3yKFe+94f5EPtGJDq5xbOz2yiALz4f+quYstOYI+gE?=
+ =?us-ascii?Q?JTt78DP66djTrkit7F/PPtKpGwvCvXA=3D?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 446c5253-2f86-4e5c-b24c-08da184370bf
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB4759.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2022 03:05:16.1549
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 8wd1AdPWpIjcCjxsi2pbd+ciWqzHOAajRxs38iCvhynb2Xri9DgaS4+iigUZuPE6wN79jbNBsZ1lsFi5zU6X0feZ+MmPZxgDmebjEXCo6PI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR1001MB2152
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.425,18.0.850
+ definitions=2022-04-06_13:2022-04-06,2022-04-06 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 malwarescore=0 adultscore=0
+ suspectscore=0 spamscore=0 mlxlogscore=953 bulkscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2202240000
+ definitions=main-2204070015
+X-Proofpoint-ORIG-GUID: z327C3w_lmDACCGlZXgN11Rpzh40Eu0h
+X-Proofpoint-GUID: z327C3w_lmDACCGlZXgN11Rpzh40Eu0h
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
-[ Upstream commit 6e211930f79aa45d422009a5f2e5467d2369ffe5 ]
+Christoph,
 
-During disk space reclamation, nilfs2 still emits the following lockdep
-warning due to page/folio operations on shadowed page caches that nilfs2
-uses to get a snapshot of DAT file in memory:
+> For block devices the target code implements UNMAP as calls to
+> blkdev_issue_discard, which does not guarantee zeroing just because
+> Write Zeroes is supported.
+>
+> Note that this does not affect the file backed path which uses
+> fallocate to punch holes.
+>
+> Fixes: 2237498f0b5c ("target/iblock: Convert WRITE_SAME to blkdev_issue_zeroout")
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-  WARNING: CPU: 0 PID: 2643 at include/linux/backing-dev.h:272 __folio_mark_dirty+0x645/0x670
-  ...
-  RIP: 0010:__folio_mark_dirty+0x645/0x670
-  ...
-  Call Trace:
-    filemap_dirty_folio+0x74/0xd0
-    __set_page_dirty_nobuffers+0x85/0xb0
-    nilfs_copy_dirty_pages+0x288/0x510 [nilfs2]
-    nilfs_mdt_save_to_shadow_map+0x50/0xe0 [nilfs2]
-    nilfs_clean_segments+0xee/0x5d0 [nilfs2]
-    nilfs_ioctl_clean_segments.isra.19+0xb08/0xf40 [nilfs2]
-    nilfs_ioctl+0xc52/0xfb0 [nilfs2]
-    __x64_sys_ioctl+0x11d/0x170
 
-This fixes the remaining warning by using inode objects to hold those
-page caches.
 
-Link: https://lkml.kernel.org/r/1647867427-30498-3-git-send-email-konishi.ryusuke@gmail.com
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Hao Sun <sunhao.th@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/nilfs2/dat.c   |  4 ++-
- fs/nilfs2/inode.c | 63 ++++++++++++++++++++++++++++++++++++++++++++---
- fs/nilfs2/mdt.c   | 38 +++++++++++++++++++---------
- fs/nilfs2/mdt.h   |  6 ++---
- fs/nilfs2/nilfs.h |  2 ++
- 5 files changed, 92 insertions(+), 21 deletions(-)
-
-diff --git a/fs/nilfs2/dat.c b/fs/nilfs2/dat.c
-index 6f4066636be9..a3523a243e11 100644
---- a/fs/nilfs2/dat.c
-+++ b/fs/nilfs2/dat.c
-@@ -497,7 +497,9 @@ int nilfs_dat_read(struct super_block *sb, size_t entry_size,
- 	di = NILFS_DAT_I(dat);
- 	lockdep_set_class(&di->mi.mi_sem, &dat_lock_key);
- 	nilfs_palloc_setup_cache(dat, &di->palloc_cache);
--	nilfs_mdt_setup_shadow_map(dat, &di->shadow);
-+	err = nilfs_mdt_setup_shadow_map(dat, &di->shadow);
-+	if (err)
-+		goto failed;
- 
- 	err = nilfs_read_inode_common(dat, raw_inode);
- 	if (err)
-diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-index b0a0822e371c..35b0bfe9324f 100644
---- a/fs/nilfs2/inode.c
-+++ b/fs/nilfs2/inode.c
-@@ -29,6 +29,7 @@
-  * @root: pointer on NILFS root object (mounted checkpoint)
-  * @for_gc: inode for GC flag
-  * @for_btnc: inode for B-tree node cache flag
-+ * @for_shadow: inode for shadowed page cache flag
-  */
- struct nilfs_iget_args {
- 	u64 ino;
-@@ -36,6 +37,7 @@ struct nilfs_iget_args {
- 	struct nilfs_root *root;
- 	bool for_gc;
- 	bool for_btnc;
-+	bool for_shadow;
- };
- 
- static int nilfs_iget_test(struct inode *inode, void *opaque);
-@@ -325,7 +327,7 @@ static int nilfs_insert_inode_locked(struct inode *inode,
- {
- 	struct nilfs_iget_args args = {
- 		.ino = ino, .root = root, .cno = 0, .for_gc = false,
--		.for_btnc = false
-+		.for_btnc = false, .for_shadow = false
- 	};
- 
- 	return insert_inode_locked4(inode, ino, nilfs_iget_test, &args);
-@@ -543,6 +545,12 @@ static int nilfs_iget_test(struct inode *inode, void *opaque)
- 	} else if (args->for_btnc) {
- 		return 0;
- 	}
-+	if (test_bit(NILFS_I_SHADOW, &ii->i_state)) {
-+		if (!args->for_shadow)
-+			return 0;
-+	} else if (args->for_shadow) {
-+		return 0;
-+	}
- 
- 	if (!test_bit(NILFS_I_GCINODE, &ii->i_state))
- 		return !args->for_gc;
-@@ -564,6 +572,8 @@ static int nilfs_iget_set(struct inode *inode, void *opaque)
- 		NILFS_I(inode)->i_state = BIT(NILFS_I_GCINODE);
- 	if (args->for_btnc)
- 		NILFS_I(inode)->i_state |= BIT(NILFS_I_BTNC);
-+	if (args->for_shadow)
-+		NILFS_I(inode)->i_state |= BIT(NILFS_I_SHADOW);
- 	return 0;
- }
- 
-@@ -572,7 +582,7 @@ struct inode *nilfs_ilookup(struct super_block *sb, struct nilfs_root *root,
- {
- 	struct nilfs_iget_args args = {
- 		.ino = ino, .root = root, .cno = 0, .for_gc = false,
--		.for_btnc = false
-+		.for_btnc = false, .for_shadow = false
- 	};
- 
- 	return ilookup5(sb, ino, nilfs_iget_test, &args);
-@@ -583,7 +593,7 @@ struct inode *nilfs_iget_locked(struct super_block *sb, struct nilfs_root *root,
- {
- 	struct nilfs_iget_args args = {
- 		.ino = ino, .root = root, .cno = 0, .for_gc = false,
--		.for_btnc = false
-+		.for_btnc = false, .for_shadow = false
- 	};
- 
- 	return iget5_locked(sb, ino, nilfs_iget_test, nilfs_iget_set, &args);
-@@ -615,7 +625,7 @@ struct inode *nilfs_iget_for_gc(struct super_block *sb, unsigned long ino,
- {
- 	struct nilfs_iget_args args = {
- 		.ino = ino, .root = NULL, .cno = cno, .for_gc = true,
--		.for_btnc = false
-+		.for_btnc = false, .for_shadow = false
- 	};
- 	struct inode *inode;
- 	int err;
-@@ -662,6 +672,7 @@ int nilfs_attach_btree_node_cache(struct inode *inode)
- 	args.cno = ii->i_cno;
- 	args.for_gc = test_bit(NILFS_I_GCINODE, &ii->i_state) != 0;
- 	args.for_btnc = true;
-+	args.for_shadow = test_bit(NILFS_I_SHADOW, &ii->i_state) != 0;
- 
- 	btnc_inode = iget5_locked(inode->i_sb, inode->i_ino, nilfs_iget_test,
- 				  nilfs_iget_set, &args);
-@@ -697,6 +708,50 @@ void nilfs_detach_btree_node_cache(struct inode *inode)
- 	}
- }
- 
-+/**
-+ * nilfs_iget_for_shadow - obtain inode for shadow mapping
-+ * @inode: inode object that uses shadow mapping
-+ *
-+ * nilfs_iget_for_shadow() allocates a pair of inodes that holds page
-+ * caches for shadow mapping.  The page cache for data pages is set up
-+ * in one inode and the one for b-tree node pages is set up in the
-+ * other inode, which is attached to the former inode.
-+ *
-+ * Return Value: On success, a pointer to the inode for data pages is
-+ * returned. On errors, one of the following negative error code is returned
-+ * in a pointer type.
-+ *
-+ * %-ENOMEM - Insufficient memory available.
-+ */
-+struct inode *nilfs_iget_for_shadow(struct inode *inode)
-+{
-+	struct nilfs_iget_args args = {
-+		.ino = inode->i_ino, .root = NULL, .cno = 0, .for_gc = false,
-+		.for_btnc = false, .for_shadow = true
-+	};
-+	struct inode *s_inode;
-+	int err;
-+
-+	s_inode = iget5_locked(inode->i_sb, inode->i_ino, nilfs_iget_test,
-+			       nilfs_iget_set, &args);
-+	if (unlikely(!s_inode))
-+		return ERR_PTR(-ENOMEM);
-+	if (!(s_inode->i_state & I_NEW))
-+		return inode;
-+
-+	NILFS_I(s_inode)->i_flags = 0;
-+	memset(NILFS_I(s_inode)->i_bmap, 0, sizeof(struct nilfs_bmap));
-+	mapping_set_gfp_mask(s_inode->i_mapping, GFP_NOFS);
-+
-+	err = nilfs_attach_btree_node_cache(s_inode);
-+	if (unlikely(err)) {
-+		iget_failed(s_inode);
-+		return ERR_PTR(err);
-+	}
-+	unlock_new_inode(s_inode);
-+	return s_inode;
-+}
-+
- void nilfs_write_inode_common(struct inode *inode,
- 			      struct nilfs_inode *raw_inode, int has_bmap)
- {
-diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-index 3a1200220b97..7c9055d767d1 100644
---- a/fs/nilfs2/mdt.c
-+++ b/fs/nilfs2/mdt.c
-@@ -469,9 +469,18 @@ int nilfs_mdt_init(struct inode *inode, gfp_t gfp_mask, size_t objsz)
- void nilfs_mdt_clear(struct inode *inode)
- {
- 	struct nilfs_mdt_info *mdi = NILFS_MDT(inode);
-+	struct nilfs_shadow_map *shadow = mdi->mi_shadow;
- 
- 	if (mdi->mi_palloc_cache)
- 		nilfs_palloc_destroy_cache(inode);
-+
-+	if (shadow) {
-+		struct inode *s_inode = shadow->inode;
-+
-+		shadow->inode = NULL;
-+		iput(s_inode);
-+		mdi->mi_shadow = NULL;
-+	}
- }
- 
- /**
-@@ -505,12 +514,15 @@ int nilfs_mdt_setup_shadow_map(struct inode *inode,
- 			       struct nilfs_shadow_map *shadow)
- {
- 	struct nilfs_mdt_info *mi = NILFS_MDT(inode);
-+	struct inode *s_inode;
- 
- 	INIT_LIST_HEAD(&shadow->frozen_buffers);
--	address_space_init_once(&shadow->frozen_data);
--	nilfs_mapping_init(&shadow->frozen_data, inode);
--	address_space_init_once(&shadow->frozen_btnodes);
--	nilfs_mapping_init(&shadow->frozen_btnodes, inode);
-+
-+	s_inode = nilfs_iget_for_shadow(inode);
-+	if (IS_ERR(s_inode))
-+		return PTR_ERR(s_inode);
-+
-+	shadow->inode = s_inode;
- 	mi->mi_shadow = shadow;
- 	return 0;
- }
-@@ -524,13 +536,14 @@ int nilfs_mdt_save_to_shadow_map(struct inode *inode)
- 	struct nilfs_mdt_info *mi = NILFS_MDT(inode);
- 	struct nilfs_inode_info *ii = NILFS_I(inode);
- 	struct nilfs_shadow_map *shadow = mi->mi_shadow;
-+	struct inode *s_inode = shadow->inode;
- 	int ret;
- 
--	ret = nilfs_copy_dirty_pages(&shadow->frozen_data, inode->i_mapping);
-+	ret = nilfs_copy_dirty_pages(s_inode->i_mapping, inode->i_mapping);
- 	if (ret)
- 		goto out;
- 
--	ret = nilfs_copy_dirty_pages(&shadow->frozen_btnodes,
-+	ret = nilfs_copy_dirty_pages(NILFS_I(s_inode)->i_assoc_inode->i_mapping,
- 				     ii->i_assoc_inode->i_mapping);
- 	if (ret)
- 		goto out;
-@@ -547,7 +560,7 @@ int nilfs_mdt_freeze_buffer(struct inode *inode, struct buffer_head *bh)
- 	struct page *page;
- 	int blkbits = inode->i_blkbits;
- 
--	page = grab_cache_page(&shadow->frozen_data, bh->b_page->index);
-+	page = grab_cache_page(shadow->inode->i_mapping, bh->b_page->index);
- 	if (!page)
- 		return -ENOMEM;
- 
-@@ -579,7 +592,7 @@ nilfs_mdt_get_frozen_buffer(struct inode *inode, struct buffer_head *bh)
- 	struct page *page;
- 	int n;
- 
--	page = find_lock_page(&shadow->frozen_data, bh->b_page->index);
-+	page = find_lock_page(shadow->inode->i_mapping, bh->b_page->index);
- 	if (page) {
- 		if (page_has_buffers(page)) {
- 			n = bh_offset(bh) >> inode->i_blkbits;
-@@ -620,11 +633,11 @@ void nilfs_mdt_restore_from_shadow_map(struct inode *inode)
- 		nilfs_palloc_clear_cache(inode);
- 
- 	nilfs_clear_dirty_pages(inode->i_mapping, true);
--	nilfs_copy_back_pages(inode->i_mapping, &shadow->frozen_data);
-+	nilfs_copy_back_pages(inode->i_mapping, shadow->inode->i_mapping);
- 
- 	nilfs_clear_dirty_pages(ii->i_assoc_inode->i_mapping, true);
- 	nilfs_copy_back_pages(ii->i_assoc_inode->i_mapping,
--			      &shadow->frozen_btnodes);
-+			      NILFS_I(shadow->inode)->i_assoc_inode->i_mapping);
- 
- 	nilfs_bmap_restore(ii->i_bmap, &shadow->bmap_store);
- 
-@@ -639,10 +652,11 @@ void nilfs_mdt_clear_shadow_map(struct inode *inode)
- {
- 	struct nilfs_mdt_info *mi = NILFS_MDT(inode);
- 	struct nilfs_shadow_map *shadow = mi->mi_shadow;
-+	struct inode *shadow_btnc_inode = NILFS_I(shadow->inode)->i_assoc_inode;
- 
- 	down_write(&mi->mi_sem);
- 	nilfs_release_frozen_buffers(shadow);
--	truncate_inode_pages(&shadow->frozen_data, 0);
--	truncate_inode_pages(&shadow->frozen_btnodes, 0);
-+	truncate_inode_pages(shadow->inode->i_mapping, 0);
-+	truncate_inode_pages(shadow_btnc_inode->i_mapping, 0);
- 	up_write(&mi->mi_sem);
- }
-diff --git a/fs/nilfs2/mdt.h b/fs/nilfs2/mdt.h
-index e77aea4bb921..9d8ac0d27c16 100644
---- a/fs/nilfs2/mdt.h
-+++ b/fs/nilfs2/mdt.h
-@@ -18,14 +18,12 @@
- /**
-  * struct nilfs_shadow_map - shadow mapping of meta data file
-  * @bmap_store: shadow copy of bmap state
-- * @frozen_data: shadowed dirty data pages
-- * @frozen_btnodes: shadowed dirty b-tree nodes' pages
-+ * @inode: holder of page caches used in shadow mapping
-  * @frozen_buffers: list of frozen buffers
-  */
- struct nilfs_shadow_map {
- 	struct nilfs_bmap_store bmap_store;
--	struct address_space frozen_data;
--	struct address_space frozen_btnodes;
-+	struct inode *inode;
- 	struct list_head frozen_buffers;
- };
- 
-diff --git a/fs/nilfs2/nilfs.h b/fs/nilfs2/nilfs.h
-index a63aa5b5993c..8699bdc9e391 100644
---- a/fs/nilfs2/nilfs.h
-+++ b/fs/nilfs2/nilfs.h
-@@ -92,6 +92,7 @@ enum {
- 	NILFS_I_BMAP,			/* has bmap and btnode_cache */
- 	NILFS_I_GCINODE,		/* inode for GC, on memory only */
- 	NILFS_I_BTNC,			/* inode for btree node cache */
-+	NILFS_I_SHADOW,			/* inode for shadowed page cache */
- };
- 
- /*
-@@ -261,6 +262,7 @@ extern struct inode *nilfs_iget_for_gc(struct super_block *sb,
- 				       unsigned long ino, __u64 cno);
- int nilfs_attach_btree_node_cache(struct inode *inode);
- void nilfs_detach_btree_node_cache(struct inode *inode);
-+struct inode *nilfs_iget_for_shadow(struct inode *inode);
- extern void nilfs_update_inode(struct inode *, struct buffer_head *, int);
- extern void nilfs_truncate(struct inode *);
- extern void nilfs_evict_inode(struct inode *);
 -- 
-2.35.1
-
+Martin K. Petersen	Oracle Linux Engineering
