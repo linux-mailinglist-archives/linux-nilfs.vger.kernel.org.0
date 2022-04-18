@@ -2,107 +2,156 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C19D5503503
-	for <lists+linux-nilfs@lfdr.de>; Sat, 16 Apr 2022 09:52:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0768D5055C1
+	for <lists+linux-nilfs@lfdr.de>; Mon, 18 Apr 2022 15:28:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230237AbiDPHwp (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 16 Apr 2022 03:52:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44704 "EHLO
+        id S241306AbiDRNZx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 18 Apr 2022 09:25:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbiDPHw0 (ORCPT
+        with ESMTP id S241674AbiDRNY6 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 16 Apr 2022 03:52:26 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C26A9100754
-        for <linux-nilfs@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id 32so10098780pgl.4
-        for <linux-nilfs@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
+        Mon, 18 Apr 2022 09:24:58 -0400
+Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C80493DA4F
+        for <linux-nilfs@vger.kernel.org>; Mon, 18 Apr 2022 05:52:52 -0700 (PDT)
+Received: by mail-pl1-x636.google.com with SMTP id d15so12245783pll.10
+        for <linux-nilfs@vger.kernel.org>; Mon, 18 Apr 2022 05:52:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
-         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
-         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
-         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
-         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
-         XtNg==
+        d=kernel-dk.20210112.gappssmtp.com; s=20210112;
+        h=from:to:cc:in-reply-to:references:subject:message-id:date
+         :mime-version:content-transfer-encoding;
+        bh=F9FMycteyYrs8wEiBExwTDtAcc/2JBQ5GQqodkswvTM=;
+        b=zqMJx9kEO/syGgh/jfUujcMdgZO1Zk4th79yyPJcsdnvdIDI8Xk864jrHuyarDgv8c
+         gBt2ez+Ym/+EaLgC6MfWMHx5OVcgB54eOfckx7Cmdvf3bmGVDc/T0aLwM9rpN+nKDwcO
+         dWklV+ARMeZbUO1+GrFCqFc/xZjiULaGiN1ll1DVCyoNwgzG1P+0Y9ZhUcwBpI/7WQx/
+         gN/pYZdJuI935bVWCVcjkTqu2k20R+5oG6mGhil2uYi4X3QtR1zxXemtHM8NZ8XUvixz
+         3tQXFtvzqXbRCXIajCtyaq1nqo4kcpEpLyzsTyB3FvSvWQd/rTixV4XGHzsBwq9Bu/vV
+         stDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
-        b=XCAHttn7Q7PnYWuT/8M+EHUx+iHHf+vqS5kTBTkTnvuZ3z0vOQlD9RPEf2OV4MHth+
-         MXykXBZbAux1vLnJER3gsNCgJbcg7fd4W8f9HwAl/LDhIP8U0jcnkFmdLHqjuMF4hRco
-         4B+dzx53mZhv41WnNFJqqLtvPLCpC9+PC0wEEZha9QT6J0YiXWhwUwRV/f8kTxKhsjY4
-         OXH2Hr16NYkdbRJHmvHy5gzaPmZ5LQ7k00GFVAjuZ8k09tvmQSo0WdTfbo8Cwg5mPqhU
-         fcPxvmgHO8uuODlqwhWWExoM+Z40o/Ymn1uzwv8YQRuYwnBNfnvd0cBfme8hIfNtymZp
-         cA9Q==
-X-Gm-Message-State: AOAM530MHRIo3XnpxSVjeTteCOMmgtixxib4RQ30QTZ3V6QeeljtO/P3
-        5LsSzPP7Y1f7boMm7g9H0eO8FZgGX0kOVuV1q6s+2e3E+C8=
-X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
-X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
- q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
- Apr 2022 00:49:26 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:in-reply-to:references:subject
+         :message-id:date:mime-version:content-transfer-encoding;
+        bh=F9FMycteyYrs8wEiBExwTDtAcc/2JBQ5GQqodkswvTM=;
+        b=aJ2WwONX17ywcTZYCmJE/8wUvArdD51pRc2c/CGqPfIs0T3r977OdCaoPkGbATk1Se
+         WKNvJPyhoHkJHl396t7aOqriltt4Zcqy5QHRqZvNmCQ8Pp4hoGJze0Y+h9M36DcbeVPO
+         e4RGS0nnC6gbJKoUOtmJp4cuW2HomyzmuSi8ZakSuZcRiglgJv9STv6PiK6UG0BaYCPV
+         Eer69XFTs5Gfzjr1+MLVfzvlMHSqoWoFvVVGEYCBYaAhTRb4euMuZS99EKIziz8MdiVX
+         RdQtAqNfdLjzJgUzoXIXSVApW3czDKlYWYNiUxjD4yBAk8uOSkUbuHFMvltaqPh2g+Iz
+         Njiw==
+X-Gm-Message-State: AOAM53369Ehknjungf8hVn/n9vv0Yv/7bsxMXVhGjsh+aA3vQL43YWGS
+        8AUt4xIvpBaYjuidyNZ7PoLObw==
+X-Google-Smtp-Source: ABdhPJyPDIaLEewZhdBb/81ulQRxH4lnSCW72QYENTWzgjKzLqW/EIFRVhnHg8tc4oCKtNOZ6kDuRg==
+X-Received: by 2002:a17:902:6b44:b0:154:4bee:c434 with SMTP id g4-20020a1709026b4400b001544beec434mr10858040plt.43.1650286372060;
+        Mon, 18 Apr 2022 05:52:52 -0700 (PDT)
+Received: from [127.0.1.1] ([198.8.77.157])
+        by smtp.gmail.com with ESMTPSA id s24-20020a17090a441800b001ca9b5724a6sm12663301pjg.36.2022.04.18.05.52.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Apr 2022 05:52:51 -0700 (PDT)
+From:   Jens Axboe <axboe@kernel.dk>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     linux-f2fs-devel@lists.sourceforge.net,
+        jfs-discussion@lists.sourceforge.net, linux-raid@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, drbd-dev@lists.linbit.com,
+        xen-devel@lists.xenproject.org, nbd@other.debian.org,
+        linux-nvme@lists.infradead.org, linux-mmc@vger.kernel.org,
+        linux-s390@vger.kernel.org, linux-block@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, linux-mm@kvack.org,
+        linux-ext4@vger.kernel.org, dm-devel@redhat.com,
+        linux-nilfs@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+        linux-scsi@vger.kernel.org, linux-xfs@vger.kernel.org,
+        cluster-devel@redhat.com, linux-mtd@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, linux-bcache@vger.kernel.org,
+        ceph-devel@vger.kernel.org, ntfs3@lists.linux.dev,
+        linux-um@lists.infradead.org, target-devel@vger.kernel.org
+In-Reply-To: <20220415045258.199825-1-hch@lst.de>
+References: <20220415045258.199825-1-hch@lst.de>
+Subject: Re: use block_device based APIs in block layer consumers v3
+Message-Id: <165028636949.14872.7589996414521818725.b4-ty@kernel.dk>
+Date:   Mon, 18 Apr 2022 06:52:49 -0600
 MIME-Version: 1.0
-Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
- -0700 (PDT)
-Reply-To: daniel.seyba@yahoo.com
-From:   Seyba Daniel <royhalton13@gmail.com>
-Date:   Sat, 16 Apr 2022 09:49:26 +0200
-Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:543 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [royhalton13[at]gmail.com]
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [royhalton13[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+On Fri, 15 Apr 2022 06:52:31 +0200, Christoph Hellwig wrote:
+> this series cleanups up the block layer API so that APIs consumed
+> by file systems are (almost) only struct block_devic based, so that
+> file systems don't have to poke into block layer internals like the
+> request_queue.
+> 
+> I also found a bunch of existing bugs related to partition offsets
+> and discard so these are fixed while going along.
+> 
+> [...]
 
-I am so sorry contacting you in this means especially when we have never
-met before. I urgently seek your service to represent me in investing in
-your region / country and you will be rewarded for your service without
-affecting your present job with very little time invested in it.
+Applied, thanks!
 
-My interest is in buying real estate, private schools or companies with
-potentials for rapid growth in long terms.
+[01/27] target: remove an incorrect unmap zeroes data deduction
+        commit: 179d8609d8424529e95021df939ed7b0b82b37f1
+[02/27] target: pass a block_device to target_configure_unmap_from_queue
+        commit: 817e8b51eb3d927ce6d56ecf9f48bc3c5b26168b
+[03/27] target: fix discard alignment on partitions
+        commit: 968786b9ef56e75e0109158a4936ffffea962c1e
+[04/27] drbd: remove assign_p_sizes_qlim
+        commit: 40349d0e16cedd0de561f59752c3249780fb749b
+[05/27] drbd: use bdev based limit helpers in drbd_send_sizes
+        commit: 7a38acce229685968b770d1d9e64e01396b93643
+[06/27] drbd: use bdev_alignment_offset instead of queue_alignment_offset
+        commit: c6f23b1a05441a26f765e59dd95e8ba7354f9388
+[07/27] drbd: cleanup decide_on_discard_support
+        commit: 998e9cbcd615e5e6a7baa69e673ee845f812744e
+[08/27] btrfs: use bdev_max_active_zones instead of open coding it
+        commit: c1e7b24416400ef13ff92a1c60c336c9a2834d7b
+[09/27] ntfs3: use bdev_logical_block_size instead of open coding it
+        commit: f09dac9afb8e3ce4b6485dbc091a9b9c742db023
+[10/27] mm: use bdev_is_zoned in claim_swapfile
+        commit: 9964e674559b02619fee2012a56839624143d02e
+[11/27] block: add a bdev_nonrot helper
+        commit: 10f0d2a517796b8f6dc04fb0cc3e49003ae6b0bc
+[12/27] block: add a bdev_write_cache helper
+        commit: 08e688fdb8f7e862092ae64cee20bc8b463d1046
+[13/27] block: add a bdev_fua helper
+        commit: a557e82e5a01826f902bd94fc925c03f253cb712
+[14/27] block: add a bdev_stable_writes helper
+        commit: 36d254893aa6a6e204075c3cce94bb572ac32c04
+[15/27] block: add a bdev_max_zone_append_sectors helper
+        commit: 2aba0d19f4d8c8929b4b3b94a9cfde2aa20e6ee2
+[16/27] block: use bdev_alignment_offset in part_alignment_offset_show
+        commit: 64dcc7c2717395b7c83ffb10f040d3be795d03c1
+[17/27] block: use bdev_alignment_offset in disk_alignment_offset_show
+        commit: 640f2a23911b8388989547f89d055afbb910b88e
+[18/27] block: move bdev_alignment_offset and queue_limit_alignment_offset out of line
+        commit: 89098b075cb74a80083bc4ed6b71d0ee18b6898f
+[19/27] block: remove queue_discard_alignment
+        commit: 4e1462ffe8998749884d61f91be251a7a8719677
+[20/27] block: use bdev_discard_alignment in part_discard_alignment_show
+        commit: f0f975a4dde890bfe25ce17bf07a6495453988a4
+[21/27] block: move {bdev,queue_limit}_discard_alignment out of line
+        commit: 5c4b4a5c6f11c869a57c6bd977143430bc9dc43d
+[22/27] block: refactor discard bio size limiting
+        commit: e3cc28ea28b5f8794db2aed24f8a0282ad2e85a2
+[23/27] block: add a bdev_max_discard_sectors helper
+        commit: cf0fbf894bb543f472f682c486be48298eccf199
+[24/27] block: remove QUEUE_FLAG_DISCARD
+        commit: 70200574cc229f6ba038259e8142af2aa09e6976
+[25/27] block: add a bdev_discard_granularity helper
+        commit: 7b47ef52d0a2025fd1408a8a0990933b8e1e510f
+[26/27] block: decouple REQ_OP_SECURE_ERASE from REQ_OP_DISCARD
+        commit: 44abff2c0b970ae3d310b97617525dc01f248d7c
+[27/27] direct-io: remove random prefetches
+        commit: c22198e78d523c8fa079bbb70b2523bb6aa51849
 
-So please confirm interest by responding back.
+Best regards,
+-- 
+Jens Axboe
 
-My dearest regards
 
-Seyba Daniel
