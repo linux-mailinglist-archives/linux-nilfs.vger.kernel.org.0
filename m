@@ -2,105 +2,139 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D6C3522B29
-	for <lists+linux-nilfs@lfdr.de>; Wed, 11 May 2022 06:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5BB952346D
+	for <lists+linux-nilfs@lfdr.de>; Wed, 11 May 2022 15:38:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238207AbiEKEja (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 11 May 2022 00:39:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43008 "EHLO
+        id S231913AbiEKNiq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 11 May 2022 09:38:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236508AbiEKEj0 (ORCPT
+        with ESMTP id S240106AbiEKNio (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 11 May 2022 00:39:26 -0400
-Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51EB214C75C
-        for <linux-nilfs@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
-Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-d6e29fb3d7so1475538fac.7
-        for <linux-nilfs@vger.kernel.org>; Tue, 10 May 2022 21:39:24 -0700 (PDT)
+        Wed, 11 May 2022 09:38:44 -0400
+Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01BA81AD58D;
+        Wed, 11 May 2022 06:38:42 -0700 (PDT)
+Received: by mail-pj1-x102b.google.com with SMTP id l7-20020a17090aaa8700b001dd1a5b9965so2117397pjq.2;
+        Wed, 11 May 2022 06:38:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
-         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
-         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
-         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
-         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
-         wrQw==
+        h=from:to:cc:subject:date:message-id;
+        bh=jsRV8EvMOtUfJsgLKEp/CDjMrcTGRjbK7SqrPRT4roE=;
+        b=hqvlJxq9PAR5+noe0CxheCXcFPfVtVGDqaiEGYE94YokujbrehQTT7oHQ74ftn3YaA
+         7yHJwGUtm76af2ozPbSrExtHWwQXisy2UFTIGtQ3yn6PmKZ/yUWONEt8YZz6FFevGwf0
+         AI3+I1mE51loi5LF4VH2qJxFHmz1ZiI+YgrQTmqPOEoJxTje7cC54RLotlocuQoi95C8
+         vxchaX4SaqvDP5cuB6MKfCR8HCu82At6+MEBYocGMUAXMePgdPPBF7oYmR/XNQCAIQDn
+         SCpVc7epYS8pZhvVKlw/dBDiMcqkzUGqv4L+ae/+E6hqqZ1WU3/CdJVMPnotLAN9OqM7
+         ZUXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=y9njsHkD41dbLncZyxAWZVdkBedlZKSPw4rR9TA+M6ha4GqNMEp9SkYv3e5YND5+C8
-         4N39AJsn2NxcDJmd6XL7FBoA0rITC51bGgnwkUAHRKIAyYxIILnok3piWoHCW3ogYWuW
-         nC79rokG9rKqsrjMC1DkGTGZjoA78891th+unZhT/V1LWURyO5x21v58juB340DJUE72
-         dY7xeXzWncmDCzAvwZXTOfcS5zXnItAQ940BEnLUP6vgTvUhWhB4VI1F/IfQ9br3Izq8
-         JT4yVhpRlpZeHBaaxJOWaVZ6LaAd5rYr3rI10UWuy+BiRMBWgzxADY1AIX6TbZURoQwD
-         SbyQ==
-X-Gm-Message-State: AOAM532T0jTShJ/ICimqj1J+LVbJ6XCKomJficmgvHolz27QEK03pNpd
-        wg0f7ILFR4l3XlXUbW1KgnmKqUt0SnAWgeQfkmgPL8WF+yh8CA==
-X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
-X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
- gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
- May 2022 21:39:11 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
- -0700 (PDT)
-From:   Private Mail <privatemail1961@gmail.com>
-Date:   Tue, 10 May 2022 21:39:10 -0700
-Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
-Subject: Have you had this? It is for your Benefit
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=jsRV8EvMOtUfJsgLKEp/CDjMrcTGRjbK7SqrPRT4roE=;
+        b=THI0aA1gjHcgnsHiy6A+xpDbw0VKyCF6RCppk4KjHYz1t7ov/bF/NQCn6FoHKrcE+B
+         BPlOOnVqtbscc9gAkKi7QIOkqukoHwj0zQ7Jw9zj2AuyrzXVXmmaFSBp4vVZ5zZFoQXF
+         ujk9GbkYUaY7k++bLH45TL9RQpTlMAuilSOOoEEhc+Q+p8ZWd7gZHTSua3Hpxeem78Gr
+         Mcpkj9gJU+c1DLFVYXXihDTsmzb2KnNxcGfErRCOmKYwYNBz1rK12O5F+y4fuAWdw/pe
+         6DH7E1LeAl6OR6IPlzn/RaNUiodlA2baq7DS8cTe+1gz5YInNRHKJgkQa7/HX+lXa/QI
+         +2TQ==
+X-Gm-Message-State: AOAM533QLk0CrYH1Kzsk4CzFw9gOlCWAkOOBZl3CKgNTRs4QAuBipDv3
+        qSHxHROxl8V2fvASWsXeJRIFSC++0/g=
+X-Google-Smtp-Source: ABdhPJwULSrhzjwC/+BV5fbgbTH6ZuoGqYYe6vbv/Km2fOQjL7ReimWM7jPlbXKrI1f+3pTPQvuL+w==
+X-Received: by 2002:a17:90b:1251:b0:1d7:f7ae:9f1 with SMTP id gx17-20020a17090b125100b001d7f7ae09f1mr5439092pjb.65.1652276322266;
+        Wed, 11 May 2022 06:38:42 -0700 (PDT)
+Received: from carrot.localdomain (i58-89-48-88.s42.a014.ap.plala.or.jp. [58.89.48.88])
+        by smtp.gmail.com with ESMTPSA id k11-20020aa792cb000000b0050dc76281b3sm1793275pfa.141.2022.05.11.06.38.38
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 May 2022 06:38:40 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] nilfs2: Fix some kernel-doc comments
+Date:   Wed, 11 May 2022 22:38:36 +0900
+Message-Id: <1652276316-7791-1-git-send-email-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Our Ref: BG/WA0151/2022
+From: Yang Li <yang.lee@linux.alibaba.com>
 
-Dear Beneficiary
+The description of @flags in nilfs_dirty_inode() kernel-doc
+comment is missing, and some functions had kernel-doc that
+used a hash instead of a colon to separate the parameter
+name from the one line description.
 
-Subject: An Estate of US$15.8 Million
+Fix them to remove some warnings found by running scripts/kernel-doc,
+which is caused by using 'make W=1'.
 
-Blount and Griffin Genealogical Investigators specializes in probate
-research to locate missing heirs and beneficiaries to estates in the
-United Kingdom and Europe.
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'inode' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'blkoff' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'bh_result'
+not described in 'nilfs_get_block'
+fs/nilfs2/inode.c:73: warning: Function parameter or member 'create' not
+described in 'nilfs_get_block'
+fs/nilfs2/inode.c:145: warning: Function parameter or member 'file' not
+described in 'nilfs_readpage'
+fs/nilfs2/inode.c:145: warning: Function parameter or member 'page' not
+described in 'nilfs_readpage'
+fs/nilfs2/inode.c:968: warning: Function parameter or member 'flags' not
+described in 'nilfs_dirty_inode'
 
-We can also help you find wills, obtain copies of certificates, help
-you to administer an estate, as well as calculating how an estate,
-intestacy or trust should be distributed.
+Link: https://lkml.kernel.org/r/20220324024215.63479-1-yang.lee@linux.alibaba.com
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+ fs/nilfs2/inode.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-You may be entitled to a large pay out for an inheritance in Europe
-worth US$15.8 million. We have discovered an estate belonging to the
-late Depositor has remained unclaimed since he died in 2011 and we
-have strong reasons to believe you are the closest living relative to
-the deceased we can find.
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index 6045cea21f52..6a00cf324cbd 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -63,10 +63,10 @@ void nilfs_inode_sub_blocks(struct inode *inode, int n)
+ 
+ /**
+  * nilfs_get_block() - get a file block on the filesystem (callback function)
+- * @inode - inode struct of the target file
+- * @blkoff - file block number
+- * @bh_result - buffer head to be mapped on
+- * @create - indicate whether allocating the block or not when it has not
++ * @inode: inode struct of the target file
++ * @blkoff: file block number
++ * @bh_result: buffer head to be mapped on
++ * @create: indicate whether allocating the block or not when it has not
+  *      been allocated yet.
+  *
+  * This function does not issue actual read request of the specified data
+@@ -142,8 +142,8 @@ int nilfs_get_block(struct inode *inode, sector_t blkoff,
+ /**
+  * nilfs_readpage() - implement readpage() method of nilfs_aops {}
+  * address_space_operations.
+- * @file - file struct of the file to be read
+- * @page - the page to be read
++ * @file: file struct of the file to be read
++ * @page: the page to be read
+  */
+ static int nilfs_readpage(struct file *file, struct page *page)
+ {
+@@ -1088,6 +1088,7 @@ int __nilfs_mark_inode_dirty(struct inode *inode, int flags)
+ /**
+  * nilfs_dirty_inode - reflect changes on given inode to an inode block.
+  * @inode: inode of the file to be registered.
++ * @flags: flags to determine the dirty state of the inode
+  *
+  * nilfs_dirty_inode() loads a inode block containing the specified
+  * @inode and copies data from a nilfs_inode to a corresponding inode
+-- 
+1.8.3.1
 
-You may unknowingly be the heir of this person who died without
-leaving a will (intestate). We will conduct a probate research to
-prove your entitlement, and can submit a claim on your behalf all at
-no risk to yourselves.
-
-Our service fee of 10% will be paid to us after you have received the estate.
-
-The estate transfer process should take just a matter of days as we
-have the mechanism and expertise to get this done very quickly. This
-message may come to you as a shock, however we hope to work with you
-to transfer the estate to you as quickly as possible.
-
-Feel free to email our senior case worker Mr. Malcolm Casey on email:
-malcolmcasey68@yahoo.com for further discussions.
-
-With warm regards,
-
-Mr. Blount W. Gort, CEO.
-Blount and Griffin Associates Inc
