@@ -2,75 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78B3B53636F
-	for <lists+linux-nilfs@lfdr.de>; Fri, 27 May 2022 15:46:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E6C753AEDD
+	for <lists+linux-nilfs@lfdr.de>; Thu,  2 Jun 2022 00:49:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346011AbiE0Nq1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Fri, 27 May 2022 09:46:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59352 "EHLO
+        id S230348AbiFAUyx (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 1 Jun 2022 16:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36220 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238218AbiE0Nq0 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 27 May 2022 09:46:26 -0400
-X-Greylist: delayed 9342 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 27 May 2022 06:46:25 PDT
-Received: from mail.composit.net (mail.composit.net [195.49.185.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 45FFC18358
-        for <linux-nilfs@vger.kernel.org>; Fri, 27 May 2022 06:46:24 -0700 (PDT)
-Received: from mail.composit.net (localhost.localdomain [127.0.0.1])
-        by mail.composit.net (Proxmox) with ESMTP id 9509A38D002;
-        Fri, 27 May 2022 14:07:06 +0300 (MSK)
-Received: from mail.composit.net (mail.composit.local [192.168.101.14])
-        by mail.composit.net (Proxmox) with SMTP id 6C7AC3863A7;
-        Fri, 27 May 2022 14:07:06 +0300 (MSK)
-Received: from [192.168.1.105] (Unknown [197.234.219.23])
-        by mail.composit.net with ESMTPSA
-        (version=TLSv1 cipher=DHE-RSA-AES256-SHA bits=256)
-        ; Fri, 27 May 2022 14:07:07 +0300
-Message-ID: <1E55A04B-25BA-4C5F-86FD-2E0C133579F8@mail.composit.net>
-Content-Type: text/plain; charset="iso-8859-1"
+        with ESMTP id S230310AbiFAUyu (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 1 Jun 2022 16:54:50 -0400
+Received: from mail-oa1-x2c.google.com (mail-oa1-x2c.google.com [IPv6:2001:4860:4864:20::2c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 627EF217617
+        for <linux-nilfs@vger.kernel.org>; Wed,  1 Jun 2022 13:54:35 -0700 (PDT)
+Received: by mail-oa1-x2c.google.com with SMTP id 586e51a60fabf-f2cbceefb8so4287251fac.11
+        for <linux-nilfs@vger.kernel.org>; Wed, 01 Jun 2022 13:54:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
+        b=HLFKV03IvnCnmYNulbqEkPjTK3riUL87h2wHAPtiQ15M9iY6Q8e992KMQxJwLdk6f+
+         yc6asPWVRklcz8AY8oqwyi19SO9Z3FXfSKl8KIcHwdn2diZ16fcVN3Noj9XYHhxCnXOp
+         L86c6aBumcYcai1ti0jT0anzEO5LqUJSpP7KiFxQXIe3O9qnWY7viJfSABa1ly9ubc5O
+         7xqU4M/fQQEbpLLu8u6cCuAo0xRfp/5LoTJYIMP5ne/O4VXGwgI3hKlV02ue3fdzqvYA
+         6IABKhDngCz8ZKTuipfv5GZ/7HEqJFbM8x/u/85qQFiKTPs+Mb3XRU84XoMrlsTu1Zr+
+         PsMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Gk4nfCem3ECRa7Gml0J0mN/3RZoOAdfGaQAqyHPKtiI=;
+        b=T6XCgZDM7FzVSfqfzZLUzH8NLyhW+9nSlHb6A+EQw946v2A8xeNYeFP6D6ffMBbmJF
+         C4j3prTPE4VTcjLj9qfHRCgEmmFU7l9EAibVYuZ6Cnl6h6Nfgg9tW/dCIQx7Y5zR2pmT
+         hv+vlt65IKzOftPXmsxzdesne5DUBNIX+IBSueBRPdOAwWocxZNxt4klrv7n0gWkcPUI
+         xN7YzCX5W6FSag4G++p1BxM3IZhXYNsgWckE6cCYTUojP7hLmFbI6uu+kpNb0cugI6L0
+         DCrF3NtFd3+NxhpCT53s8ZZS5ph8HB5F4WZ0GnUNABqQvYb8vsTC2p7PstY/t1TVhgjS
+         T/7Q==
+X-Gm-Message-State: AOAM533Ivq+PZIjPFP4htTJ2z25yxxtwUPgAIfaoQukf7kJVgSspwVDv
+        UPXf0v1X0ncKrtQbu1+BVt0nS3rheBn3pHdK02Fy6oPrPKA=
+X-Google-Smtp-Source: ABdhPJzieEZsH3sz7p7h/CGCrygaKC3twss2VqEDgMRTw52PjXyF0yZxDsfC/Wcw+CTWK4gcBihtpQQBph7O0cnThRw=
+X-Received: by 2002:a05:6870:308:b0:f1:ddfe:8ac5 with SMTP id
+ m8-20020a056870030800b000f1ddfe8ac5mr16670934oaf.237.1654111051378; Wed, 01
+ Jun 2022 12:17:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Greetings From Ukraine.  
-To:     Recipients <heiss@dnet.it>
-From:   "Kostiantyn Chichkov" <heiss@dnet.it>
-Date:   Fri, 27 May 2022 12:06:29 +0100
-Reply-To: kostiantync@online.ee
-X-Spam-Status: Yes, score=5.1 required=5.0 tests=BAYES_50,
-        RCVD_IN_BL_SPAMCOP_NET,RCVD_IN_SBL,RCVD_IN_SORBS_WEB,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  1.3 RCVD_IN_BL_SPAMCOP_NET RBL: Received via a relay in
-        *      bl.spamcop.net
-        *      [Blocked - see <https://www.spamcop.net/bl.shtml?195.49.185.119>]
-        *  1.5 RCVD_IN_SORBS_WEB RBL: SORBS: sender is an abusable web server
-        *      [197.234.219.23 listed in dnsbl.sorbs.net]
-        *  0.1 RCVD_IN_SBL RBL: Received via a relay in Spamhaus SBL
-        *      [197.234.219.23 listed in zen.spamhaus.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  1.3 RCVD_IN_VALIDITY_RPBL RBL: Relay in Validity RPBL,
-        *      https://senderscore.org/blocklistlookup/
-        *      [195.49.185.119 listed in bl.score.senderscore.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.0 SPF_NONE SPF: sender does not publish an SPF Record
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-X-Spam-Level: *****
+Received: by 2002:a05:6358:3601:b0:a3:2139:251d with HTTP; Wed, 1 Jun 2022
+ 12:17:30 -0700 (PDT)
+Reply-To: johnwinery@online.ee
+From:   johnwinery <alicejohnson8974@gmail.com>
+Date:   Wed, 1 Jun 2022 12:17:30 -0700
+Message-ID: <CAFqHCSSUC0MpbjYK8d-GCxOG4b6Qbk2uH3+xQDZte6cPBsxLGA@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good Morning,
-
-We are Kostiantyn Chychkov and Maryna Chudnovska from Ukraine, we need your service, we have gone through your profile and we will like to work with you on an important service that needs urgent attention due to the ongoing war in our country. Kindly acknowledge this inquiry as soon as possible for a detailed discussion about the service.
-
-Thank you.
-
-Yours expectantly,
-
-Kostiantyn Chichkov & Ms. Maryna Chudnovska,
-From Ukraine.
-
-
+Greeting ,I had written an earlier mail to you but without response
