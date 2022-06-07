@@ -2,131 +2,92 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 34B4E53F9B3
-	for <lists+linux-nilfs@lfdr.de>; Tue,  7 Jun 2022 11:28:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E089353FD9D
+	for <lists+linux-nilfs@lfdr.de>; Tue,  7 Jun 2022 13:37:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239464AbiFGJ2b (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 7 Jun 2022 05:28:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41596 "EHLO
+        id S242020AbiFGLh3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 7 Jun 2022 07:37:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239449AbiFGJ2O (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 7 Jun 2022 05:28:14 -0400
-Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE3E506D8
-        for <linux-nilfs@vger.kernel.org>; Tue,  7 Jun 2022 02:28:11 -0700 (PDT)
-Received: by mail-yb1-xb36.google.com with SMTP id i39so2122375ybj.9
-        for <linux-nilfs@vger.kernel.org>; Tue, 07 Jun 2022 02:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
-         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
-         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
-         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
-         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
-         O14A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
-        b=gcZLshBu+j+E+KqSlsv853Ylc765qSvGZzQz7S53jyf3Qn8OMrEz4bZhHg5IkoRyqf
-         /Ode61kFyDEJy47yuZxAD2qZw4uZiJa84cG7V0nBpabc4oPHtCPidDgQGxU28mZ1dsM1
-         sHxQR+EUCas7k+hNPwkanugU87A5XmM2Sr6DWE9N3W04LTdvOOxfngg0JiK4Ut6+pHPG
-         ZIqX3aWtdiMuNPJ9+LsvpJtMr3ZY5tcHR1+Rr0oz4pOGMK0AD73dHPjYuyi4ObC02V2Y
-         5MLL+QYDtfucoGZH/nlVW54fdd7zKMmyB8hNKpvq1NxvyjIwtnfkDggLKOQUOSMq2xuI
-         vK9g==
-X-Gm-Message-State: AOAM5309ebnAFs25Khumfh4aaQ+tt5hjMasVXQadCe+bve1bTmZRLl0N
-        rcYV1MJME8XvFbUE9qhjcf6snftxsK6NtE7egjY8YzK/H0C4Qln4
-X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
-X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
- v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
- Jun 2022 02:28:00 -0700 (PDT)
+        with ESMTP id S243011AbiFGLh2 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 7 Jun 2022 07:37:28 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4B85DFD3;
+        Tue,  7 Jun 2022 04:37:23 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 63FF8B81F6A;
+        Tue,  7 Jun 2022 11:37:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B4A4C385A5;
+        Tue,  7 Jun 2022 11:37:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1654601841;
+        bh=8ssLmPCQc0kBEOnMpM83QxMMmjw3G4wZmE/Q52LHRZ0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ulrnZ3VWWAYqxXyKMLlRANtahVN2YqNjS+95EKiyA31F59Kxv56ZxZvJeFNL2v8u2
+         HARW/OKmP9vrlxSdZNnaH3ij+7H8UlnfzOCQ1oxjz9vjsiisWeP8YGHgOUWaKE3RXJ
+         0Qgq8LuNiEDX/vIkZ2FV2oYFDoYmwavNlOFsB8uPO+joCcntqxsuAWdrO2LcLkXq03
+         5jcBhpDEojRYyn7qDO7vem729Q325Cpl+yLlRoju9/CWrk0f33UnA9Hak8u2vJNDYY
+         93upScTvvcZE6v6bgLLYedRNMRE70uLsyv1JUV94v403BBEPVF5OmKnH6DlbYWYvUg
+         /f4lOE8iShQ3Q==
+Date:   Tue, 7 Jun 2022 13:37:16 +0200
+From:   Christian Brauner <brauner@kernel.org>
+To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc:     linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org
+Subject: Re: [PATCH 00/10] Convert to filemap_get_folios()
+Message-ID: <20220607113716.aec2o7onzu3re2o4@wittgenstein>
+References: <20220605193854.2371230-1-willy@infradead.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
- 02:28:00 -0700 (PDT)
-Reply-To: robertbaileys_spende@aol.com
-From:   Robert Baileys <mercymiji.j@gmail.com>
-Date:   Tue, 7 Jun 2022 11:28:00 +0200
-Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:b36 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [mercymiji.j[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.0 LOTS_OF_MONEY Huge... sums of money
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
-        *      email?
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
-X-Spam-Level: ******
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20220605193854.2371230-1-willy@infradead.org>
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
---=20
-Hallo, lieber Beg=C3=BCnstigter,
+On Sun, Jun 05, 2022 at 08:38:44PM +0100, Matthew Wilcox wrote:
+> This patch series removes find_get_pages_range(), pagevec_lookup()
+> and pagevec_lookup_range(), converting all callers to use the new
+> filemap_get_folios().  I've only run xfstests over ext4 ... some other
+> testing might be appropriate.
+> 
+> Matthew Wilcox (Oracle) (10):
+>   filemap: Add filemap_get_folios()
+>   buffer: Convert clean_bdev_aliases() to use filemap_get_folios()
+>   ext4: Convert mpage_release_unused_pages() to use filemap_get_folios()
+>   ext4: Convert mpage_map_and_submit_buffers() to use
+>     filemap_get_folios()
+>   f2fs: Convert f2fs_invalidate_compress_pages() to use
+>     filemap_get_folios()
+>   hugetlbfs: Convert remove_inode_hugepages() to use
+>     filemap_get_folios()
+>   nilfs2: Convert nilfs_copy_back_pages() to use filemap_get_folios()
+>   vmscan: Add check_move_unevictable_folios()
+>   shmem: Convert shmem_unlock_mapping() to use filemap_get_folios()
+>   filemap: Remove find_get_pages_range() and associated functions
+> 
+>  fs/buffer.c             | 26 +++++++--------
+>  fs/ext4/inode.c         | 40 ++++++++++++-----------
+>  fs/f2fs/compress.c      | 35 +++++++++-----------
+>  fs/hugetlbfs/inode.c    | 44 ++++++++-----------------
+>  fs/nilfs2/page.c        | 60 +++++++++++++++++-----------------
+>  include/linux/pagemap.h |  5 ++-
+>  include/linux/pagevec.h | 10 ------
+>  include/linux/swap.h    |  3 +-
+>  mm/filemap.c            | 72 +++++++++++++++++------------------------
+>  mm/shmem.c              | 13 ++++----
+>  mm/swap.c               | 29 -----------------
+>  mm/vmscan.c             | 55 ++++++++++++++++++-------------
+>  12 files changed, 166 insertions(+), 226 deletions(-)
 
-Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
-bin ein pensionierter Regierungsangestellter aus Harlem und ein
-Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
-bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
-ttery
-in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
-und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
-Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
-Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
-um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
-Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
-machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
-e
-Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
-gegen=C3=BCberstehen.
-https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
-t-in-new-york-history/Sie
-Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
-https://www.youtube.com/watch?v=3DH5vT18Ysavc
-Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
-Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
-e
-Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
-Euro beginnen kann.
-Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
-Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
-erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
-
-Gr=C3=BC=C3=9Fe,
-Robert Bailey
-* * * * * * * * * * * * * * * *
-
-Powerball-Jackpot-Gewinner
-E-Mail: robertbaileys_spende@aol.com
+The conversion seems fairly straightforward, so looks good to me.
+Acked-by: Christian Brauner (Microsoft) <brauner@kernel.org>
