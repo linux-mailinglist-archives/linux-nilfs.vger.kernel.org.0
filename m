@@ -2,218 +2,131 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A0753DDF5
-	for <lists+linux-nilfs@lfdr.de>; Sun,  5 Jun 2022 21:39:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B4E53F9B3
+	for <lists+linux-nilfs@lfdr.de>; Tue,  7 Jun 2022 11:28:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347802AbiFETjN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 5 Jun 2022 15:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42516 "EHLO
+        id S239464AbiFGJ2b (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 7 Jun 2022 05:28:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347104AbiFETjF (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 5 Jun 2022 15:39:05 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08E2A65F8;
-        Sun,  5 Jun 2022 12:39:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=kW7acvpugaZzYgKpNVxP3YXlqqo8ej9HniApAt9C7Wk=; b=GayB5dkNyETT1aj143hZpJ9xJr
-        2W3PmmqCmdsuLmQY9SEJ2F5XCz/p7+bPpCYBl4Z5FqoKlX63+mesk72QIxc8GbTFN6Vj7N693OPSz
-        EAzmfYVOvCExzpQVT6Eo/3ppcpw0dDWOCBIJT0J9+VT3SAskMmWebD7iZwtwga09wxGXdZq+DsWH5
-        zr7rRtR8Ot38QThbkmEFP5sH8mKV2McSI3M5hohoBkIJ5y1yhfwz8O//gZN4YDvKQv5lqJ1I98SFm
-        mt+aJZdCZBveBW7dWweDqSqXxJAfQ3m2/dVOOj384TYkN3SRcXmxaAndo0qADxxP6/AoDc9ozluPC
-        6SRvx5Ow==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1nxw5R-009wsh-Ac; Sun, 05 Jun 2022 19:38:57 +0000
-From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To:     linux-fsdevel@vger.kernel.org
-Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        linux-kernel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-mm@kvack.org,
-        linux-nilfs@vger.kernel.org
-Subject: [PATCH 10/10] filemap: Remove find_get_pages_range() and associated functions
-Date:   Sun,  5 Jun 2022 20:38:54 +0100
-Message-Id: <20220605193854.2371230-11-willy@infradead.org>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20220605193854.2371230-1-willy@infradead.org>
-References: <20220605193854.2371230-1-willy@infradead.org>
+        with ESMTP id S239449AbiFGJ2O (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 7 Jun 2022 05:28:14 -0400
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBE3E506D8
+        for <linux-nilfs@vger.kernel.org>; Tue,  7 Jun 2022 02:28:11 -0700 (PDT)
+Received: by mail-yb1-xb36.google.com with SMTP id i39so2122375ybj.9
+        for <linux-nilfs@vger.kernel.org>; Tue, 07 Jun 2022 02:28:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
+         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
+         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
+         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
+         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
+         O14A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=gcZLshBu+j+E+KqSlsv853Ylc765qSvGZzQz7S53jyf3Qn8OMrEz4bZhHg5IkoRyqf
+         /Ode61kFyDEJy47yuZxAD2qZw4uZiJa84cG7V0nBpabc4oPHtCPidDgQGxU28mZ1dsM1
+         sHxQR+EUCas7k+hNPwkanugU87A5XmM2Sr6DWE9N3W04LTdvOOxfngg0JiK4Ut6+pHPG
+         ZIqX3aWtdiMuNPJ9+LsvpJtMr3ZY5tcHR1+Rr0oz4pOGMK0AD73dHPjYuyi4ObC02V2Y
+         5MLL+QYDtfucoGZH/nlVW54fdd7zKMmyB8hNKpvq1NxvyjIwtnfkDggLKOQUOSMq2xuI
+         vK9g==
+X-Gm-Message-State: AOAM5309ebnAFs25Khumfh4aaQ+tt5hjMasVXQadCe+bve1bTmZRLl0N
+        rcYV1MJME8XvFbUE9qhjcf6snftxsK6NtE7egjY8YzK/H0C4Qln4
+X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
+X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
+ v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
+ Jun 2022 02:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,SUSPICIOUS_RECIPS,T_SCC_BODY_TEXT_LINE autolearn=ham
+Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
+ 02:28:00 -0700 (PDT)
+Reply-To: robertbaileys_spende@aol.com
+From:   Robert Baileys <mercymiji.j@gmail.com>
+Date:   Tue, 7 Jun 2022 11:28:00 +0200
+Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b36 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mercymiji.j[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-All callers of find_get_pages_range(), pagevec_lookup_range() and
-pagevec_lookup() have now been removed.
+--=20
+Hallo, lieber Beg=C3=BCnstigter,
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- include/linux/pagemap.h |  3 --
- include/linux/pagevec.h | 10 ------
- mm/filemap.c            | 67 -----------------------------------------
- mm/swap.c               | 29 ------------------
- 4 files changed, 109 deletions(-)
+Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
+bin ein pensionierter Regierungsangestellter aus Harlem und ein
+Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
+bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
+ttery
+in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
+und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
+Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
+Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
+um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
+Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
+machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
+e
+Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
+gegen=C3=BCberstehen.
+https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
+t-in-new-york-history/Sie
+Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
+Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
+e
+Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
+Euro beginnen kann.
+Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
+Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
+erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
 
-diff --git a/include/linux/pagemap.h b/include/linux/pagemap.h
-index 50e57b2d845f..1caccb9f99aa 100644
---- a/include/linux/pagemap.h
-+++ b/include/linux/pagemap.h
-@@ -720,9 +720,6 @@ static inline struct page *find_subpage(struct page *head, pgoff_t index)
- 
- unsigned filemap_get_folios(struct address_space *mapping, pgoff_t *start,
- 		pgoff_t end, struct folio_batch *fbatch);
--unsigned find_get_pages_range(struct address_space *mapping, pgoff_t *start,
--			pgoff_t end, unsigned int nr_pages,
--			struct page **pages);
- unsigned find_get_pages_contig(struct address_space *mapping, pgoff_t start,
- 			       unsigned int nr_pages, struct page **pages);
- unsigned find_get_pages_range_tag(struct address_space *mapping, pgoff_t *index,
-diff --git a/include/linux/pagevec.h b/include/linux/pagevec.h
-index 67b1246f136b..6649154a2115 100644
---- a/include/linux/pagevec.h
-+++ b/include/linux/pagevec.h
-@@ -27,16 +27,6 @@ struct pagevec {
- 
- void __pagevec_release(struct pagevec *pvec);
- void __pagevec_lru_add(struct pagevec *pvec);
--unsigned pagevec_lookup_range(struct pagevec *pvec,
--			      struct address_space *mapping,
--			      pgoff_t *start, pgoff_t end);
--static inline unsigned pagevec_lookup(struct pagevec *pvec,
--				      struct address_space *mapping,
--				      pgoff_t *start)
--{
--	return pagevec_lookup_range(pvec, mapping, start, (pgoff_t)-1);
--}
--
- unsigned pagevec_lookup_range_tag(struct pagevec *pvec,
- 		struct address_space *mapping, pgoff_t *index, pgoff_t end,
- 		xa_mark_t tag);
-diff --git a/mm/filemap.c b/mm/filemap.c
-index ea4145b7a84c..340ccb37f6b6 100644
---- a/mm/filemap.c
-+++ b/mm/filemap.c
-@@ -2192,73 +2192,6 @@ bool folio_more_pages(struct folio *folio, pgoff_t index, pgoff_t max)
- 	return index < folio->index + folio_nr_pages(folio) - 1;
- }
- 
--/**
-- * find_get_pages_range - gang pagecache lookup
-- * @mapping:	The address_space to search
-- * @start:	The starting page index
-- * @end:	The final page index (inclusive)
-- * @nr_pages:	The maximum number of pages
-- * @pages:	Where the resulting pages are placed
-- *
-- * find_get_pages_range() will search for and return a group of up to @nr_pages
-- * pages in the mapping starting at index @start and up to index @end
-- * (inclusive).  The pages are placed at @pages.  find_get_pages_range() takes
-- * a reference against the returned pages.
-- *
-- * The search returns a group of mapping-contiguous pages with ascending
-- * indexes.  There may be holes in the indices due to not-present pages.
-- * We also update @start to index the next page for the traversal.
-- *
-- * Return: the number of pages which were found. If this number is
-- * smaller than @nr_pages, the end of specified range has been
-- * reached.
-- */
--unsigned find_get_pages_range(struct address_space *mapping, pgoff_t *start,
--			      pgoff_t end, unsigned int nr_pages,
--			      struct page **pages)
--{
--	XA_STATE(xas, &mapping->i_pages, *start);
--	struct folio *folio;
--	unsigned ret = 0;
--
--	if (unlikely(!nr_pages))
--		return 0;
--
--	rcu_read_lock();
--	while ((folio = find_get_entry(&xas, end, XA_PRESENT))) {
--		/* Skip over shadow, swap and DAX entries */
--		if (xa_is_value(folio))
--			continue;
--
--again:
--		pages[ret] = folio_file_page(folio, xas.xa_index);
--		if (++ret == nr_pages) {
--			*start = xas.xa_index + 1;
--			goto out;
--		}
--		if (folio_more_pages(folio, xas.xa_index, end)) {
--			xas.xa_index++;
--			folio_ref_inc(folio);
--			goto again;
--		}
--	}
--
--	/*
--	 * We come here when there is no page beyond @end. We take care to not
--	 * overflow the index @start as it confuses some of the callers. This
--	 * breaks the iteration when there is a page at index -1 but that is
--	 * already broken anyway.
--	 */
--	if (end == (pgoff_t)-1)
--		*start = (pgoff_t)-1;
--	else
--		*start = end + 1;
--out:
--	rcu_read_unlock();
--
--	return ret;
--}
--
- /**
-  * find_get_pages_contig - gang contiguous pagecache lookup
-  * @mapping:	The address_space to search
-diff --git a/mm/swap.c b/mm/swap.c
-index f3922a96b2e9..f65e284247b2 100644
---- a/mm/swap.c
-+++ b/mm/swap.c
-@@ -1086,35 +1086,6 @@ void folio_batch_remove_exceptionals(struct folio_batch *fbatch)
- 	fbatch->nr = j;
- }
- 
--/**
-- * pagevec_lookup_range - gang pagecache lookup
-- * @pvec:	Where the resulting pages are placed
-- * @mapping:	The address_space to search
-- * @start:	The starting page index
-- * @end:	The final page index
-- *
-- * pagevec_lookup_range() will search for & return a group of up to PAGEVEC_SIZE
-- * pages in the mapping starting from index @start and upto index @end
-- * (inclusive).  The pages are placed in @pvec.  pagevec_lookup() takes a
-- * reference against the pages in @pvec.
-- *
-- * The search returns a group of mapping-contiguous pages with ascending
-- * indexes.  There may be holes in the indices due to not-present pages. We
-- * also update @start to index the next page for the traversal.
-- *
-- * pagevec_lookup_range() returns the number of pages which were found. If this
-- * number is smaller than PAGEVEC_SIZE, the end of specified range has been
-- * reached.
-- */
--unsigned pagevec_lookup_range(struct pagevec *pvec,
--		struct address_space *mapping, pgoff_t *start, pgoff_t end)
--{
--	pvec->nr = find_get_pages_range(mapping, start, end, PAGEVEC_SIZE,
--					pvec->pages);
--	return pagevec_count(pvec);
--}
--EXPORT_SYMBOL(pagevec_lookup_range);
--
- unsigned pagevec_lookup_range_tag(struct pagevec *pvec,
- 		struct address_space *mapping, pgoff_t *index, pgoff_t end,
- 		xa_mark_t tag)
--- 
-2.35.1
+Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
 
+Powerball-Jackpot-Gewinner
+E-Mail: robertbaileys_spende@aol.com
