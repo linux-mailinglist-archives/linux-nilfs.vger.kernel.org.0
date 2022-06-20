@@ -2,80 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6232E54FAC0
-	for <lists+linux-nilfs@lfdr.de>; Fri, 17 Jun 2022 18:06:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C140E551642
+	for <lists+linux-nilfs@lfdr.de>; Mon, 20 Jun 2022 12:52:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1383074AbiFQQGX (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 17 Jun 2022 12:06:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52960 "EHLO
+        id S235935AbiFTKv7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 20 Jun 2022 06:51:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1382943AbiFQQGT (ORCPT
+        with ESMTP id S234950AbiFTKv6 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 17 Jun 2022 12:06:19 -0400
-X-Greylist: delayed 1496 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 17 Jun 2022 09:06:18 PDT
-Received: from sv220.xserver.jp (sv220.xserver.jp [202.226.39.121])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58B03186F5;
-        Fri, 17 Jun 2022 09:06:18 -0700 (PDT)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/521/virusgw2.xserver.jp)
-Received: from webmail.xserver.ne.jp (webmail.xserver.ne.jp [210.188.201.183])
-        by sv220.xserver.jp (Postfix) with ESMTPA id 038CD12025F434;
-        Sat, 18 Jun 2022 00:16:31 +0900 (JST)
+        Mon, 20 Jun 2022 06:51:58 -0400
+Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991E51180E
+        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jun 2022 03:51:57 -0700 (PDT)
+Received: by mail-yb1-xb34.google.com with SMTP id v81so18306051ybe.0
+        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jun 2022 03:51:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:from:reply-to:date:message-id:subject:to;
+        bh=neTy1KoU2EoT9SsnwpAqaw46wNGviqYunr6QUZlJLWk=;
+        b=SkxkGp5e6Mghmg0MQFCuQ5DZX/8C17aYnJbZiQx3lHt2GTEmuOs6QEDv6O7Y6oT7Vu
+         Ve9q+28C2fr/Ep+5BiboovlhumjqF5yXTuL6w21/63IEzj7r+SMLxpghA0Ol88cpa5zY
+         U17sHouRpNhG7wsOn30ZJxy59s8HrVqpGktgzOLiIssDmto2sOm+AqHg6uEe+elNVrbO
+         xUB5KJk39fccNajKaoMmCbCTKOlqP3PKByxVcP9C79AB73G6lS9AJF9AcTY2cWVWH1nW
+         ZIG0+PDN0WRI7XnWZjSbw9fykug49Tw450jiXdF2ErHhcFRXZWXfJUJfDVCYcVQhsMTW
+         F64Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:from:reply-to:date:message-id
+         :subject:to;
+        bh=neTy1KoU2EoT9SsnwpAqaw46wNGviqYunr6QUZlJLWk=;
+        b=XM3DTK6XK8arGNFKgPCznC3JIGsa/9MlBYqJHR2PuCJ69x7sfR4pLNLCFvtdpoI+9k
+         sK8uDLOkQErZwcmX/PX4shF8wm6DM9LC/BXP4dMmDKXjBu7KK6lMuWIoiCeEObPucCrK
+         /z+xu/FcVC4SLN+N3YDLOpFbdY28RkLkIVXQTLCLhHsMFITeaj9G36TFOFMCmgnXQFUr
+         yQEKppJMBLPNbn0x+uLeWB7j6A/R8ydax73XCpJuIoX1YQnVmBrNyi7gsMyMB+8/pvyj
+         aPm3cF3pWpPdp368KLaeHCINv9zRGTXuMGs91udmmCYMpKYJMwIihmx1F29BdWIS8XO8
+         Rfug==
+X-Gm-Message-State: AJIora8HuUlrJM8GJm07IyBBUwWLXX+5treXUtAIn5xL73X7T0ni1fwi
+        J6VSLkWNr6PKLj7qTtxamANeLk3mTzyeI1DQagKexP+d
+X-Google-Smtp-Source: AGRyM1s2w2wjIkEwcyXsmNmnhs9b5sQk82GFBAsDy2+roBqff/92fJxDLXN/CBhQ/qGSlENVt5XOmf/KOcBV/INi5NE=
+X-Received: by 2002:a25:b00b:0:b0:664:2460:e244 with SMTP id
+ q11-20020a25b00b000000b006642460e244mr23983701ybf.19.1655722316812; Mon, 20
+ Jun 2022 03:51:56 -0700 (PDT)
+Received: from 927538837578 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 20 Jun 2022 03:51:56 -0700
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Fri, 17 Jun 2022 23:16:31 +0800
-From:   Steve Dibenedetto <y-kitsuya@bell-group.co.jp>
-To:     undisclosed-recipients:;
-Subject: THIS IS VERY CONFIDENTIAL
-Reply-To: stevedibenedetto17@gmail.com
-Mail-Reply-To: stevedibenedetto17@gmail.com
-Message-ID: <ec1bb68d0d72aa3e007bad8b0e72f08f@bell-group.co.jp>
-X-Sender: y-kitsuya@bell-group.co.jp
-User-Agent: Roundcube Webmail/1.2.0
-X-Spam-Status: Yes, score=6.9 required=5.0 tests=BAYES_50,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,ODD_FREEM_REPTO,
-        SPF_HELO_PASS,SPF_SOFTFAIL,SUBJ_ALL_CAPS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_HELO_PASS SPF: HELO matches SPF record
-        *  0.7 SPF_SOFTFAIL SPF: sender does not match SPF record (softfail)
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [stevedibenedetto17[at]gmail.com]
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  2.6 ODD_FREEM_REPTO Has unusual reply-to header
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
-X-Spam-Level: ******
+From:   "Linux NILFS <linuxnilfs@gmail.com>" <linuxnilfs@gmail.com>
+Reply-To: Linux NILFS <linux-nilfs@vger.kernel.org>
+Date:   Mon, 20 Jun 2022 03:51:56 -0700
+Message-ID: <CAE7Udf-QiGubgqimNeqKHTT5zXNHKJx0tYor9b9XRpZzUgh_fA@mail.gmail.com>
+Subject: NILFS utils 2.2.9 was released
+To:     linux-nilfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+A maintenance release that includes fixes for build issues in recent
+environments
 
-
--- 
-Hello,
-
-My name is Steve Dibenedetto.I apologize to have contacted you this way
-without a direct relationship. There is an opportunity to collaborate
-with me in the sourcing of some materials needed by our company for
-production of the different medicines we are researching.
-
-I'm aware that this might be totally outside your professional
-specialization, but it will be a great source for generating extra
-revenue. I  discovered a manufacturer who can supply us at a lower rate
-than our company's previous purchases.
-I will give you more specific details when/if I receive feedback from
-you showing interest.
-
-Warm Regards
-Steve Dibenedetto
-Production & Control Manager,
-Green Field Laboratories
-Gothic House, Barker Gate,
-Nottingham, NG1 1JU,
-United Kingdom.
+from https://nilfs.sourceforge.io/en/download.html#2.2.9-u
