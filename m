@@ -2,73 +2,60 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CC6553523
-	for <lists+linux-nilfs@lfdr.de>; Tue, 21 Jun 2022 17:03:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F07D553776
+	for <lists+linux-nilfs@lfdr.de>; Tue, 21 Jun 2022 18:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1352134AbiFUPDE (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 21 Jun 2022 11:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39096 "EHLO
+        id S1353553AbiFUQKU convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Tue, 21 Jun 2022 12:10:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241043AbiFUPDC (ORCPT
+        with ESMTP id S1353491AbiFUQKT (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 21 Jun 2022 11:03:02 -0400
-Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC412A4
-        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 08:02:59 -0700 (PDT)
-Received: by mail-lj1-x232.google.com with SMTP id s14so9047143ljs.3
-        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 08:02:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=jcpCAoNbc0xzuhPIvpEKg132Fwj9YR6uxrslS8Yon4w=;
-        b=LfJGetRuZLXbjGFrkh7yyhkks7KQUVRfLsHto2sq2vIp537o2c6/Fm+A+UkVP00zF+
-         TrHWROxYVB3UwZypHIPd7uCXwElZBjE9DP2YuQQ4c5xjNGzemJJMP1+u3/CLYPVSl6Du
-         KDudgtTxCiZzktxlxIfjP/OPUAqWn1wjAYCS0aZh2wERSxZPlmv+cY8zhRZxZPywSfpw
-         8kQCz4DDWayU/C1vvmkELqvIabAaW8eIhEIdv8sBw9oxKHHdMrqsiUSsyRscerQ4fnJ+
-         2si/+oDN25xa+b1BJcn5aepl/b0h8Mp5DIQWO/l9P9icLe/7l6t9XFCQkxZagIfFcVRc
-         Ww7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jcpCAoNbc0xzuhPIvpEKg132Fwj9YR6uxrslS8Yon4w=;
-        b=a5lLGADRlrZp7DUFj+CeDNkB1UO9QySHv4XFt4T5igz0+5IE+lZz/cmwkNuPnDdep0
-         5BUC2T/MLV+MlZdLgyZcIRJ6UPrXqAXdM9k6cecAMrHi5gpk2EmI5cITWy3PW2GeK5qX
-         5xxDe2vyBBquRsNNHZ39M9WhoKt+3CXSOOuMCZiZsYXyWJWM5gsI+V/U11sbBag0meff
-         i0uyQE9GWVEBQc56FRAhLCpK4wD4U2luZol6akEgxKqXYpCB++1jcs9aI3Cc/fPtmAQG
-         z2uaAyPMrqLctpjdOaR/uXCPJhfCv+GgsIyHCHiXgUlzr1rXFFBVVmFkPG79z3aQU1wj
-         r6Rw==
-X-Gm-Message-State: AJIora9ZoSN8bpnwo+zBr5swpfPQG70SZ2yEVdsFxNtTAFrO1KqkILcO
-        Mq4catYQ4Dl0FhGrM8dl+NpXuyLuk1KHdmIZBE/ZypDuhrg=
-X-Google-Smtp-Source: AGRyM1sUbO2lUQj/6RbD+czXDnn/dZAkL1C9ymoTmgeAOVTXJpkySysaXzGUkuQUfai5Ko+67zUB9ks4FHme4n1rJdw=
-X-Received: by 2002:a05:651c:239:b0:255:a237:7ebd with SMTP id
- z25-20020a05651c023900b00255a2377ebdmr15179689ljn.401.1655823777166; Tue, 21
- Jun 2022 08:02:57 -0700 (PDT)
+        Tue, 21 Jun 2022 12:10:19 -0400
+X-Greylist: delayed 391 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Jun 2022 09:10:07 PDT
+Received: from mail.daotechnologies.com (173-12-0-166-panjde.hfc.comcastbusiness.net [173.12.0.166])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B732CDEF
+        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 09:10:07 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daotechnologies.com (Postfix) with ESMTP id 273E24060ECB0;
+        Tue, 21 Jun 2022 12:03:35 -0400 (EDT)
+Received: from mail.daotechnologies.com ([127.0.0.1])
+        by localhost (mail.daotechnologies.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id a3tqbaxXh8u8; Tue, 21 Jun 2022 12:03:34 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.daotechnologies.com (Postfix) with ESMTP id 0C37E4060ECB1;
+        Tue, 21 Jun 2022 12:03:34 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at daotechnologies.com
+Received: from mail.daotechnologies.com ([127.0.0.1])
+        by localhost (mail.daotechnologies.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id t04EkLwcKQ8d; Tue, 21 Jun 2022 12:03:33 -0400 (EDT)
+Received: from [192.168.27.42] (173-12-0-163-panjde.hfc.comcastbusiness.net [173.12.0.163])
+        by mail.daotechnologies.com (Postfix) with ESMTPSA id DFB424060ECB0;
+        Tue, 21 Jun 2022 12:03:33 -0400 (EDT)
+Message-ID: <bbaf111e-34c8-02d8-da52-a95d474b7210@daotechnologies.com>
+Date:   Tue, 21 Jun 2022 12:03:33 -0400
 MIME-Version: 1.0
-References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
-In-Reply-To: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 22 Jun 2022 00:02:40 +0900
-Message-ID: <CAKFNMo=nn1hu==S6xB5sWGuN_KpCuoHjmQb76WjrHg1875T_Vg@mail.gmail.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.9.1
 Subject: Re: Is NILFS2 suitable for long term archival storage?
-To:     Ciprian Craciun <ciprian.craciun@gmail.com>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Language: en-US
+To:     Ciprian Craciun <ciprian.craciun@gmail.com>,
+        linux-nilfs@vger.kernel.org
+References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
+From:   Keith <kperry@daotechnologies.com>
+In-Reply-To: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        NICE_REPLY_A,RDNS_DYNAMIC,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,
+        T_SPF_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Ciprian,
-
-On Tue, Jun 21, 2022 at 6:42 PM Ciprian Craciun wrote:
->
+On 6/21/22 05:40, Ciprian Craciun wrote:
 > [I'm not subscribed to the mailing list, thus please keep me in CC.]
 >
 >
@@ -86,68 +73,53 @@ On Tue, Jun 21, 2022 at 6:42 PM Ciprian Craciun wrote:
 > So I was wondering the following:
 > * is NILFS2 suitable for such a use-case?  (my assumption is yes, at
 > least based on the features and promises;)
-
-The suitability for storage media such as CMR and SMR is uncertain in
-actual use, so I think you should actually evaluate that pattern with some
-file systems.
-
-Writing with NILFS2 has the characteristic of being sequential, including
-updating file system metadata and concurrent writes.  However, reading
-causes random access, which will be a trade-off with the effect of caching.
-
-In addition, NILFS2 periodically updates the superblocks at the beginning
-and end of the partition alternately, so writes are not completely sequential.
-These properties can work in both the good and the bad.
-
-For sudden removal, NILFS2 will be robust as the result of checkpointing,
-but that assumption, in the first place, sounds physically not good for
-disk media unless the device has a battery-backed safety guarantee.
-On the other hand, most modern file systems these days are also robust
-enough for unusual disconnections.
-
-The use case where NILFS2 is most useful is that the latest data can be
-recovered even if the data is overwritten or deleted by human error or an
-application bug.
-However, this does not seem to be utilized in the above archive storage
-applications.
-
 > * how reliable is the current version (as upstreamed in the kernel) of
 > NILFS2?  data-loss of previously written (and `fsync`-ed) files is of
 > paramount importance (especially for files that have been written say
 > days ago);
 > * are there instances of NILFS2 used in production (for any use-case)?
-
-I believe NILFS2 in the upstream kernel is still reliable enough, but I
-think you should refer to other users' opinions on this.
-
-As far as I know, NILFS2 once operated as a document storage server
-in a company for about 5 years and had no failure.   The server really
-helped to rescue office documents that the staff accidentally overwritten
-and erased.  But this is more than eight years ago.   I don't  know about
-application examples for commercial device products.
-
+I use nilfs2 in similar ways and have been for well over 10 years now.  
+I use it in a mostly as part of a data replication solution (single or 
+multi-stage).  I would mostly recommend it for windowed backup and 
+archival solutions (i.e. we're going to keep X amount of data for Y 
+amount of time and purge every Z interval).
 > I've tried searching on the internet and the email archives, but I
 > couldn't find anything "current" enough.  Moreover at least OpenSUSE
 > (and SUSE) have dropped the NILFS2 kernel module from the standard
 > packages (granted JFS was also dropped).
 >
 > Also I'm concerned due to the fact that there isn't any `fsck` for NILFS2 yet.
-
-This is true.
-NILFS2 guarantees reliability with a checkpoint write method, so if a bug
-in the file system itself corrupts the data or metadata, there is no way to
-remedy it yet.
-
+>
+This is why I don't 100% recommend it.  I have had no more than 4 major 
+issues in 10 years where I could not purge old data. Specifically what 
+that means is I had a snapshot that changed back to a checkpoint so that 
+it could be purged the next time garbage collection ran.  As a result, I 
+eventually had to reformat which meant giving up the current data (which 
+could span several years). I sometimes use an nilfs2 fs in a loop 
+mounted system on top of a large parallel / distributed filesystem and 
+that combination could be the issue but it makes no sense to me why 
+there is no way to get around a problem like that.  The lack of tools to 
+analyze and fix that condition or to be able to efficiently copy or 
+migrate data to another system continues to be an issue.  That said, I 
+have NEVER lost data in snapshot and have been able to access data from 
+years prior even when I can't purge.  The benefits of nilfs2 continue to 
+outweigh this issue for me and if I really want all the data in a 
+filesystem that can't be purged I could rebuild it manually somewhere 
+else on the data lake.  That would be a p.i.t.a. but at least it is an 
+option.
 > Related to this, could the community recommend an alternative
 > file-system that would fit the bill?  (Ext4 and JFS are the only
 > file-systems I have heavily used and relied upon.)
+>
+Nothing else comes to mind for me as an all-in-one-solution.  I think 
+you're going to have to continue to build a solution from the best 
+offerings you find.
 
-Again, this depends on the opinions of everyone else.
+-- 
+~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+Keith C. Perry, MS E.E.
+Managing Member, DAO Technologies LLC
+(O) +1.215.525.4165 x2033
+(M) +1.215.432.5167
+www.daotechnologies.com
 
-To mention just one thing, when it comes to large archive storage,
-I guess there is a perspective of resistance to the bit rot issue.
-From this perspective, btrfs or zfs would be your choice unless
-you combine an FS with other solutions like dm-integrity.
-
-Regards,
-Ryusuke Konishi
