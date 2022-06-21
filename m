@@ -2,69 +2,108 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C140E551642
-	for <lists+linux-nilfs@lfdr.de>; Mon, 20 Jun 2022 12:52:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC0DD552ED3
+	for <lists+linux-nilfs@lfdr.de>; Tue, 21 Jun 2022 11:41:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235935AbiFTKv7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 20 Jun 2022 06:51:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44188 "EHLO
+        id S1349332AbiFUJky (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 21 Jun 2022 05:40:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234950AbiFTKv6 (ORCPT
+        with ESMTP id S1349410AbiFUJkL (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 20 Jun 2022 06:51:58 -0400
-Received: from mail-yb1-xb34.google.com (mail-yb1-xb34.google.com [IPv6:2607:f8b0:4864:20::b34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 991E51180E
-        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jun 2022 03:51:57 -0700 (PDT)
-Received: by mail-yb1-xb34.google.com with SMTP id v81so18306051ybe.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 20 Jun 2022 03:51:57 -0700 (PDT)
+        Tue, 21 Jun 2022 05:40:11 -0400
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E0927CF5
+        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 02:39:56 -0700 (PDT)
+Received: by mail-oo1-xc34.google.com with SMTP id o23-20020a4ad497000000b0041bd038b4dbso2597459oos.4
+        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 02:39:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:from:reply-to:date:message-id:subject:to;
-        bh=neTy1KoU2EoT9SsnwpAqaw46wNGviqYunr6QUZlJLWk=;
-        b=SkxkGp5e6Mghmg0MQFCuQ5DZX/8C17aYnJbZiQx3lHt2GTEmuOs6QEDv6O7Y6oT7Vu
-         Ve9q+28C2fr/Ep+5BiboovlhumjqF5yXTuL6w21/63IEzj7r+SMLxpghA0Ol88cpa5zY
-         U17sHouRpNhG7wsOn30ZJxy59s8HrVqpGktgzOLiIssDmto2sOm+AqHg6uEe+elNVrbO
-         xUB5KJk39fccNajKaoMmCbCTKOlqP3PKByxVcP9C79AB73G6lS9AJF9AcTY2cWVWH1nW
-         ZIG0+PDN0WRI7XnWZjSbw9fykug49Tw450jiXdF2ErHhcFRXZWXfJUJfDVCYcVQhsMTW
-         F64Q==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=NKhg6kSkfnglJlsPDVUWhCY3Iibudx7OhZC5CePFgeNekYJKNrcmU8wB8gkktmjPqY
+         f0o4DET3nwW7oGb1WQAmWVCm6yLISrVrQXMY/9qoCppMNLX7K/jA/JZ+JMs1mNT38j+N
+         qSlM2vTiSOIkQo5cZ6oY4dkMVda7fWn0vzKRT295Q67AStI8u0BTanvw38uSxo4IMvFm
+         mtbeFJOQugEk6bmbrSLJZHxNWvSEoU0AT9TQz59V3jAGDZbWiI6U0Fx8UlroTYMr9wGQ
+         +xC78kHT5AZK7k/f6wmWhdDj3ThC5Cy20ctCKCcYvb/idPExEpgvQXB/UX/ziCu3vO07
+         Q2/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:reply-to:date:message-id
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=neTy1KoU2EoT9SsnwpAqaw46wNGviqYunr6QUZlJLWk=;
-        b=XM3DTK6XK8arGNFKgPCznC3JIGsa/9MlBYqJHR2PuCJ69x7sfR4pLNLCFvtdpoI+9k
-         sK8uDLOkQErZwcmX/PX4shF8wm6DM9LC/BXP4dMmDKXjBu7KK6lMuWIoiCeEObPucCrK
-         /z+xu/FcVC4SLN+N3YDLOpFbdY28RkLkIVXQTLCLhHsMFITeaj9G36TFOFMCmgnXQFUr
-         yQEKppJMBLPNbn0x+uLeWB7j6A/R8ydax73XCpJuIoX1YQnVmBrNyi7gsMyMB+8/pvyj
-         aPm3cF3pWpPdp368KLaeHCINv9zRGTXuMGs91udmmCYMpKYJMwIihmx1F29BdWIS8XO8
-         Rfug==
-X-Gm-Message-State: AJIora8HuUlrJM8GJm07IyBBUwWLXX+5treXUtAIn5xL73X7T0ni1fwi
-        J6VSLkWNr6PKLj7qTtxamANeLk3mTzyeI1DQagKexP+d
-X-Google-Smtp-Source: AGRyM1s2w2wjIkEwcyXsmNmnhs9b5sQk82GFBAsDy2+roBqff/92fJxDLXN/CBhQ/qGSlENVt5XOmf/KOcBV/INi5NE=
-X-Received: by 2002:a25:b00b:0:b0:664:2460:e244 with SMTP id
- q11-20020a25b00b000000b006642460e244mr23983701ybf.19.1655722316812; Mon, 20
- Jun 2022 03:51:56 -0700 (PDT)
-Received: from 927538837578 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 20 Jun 2022 03:51:56 -0700
+        bh=/0bRExIb6Mv4sy5raFRmeQINC+UUx7zEZcUUOWWOPJg=;
+        b=67J8jAaaIjzpsMZ1ggQG8w7NXWLYyk8G69G23tV3tJ4OlcK6x541uzkuBq+S7DDXc9
+         K57mMDyLg/KZ9GaOnX67rczQXcqBBN11+URDsUQzufk5EyeV9wPK3S2nT+/QpUwcG5FQ
+         gb2RS8bwkZEXc95etJO9YlYvLd4YeP/4MsA91j6cTkGOobjVyr6cobSmU1kRX00f+8r6
+         WjwW+/T7ujs4zDBq0qS4MpNqF2b+hxdFxzv4qhZ85Bn4EYr8njjSTb7lHcaQqsJ4OjXY
+         QIoJQo8m9etV7sj4c+U5cag7RdcyxHOB+nLcYEP/hQPafwzvtQzhRkFodScCNr36Colr
+         G5aw==
+X-Gm-Message-State: AJIora+d9nJjm6t2QKgCaiEzgCG7eQYvj3fWtCNgQn45nyaoGRMuQGKv
+        84HbnzzUCn41JiW9Wg29nGcGpm3azblesqAVbRr6Jh1zQactE+2m
+X-Google-Smtp-Source: AGRyM1sTF/SvvxCyraPE52znD36ZX02jNmxmam87lP8bWzXT3yTfChS1a9JgJI9LjBXh9tpS4qLO5E/t+5efudcEruY=
+X-Received: by 2002:a0d:d7c7:0:b0:317:bfe8:4f2 with SMTP id
+ z190-20020a0dd7c7000000b00317bfe804f2mr12417910ywd.276.1655804384555; Tue, 21
+ Jun 2022 02:39:44 -0700 (PDT)
 MIME-Version: 1.0
-From:   "Linux NILFS <linuxnilfs@gmail.com>" <linuxnilfs@gmail.com>
-Reply-To: Linux NILFS <linux-nilfs@vger.kernel.org>
-Date:   Mon, 20 Jun 2022 03:51:56 -0700
-Message-ID: <CAE7Udf-QiGubgqimNeqKHTT5zXNHKJx0tYor9b9XRpZzUgh_fA@mail.gmail.com>
-Subject: NILFS utils 2.2.9 was released
-To:     linux-nilfs@vger.kernel.org
+Received: by 2002:a05:7010:e10a:b0:2d9:e631:94d0 with HTTP; Tue, 21 Jun 2022
+ 02:39:44 -0700 (PDT)
+Reply-To: dimitryedik@gmail.com
+From:   Dimitry Edik <lsbthdwrds@gmail.com>
+Date:   Tue, 21 Jun 2022 02:39:44 -0700
+Message-ID: <CAGrL05aBO8rbFuij24J-APa+Luis69gEjhj35iv_GZfkHCVYDQ@mail.gmail.com>
+Subject: Dear Partner,
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_MONEY_PERCENT,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,
+        UNDISC_MONEY autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:c34 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [lsbthdwrds[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.2 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  0.0 T_MONEY_PERCENT X% of a lot of money for you
+        *  2.0 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-A maintenance release that includes fixes for build issues in recent
-environments
+Hello Dear,
 
-from https://nilfs.sourceforge.io/en/download.html#2.2.9-u
+My Name is Dimitry Edik from Russia A special assistance to my Russia
+boss who deals in oil import and export He was killed by the Ukraine
+soldiers at the border side. He supplied
+oil to the Philippines company and he was paid over 90 per cent of the
+transaction and the remaining $18.6 Million dollars have been paid into a
+Taiwan bank in the Philippines..i want a partner that will assist me
+with the claims. Is a (DEAL ) 40% for you and 60% for me
+I have all information for the claims.
+Kindly read and reply to me back is 100 per cent risk-free
+
+Yours Sincerely
+Dimitry Edik
