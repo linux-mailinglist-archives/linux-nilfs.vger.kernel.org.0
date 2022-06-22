@@ -2,303 +2,74 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C02C554D97
-	for <lists+linux-nilfs@lfdr.de>; Wed, 22 Jun 2022 16:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 51527554E57
+	for <lists+linux-nilfs@lfdr.de>; Wed, 22 Jun 2022 17:04:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1358156AbiFVOiw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 22 Jun 2022 10:38:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37990 "EHLO
+        id S1358691AbiFVPED (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 22 Jun 2022 11:04:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358446AbiFVOiU (ORCPT
+        with ESMTP id S1358843AbiFVPEA (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 22 Jun 2022 10:38:20 -0400
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 695323CA55
-        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 07:38:19 -0700 (PDT)
-Received: by mail-wm1-x32f.google.com with SMTP id n185so9360645wmn.4
-        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 07:38:19 -0700 (PDT)
+        Wed, 22 Jun 2022 11:04:00 -0400
+Received: from mail-oa1-x33.google.com (mail-oa1-x33.google.com [IPv6:2001:4860:4864:20::33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9925E3EA90
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 08:03:52 -0700 (PDT)
+Received: by mail-oa1-x33.google.com with SMTP id 586e51a60fabf-1048b8a38bbso6090611fac.12
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 08:03:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:cc;
-        bh=VIjNoMrU30pbhQsSzli50cyFkAqfKHz6EgWSSD1tVS0=;
-        b=pmUdwLNEBudvfjjJWmzBlhYpZcWFEFGfviF0rfCvWErnElAxJNhrjlyuYNItlrYDrq
-         mJ9zuW/2Caw22JH/++oikeSPPgT2aAxd78Sm0jonZ3eY1CO2tl+/vS1CeAWqPun86YZO
-         hPU/Sawv14WcQHg3eJFsdXD1ygXtXrvdU2gDqdaeVikHpQUk7kSiFq3k4qyx8jUmchGv
-         BqgfVoDtV+a3iFSEkJYsyLgCS+lVP3KiJldWT7MnJeU08STNdL/9ZGW3j7WU3TQcsjX3
-         FbJngi8+2NvtSlMVAoIN7vsFnDu6D7TQkoU24sMFTLm2pAwpvQooeGdHSEBAIMpv14Kv
-         nBHA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
+        b=lmXhPRDXrnlbYClAFJkfHZYdowqXsf1nTuDLZnU/Y1W/T6TJ8ApbIv950i47frAtN/
+         OtndHJQoWJG+weygm2GuosJduERMEzUHLtTF4oGKopzqXa+c5O1ob2p5JuwuGNaCZz0D
+         0k2iO6ZG6gpeVsjTt5A+NLMvCH8qDkpG8Ex3xIMBpunG6BNJWrlCGLJYo7boJK6pvBIx
+         W4x550ST0gVpK9sdxwL58OfMVVl7H7xG/39bSvJCxipLUGbdwSBY6WRzvY6hd28wfB/N
+         vDKUfqITg8PxsgA4g6gEDGmS0K0dBg3KSntFmGDvcmLKkvSy/F4e+TYysqkO/txSQBCJ
+         afFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:cc;
-        bh=VIjNoMrU30pbhQsSzli50cyFkAqfKHz6EgWSSD1tVS0=;
-        b=HqMwytUNYO6dacpe3Jw56aFx6IbKwtrThh2ysA6WGUxGrI4kuMlYlLaxADvgTw9Q0y
-         BwyeWPSyxXudZwpCbu8HVoA/va4mckHcreUAxw4HVl9gMks1lfR210IHUlS4bGh9ApgE
-         QE9YBK/F1sS5qJlwAYJtioBFdv8rCqBN5ikygy6CgkBlAmxJzi7+77IeahCumxNFgcAj
-         hOOb/Wtpkb6U4f0WhxUhzkzcxXzDOsGpO2KbKewmtA3ziUvKMjkyqu4kHKqhVkwD7kok
-         NfnW5hXdKgC9sKKg+70nyNMxaNOeIoLbBwxTHkkKtRaANB7ArQOTV8n94mCJNAZCaqGr
-         pdGg==
-X-Gm-Message-State: AJIora8HNSy6cGecgccG1i0UO4ynOcsdUHUn3uO3izpmofIV4w7fVhOC
-        VnfYac9uGx9aJzvhPBF7QaRIksG7wTuDJiIqr+NCSlF8
-X-Google-Smtp-Source: AGRyM1t0BfWy0qVlN/tzNt5bRhywtQzBy2Cx5BmRhjeAUwQRWwDCMUoHrdGk4rOPZ1dAz+7jJEhXrmz3gQr9HaHh0fc=
-X-Received: by 2002:a7b:cb4b:0:b0:39c:49dd:b2cc with SMTP id
- v11-20020a7bcb4b000000b0039c49ddb2ccmr4303288wmj.123.1655908697917; Wed, 22
- Jun 2022 07:38:17 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=vhZEVnaGNBjosB86GDUW8b2wHjB/+QU31bPXl36TqFE=;
+        b=4WYgyb2qAyRYhs050bH/Pa0wgV1wt34r75B6ymxZfabzdUJTlot43O3UjctYOfp4Hz
+         i40+DlpY1TzEPZXWkUGpafGu/eP/qSKfaahMw6G6YgbUPPkpRwSkXwJfAjLb7pS4uRXt
+         DsDnPX9jg6IVtdpYgRa798ehLRWcMjCUSUb3p4YV1WOPz5zNNoYFHfXIXCtaESsjrP03
+         2YpuQq4RcXmx6AN6bZzHxo032vzT3ZK9AqS8uSGmsc7kigwk5PkNhrAQ35EAmWfv2idw
+         z04nm9ZdG8gWpE5KzqgnyL7zUR/ihg48mzmkRlaUYl0yH4AP7HLg6FEgIr7HJpTyNthe
+         G6Cw==
+X-Gm-Message-State: AJIora/OX/mbJmwperYK+8HT7ao4LzixtdkLuqB8iTE96HcDwZ6j0FYx
+        67ttkFWoHuMnaRsABh4FiSI3Px3gf2at+0Q6JF+6WKDecZUuL/E5
+X-Google-Smtp-Source: AGRyM1ulxotWsDV/SS5wzW6q4zt5LXu3F658bS4StYWI/FgPuIBqBz38zqk7aydOTm9FXxU+wDfnf428k+eRTEG/aD8=
+X-Received: by 2002:a17:90b:1988:b0:1ec:f52d:90d4 with SMTP id
+ mv8-20020a17090b198800b001ecf52d90d4mr1796737pjb.70.1655910220864; Wed, 22
+ Jun 2022 08:03:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
- <YrMHJYobUpjv+KRj@kelsos>
-In-Reply-To: <YrMHJYobUpjv+KRj@kelsos>
-From:   Ciprian Craciun <ciprian.craciun@gmail.com>
-Date:   Wed, 22 Jun 2022 17:37:41 +0300
-Message-ID: <CA+Tk8fywv3sL1wLcZioWACCBfMPpDCqrKEXnvuzH0q6GP9FCWA@mail.gmail.com>
-Subject: Re: Is NILFS2 suitable for long term archival storage?
-Cc:     linux-nilfs@vger.kernel.org
+Received: by 2002:a17:903:2308:b0:16a:1b3f:f74b with HTTP; Wed, 22 Jun 2022
+ 08:03:40 -0700 (PDT)
+Reply-To: sales0212@asonmedsystemsinc.com
+From:   Prasad Ronni <lerwickfinance7@gmail.com>
+Date:   Wed, 22 Jun 2022 16:03:40 +0100
+Message-ID: <CAFkto5vTxj70kORZJZdwOGowXjsZ399eo6DJj=8T==7paSuHTw@mail.gmail.com>
+Subject: Service Needed.
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,MISSING_HEADERS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-[I'm replying to multiple emails at the same time.]
-[I'm not subscribed to the mailing list, thus please keep me in CC.]
+-- 
+Hi,
 
+Are you currently open to work as our executive company representative
+on contractual basis working remotely? If yes, we will be happy to
+share more details. Looking forward to your response.
 
-
-On 6/21/22 18:02, Ryusuke Konishi wrote:
-> The suitability for storage media such as CMR and SMR is uncertain in
-> actual use, so I think you should actually evaluate that pattern with some
-> file systems.
-
-
-Although I would prefer CMR (and so far I don't have any SMR disk), I
-think sooner or later all large rotational disks would migrate towards
-SMR, perhaps with the exception of enterprise disks (which aren't very
-affordable, like the WD Gold series).  For example for my backups I
-intend to use the "video archival" disks from Seagate (Sky Hawk
-series) and Western Digital (Purple series), both lines having CMR and
-SMR, but the CMR variants seem to be pushed towards phasing out.  I
-have no concrete reasons to back this intention, except that Backblaze
-seems to favor these "video archival" disks, and the fact that they
-are cheaper than NAS or even desktop drives.
-
-
-
-On 6/21/22 18:02, Ryusuke Konishi wrote:
-> Writing with NILFS2 has the characteristic of being sequential, including
-> updating file system metadata and concurrent writes.  However, reading
-> causes random access, which will be a trade-off with the effect of caching.
->
-> In addition, NILFS2 periodically updates the superblocks at the beginning
-> and end of the partition alternately, so writes are not completely sequential.
-> These properties can work in both the good and the bad.
-
-
-Indeed, in case of SMR disks, completely sequential writes should
-cause no problem (as I understand their operating principles).
-
-Regarding the writing at the beginning and end of disks for the super
-blocks, I think (and this is a speculation based on some proposals
-I've seen in Linux about special file-systems to handle "zoned
-drives") some SMR disks have CMR properties at least at the beginning
-of the disk (and one hopes at the end also).  However this would force
-one to practically not use any partitioning, or just making one large
-partition that spans the entire disk.
-
-Regarding random reads, I don't think there is any performance penalty
-(as compared to CMR).  Also, given that NILFS2 is practically a
-sequential log, I would expect there to be more random reads than in
-other file-systems, especially for folder contents.  However, at least
-in the case of `restic`, this shouldn't be a problem as it doesn't
-generate extreme number of files (in my case for ~1.6 TiB worth of
-data it only uses ~320K inodes, that is around ~5 MiB per inode), and
-it definitively doesn't change exiting ones.
-
-
-
-On 6/21/22 18:02, Ryusuke Konishi wrote:
-> For sudden removal, NILFS2 will be robust as the result of checkpointing,
-> but that assumption, in the first place, sounds physically not good for
-> disk media unless the device has a battery-backed safety guarantee.
-> On the other hand, most modern file systems these days are also robust
-> enough for unusual disconnections.
-
-
-At least for this use-case (long term backups) I'm not concerned in
-losing "recent" data (as in say a couple of minutes old);  I am
-concerned of total loss of data after a sudden power loss.  (I've seen
-this happen twice already with XFS, once with LVM thin provisioning,
-and once with ReiserFS.)
-
-
-
-On 6/21/22 18:02, Ryusuke Konishi wrote:
-> The use case where NILFS2 is most useful is that the latest data can be
-> recovered even if the data is overwritten or deleted by human error or an
-> application bug.
->
-> However, this does not seem to be utilized in the above archive storage
-> applications.
-
-[plus what Tommy said]
-
-On 6/22/22 15:12, Tommy Pettersson wrote:
-> Even if safety is not a priority, there is little benefit
-> from using nilfs2 for backups, since you will probably make
-> a manual snapshots after a backup anyway, and not have any
-> use for all the automatic checkpoints that will be created
-> during the backup.
-
-
-In fact, the check-pointing feature of NILFS2 is exactly what prompts
-me to investigate its usage.  `restic` already does a good job in
-snapshoting and deduplicating the backed-up files.  However my concern
-is, as you've described, something going wrong with some custom
-script, `restic` itself, or operator, and files are just deleted or
-overwritten.  When this happens, NILFS2 should just allow me to go
-back in time and undo the changes.  (In fact, to make sure no data is
-lost, I intend to mount it with GC disabled, and let that be a
-deliberate and explicit operational concern.)  Moreover having NILFS2
-snapshots allows me to interact with older variants of the `restic`
-repository, as some `restic` operations do delete some backing files
-when explicitly asked.
-
-Thus, outside of BTRFS, NILFS2 is the only other file-system that
-provides me with built-in snapshots to be used in case of emergency.
-(And I don't intend to use BTRFS for this use-case as I don't trust
-its complexity for this use-case.)
-
-To reiterate I see the following "stack" where each level provides
-some assurances:
-* `restic` provides logical shapshots and deduplacation (plus
-checksumming and encryption) of backed-up files;
-* NILFS2 provides a safety net in case of operational errors or
-misbehaving software;
-* mirrors (via `rsync`), especially in another location, would provide
-redundancy;
-* (RAID would be another option, but it doesn't provide isolation from
-corruption due to file-system bugs;)
-
-
-
-On 6/21/22 18:02, Ryusuke Konishi wrote:
-> To mention just one thing, when it comes to large archive storage,
-> I guess there is a perspective of resistance to the bit rot issue.
->  From this perspective, btrfs or zfs would be your choice unless
-> you combine an FS with other solutions like dm-integrity.
-
-[plus what Tommy said]
-
-On 6/22/22 15:12, Tommy Pettersson wrote:
-> But the main reason I would not recommend nilfs2 for
-> long-term backup is, like Ryusuke has mentioned, that nilfs2
-> does not have checksums and a corresponding scrub mechanism
-> to validate that no bits on the disk have accidentally
-> flipped or become unreadable.
-
-
-I understand the tradeoff here, and I'm a bit disappointed that NILFS2
-doesn't have data checksumming built-in.
-
-In fact, with my current backup scheme, the above mentioned ~1.6 TiB
-`restic` repository is placed on an Ext4 disk connected via an USB
-enclosure, and for some reason when pushing the disk to its
-(concurrency) limits, strange USB resets start to happen (that don't
-happen when the disk is connected directly over SATA), and most often
-when that happens bad data is returned during `read`s (as in not I/O
-errors, but OK returns but with corrupted data).  When this happens
-`restic` immediately reports the error and I have to disconnect /
-reconnect and retry everything from the start.
-
-Thus, getting back to the problem of checksums, they would be nice,
-however I don't want to rely on them, and instead prefer the backup
-solution to provide its own checksumming, which `restic` does.
-Moreover (and this is something I do with all my files) I manually
-keep `md5` files around that I generate once a few months, and compare
-for the most important data stores;  plus I rely on Git repositories
-and run `git fsck` from time-to-time.
-
-
-
-On 6/22/22 15:12, Tommy Pettersson wrote:
-> For safe long-term storage you
-> will need checksums and scrubbing to detect corrupted data,
-> and redundancy (raid, mirror) to correct the corruption and
-> get a notice to replace the failing disk.
-
-
-As noted earlier, based on the above I think I can delegate:
-* checksums to either `restic` or manual `md5` files;
-* (scrubbing is out of scope as I don't use RAID or similar, but given
-the next point I can recover the damaged files;)
-* redundancy to `rsync` copies of the `restic` repository, `git`
-clones if the data permits, or plain `rsync` mirrors;
-* failing disks to periodic SMART checks;
-
-
-
-On 6/21/22 19:03, Keith wrote:
-> This is why I don't 100% recommend it.  I have had no more than 4 major
-> issues in 10 years where I could not purge old data. Specifically what
-> that means is I had a snapshot that changed back to a checkpoint so that
-> it could be purged the next time garbage collection ran.  As a result, I
-> eventually had to reformat which meant giving up the current data (which
-> could span several years). I sometimes use an nilfs2 fs in a loop
-> mounted system on top of a large parallel / distributed filesystem and
-> that combination could be the issue but it makes no sense to me why
-> there is no way to get around a problem like that.  The lack of tools to
-> analyze and fix that condition or to be able to efficiently copy or
-> migrate data to another system continues to be an issue.  That said, I
-> have NEVER lost data in snapshot and have been able to access data from
-> years prior even when I can't purge.  The benefits of nilfs2 continue to
-> outweigh this issue for me and if I really want all the data in a
-> filesystem that can't be purged I could rebuild it manually somewhere
-> else on the data lake.  That would be a p.i.t.a. but at least it is an
-> option.
-
-
-What you are describing might be indeed an issue if one uses NILFS2
-specifically for the purpose of archival, i.e. snapshotting files.
-
-However because you've not lost data, and you were able to go back in
-time, it means that at worst I would be forced to move my backups to
-another fresh drive.
-
-
-
-On 6/22/22 15:12, Tommy Pettersson wrote:
-> Another thing that could be an issue is that nilfs2 does not
-> support xattr, if that is needed for the backup.
-
-In fact I would prefer the backup solution not to rely on xattr or
-other advanced features.  The simpler the better.
-
-
-
-On 6/22/22 15:12, Tommy Pettersson wrote:
-> Yet another curiosity I have had to deal with is symlink
-> properties. The standard says that rwx properties of
-> symlinks may be set to anything but should be ignored. All
-> filesystems I have used sets them to 777, except for nilfs2,
-> which honors the current umask value. Now, rsync, which is
-> probably to blame here, tries to update the properties on
-> symlinks, and if it reads from nilfs2, and gets something
-> other than 777, it can not set this other value if the
-> target is not also nilfs2, and will think it has failed. The
-> only workaround I have come up with is to find all symlinks
-> on nilfs2 and update their permission to 777.
-
-
-I've seen this weird behaviour and doesn't bother me.
-
-(I've also seen this behavior with AFS lately...)
-
-
-
-Thanks to all that have responded,
-Ciprian.
+Regards,
