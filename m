@@ -2,124 +2,97 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F07D553776
-	for <lists+linux-nilfs@lfdr.de>; Tue, 21 Jun 2022 18:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F25C5549EC
+	for <lists+linux-nilfs@lfdr.de>; Wed, 22 Jun 2022 14:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353553AbiFUQKU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-nilfs@lfdr.de>); Tue, 21 Jun 2022 12:10:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58962 "EHLO
+        id S232239AbiFVMVq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 22 Jun 2022 08:21:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353491AbiFUQKT (ORCPT
+        with ESMTP id S231537AbiFVMVp (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 21 Jun 2022 12:10:19 -0400
-X-Greylist: delayed 391 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 21 Jun 2022 09:10:07 PDT
-Received: from mail.daotechnologies.com (173-12-0-166-panjde.hfc.comcastbusiness.net [173.12.0.166])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99B732CDEF
-        for <linux-nilfs@vger.kernel.org>; Tue, 21 Jun 2022 09:10:07 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.daotechnologies.com (Postfix) with ESMTP id 273E24060ECB0;
-        Tue, 21 Jun 2022 12:03:35 -0400 (EDT)
-Received: from mail.daotechnologies.com ([127.0.0.1])
-        by localhost (mail.daotechnologies.com [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id a3tqbaxXh8u8; Tue, 21 Jun 2022 12:03:34 -0400 (EDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail.daotechnologies.com (Postfix) with ESMTP id 0C37E4060ECB1;
-        Tue, 21 Jun 2022 12:03:34 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at daotechnologies.com
-Received: from mail.daotechnologies.com ([127.0.0.1])
-        by localhost (mail.daotechnologies.com [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id t04EkLwcKQ8d; Tue, 21 Jun 2022 12:03:33 -0400 (EDT)
-Received: from [192.168.27.42] (173-12-0-163-panjde.hfc.comcastbusiness.net [173.12.0.163])
-        by mail.daotechnologies.com (Postfix) with ESMTPSA id DFB424060ECB0;
-        Tue, 21 Jun 2022 12:03:33 -0400 (EDT)
-Message-ID: <bbaf111e-34c8-02d8-da52-a95d474b7210@daotechnologies.com>
-Date:   Tue, 21 Jun 2022 12:03:33 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.9.1
-Subject: Re: Is NILFS2 suitable for long term archival storage?
-Content-Language: en-US
-To:     Ciprian Craciun <ciprian.craciun@gmail.com>,
-        linux-nilfs@vger.kernel.org
-References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
-From:   Keith <kperry@daotechnologies.com>
-In-Reply-To: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-0.9 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
-        NICE_REPLY_A,RDNS_DYNAMIC,T_SCC_BODY_TEXT_LINE,T_SPF_HELO_TEMPERROR,
-        T_SPF_TEMPERROR autolearn=no autolearn_force=no version=3.4.6
+        Wed, 22 Jun 2022 08:21:45 -0400
+X-Greylist: delayed 557 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 22 Jun 2022 05:21:43 PDT
+Received: from mail.lysator.liu.se (mail.lysator.liu.se [IPv6:2001:6b0:17:f0a0::3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D8535A83
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 05:21:43 -0700 (PDT)
+Received: from mail.lysator.liu.se (localhost [127.0.0.1])
+        by mail.lysator.liu.se (Postfix) with ESMTP id 864BE16068
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 14:12:22 +0200 (CEST)
+Received: by mail.lysator.liu.se (Postfix, from userid 1004)
+        id 852BC15E5D; Wed, 22 Jun 2022 14:12:22 +0200 (CEST)
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
+X-Spam-Score: -1.0
+Received: from fmooo.mooo.com (unknown [37.247.17.105])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mail.lysator.liu.se (Postfix) with ESMTPSA id 1942715E5C;
+        Wed, 22 Jun 2022 14:12:21 +0200 (CEST)
+Received: (nullmailer pid 20687 invoked by uid 1000);
+        Wed, 22 Jun 2022 12:12:21 -0000
+Date:   Wed, 22 Jun 2022 14:12:21 +0200
+From:   Tommy Pettersson <ptp@lysator.liu.se>
+To:     linux-nilfs@vger.kernel.org
+Cc:     Ciprian Craciun <ciprian.craciun@gmail.com>
+Subject: Re: Is NILFS2 suitable for long term archival storage?
+Message-ID: <YrMHJYobUpjv+KRj@kelsos>
+References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On 6/21/22 05:40, Ciprian Craciun wrote:
-> [I'm not subscribed to the mailing list, thus please keep me in CC.]
->
->
-> I was looking at NILFS2 as a potential solution for a file-system for
-> long-term archival (as in backups or append-only store).  In this
-> use-case I would use large CMR or SMR rotational disks (say 4+ TB, WD
-> or Seagate) without any RAID or disk-encryption, connected via USB
-> (thus sudden disconnects are to be expected), used with `restic`, or
-> `rdiff-backup` and `rsync`-like if `restic` doesn't work.  As such,
-> the IO pattern during backup would be mostly creating new files, a
-> couple MiB each in case of `restic`, and random reads during `restic`
-> checks.  In both cases there is quite some concurrency (proportional
-> to the number of cores).
->
-> So I was wondering the following:
-> * is NILFS2 suitable for such a use-case?  (my assumption is yes, at
-> least based on the features and promises;)
-> * how reliable is the current version (as upstreamed in the kernel) of
-> NILFS2?  data-loss of previously written (and `fsync`-ed) files is of
-> paramount importance (especially for files that have been written say
-> days ago);
-> * are there instances of NILFS2 used in production (for any use-case)?
-I use nilfs2 in similar ways and have been for well over 10 years now.  
-I use it in a mostly as part of a data replication solution (single or 
-multi-stage).  I would mostly recommend it for windowed backup and 
-archival solutions (i.e. we're going to keep X amount of data for Y 
-amount of time and purge every Z interval).
-> I've tried searching on the internet and the email archives, but I
-> couldn't find anything "current" enough.  Moreover at least OpenSUSE
-> (and SUSE) have dropped the NILFS2 kernel module from the standard
-> packages (granted JFS was also dropped).
->
-> Also I'm concerned due to the fact that there isn't any `fsck` for NILFS2 yet.
->
-This is why I don't 100% recommend it.  I have had no more than 4 major 
-issues in 10 years where I could not purge old data. Specifically what 
-that means is I had a snapshot that changed back to a checkpoint so that 
-it could be purged the next time garbage collection ran.  As a result, I 
-eventually had to reformat which meant giving up the current data (which 
-could span several years). I sometimes use an nilfs2 fs in a loop 
-mounted system on top of a large parallel / distributed filesystem and 
-that combination could be the issue but it makes no sense to me why 
-there is no way to get around a problem like that.  The lack of tools to 
-analyze and fix that condition or to be able to efficiently copy or 
-migrate data to another system continues to be an issue.  That said, I 
-have NEVER lost data in snapshot and have been able to access data from 
-years prior even when I can't purge.  The benefits of nilfs2 continue to 
-outweigh this issue for me and if I really want all the data in a 
-filesystem that can't be purged I could rebuild it manually somewhere 
-else on the data lake.  That would be a p.i.t.a. but at least it is an 
-option.
-> Related to this, could the community recommend an alternative
-> file-system that would fit the bill?  (Ext4 and JFS are the only
-> file-systems I have heavily used and relied upon.)
->
-Nothing else comes to mind for me as an all-in-one-solution.  I think 
-you're going to have to continue to build a solution from the best 
-offerings you find.
+Hi Ciprian,
 
--- 
-~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-Keith C. Perry, MS E.E.
-Managing Member, DAO Technologies LLC
-(O) +1.215.525.4165 x2033
-(M) +1.215.432.5167
-www.daotechnologies.com
+I am using nilfs2 daily at work since 5 years. During this
+time I have had a handful of "bad btree node" corruptions.
+They don't destroy the current data, but causes weird
+problems with snapshots, and I have re-created the
+filesystem on these occasions. This is of course not
+supposed to happen, and may eventually be fixed if someone
+future version.
 
+But the main reason I would not recommend nilfs2 for
+long-term backup is, like Ryusuke has mentioned, that nilfs2
+does not have checksums and a corresponding scrub mechanism
+to validate that no bits on the disk have accidentally
+flipped or become unreadable. For safe long-term storage you
+will need checksums and scrubbing to detect corrupted data,
+and redundancy (raid, mirror) to correct the corruption and
+get a notice to replace the failing disk.
+
+Even if safety is not a priority, there is little benefit
+from using nilfs2 for backups, since you will probably make
+a manual snapshots after a backup anyway, and not have any
+use for all the automatic checkpoints that will be created
+during the backup.
+
+Another thing that could be an issue is that nilfs2 does not
+support xattr, if that is needed for the backup.
+
+Yet another curiosity I have had to deal with is symlink
+properties. The standard says that rwx properties of
+symlinks may be set to anything but should be ignored. All
+filesystems I have used sets them to 777, except for nilfs2,
+which honors the current umask value. Now, rsync, which is
+probably to blame here, tries to update the properties on
+symlinks, and if it reads from nilfs2, and gets something
+other than 777, it can not set this other value if the
+target is not also nilfs2, and will think it has failed. The
+only workaround I have come up with is to find all symlinks
+on nilfs2 and update their permission to 777.
+
+That said, I could go on and on about how much I love nilfs2
+for its user error protection. I use it as a "working area"
+where I can experiment fearlessly, because I can backtrack
+to any point in time.
