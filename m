@@ -2,109 +2,89 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1781E556EDE
-	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Jun 2022 01:13:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EAE13557205
+	for <lists+linux-nilfs@lfdr.de>; Thu, 23 Jun 2022 06:58:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234047AbiFVXNo (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 22 Jun 2022 19:13:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32772 "EHLO
+        id S232448AbiFWEp2 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 23 Jun 2022 00:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1358619AbiFVXNY (ORCPT
+        with ESMTP id S243026AbiFWDrJ (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 22 Jun 2022 19:13:24 -0400
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1E763AE
-        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 16:13:20 -0700 (PDT)
-Received: by mail-io1-f69.google.com with SMTP id n19-20020a056602341300b0066850b49e09so9925807ioz.12
-        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 16:13:20 -0700 (PDT)
+        Wed, 22 Jun 2022 23:47:09 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E52C38BEA
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 20:47:07 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id q9so3722090ljp.4
+        for <linux-nilfs@vger.kernel.org>; Wed, 22 Jun 2022 20:47:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=UHWe+AqQbXL1+Nmqri62sq/R0WS4/yHfHIvfHlvtoQA=;
+        b=g0IEjL5wDRtNuTH559JoYvQy1yzpIX2+0e6zYC1NdtRVGcstYUB0GfBAgJfBZ1FAf8
+         QkFZRgLk+RSHendi6Su8/HJT9gUZsivfWpjNLy8YlQUFUxNpmbUxuD4DMFgMS44uqC1C
+         l264BPpp+7RON0ygyIoZqxVo5yTK3DeHOXVjTLs+a96I30ANb3fislxZNfzzVhwNnYh7
+         z6hh/9I4uzdluj1KLbj3YjYsdT5nw7ERMocGWdiB240+wYfXrbEvLgY+euloMbNTb2Ea
+         s4/igW3PP2ory4JIcJinzjsDFgBeprfWdUKkysCOjAIeY7bdFXxKscYefU7hQerqs0FY
+         KDbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=MomU7bIoJuWVlY/2Bf1iAKYewaUl77BXPmEN6eAnyC0=;
-        b=v6izuYCu743JXO2ZzOsKhIyqwwbz8jyKeLLoLDHyAAusR2IuhRZM4v7oRQI1EDXFxW
-         9AL+oBwpBr38s7qdLeG+T2OB1g1zAS7AHl0xGVJ4Ci43WevGRIB0xc+TNV607eyjKQqX
-         hy/msuYxj1ANMrp4jprYgxZiaY4MmP+ZRQd5KDQGwfe2AW1AnfLpQ7PVYdFHMANyr/et
-         SJfVu1sR2X2vsFIjmKfF89P5qy+3jxnamIYIrwl35EaBPP55pCQS8jjT1EQz9h+0Uc/j
-         yTybLMpqBElIYCDlL18bQl3ROz8i72RH+EyYQ6htPzQAumbsI/cFdnTQpCfqzbauHhOG
-         Kfww==
-X-Gm-Message-State: AJIora+SpzqlOeMXursjvvGHdAIKqgvik+NOOTW5qJp0Z+nrWlydV1Lm
-        8CNoNL1Lk8s26wrpgSH0fkI5RgTFdZr7eHFGiiEqVLEcgd/m
-X-Google-Smtp-Source: AGRyM1uvwe9S1dSRxy2ige/+9VWLfdcKoGrwPHYeSRXbaTJUr6ig6rYj2YZADOTU2K78J7mQgwy83cu5jMECWk5MlDeiQsKnNzCi
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=UHWe+AqQbXL1+Nmqri62sq/R0WS4/yHfHIvfHlvtoQA=;
+        b=ELthdqLRdXChXy6GyW7pnpcJ1ahdiNS81tJDojZCZR1X7VW9zJKGu3lYeqd8In6Jw8
+         bg7/9UAcX3WElaKD+/GpVLiz7QVqISxM1i26JN2bAKeIeB0RxMnsj6NBtE5oQ3Poc9Qs
+         XSdlhgzE6AXN3Qq6MiKoVrk8yxL6g56rs1WrTsUgNCcvmSCX4HrhaaIE7PCCMPt70i1s
+         0Cc7sBRdk9VJCm1FJI8tGZ1qIHcdJCw5CmXkqgTkpYM9iJJX2BnTTXyf+nt6nbP+3qZQ
+         DiaZm2DDVN9LV8OiTSRf6W3icWQKClRq07nBxlxb+iZiLb0vigk13AXBocpVY5OGfUkk
+         0j2Q==
+X-Gm-Message-State: AJIora85Si1cjvMhgnvAX/RNjeaxuFMavPSInG9P/hADmEvbA55zH+ZQ
+        o+EPAAIiy00ckVlmx7wDQzOq1CcNUcf5ohNqdHDTKYu/bwg=
+X-Google-Smtp-Source: AGRyM1vfzHcqq2DmSt4gsK8GE1u9lWLpp1qdK4Lf87wE2Yg/prkhw0/pE5j08DftAN094wW6wedkthLvUq+Z0B8A264=
+X-Received: by 2002:a2e:b8d1:0:b0:25a:642d:d65c with SMTP id
+ s17-20020a2eb8d1000000b0025a642dd65cmr3520748ljp.108.1655956025490; Wed, 22
+ Jun 2022 20:47:05 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6638:30f:b0:339:d7d8:c21f with SMTP id
- w15-20020a056638030f00b00339d7d8c21fmr3603458jap.247.1655939599469; Wed, 22
- Jun 2022 16:13:19 -0700 (PDT)
-Date:   Wed, 22 Jun 2022 16:13:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000098972c05e2117b39@google.com>
-Subject: [syzbot] memory leak in kobject_set_name_vargs (5)
-From:   syzbot <syzbot+7381dc4ad60658ca4c05@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
+References: <CA+Tk8fzpXneoDAyvdoJFdFjX7Cx-cJ7GO0uNXjGrYDk23FyekA@mail.gmail.com>
+ <YrMHJYobUpjv+KRj@kelsos> <CA+Tk8fywv3sL1wLcZioWACCBfMPpDCqrKEXnvuzH0q6GP9FCWA@mail.gmail.com>
+In-Reply-To: <CA+Tk8fywv3sL1wLcZioWACCBfMPpDCqrKEXnvuzH0q6GP9FCWA@mail.gmail.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Thu, 23 Jun 2022 12:46:48 +0900
+Message-ID: <CAKFNMokCAegqoej8o2EK4QFVFeXoob1b1Zug+Lx+2jM8PeCe5Q@mail.gmail.com>
+Subject: Re: Is NILFS2 suitable for long term archival storage?
+To:     Ciprian Craciun <ciprian.craciun@gmail.com>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        Tommy Pettersson <ptp@lysator.liu.se>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+On Wed, Jun 22, 2022 at 11:39 PM Ciprian Craciun wrote:
+> On 6/22/22 15:12, Tommy Pettersson wrote:
+> > Yet another curiosity I have had to deal with is symlink
+> > properties. The standard says that rwx properties of
+> > symlinks may be set to anything but should be ignored. All
+> > filesystems I have used sets them to 777, except for nilfs2,
+> > which honors the current umask value. Now, rsync, which is
+> > probably to blame here, tries to update the properties on
+> > symlinks, and if it reads from nilfs2, and gets something
+> > other than 777, it can not set this other value if the
+> > target is not also nilfs2, and will think it has failed. The
+> > only workaround I have come up with is to find all symlinks
+> > on nilfs2 and update their permission to 777.
+>
+>
+> I've seen this weird behaviour and doesn't bother me.
 
-syzbot found the following issue on:
+Ugh, this looks like a bug (or regression).
+I will look into what's happening.
 
-HEAD commit:    4b35035bcf80 Merge tag 'nfs-for-5.19-2' of git://git.linux..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=16db143ff00000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3136c902c03fdd37
-dashboard link: https://syzkaller.appspot.com/bug?extid=7381dc4ad60658ca4c05
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=111c8c1ff00000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7381dc4ad60658ca4c05@syzkaller.appspotmail.com
-
-BUG: memory leak
-unreferenced object 0xffff88811943b700 (size 32):
-  comm "syz-executor.7", pid 3953, jiffies 4294958653 (age 15.830s)
-  hex dump (first 32 bytes):
-    6c 6f 6f 70 37 00 00 00 00 00 00 00 00 00 00 00  loop7...........
-    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-  backtrace:
-    [<ffffffff814b7106>] kstrdup+0x36/0x70 mm/util.c:61
-    [<ffffffff814b7193>] kstrdup_const+0x53/0x80 mm/util.c:84
-    [<ffffffff8239acd2>] kvasprintf_const+0xc2/0x110 lib/kasprintf.c:48
-    [<ffffffff8249179b>] kobject_set_name_vargs+0x3b/0xe0 lib/kobject.c:257
-    [<ffffffff82491c1d>] kobject_add_varg lib/kobject.c:352 [inline]
-    [<ffffffff82491c1d>] kobject_init_and_add+0x6d/0xc0 lib/kobject.c:441
-    [<ffffffff81e2c07a>] nilfs_sysfs_create_device_group+0x9a/0x3d0 fs/nilfs2/sysfs.c:991
-    [<ffffffff81e1482c>] init_nilfs+0x51c/0x680 fs/nilfs2/the_nilfs.c:637
-    [<ffffffff81e004db>] nilfs_fill_super fs/nilfs2/super.c:1047 [inline]
-    [<ffffffff81e004db>] nilfs_mount+0x51b/0x890 fs/nilfs2/super.c:1317
-    [<ffffffff8163fb5b>] legacy_get_tree+0x2b/0x90 fs/fs_context.c:610
-    [<ffffffff815d95c8>] vfs_get_tree+0x28/0x100 fs/super.c:1497
-    [<ffffffff8161d097>] do_new_mount fs/namespace.c:3040 [inline]
-    [<ffffffff8161d097>] path_mount+0xc37/0x1120 fs/namespace.c:3370
-    [<ffffffff8161dcce>] do_mount fs/namespace.c:3383 [inline]
-    [<ffffffff8161dcce>] __do_sys_mount fs/namespace.c:3591 [inline]
-    [<ffffffff8161dcce>] __se_sys_mount fs/namespace.c:3568 [inline]
-    [<ffffffff8161dcce>] __x64_sys_mount+0x18e/0x1d0 fs/namespace.c:3568
-    [<ffffffff845a9cb5>] do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-    [<ffffffff845a9cb5>] do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
-    [<ffffffff8460006a>] entry_SYSCALL_64_after_hwframe+0x46/0xb0
-
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Ryusuke Konishi
