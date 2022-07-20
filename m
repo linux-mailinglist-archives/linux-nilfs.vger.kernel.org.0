@@ -2,36 +2,36 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 11E4F57ACB0
-	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Jul 2022 03:32:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89DA557AD15
+	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Jul 2022 03:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242053AbiGTB2a (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 19 Jul 2022 21:28:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41506 "EHLO
+        id S240992AbiGTBaC (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 19 Jul 2022 21:30:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242027AbiGTB1c (ORCPT
+        with ESMTP id S242193AbiGTB2n (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 19 Jul 2022 21:27:32 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4087876473;
-        Tue, 19 Jul 2022 18:18:33 -0700 (PDT)
+        Tue, 19 Jul 2022 21:28:43 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 435DC6C114;
+        Tue, 19 Jul 2022 18:18:57 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 64C87B81DEA;
-        Wed, 20 Jul 2022 01:18:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D94C341C6;
-        Wed, 20 Jul 2022 01:18:29 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id EBDACB81DF7;
+        Wed, 20 Jul 2022 01:18:55 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2DBBC341D0;
+        Wed, 20 Jul 2022 01:18:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658279910;
-        bh=yvYYLK8GTpvd0DLQXvYV+6tSNlBZQRy5OKk9R12S89Q=;
+        s=k20201202; t=1658279934;
+        bh=2EAe9d/15fb9EvQLyRctfq8yKMy23iuGqG2W9wu1BFA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=noxgCKL2mllNuRxMoCis/H7toQ0RwSU/YGfJdPabFMYmTfX4sWLAdU71ROrGz5Njs
-         3n7qCx1NfYprtCcfaJjAJNyooH0GXHAgCUFxbVibUWUzdzjHzKzPd1FCTkfLk12kdB
-         IJhTxPZ1jEg9l0LY16Cs3vyE0idP0Sh+zb9ACuJMOLDNBuwmqqj4/UtGhDCRZrgPiJ
-         J2VqErt4mrgck6s6zTcj2r9MVG6sK+ZdPjDqeDBMFnsE/x+O+tcMXdjTUw7AOsA51Y
-         fv9M6PGc+ZPZu4Hj2nkbUkNF0Zqvwxx18swrEIP6mD/0LT5kmwzV4bv1fXVnOuWSe3
-         lUhNF9PHlHsXg==
+        b=OM5NzPSyKMLLKbRDTYtuFpQHJ81tIiV90bJavaQyqsYCtBNiB1RoI3ShATGu/sny9
+         jSSpLKhrVg4DZzoFShkd9JZkWx4VolJNaopcVe/UTPYULL8XA6TxOOfwbQKGELsBxc
+         ZJRaQQmTcBt23By2wMdUwjUWWeaKt5+atrGsxJxvZb1X/bXcIjdGtwdMf+hrFIC81m
+         buHeswDwT7Ktl3Gz+tNJ16F6T+TXYxfRNvNUgH/zx5ZVpHI8B3V8sGgkzvxxQzhL86
+         MYO+eSvGaKedsF6xKP8wOBRbRkqgiFc35+wCRaBeQRZVcPJ+7gM4l5MrFm8LA1pDo2
+         C/C2QEs7c7nQQ==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
@@ -39,12 +39,12 @@ Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         Ciprian Craciun <ciprian.craciun@gmail.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-nilfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 5/8] nilfs2: fix incorrect masking of permission flags for symlinks
-Date:   Tue, 19 Jul 2022 21:18:07 -0400
-Message-Id: <20220720011810.1025308-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 4/6] nilfs2: fix incorrect masking of permission flags for symlinks
+Date:   Tue, 19 Jul 2022 21:18:34 -0400
+Message-Id: <20220720011836.1025430-4-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220720011810.1025308-1-sashal@kernel.org>
-References: <20220720011810.1025308-1-sashal@kernel.org>
+In-Reply-To: <20220720011836.1025430-1-sashal@kernel.org>
+References: <20220720011836.1025430-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 3 insertions(+)
 
 diff --git a/fs/nilfs2/nilfs.h b/fs/nilfs2/nilfs.h
-index 8699bdc9e391..cca30f0f965c 100644
+index 33f8c8fc96e8..a89704271428 100644
 --- a/fs/nilfs2/nilfs.h
 +++ b/fs/nilfs2/nilfs.h
-@@ -198,6 +198,9 @@ static inline int nilfs_acl_chmod(struct inode *inode)
+@@ -212,6 +212,9 @@ static inline int nilfs_acl_chmod(struct inode *inode)
  
  static inline int nilfs_init_acl(struct inode *inode, struct inode *dir)
  {
