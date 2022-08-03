@@ -2,104 +2,48 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8740A57AD30
-	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Jul 2022 03:33:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74756589276
+	for <lists+linux-nilfs@lfdr.de>; Wed,  3 Aug 2022 20:52:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241151AbiGTBaD (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 19 Jul 2022 21:30:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
+        id S236531AbiHCSwm (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 3 Aug 2022 14:52:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40150 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242289AbiGTB3I (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 19 Jul 2022 21:29:08 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BDE0D8F;
-        Tue, 19 Jul 2022 18:19:20 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id C0F0EB81DC0;
-        Wed, 20 Jul 2022 01:19:18 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8026CC341C6;
-        Wed, 20 Jul 2022 01:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1658279957;
-        bh=2EAe9d/15fb9EvQLyRctfq8yKMy23iuGqG2W9wu1BFA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uk9EoO5MDa4c8jWPkFM8Hae5bSLUkoF9+gxPTgbax9SAmTAx9ph3QL3h+ay3KygRj
-         YXEqR6XPyrq0/xYC14H4lOkEZMI7B9kAd/VzdXYCp7RUIfnTXjrnqsF7FlHaUfeMlz
-         iMtf3eUGOxvSsoGFwABOYkcTIUUK19dskunwDTmPKcMnx+Q+phD0AE4A/3VBc22uBm
-         xhgVSw8N2ww14S2OFm+VurucDtvvSR/JMXJHXndItcFQGLxqsrpHxYUYCRGZAjq4sw
-         wop1Npka485lFfRGnpZXIB6BIVZ5he5t8fgW4deWocSQabI3xAksNyvdZ5+S+lrOiJ
-         V/oixs6Bqe4Xg==
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Tommy Pettersson <ptp@lysator.liu.se>,
-        Ciprian Craciun <ciprian.craciun@gmail.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-nilfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 4/6] nilfs2: fix incorrect masking of permission flags for symlinks
-Date:   Tue, 19 Jul 2022 21:18:55 -0400
-Message-Id: <20220720011858.1025523-4-sashal@kernel.org>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20220720011858.1025523-1-sashal@kernel.org>
-References: <20220720011858.1025523-1-sashal@kernel.org>
+        with ESMTP id S238387AbiHCSwl (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 3 Aug 2022 14:52:41 -0400
+X-Greylist: delayed 494 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 03 Aug 2022 11:52:40 PDT
+Received: from vmi546609.contaboserver.net (vmi546609.contaboserver.net [75.119.142.60])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECA4F5A3F4
+        for <linux-nilfs@vger.kernel.org>; Wed,  3 Aug 2022 11:52:40 -0700 (PDT)
+Received: by vmi546609.contaboserver.net (Postfix, from userid 10005)
+        id 58FC941A06; Wed,  3 Aug 2022 19:44:24 +0100 (WEST)
+To:     linux-nilfs@vger.kernel.org
+Subject: =?UTF-8?Q?R=C3=A9ponse_automatique_"A_QUICK_AND_EFFECTIVE_WA?=  =?UTF-8?Q?Y_TO_GET_RICH"?=
+Date:   Wed, 3 Aug 2022 18:44:24 +0000
+From:   Maisons CURTO <mcurto@hotmail.fr>
+Message-ID: <zhVOrtPcVrwBYNlZ4MjPOz7O94mtDFYYQJvjyU9wc@maisonscurto.com>
+X-Mailer: PHPMailer 6.1.6 (https://github.com/PHPMailer/PHPMailer)
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-7.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=2.6 required=5.0 tests=BAYES_50,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_BL_SPAMCOP_NET,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Merci de nous avoir contacté, nous vous répondrons d'ici 48H. Pour rappel, voici le contenu de votre message : 
 
-[ Upstream commit 5924e6ec1585445f251ea92713eb15beb732622a ]
 
-The permission flags of newly created symlinks are wrongly dropped on
-nilfs2 with the current umask value even though symlinks should have 777
-(rwxrwxrwx) permissions:
+INVEST TODAY AND BECOME THE NEXT BILLIONAIRE... https://telegra.ph/Cryptocurrency-makes-people-millionaires-at-15-people-per-hour---Page-845634-08-02
 
- $ umask
- 0022
- $ touch file && ln -s file symlink; ls -l file symlink
- -rw-r--r--. 1 root root 0 Jun 23 16:29 file
- lrwxr-xr-x. 1 root root 4 Jun 23 16:29 symlink -> file
 
-This fixes the bug by inserting a missing check that excludes
-symlinks.
+--
 
-Link: https://lkml.kernel.org/r/1655974441-5612-1-git-send-email-konishi.ryusuke@gmail.com
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: Tommy Pettersson <ptp@lysator.liu.se>
-Reported-by: Ciprian Craciun <ciprian.craciun@gmail.com>
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- fs/nilfs2/nilfs.h | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/fs/nilfs2/nilfs.h b/fs/nilfs2/nilfs.h
-index 33f8c8fc96e8..a89704271428 100644
---- a/fs/nilfs2/nilfs.h
-+++ b/fs/nilfs2/nilfs.h
-@@ -212,6 +212,9 @@ static inline int nilfs_acl_chmod(struct inode *inode)
- 
- static inline int nilfs_init_acl(struct inode *inode, struct inode *dir)
- {
-+	if (S_ISLNK(inode->i_mode))
-+		return 0;
-+
- 	inode->i_mode &= ~current_umask();
- 	return 0;
- }
--- 
-2.35.1
+Vous recevez cet email suite à votre demande de contact via Maisons CURTO.
 
