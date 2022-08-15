@@ -2,106 +2,100 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E943B58E2E3
-	for <lists+linux-nilfs@lfdr.de>; Wed, 10 Aug 2022 00:16:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B763B592E3E
+	for <lists+linux-nilfs@lfdr.de>; Mon, 15 Aug 2022 13:36:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229774AbiHIWQW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 9 Aug 2022 18:16:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37282 "EHLO
+        id S231420AbiHOLgy (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 15 Aug 2022 07:36:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229819AbiHIWPQ (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 9 Aug 2022 18:15:16 -0400
-Received: from mail-io1-xd30.google.com (mail-io1-xd30.google.com [IPv6:2607:f8b0:4864:20::d30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5347201A2
-        for <linux-nilfs@vger.kernel.org>; Tue,  9 Aug 2022 15:15:14 -0700 (PDT)
-Received: by mail-io1-xd30.google.com with SMTP id o2so10752507iof.8
-        for <linux-nilfs@vger.kernel.org>; Tue, 09 Aug 2022 15:15:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=QTP95oQi+RYhXbI8sz4RyTZp0RSE4jP48cyyUmWbTiK1ItvOHbADVtjkGHK/8zFbqv
-         EIzUG3d4HgG5eAQxnVHuBpH33ycuIiNpMEXk8S0LHARhhQGb6AufQVVn/40aQfLvP77W
-         778oK7qnpGZXO0Q2aGCYT4Mad4FGDHlh1br3s7D4D+9Vr7gPQrhXDR8bwR1fyz6kQ1n2
-         /mI7/+oIm6xqfpBjeRephfywWnzvzUcqvvdKwYuFsxmTm/GRVEQb9jKfBsLPvHEPeyBR
-         SLk52BQ10Zm7GZ4Mv5gugSKJZhGFXVOipaGDVsAOq6ABLyMrmGMv+5RYTjL3cqduwO+M
-         O1Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=JXbjVV7TLF6nnvXNg8YRl8GeWzzDrV1H0fSIJsdL+rWwoKPXtf3oUN/AhgNKsA+h9b
-         /+6oihHVSTm0ptnwwgvC1ynn0AxapPwl6jRTqt5JAcA3B0Vw9xgim7lt+jBPM89OLkCL
-         mCWshtVF4gDzGjyJ5WH4P2+PlAUBqGZdvqr2KswhPakunR+3w4Y/B1cwYTB5fuP9voSQ
-         fpu4iiaVO/Jo5coZ9kZEzqF2lfQsmmXTuBGAg6lqhwo/7gkfVxLp1qhLBfnlSOpFJyyR
-         tBLQvaZVoClvTaWg+V819dxK33IM5llo96tIrTHxoK1BM/NvLJ32Fi0q50KAcqopjHR1
-         uAbg==
-X-Gm-Message-State: ACgBeo203URxZmx5RsZa/SUJ1v7Yvto5Sj3GsCruXFMTsjp87qOGLu1/
-        z8EJgoKaJbsfw9QjZ4LpwAkPUqTkajojTJFLiDXWtRwQDNPwMQ==
-X-Google-Smtp-Source: AA6agR7pJ6r7fhR2kV9XLe+oV3h+/ej1weqLnpTQS1YP5ule1vsDwGSNCnOW6LlEIY2xTapZFY+hu5KXPqSjTYpoaJM=
-X-Received: by 2002:a63:4642:0:b0:41b:d353:c5c7 with SMTP id
- v2-20020a634642000000b0041bd353c5c7mr20359415pgk.568.1660083303718; Tue, 09
- Aug 2022 15:15:03 -0700 (PDT)
+        with ESMTP id S230104AbiHOLgx (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>);
+        Mon, 15 Aug 2022 07:36:53 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0336D12D39
+        for <linux-nilfs@vger.kernel.org>; Mon, 15 Aug 2022 04:36:53 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 8F7E061159
+        for <linux-nilfs@vger.kernel.org>; Mon, 15 Aug 2022 11:36:52 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CE90C433C1;
+        Mon, 15 Aug 2022 11:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1660563411;
+        bh=RUBiTWx88xXU8yVcchK6WhGJDZzS2sucOuvbvrU6PCA=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PYjXdOsnUKk4hznS7izxVtlOe9jlzlaaCOwjeezkoF3yvYL4Of8MdwQJ1bRSGTWZT
+         tTzBs7X1inlH2WfwUEs70J6DYbdy4+mxDVgOeaxVVmvS9bnetCmRkyC53j2MQlvX1D
+         mzbGirEHEAgCHcXTA8doQ1UfGeL9FO4BY9mN3cGc=
+Date:   Mon, 15 Aug 2022 13:36:47 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     =?utf-8?B?6K645ZiJ6K+a?= <stitch@zju.edu.cn>
+Cc:     security@kernel.org, linux-distros@vs.openwall.org,
+        konishi.ryusuke@gmail.com, viro@zeniv.linux.org.uk,
+        syzkaller@googlegroups.com, linux-nilfs@vger.kernel.org
+Subject: Re: [vs] KASAN: use-after-free in nilfs_mdt_destroy
+Message-ID: <Yvovz7FKlHLNpNaf@kroah.com>
+References: <34e8df4a.848e1.182a1264256.Coremail.stitch@zju.edu.cn>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:e8a6:b0:2d4:fb1c:cc5e with HTTP; Tue, 9 Aug 2022
- 15:15:03 -0700 (PDT)
-Reply-To: wijh555@gmail.com
-From:   "Dr. Ali Moses" <alimoses07@gmail.com>
-Date:   Tue, 9 Aug 2022 15:15:03 -0700
-Message-ID: <CADWzZe65tcOX2+bMZfMLLauGpHEQ9Cdv814nLU=uQvKzDFrEVg@mail.gmail.com>
-Subject: Good Day,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d30 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [alimoses07[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [wijh555[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [alimoses07[at]gmail.com]
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34e8df4a.848e1.182a1264256.Coremail.stitch@zju.edu.cn>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
--- 
-Hello,
-We the Board Directors believe you are in good health, doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
+On Mon, Aug 15, 2022 at 06:56:55PM +0800, 许嘉诚 wrote:
+> Hi developers,
+> 
+> We may found a flaw in the fs module which can lead to UAF write or DoS.
+> We would appreciate a CVE ID if this is a security issue.
 
-My regards,
-Dr. Ali Moses..
+As our documentation states, us at security@kernel.org do not assign
+CVEs or deal with them at all.
 
-Sincerely,
-Prof. Chin Guang
+> 
+> HEAD commit: 3d7cb6b04c3f Linux-5.19
+> git tree: upstream 
+> console output:https://drive.google.com/file/d/1PoH9PUdMilsrKtq1oGHu_shM3dggNFAB/view?usp=sharing
+> kernel config: https://drive.google.com/file/d/1wgIUDwP5ho29AM-K7HhysSTfWFpfXYkG/view?usp=sharing
+> syz repro: https://drive.google.com/file/d/19N1Xh8TVoSUr_2J8j-bWXktL21SvRx_9/view?usp=sharing
+> C reproducer: https://drive.google.com/file/d/1R1rYseY7JBDCSfLAP4pjSCoMVgkr7l5b/view?usp=sharing
+> 
+> Description
+> In alloc_inode, inode_init_always could return -NOMEM if
+> security_inode_alloc fails. In its error handling, i_callback and
+> nilfs_free_inode will be called. However, because inode->i_private is
+> not initialized due to the failure of security_inode_alloc, the function
+> nilfs_is_metadata_file_inode can return true and nilfs_mdt_destroy will
+> 
+> 
+> be executed to lead to GPF bug.
+> 
+> 
+> 
+> 
+> Someone found the similar problem: https://groups.google.com/g/syzkaller-bugs/c/z2WroC3_BSw.
+
+Great, can you work on this in public on that thread then?  Have you
+tested the proposed patch that is provided there to see if it solves it
+or not?
+
+> Fix this bug by moving the assignment of inode->i_private before security_inode_alloc.
+
+That's what the existing patch looks to do, does that work?
+
+And again, as this is public, why notify us and not just work to solve
+this in public with the developers involved?
+
+thanks,
+
+greg k-h
