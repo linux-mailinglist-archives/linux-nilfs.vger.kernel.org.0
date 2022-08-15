@@ -2,46 +2,47 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8EB89593675
-	for <lists+linux-nilfs@lfdr.de>; Mon, 15 Aug 2022 21:25:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 570DC5937EE
+	for <lists+linux-nilfs@lfdr.de>; Mon, 15 Aug 2022 21:29:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241955AbiHOSkO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 15 Aug 2022 14:40:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53688 "EHLO
+        id S232093AbiHOSqw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 15 Aug 2022 14:46:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242048AbiHOSjP (ORCPT
+        with ESMTP id S233146AbiHOSoB (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 15 Aug 2022 14:39:15 -0400
+        Mon, 15 Aug 2022 14:44:01 -0400
 Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57412E6B8;
-        Mon, 15 Aug 2022 11:23:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC632FFC3;
+        Mon, 15 Aug 2022 11:27:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
         MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
         Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Peq9JtWu1E4wR6oLY4ARrrcqindLx2FfBvAEgWzQ1g0=; b=w2tLn6ETVYP0VvljwROUi5c9Q/
-        rveWi+fG4t0fVcKB8q1gaZj8w72ZcqqAKvJDoLctt58naFC32aD+X4WKR+yk4FIlBv/57aq3IMObi
-        6jS7VEFtjnk4FEMuwQ8+Fjy8laYEJZy6EcLFItyiTPh5qAGwOMKYiQ6KeIQKxCsNKd2oY6u19eCRm
-        pR2Hzxb627+lWtmepjuPenaVX0DcWRc5KKJNlIxPNAzsI6C9Lino+xxMTUciyHL/wKO+9SgnbZbvI
-        YEg3IuCRpq7nZ2tZ9dWcU9PJPGY179wOkToWpHf9rdYl4q/9kHG57Ze0zJ4QSdhMVDEFbqJTVyy6e
-        BlseRfMA==;
+        bh=pQgnV2W+m6IHyd1sfXNyPuGcZpvyoD3dq7ndy9+1QWY=; b=nOms3/1Uq5YOF1bwlhQz39B/xq
+        lhJn4Xz+bgO4S+tzCDXYpLB8VrlkUqBdIrbUt95mBrUHdr683sUAqzaa2EL8z+RDmYP2StzlwdOJ2
+        dlu4xtB6GtZ7UapVk2WD/TlGptwIfUv0tciWlGulljYY9+Fcpo2ICJpMpb0BJvuXzzX0zDUpw9zyU
+        KyGPgpkB3lZyjCE3mM8iw+OX+wUW/BWlIlrIvAWaQoFKHxiKHBkFWxJrLM4RNSV+3QMORX/AlleaD
+        vpDR4/Jp7QyIvjl5gi8PPa6yPcN0ObjLRunLjv/8GqjUnNkTYLzal4MQ7zci7VkeymEdMAPpsPy07
+        le8oCyVA==;
 Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
-        id 1oNekh-004kXN-TZ;
-        Mon, 15 Aug 2022 18:23:52 +0000
-Date:   Mon, 15 Aug 2022 19:23:51 +0100
+        id 1oNent-004kaQ-Ps;
+        Mon, 15 Aug 2022 18:27:10 +0000
+Date:   Mon, 15 Aug 2022 19:27:09 +0100
 From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Jiacheng Xu <578001344xu@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, gregkh@linuxfoundation.org,
-        konishi.ryusuke@gmail.com, linux-nilfs@vger.kernel.org,
-        security@kernel.org
-Subject: Re: KASAN: use-after-free in nilfs_mdt_destroy
-Message-ID: <YvqPN2T3Q8pfnCoV@ZenIV>
-References: <CAO4S-mficMz1mQW06EuCF+o11+mRDiCpufqVfoHkcRbQbs8kVw@mail.gmail.com>
- <YvqKJppIL4lVCn9+@ZenIV>
+To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-nilfs <linux-nilfs@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Jiacheng Xu <stitch@zju.edu.cn>,
+        Mudong Liang <mudongliangabcd@gmail.com>
+Subject: Re: [PATCH] nilfs2: fix use-after-free bug in nilfs_mdt_destroy()
+Message-ID: <YvqP/f2P2YgIIO9U@ZenIV>
+References: <20220815175114.23576-1-konishi.ryusuke@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <YvqKJppIL4lVCn9+@ZenIV>
+In-Reply-To: <20220815175114.23576-1-konishi.ryusuke@gmail.com>
 Sender: Al Viro <viro@ftp.linux.org.uk>
 X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
@@ -52,37 +53,40 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Mon, Aug 15, 2022 at 07:02:14PM +0100, Al Viro wrote:
-> On Mon, Aug 15, 2022 at 10:03:21PM +0800, Jiacheng Xu wrote:
+On Tue, Aug 16, 2022 at 02:51:14AM +0900, Ryusuke Konishi wrote:
+> In alloc_inode(), inode_init_always() could return -ENOMEM if
+> security_inode_alloc() fails.  If this happens for nilfs2,
+> nilfs_free_inode() is called without initializing inode->i_private and
+> nilfs_free_inode() wrongly calls nilfs_mdt_destroy(), which frees
+> uninitialized inode->i_private and can trigger a crash.
 > 
-> > Patch:
-> > Fix this bug by moving the assignment of inode->i_private before
-> > security_inode_alloc.
-> > An ad-hoc patch is proposed:
-> > https://patchwork.kernel.org/project/linux-fsdevel/patch/20211011030956.2459172-1-mudongliangabcd@gmail.com/
+> Fix this bug by initializing inode->i_private in nilfs_alloc_inode().
 > 
-> ... and that looks like utter bollocks.  Why does security_inode_alloc()
-> look at ->i_private?  Which LSM is involved?
+> Link: https://lkml.kernel.org/r/CAFcO6XOcf1Jj2SeGt=jJV59wmhESeSKpfR0omdFRq+J9nD1vfQ@mail.gmail.com
+> Link: https://lkml.kernel.org/r/20211011030956.2459172-1-mudongliangabcd@gmail.com
+> Reported-by: butt3rflyh4ck <butterflyhuangxx@gmail.com>
+> Reported-by: Hao Sun <sunhao.th@gmail.com>
+> Reported-by: Jiacheng Xu <stitch@zju.edu.cn>
+> Reported-by: Mudong Liang <mudongliangabcd@gmail.com>
+> Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> ---
+>  fs/nilfs2/super.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/fs/nilfs2/super.c b/fs/nilfs2/super.c
+> index ba108f915391..aca5614f1b44 100644
+> --- a/fs/nilfs2/super.c
+> +++ b/fs/nilfs2/super.c
+> @@ -159,6 +159,7 @@ struct inode *nilfs_alloc_inode(struct super_block *sb)
+>  	ii->i_cno = 0;
+>  	ii->i_assoc_inode = NULL;
+>  	ii->i_bmap = &ii->i_bmap_data;
+> +	ii->vfs_inode.i_private = NULL;
+>  	return &ii->vfs_inode;
+>  }
 
-OK, I see...  The role of security_inode_alloc() here is that it's
-a possible cause of failure.  And yes, dealing with that class of
-bugs here might be better.
-
-However, *IF* we go that way, why not move that thing to the
-very end?  Just prior to
-        this_cpu_inc(nr_inodes);
-
-Sure, nilfs2 steps only into uninitialized ->i_private.
-Who's to say that we won't run into somebody deciding that e.g.
-inode->i_data.private_data is worth a look?
-
-Just move the call of security_inode_alloc() down to immediately
-before the nr_inode increment, with explanation along the lines
-of
-
-"In case of security_inode_alloc() failure the inode is passed to
-->destroy_inode(); doing security_inode_alloc() last makes for
-easier life for ->destroy_inode() instances - they can rely upon
-the rest of inode_init_always() having been done.  It's not
-just a theoretical problem - nilfs2 has actually stepped into that
-[reference to report]"
+FWIW, I think it's better to deal with that in inode_init_always(), but
+not just moving ->i_private initialization up - we ought to move
+security_inode_alloc() to the very end.  No sense playing whack-a-mole
+with further possible bugs of that sort...
