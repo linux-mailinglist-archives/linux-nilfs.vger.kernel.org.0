@@ -2,91 +2,100 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 570DC5937EE
-	for <lists+linux-nilfs@lfdr.de>; Mon, 15 Aug 2022 21:29:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED7A593C00
+	for <lists+linux-nilfs@lfdr.de>; Mon, 15 Aug 2022 22:37:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232093AbiHOSqw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 15 Aug 2022 14:46:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36100 "EHLO
+        id S1345932AbiHOUJu (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 15 Aug 2022 16:09:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233146AbiHOSoB (ORCPT
+        with ESMTP id S243242AbiHOUJH (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 15 Aug 2022 14:44:01 -0400
-Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FC632FFC3;
-        Mon, 15 Aug 2022 11:27:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
-        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=pQgnV2W+m6IHyd1sfXNyPuGcZpvyoD3dq7ndy9+1QWY=; b=nOms3/1Uq5YOF1bwlhQz39B/xq
-        lhJn4Xz+bgO4S+tzCDXYpLB8VrlkUqBdIrbUt95mBrUHdr683sUAqzaa2EL8z+RDmYP2StzlwdOJ2
-        dlu4xtB6GtZ7UapVk2WD/TlGptwIfUv0tciWlGulljYY9+Fcpo2ICJpMpb0BJvuXzzX0zDUpw9zyU
-        KyGPgpkB3lZyjCE3mM8iw+OX+wUW/BWlIlrIvAWaQoFKHxiKHBkFWxJrLM4RNSV+3QMORX/AlleaD
-        vpDR4/Jp7QyIvjl5gi8PPa6yPcN0ObjLRunLjv/8GqjUnNkTYLzal4MQ7zci7VkeymEdMAPpsPy07
-        le8oCyVA==;
-Received: from viro by zeniv.linux.org.uk with local (Exim 4.95 #2 (Red Hat Linux))
-        id 1oNent-004kaQ-Ps;
-        Mon, 15 Aug 2022 18:27:10 +0000
-Date:   Mon, 15 Aug 2022 19:27:09 +0100
-From:   Al Viro <viro@zeniv.linux.org.uk>
-To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiacheng Xu <stitch@zju.edu.cn>,
-        Mudong Liang <mudongliangabcd@gmail.com>
-Subject: Re: [PATCH] nilfs2: fix use-after-free bug in nilfs_mdt_destroy()
-Message-ID: <YvqP/f2P2YgIIO9U@ZenIV>
-References: <20220815175114.23576-1-konishi.ryusuke@gmail.com>
+        Mon, 15 Aug 2022 16:09:07 -0400
+Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3DD883F0B;
+        Mon, 15 Aug 2022 11:55:57 -0700 (PDT)
+Received: by mail-pl1-x62d.google.com with SMTP id 17so7108649plj.10;
+        Mon, 15 Aug 2022 11:55:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=TcoNVDdeHBjRL/cgwoXp3ksLrjGTv3LMhMhYdWqOUwk=;
+        b=ip3lNnuRVCkKTJpyHRzp+iY1wE94DuhoDhEvhy2tFyM0MQL201v5SEkPA+UV8sh9TQ
+         I/tYbxzs13zwkDghMIwYShD0PlhCUsKMKVL5HQh/tKqD1rzj6EXWyH4zVwPgOk6w3wVX
+         d1npJ3/rrsl3qskZgl40Wpt/2Nkm7uDW95Zk6B+dz0gFLJFm2YDbhm8yXhWV0A0Vvgdd
+         AcJDbbzRGabl/HUPXwY2vCQZXK/yEKeSFf8Ybwqvh8uOq9MzANixeh/dAAq4xoM4mtd9
+         rpKgcJBOcGdyevdujOPAEJ+NpMWqCUndMIfJHFsDlXjT5sympvogVbr+jDBb4R8o+u5g
+         OPsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=TcoNVDdeHBjRL/cgwoXp3ksLrjGTv3LMhMhYdWqOUwk=;
+        b=aDC/yJ9MlVTREgYLYp5LSJFqAv6ne0c9MVyG9kdtKSio8uMysLX/TnIqjCXhr2UYUE
+         LVofG52VFesPE3sPnK4+G3UltcknN/XNXRxmErKfQsQn4zyRSDGicCOOKMRNxzcH3hd0
+         D4+nM1gPr5pOyyXOgSpzJRwv9tfPouSjdQNxD43vkhmX4fvXCfNCUHizNJa4muPdrNfQ
+         KZcRpVrvXZtgOR7Ea+/6/Jqpvct3CPGumjz3VsLHi5DwKKLtICeVVOryilolmAhTuQSx
+         Ogs6DKQL8kd36D6AoOxKfvwlutHwJjoSoEdU+7YsgMhdsxEXAJlPOUgI8s37xn4MaYM8
+         RIVw==
+X-Gm-Message-State: ACgBeo3SeLyQz9YZgOW9sGXjrqcsyWS2dzsO2dLgEXlTQEFefHayDkLM
+        6z8evCpzVQ/zt68K/Ztkmd4T/bWLZzwr4tQP
+X-Google-Smtp-Source: AA6agR6q3cK3IU3itRNZLUNBayOljpSXC+G907D9MuhlVHg/g+8N1sJcR4/YxfAqJ9bsTsVEhXzDjA==
+X-Received: by 2002:a17:90b:3d8:b0:1f4:d5c4:5d76 with SMTP id go24-20020a17090b03d800b001f4d5c45d76mr29486811pjb.219.1660589757052;
+        Mon, 15 Aug 2022 11:55:57 -0700 (PDT)
+Received: from vmfolio.. (c-73-189-111-8.hsd1.ca.comcast.net. [73.189.111.8])
+        by smtp.googlemail.com with ESMTPSA id x190-20020a6231c7000000b0052def2e20dasm6858174pfx.167.2022.08.15.11.55.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Aug 2022 11:55:56 -0700 (PDT)
+From:   "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-btrfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: [PATCH 0/7] Convert to filemap_get_folios_contig()
+Date:   Mon, 15 Aug 2022 11:54:45 -0700
+Message-Id: <20220815185452.37447-1-vishal.moola@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220815175114.23576-1-konishi.ryusuke@gmail.com>
-Sender: Al Viro <viro@ftp.linux.org.uk>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 02:51:14AM +0900, Ryusuke Konishi wrote:
-> In alloc_inode(), inode_init_always() could return -ENOMEM if
-> security_inode_alloc() fails.  If this happens for nilfs2,
-> nilfs_free_inode() is called without initializing inode->i_private and
-> nilfs_free_inode() wrongly calls nilfs_mdt_destroy(), which frees
-> uninitialized inode->i_private and can trigger a crash.
-> 
-> Fix this bug by initializing inode->i_private in nilfs_alloc_inode().
-> 
-> Link: https://lkml.kernel.org/r/CAFcO6XOcf1Jj2SeGt=jJV59wmhESeSKpfR0omdFRq+J9nD1vfQ@mail.gmail.com
-> Link: https://lkml.kernel.org/r/20211011030956.2459172-1-mudongliangabcd@gmail.com
-> Reported-by: butt3rflyh4ck <butterflyhuangxx@gmail.com>
-> Reported-by: Hao Sun <sunhao.th@gmail.com>
-> Reported-by: Jiacheng Xu <stitch@zju.edu.cn>
-> Reported-by: Mudong Liang <mudongliangabcd@gmail.com>
-> Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-> Cc: Al Viro <viro@zeniv.linux.org.uk>
-> ---
->  fs/nilfs2/super.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/fs/nilfs2/super.c b/fs/nilfs2/super.c
-> index ba108f915391..aca5614f1b44 100644
-> --- a/fs/nilfs2/super.c
-> +++ b/fs/nilfs2/super.c
-> @@ -159,6 +159,7 @@ struct inode *nilfs_alloc_inode(struct super_block *sb)
->  	ii->i_cno = 0;
->  	ii->i_assoc_inode = NULL;
->  	ii->i_bmap = &ii->i_bmap_data;
-> +	ii->vfs_inode.i_private = NULL;
->  	return &ii->vfs_inode;
->  }
+This patch series replaces find_get_pages_contig() with
+filemap_get_folios_contig(). I've run xfstests on btrfs. I've also
+tested the ramfs changes. I ran some xfstests on nilfs2, and its
+seemingly fine although more testing may be beneficial.
 
-FWIW, I think it's better to deal with that in inode_init_always(), but
-not just moving ->i_private initialization up - we ought to move
-security_inode_alloc() to the very end.  No sense playing whack-a-mole
-with further possible bugs of that sort...
+Vishal Moola (Oracle) (7):
+  filemap: Add filemap_get_folios_contig()
+  btrfs: Convert __process_pages_contig() to use
+    filemap_get_folios_contig()
+  btrfs: Convert end_compressed_writeback() to use filemap_get_folios()
+  btrfs: Convert process_page_range() to use filemap_get_folios_contig()
+  nilfs2: Convert nilfs_find_uncommited_extent() to use
+    filemap_get_folios_contig()
+  ramfs: Convert ramfs_nommu_get_unmapped_area() to use
+    filemap_get_folios_contig()
+  filemap: Remove find_get_pages_contig()
+
+ fs/btrfs/compression.c           | 26 ++++++------
+ fs/btrfs/extent_io.c             | 33 +++++++--------
+ fs/btrfs/subpage.c               |  2 +-
+ fs/btrfs/tests/extent-io-tests.c | 31 +++++++-------
+ fs/nilfs2/page.c                 | 38 ++++++++---------
+ fs/ramfs/file-nommu.c            | 50 ++++++++++++----------
+ include/linux/pagemap.h          |  4 +-
+ mm/filemap.c                     | 71 +++++++++++++++++++-------------
+ 8 files changed, 134 insertions(+), 121 deletions(-)
+
+-- 
+2.36.1
+
