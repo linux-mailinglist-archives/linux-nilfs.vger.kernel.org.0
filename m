@@ -2,97 +2,104 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A2AF959574B
-	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 11:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CDA596182
+	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 19:53:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233319AbiHPJ5u (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 16 Aug 2022 05:57:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35340 "EHLO
+        id S236247AbiHPRxW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 16 Aug 2022 13:53:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233984AbiHPJ5T (ORCPT
+        with ESMTP id S236267AbiHPRxU (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 16 Aug 2022 05:57:19 -0400
-Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CD20194;
-        Tue, 16 Aug 2022 02:18:37 -0700 (PDT)
-Received: by mail-lf1-x129.google.com with SMTP id v2so14042036lfi.6;
-        Tue, 16 Aug 2022 02:18:37 -0700 (PDT)
+        Tue, 16 Aug 2022 13:53:20 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA9C957E1F;
+        Tue, 16 Aug 2022 10:53:18 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id pm17so10367229pjb.3;
+        Tue, 16 Aug 2022 10:53:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=Kk2g2IEl/Ua+BBCBiaozArRy7OGG11VduF5q3BhTDG0=;
-        b=KcBiWrctfetchJMsY/eFWVoCsx3SblR9qr6NI6BPQ60NgilShdjZlJUj4AiV5t0Yz1
-         QLi+cwFAww1Sh0xZjHgdFm2wXeNc1qu+yYPcoCpbHeauU5+BHlq8vB3ETrA+3wNlMNAq
-         YfbF3VYWZjWcHbXYEqnmKbHbidsO/eQQGJjM3gLluTqbtBegGjkkFls9VZZOLZYpzsB/
-         kt2bO+DyeinL1VidVfznhy9aVsAasdL03No67OrGbIRpxJ9O733KT4e2UUBk18Sg6RIE
-         BvRr9ja784eIHZZDWo5KueuM0LZCwwgjFh7PRZkYjhHV500L74V1q7n0lwlIANYOoPvV
-         fvBQ==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc;
+        bh=vqWu9nIMNs2OYllxNa/lgOV5pa8uiLhr0uktPZgpEhc=;
+        b=JJCfNmBZtK7Rg0LXuekIXzocFyEbiUou4havkGQOMvUoSdfxVx8XppTLKJTOFqUZx5
+         hta/gDv8tA7m2h/EMpdDQjY/WBac8uFD2WO8SklWF4kOI0kf2SQCzx7txtv3r2gE83u9
+         r324iX+CFT0tepJ2GssUIre+HbXMmMh5tO6NODLP4obrp9z7fdBzbpA6465pvcUBO5DC
+         ByknkvBBsLQh4zIdTwXT0OEHCt9ZiQ2srmS8ChuKTITaTBE/jBiXatN+/xfGvnEVOl+q
+         uC40CwHcJ2i7TBvHjRD+vMrN1gNxcFfEJX0Mh8wFWqgJJn6xvbeN0VnyzqxL4qx0tnVV
+         pI9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=Kk2g2IEl/Ua+BBCBiaozArRy7OGG11VduF5q3BhTDG0=;
-        b=GZVhmcHyprqs3B5Z9jKNl0dcyq41VPIwmEkZZLmFWh+YgL+xFCjZTBrpOfxPUezfO+
-         Inrwlb/5IywmbNkERF2mxrffqbXFhKdhS2ggb4GoTASsUm6akD/+TTeBbPo8zDHjIWhO
-         ict1jbDHwMf/FAOCuwTX7Qxy+/11uUu9ly3nAMYuGqf38ZoJhmYP3OasmTbTyjN2Hlxf
-         lQt98I+VEIyiXSmPUQvp+ygsET4D1unYSdKR4omOdHik7lsITT7bRljriQQ7FAd2wkVw
-         9of+w/u/Ya01ni7oxnNUsScYDdHMPcxmhI4bRfF7kecWWgOYxincSnfLYCI17K3DmHP9
-         51xA==
-X-Gm-Message-State: ACgBeo1D+F8lS/ln7U8nwO0jNVpk0EVrSZnO1KCfx0oOMy2LCO+HOX/m
-        T5nxWXKFWZ4B01CHzfyeAU3WLe6vKxm1WNcIN/Sdb3RF7EcEOg==
-X-Google-Smtp-Source: AA6agR7PDcg9fUP4aVag2k2cXXyHGw1wbNV0WesqmcGnmlmXEndYbcZ7+VdLCCjesog4PO6/2bAL/31vc+5aUkDs4mU=
-X-Received: by 2002:a2e:b88c:0:b0:25f:eae4:74ff with SMTP id
- r12-20020a2eb88c000000b0025feae474ffmr6545964ljp.48.1660641515791; Tue, 16
- Aug 2022 02:18:35 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc;
+        bh=vqWu9nIMNs2OYllxNa/lgOV5pa8uiLhr0uktPZgpEhc=;
+        b=grhNIMja8eUfTHG5t8BsvzE8NvAaBryCld7vF2dwW6jEOVUa70UPiR006UBKadvX6+
+         BAJ94HmWxBYyQtSfFanTm7aWIyRNW6uFjxoX/stOnwarsfICvOtr47y0j/uQjr/kSyoB
+         UIZ1ya486kSUG1rZoYS806K1sh3hRpw+lglnXXyzUY0qRnKMCRUuSNdlY9v0DnBj6L+f
+         XT8NIszd+Wr6ZjhF/87sK+vdgKgsh2EHIWQB6x/g0zIuCEJU7IW2S4ZW6FXVc6/ZKz/I
+         eGdBZDDJzPGF+QJDBEtYQafDrsx2cgFk74/W2MI/YCJl43CVUsICHRY5YsOxCAPhpTIb
+         ygmg==
+X-Gm-Message-State: ACgBeo3gUTadX4IWnGSCb3FwR/jbKbU8n5uUVOhqzH5pc7cCgdAfvmDp
+        lJHDo0XGOgxVyXRN91LaVuoctYh3C0Nhwhhg
+X-Google-Smtp-Source: AA6agR4pvPuZRyprK3AmV9QelTNUf6H+/44KZsWrd1lsqcvOp2zgHzbSdnacVOmXxYl32Vqqvvnecg==
+X-Received: by 2002:a17:902:c1c4:b0:171:38ab:e761 with SMTP id c4-20020a170902c1c400b0017138abe761mr23726924plc.65.1660672398038;
+        Tue, 16 Aug 2022 10:53:18 -0700 (PDT)
+Received: from vmfolio.. (c-73-189-111-8.hsd1.ca.comcast.net. [73.189.111.8])
+        by smtp.googlemail.com with ESMTPSA id mi4-20020a17090b4b4400b001f52fa1704csm3379963pjb.3.2022.08.16.10.53.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 10:53:17 -0700 (PDT)
+From:   "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-btrfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: [PATCH v2 0/7] Convert to filemap_get_folios_contig()
+Date:   Tue, 16 Aug 2022 10:52:39 -0700
+Message-Id: <20220816175246.42401-1-vishal.moola@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220815175114.23576-1-konishi.ryusuke@gmail.com>
- <YvqP/f2P2YgIIO9U@ZenIV> <CAKFNMomyjXpsz-=BtG+G3q1J7CFUBMEfP13FfxwhWB==9qb++w@mail.gmail.com>
- <YvrQ8xO9Lx7rdKq8@ZenIV> <CAKFNMoniwM5x0w03cezGTFDWt=apNmGWpur83+vjghg3zcawpQ@mail.gmail.com>
- <CAD-N9QW5-kVR85t1canTqrF9RMkOjC1Z2q8BSQKxLwaay97Mgg@mail.gmail.com>
-In-Reply-To: <CAD-N9QW5-kVR85t1canTqrF9RMkOjC1Z2q8BSQKxLwaay97Mgg@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Tue, 16 Aug 2022 18:18:18 +0900
-Message-ID: <CAKFNMonVb6s3Cey5riXFwd+C3wy87fHbMUtnq3SXooXgsSD5yA@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: fix use-after-free bug in nilfs_mdt_destroy()
-To:     Dongliang Mu <mudongliangabcd@gmail.com>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs <linux-nilfs@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Jiacheng Xu <stitch@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Aug 16, 2022 at 12:25 PM Dongliang Mu wrote:
-> > Dongliang (or Jiacheng?), would it be possible for you to post a revised patch
-> > against inode_init_always() that moves the call of security_inode_alloc()
-> > instead of i_private initialization (as Al Viro said in a nearby thread [1]) ?
-> > If you have time, I would like to leave it to you since you wrote the
-> > original patch for inode_init_always().
->
-> Sure, I will post a v2 patch that moves security_inode_alloc to the
-> location just prior to
->         this_cpu_inc(nr_inodes);
-> with proper commit message.
->
+This patch series replaces find_get_pages_contig() with
+filemap_get_folios_contig(). I've run xfstests on btrfs. I've also
+tested the ramfs changes. I ran some xfstests on nilfs2, and its
+seemingly fine although more testing may be beneficial.
+---
 
-I saw you already sent the v2 patch on linux-fsdevel, etc.
-Just thank you for your quick follow.
+v2:
+  - Removed an unused label in nilfs2
 
-Regards,
-Ryusuke Konishi
+Vishal Moola (Oracle) (7):
+  filemap: Add filemap_get_folios_contig()
+  btrfs: Convert __process_pages_contig() to use
+    filemap_get_folios_contig()
+  btrfs: Convert end_compressed_writeback() to use filemap_get_folios()
+  btrfs: Convert process_page_range() to use filemap_get_folios_contig()
+  nilfs2: Convert nilfs_find_uncommited_extent() to use
+    filemap_get_folios_contig()
+  ramfs: Convert ramfs_nommu_get_unmapped_area() to use
+    filemap_get_folios_contig()
+  filemap: Remove find_get_pages_contig()
 
-> >
-> > [1] https://lkml.kernel.org/r/CAO4S-mficMz1mQW06EuCF+o11+mRDiCpufqVfoHkcRbQbs8kVw@mail.gmail.com
-> >
-> > Thanks,
-> > Ryusuke Konishi
+ fs/btrfs/compression.c           | 26 ++++++------
+ fs/btrfs/extent_io.c             | 33 +++++++--------
+ fs/btrfs/subpage.c               |  2 +-
+ fs/btrfs/tests/extent-io-tests.c | 31 +++++++-------
+ fs/nilfs2/page.c                 | 39 ++++++++----------
+ fs/ramfs/file-nommu.c            | 50 ++++++++++++----------
+ include/linux/pagemap.h          |  4 +-
+ mm/filemap.c                     | 71 +++++++++++++++++++-------------
+ 8 files changed, 134 insertions(+), 122 deletions(-)
+
+-- 
+2.36.1
+
