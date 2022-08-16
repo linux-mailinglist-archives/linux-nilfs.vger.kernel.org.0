@@ -2,64 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B789B595637
-	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 11:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C837E5956F3
+	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 11:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230290AbiHPJ2k (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 16 Aug 2022 05:28:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50006 "EHLO
+        id S233867AbiHPJr3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 16 Aug 2022 05:47:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36206 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232261AbiHPJ2K (ORCPT
+        with ESMTP id S233865AbiHPJrD (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 16 Aug 2022 05:28:10 -0400
-Received: from mail-yw1-x1136.google.com (mail-yw1-x1136.google.com [IPv6:2607:f8b0:4864:20::1136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 169BC6584
-        for <linux-nilfs@vger.kernel.org>; Tue, 16 Aug 2022 00:46:15 -0700 (PDT)
-Received: by mail-yw1-x1136.google.com with SMTP id 00721157ae682-324ec5a9e97so130424467b3.7
-        for <linux-nilfs@vger.kernel.org>; Tue, 16 Aug 2022 00:46:14 -0700 (PDT)
+        Tue, 16 Aug 2022 05:47:03 -0400
+Received: from mail-yw1-x112f.google.com (mail-yw1-x112f.google.com [IPv6:2607:f8b0:4864:20::112f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33181901A
+        for <linux-nilfs@vger.kernel.org>; Tue, 16 Aug 2022 01:35:11 -0700 (PDT)
+Received: by mail-yw1-x112f.google.com with SMTP id 00721157ae682-31f445bd486so132847007b3.13
+        for <linux-nilfs@vger.kernel.org>; Tue, 16 Aug 2022 01:35:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc;
-        bh=8Yukm6IoZYfpPJpaCKSecWUw9Ym3RfYDxea1L/nbqQA=;
-        b=foDsXYEoPlUb/3s0pJVmWr41mvJxNdCtFj7cxcOA7+TD/0UNLGuSQIV1pNK8wlnMln
-         qzpvPrU9YFagd52yAdTnFRvLQuRY9JesFOixMtNJcVs38Y5U2urxcG9E0OszpJEt+4lY
-         83b9MuU1dOq/9s5t5kATCmD2vSTvoNyjWof+fRLmJLO6KzB+C5qN2e1hENirub8KcRun
-         ZVFDMtOnqrAczuor6FCsyzsb6cgNiLwjYB++BJZvp3xizVGiDzjNWJl52J8PlSb1wleg
-         ahH/AU+U2a1qKMJJQQRmZI9SZkVV3arUNWzZDJfDijiIaRwKFjusRiufV6ZLMzOxPIHr
-         VTMw==
+        bh=FMUX1ca5qhsOzjLJCdGy9/aUl/PcngAKP1Q59U2m9jw=;
+        b=n/tVJwbfPpK8pmRi/mUkTlRYcBg3snZ+3io5/uWNXWWIsGMarWtT4bwSp78kaRbEeO
+         0PEuc1pZiXvOpJSDn5GzVdtKYn9GLS7OgNFuTBCIHkGO4BImoS6Pc78burXmiZFPjjaq
+         /V4u5urQLJBJECSZnZP3kyksl7wAZliXNThFwtO85aUazaAN9TZP1KUPRLDOpO+oLdWG
+         OW+MTPl+h3JiMT3MEzILafl0FK2HBVvwTR7RLkAzTFiTApjInCKKO6leEfBLsDKyBsN0
+         6fX4R2buiWqkbcxKwvmMjv18D0ZXtn9c48AMiC5tSPqbR+NZNWd7x2BsWeNgxC6KMOlk
+         MQow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc;
-        bh=8Yukm6IoZYfpPJpaCKSecWUw9Ym3RfYDxea1L/nbqQA=;
-        b=6mMkVl5BY3WbacLd+erEGJqM8ci4KQbzpzmqaO9MpUdsDYkJdSRnVtmcx+X8EmoWbV
-         jufO7AXTJpfT6SFWJvCAlJOPoFul8iI3f9uJuBTgFVOhD8az/HUDyg31c3B5M4b4AwUO
-         tJHdq0eT+53PP0X78XinmvFdjdd21AIEDEZV5yp5QLzZB3seQA3tPpoAfWR4DYazClk0
-         EDTf7Kplh9+VG/RxvluqkI/KzEgGQey8jqrRGNMgdqkZ16rK5PeIy04GaHWtSnUnO4mu
-         k1oh0OEmV6+K9xOrlt5hTKNh2zWAb+0VsjB+SeuX00ewT3BtSIkwghx8Q641qzz3LTNy
-         lsMQ==
-X-Gm-Message-State: ACgBeo1z/MvVRIz/93VoHNYI/lwBCEDDkQwCFvSO5/Y7GQSj3OA+FrRM
-        1CguVcvgbwHdOrEe5T2yXfr6bSgEgXFPAEFVxd0=
-X-Google-Smtp-Source: AA6agR5wMEbLcyv32G/LmYo2OqnAlBoDwgE+nLVbGG/BYVCy+3QG5ILvTU9SOqsAM68XeD7nfT88lVMCd83OsFdf6lw=
-X-Received: by 2002:a0d:d841:0:b0:31f:4450:2104 with SMTP id
- a62-20020a0dd841000000b0031f44502104mr16216404ywe.70.1660635974222; Tue, 16
- Aug 2022 00:46:14 -0700 (PDT)
+        bh=FMUX1ca5qhsOzjLJCdGy9/aUl/PcngAKP1Q59U2m9jw=;
+        b=wqRJk1rV7AH41jY4+3H4zKWSrpd4JDycggxXTAeoL0kCEIdH6sQaSIMh3ulfSggQO7
+         0m8Tg8hql66iEZz0l2UXoLWCuWDxVyephXdAp0TJQVXhIUtG5TyzV+cXFw/SsaWsPQZ8
+         yCQzytVQtecDnZBLmDh4Q6VyZ3XUMGAn2uJSb5FtwBITzBbYpchUK/85hupIL5L85oKh
+         a8D0ribIuWk7mY4Mw8JRW7iE2Zsvszx2SaERe3ZOCHfyjyBluSqwtn2THsl14gjJyMrh
+         qQJowzrAVkYu7euuWOMBZO+oED7xjdKRzSH+DwYsvEDGWp3GjBWIJ3iPAZZCQqrNkdXw
+         eBdQ==
+X-Gm-Message-State: ACgBeo24JXLVUBNm/nNhgozLZDvkNwIzStWtF6y+I0n6DwRxIy18bTBo
+        PRDrsWDjvoJywk1U/pkvRRcZ7/rwTbogUur+vPA=
+X-Google-Smtp-Source: AA6agR4WsWApWLCkxY1TBXnqHkZVb3PghWfhIkFqa1qTmdA690WGastHqOsBA+lLNqSNhFcvpPCzu4RlyloCmQNWnV4=
+X-Received: by 2002:a81:7702:0:b0:328:297a:fdcb with SMTP id
+ s2-20020a817702000000b00328297afdcbmr15823520ywc.335.1660638910801; Tue, 16
+ Aug 2022 01:35:10 -0700 (PDT)
 MIME-Version: 1.0
-References: <34e8df4a.848e1.182a1264256.Coremail.stitch@zju.edu.cn> <8C0C088A-11A4-4D0E-93B9-CA70F0040341@oracle.com>
-In-Reply-To: <8C0C088A-11A4-4D0E-93B9-CA70F0040341@oracle.com>
-From:   butt3rflyh4ck <butterflyhuangxx@gmail.com>
-Date:   Tue, 16 Aug 2022 15:46:04 +0800
-Message-ID: <CAFcO6XN-m2VvV0FCLGBSiTLKZ0mj_WESqz=ZVPWdpmECJuv-+w@mail.gmail.com>
-Subject: Re: [vs-plain] KASAN: use-after-free in nilfs_mdt_destroy
-To:     John Haxby <john.haxby@oracle.com>
-Cc:     =?UTF-8?B?6K645ZiJ6K+a?= <stitch@zju.edu.cn>,
-        "security@kernel.org" <security@kernel.org>,
-        "linux-distros@vs.openwall.org" <linux-distros@vs.openwall.org>,
-        "konishi.ryusuke@gmail.com" <konishi.ryusuke@gmail.com>,
-        "viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-        "syzkaller@googlegroups.com" <syzkaller@googlegroups.com>,
-        "linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>
+References: <34e8df4a.848e1.182a1264256.Coremail.stitch@zju.edu.cn> <Yvovz7FKlHLNpNaf@kroah.com>
+In-Reply-To: <Yvovz7FKlHLNpNaf@kroah.com>
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Date:   Tue, 16 Aug 2022 10:35:00 +0200
+Message-ID: <CAKXUXMy94SkUA9jU69H9Mdkzo4gui+3kTc2YoqaeoXmCHYKzGA@mail.gmail.com>
+Subject: Re: [vs] KASAN: use-after-free in nilfs_mdt_destroy
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     =?UTF-8?B?6K645ZiJ6K+a?= <stitch@zju.edu.cn>, security@kernel.org,
+        linux-distros@vs.openwall.org,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        syzkaller <syzkaller@googlegroups.com>,
+        linux-nilfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -72,54 +71,83 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi, there is a patch for this issue.
-https://lore.kernel.org/linux-fsdevel/20220816040859.659129-1-dzm91@hust.ed=
-u.cn/T/#u
-
-
-On Tue, Aug 16, 2022 at 3:36 PM John Haxby <john.haxby@oracle.com> wrote:
+On Mon, Aug 15, 2022 at 1:36 PM Greg KH <gregkh@linuxfoundation.org> wrote:
 >
->
->
-> > On 15 Aug 2022, at 11:56, =E8=AE=B8=E5=98=89=E8=AF=9A <stitch@zju.edu.c=
-n> wrote:
-> >
+> On Mon, Aug 15, 2022 at 06:56:55PM +0800, =E8=AE=B8=E5=98=89=E8=AF=9A wro=
+te:
 > > Hi developers,
 > >
 > > We may found a flaw in the fs module which can lead to UAF write or DoS=
 .
 > > We would appreciate a CVE ID if this is a security issue.
+>
+> As our documentation states, us at security@kernel.org do not assign
+> CVEs or deal with them at all.
+>
 > >
->
-> Confirming that your message made it through to linux-distros, but you ha=
-ven't mentioned a date when this would be made public.  However,
->
+> > HEAD commit: 3d7cb6b04c3f Linux-5.19
+> > git tree: upstream
+> > console output:https://drive.google.com/file/d/1PoH9PUdMilsrKtq1oGHu_sh=
+M3dggNFAB/view?usp=3Dsharing
+> > kernel config: https://drive.google.com/file/d/1wgIUDwP5ho29AM-K7HhysST=
+fWFpfXYkG/view?usp=3Dsharing
+> > syz repro: https://drive.google.com/file/d/19N1Xh8TVoSUr_2J8j-bWXktL21S=
+vRx_9/view?usp=3Dsharing
+> > C reproducer: https://drive.google.com/file/d/1R1rYseY7JBDCSfLAP4pjSCoM=
+Vgkr7l5b/view?usp=3Dsharing
+> >
+> > Description
+> > In alloc_inode, inode_init_always could return -NOMEM if
+> > security_inode_alloc fails. In its error handling, i_callback and
+> > nilfs_free_inode will be called. However, because inode->i_private is
+> > not initialized due to the failure of security_inode_alloc, the functio=
+n
+> > nilfs_is_metadata_file_inode can return true and nilfs_mdt_destroy will
+> >
+> >
+> > be executed to lead to GPF bug.
+> >
+> >
+> >
+> >
 > > Someone found the similar problem: https://groups.google.com/g/syzkalle=
 r-bugs/c/z2WroC3_BSw.
-> >
+>
+> Great, can you work on this in public on that thread then?  Have you
+> tested the proposed patch that is provided there to see if it solves it
+> or not?
+>
 > > Fix this bug by moving the assignment of inode->i_private before securi=
 ty_inode_alloc.
 >
-> There's already a public discussion about that and if, indeed, that's the=
- same bug then you should take this to oss-security as simply a rediscovery=
- of an existing bug.
+> That's what the existing patch looks to do, does that work?
 >
-> I'll leave it to Red Hat to decide whether to allocate a CVE number for t=
-his issue. It needs significant privileges to exploit it; the only real que=
-stion is whether you could use those privileges to crash the machine anyway=
-.
+> And again, as this is public, why notify us and not just work to solve
+> this in public with the developers involved?
 >
-> jch
->
-> --
-> You received this message because you are subscribed to the Google Groups=
- "syzkaller" group.
-> To unsubscribe from this group and stop receiving emails from it, send an=
- email to syzkaller+unsubscribe@googlegroups.com.
-> To view this discussion on the web visit https://groups.google.com/d/msgi=
-d/syzkaller/8C0C088A-11A4-4D0E-93B9-CA70F0040341%40oracle.com.
+
+Hi all,
+
+this email was sent to security@kernel.org, where the emails are
+supposed to remain undisclosed in a private email list with curated
+participants, but it was also sent to the public mailing lists
+syzkaller@googlegroups.com and linux-nilfs@vger.kernel.org. So the
+whole communication is already public and disclosed. I guess there are
+really no measures needed now for anyone to keep anything further
+"secret due to security" and all efforts can be simply put in
+understanding the reported issue, the known patch and the next steps
+in the usual public channels.
+
+Just to add to Greg's advice, it was public from the beginning, so
+there really was not the need to have security@kernel.org in the loop.
+
+I would like to understand which statements in the kernel's patch
+submission guidelines got you to report to security@kernel.org. Can
+you point to those parts of the documentation? Then, we can think
+about how to improve those and see if that improvement helps others
+avoid such potential process issues in the future.
 
 
+Best regards,
 
---=20
-Active Defense Lab of Venustech
+Lukas
