@@ -2,66 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 150F4594EEA
-	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 05:02:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A6D2595353
+	for <lists+linux-nilfs@lfdr.de>; Tue, 16 Aug 2022 09:05:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230212AbiHPDCH (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 15 Aug 2022 23:02:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56454 "EHLO
+        id S230217AbiHPHFm (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 16 Aug 2022 03:05:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231618AbiHPDAO (ORCPT
+        with ESMTP id S231377AbiHPHFO (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 15 Aug 2022 23:00:14 -0400
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4790E2DD5ED;
-        Mon, 15 Aug 2022 16:34:44 -0700 (PDT)
+        Tue, 16 Aug 2022 03:05:14 -0400
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D0AE133B83;
+        Mon, 15 Aug 2022 19:48:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1660606485; x=1692142485;
+  t=1660618126; x=1692154126;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=EU3WVIPEiTVCLq3r1ATnkbH8mOj++2Yt6SGbSryJ5r0=;
-  b=MdhohSoUqeuVP1wJ3W+x3DA0fk22RTfQ/qOlaj/cd/d724w8nmAhteeA
-   lrVwtVkytJOyPqGYMipBWefLIt/aGEPOSzcf+7C2Ad5XCyvN6UbipU39j
-   wFd6Dey8rB1F0pRilan1H3HyeX6wLsAMWLV6tsJusgOhkkfuA73kaa96h
-   7WcANTc0ClGwB7iU/xK9FPeLDXtzgEo7NOurOOwZOalTTSXaKMx69b3z5
-   v2FWgbps1ClXKxeRvIAWMtt3PdMUPz1cuYu8/aScTb868xa+EYZkWoVs4
-   B7ycmxJGf1alvk1RTp8rPiO2y94dt04a9a/aVLGmEGKwBhn8QBiA8C35c
-   Q==;
-X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="289650012"
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; 
-   d="scan'208";a="289650012"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2022 16:34:43 -0700
+  bh=GIjwoEKzbUGoid2QJqu4OXAdDf1iMot8Evrfq8fVeZA=;
+  b=XzJ33B2KZbWj2XJcxSWE+8Pt1f9yHs0Mckh41bjb4Mn4fspE9/6ggns6
+   MroOe5djBK0+9gJbO1x7ujyG3y2Ah2QgCgd3/FoU/TfiT72l84iqawMDK
+   ELbgt8EM0sgKoNA9LshPqqe2F6vYX5D8VewAiVWwFTTS+ogrs3J0Zx3wS
+   xNgB+1sY+tM742pRW9bUXu4lFyyDkhbqUFLnGJsd8lTWTrAx6QgWkWQkR
+   sSEbp+JXLlQ3Mq5BJunZ3fW4Gasfx33SKllntQawv3dR/xQpa6/Eeh1u8
+   F9OJztQisy3ZvaIk30WZijhnUakWJ2i9ZgOXiWw4H9r1M7XAg1xgs5LsL
+   g==;
+X-IronPort-AV: E=McAfee;i="6400,9594,10440"; a="275162786"
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="275162786"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Aug 2022 19:48:46 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.93,239,1654585200"; 
-   d="scan'208";a="583073534"
+X-IronPort-AV: E=Sophos;i="5.93,240,1654585200"; 
+   d="scan'208";a="934714033"
 Received: from lkp-server02.sh.intel.com (HELO 3d2a4d02a2a9) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 15 Aug 2022 16:34:41 -0700
+  by fmsmga005.fm.intel.com with ESMTP; 15 Aug 2022 19:48:43 -0700
 Received: from kbuild by 3d2a4d02a2a9 with local (Exim 4.96)
         (envelope-from <lkp@intel.com>)
-        id 1oNjbU-0001Gv-1b;
-        Mon, 15 Aug 2022 23:34:40 +0000
-Date:   Tue, 16 Aug 2022 07:34:12 +0800
+        id 1oNmdH-0001O1-0E;
+        Tue, 16 Aug 2022 02:48:43 +0000
+Date:   Tue, 16 Aug 2022 10:47:51 +0800
 From:   kernel test robot <lkp@intel.com>
 To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
         linux-fsdevel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-btrfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org,
+Cc:     llvm@lists.linux.dev, kbuild-all@lists.01.org,
+        linux-btrfs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
         "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
 Subject: Re: [PATCH 5/7] nilfs2: Convert nilfs_find_uncommited_extent() to
  use filemap_get_folios_contig()
-Message-ID: <202208160738.yErltyXd-lkp@intel.com>
+Message-ID: <202208161010.5ZmABhnS-lkp@intel.com>
 References: <20220815185452.37447-6-vishal.moola@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <20220815185452.37447-6-vishal.moola@gmail.com>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -74,33 +74,37 @@ Thank you for the patch! Perhaps something to improve:
 
 [auto build test WARNING on linus/master]
 [also build test WARNING on v6.0-rc1 next-20220815]
-[cannot apply to kdave/for-next]
+[cannot apply to kdave/for-next konis-nilfs2/upstream]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
 url:    https://github.com/intel-lab-lkp/linux/commits/Vishal-Moola-Oracle/Convert-to-filemap_get_folios_contig/20220816-025830
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 568035b01cfb107af8d2e4bd2fb9aea22cf5b868
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20220816/202208160738.yErltyXd-lkp@intel.com/config)
-compiler: gcc-11 (Debian 11.3.0-5) 11.3.0
+config: s390-randconfig-r044-20220815 (https://download.01.org/0day-ci/archive/20220816/202208161010.5ZmABhnS-lkp@intel.com/config)
+compiler: clang version 16.0.0 (https://github.com/llvm/llvm-project 6afcc4a459ead8809a0d6d9b4bf7b64bcc13582b)
 reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install s390 cross compiling tool for clang build
+        # apt-get install binutils-s390x-linux-gnu
         # https://github.com/intel-lab-lkp/linux/commit/ce1966344933bbe10010035cd25f23ec7dd76914
         git remote add linux-review https://github.com/intel-lab-lkp/linux
         git fetch --no-tags linux-review Vishal-Moola-Oracle/Convert-to-filemap_get_folios_contig/20220816-025830
         git checkout ce1966344933bbe10010035cd25f23ec7dd76914
         # save the config file
         mkdir build_dir && cp config build_dir/.config
-        make W=1 O=build_dir ARCH=x86_64 SHELL=/bin/bash fs/nilfs2/
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross W=1 O=build_dir ARCH=s390 SHELL=/bin/bash
 
 If you fix the issue, kindly add following tag where applicable
 Reported-by: kernel test robot <lkp@intel.com>
 
 All warnings (new ones prefixed by >>):
 
-   fs/nilfs2/page.c: In function 'nilfs_find_uncommitted_extent':
->> fs/nilfs2/page.c:542:1: warning: label 'out' defined but not used [-Wunused-label]
-     542 | out:
-         | ^~~
+>> fs/nilfs2/page.c:542:1: warning: unused label 'out' [-Wunused-label]
+   out:
+   ^~~~
+   1 warning generated.
 
 
 vim +/out +542 fs/nilfs2/page.c
