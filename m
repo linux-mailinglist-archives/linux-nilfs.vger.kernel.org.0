@@ -2,85 +2,111 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A98659978A
-	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Aug 2022 10:49:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 93F6C59A7B7
+	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Aug 2022 23:32:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347608AbiHSInW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 19 Aug 2022 04:43:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50594 "EHLO
+        id S1352601AbiHSVbw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-nilfs@lfdr.de>); Fri, 19 Aug 2022 17:31:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347014AbiHSInQ (ORCPT
+        with ESMTP id S1351418AbiHSVbv (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 19 Aug 2022 04:43:16 -0400
-Received: from mail-yw1-x112e.google.com (mail-yw1-x112e.google.com [IPv6:2607:f8b0:4864:20::112e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B844840BC9;
-        Fri, 19 Aug 2022 01:43:14 -0700 (PDT)
-Received: by mail-yw1-x112e.google.com with SMTP id 00721157ae682-3375488624aso75243847b3.3;
-        Fri, 19 Aug 2022 01:43:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=4KV0yn/NjRr9fnRDAYkJx34PxHIonAhhduVl0Tj79jY=;
-        b=JPnTRyWRLSemO6XZp+7Bv4/ixzq0eGuPc2U7h/pFfbYZ8UAqOs9vTiLTH+GMbD9F1X
-         hFB2rVyFMuU6bS6EiActsOd7FAxUYxTUc+i/+IKXajnr7wGfVBYwHkLCZvsuO8W5AJjn
-         qq8iobjiRmqFZ/tMnsLWTc0xrODUqjhG2yse5Dkn/KXzP58f9Assveoi1HoOzbY8To8D
-         969FWlun4z4ShSBcQL28vUHxB2u4Kiq4n9O75ckRQwUOhD86FXPEirF6spINAgzQ0Kfz
-         IGHOXa7MCg6WmqItyPyTiJYw0O8WLooPlEyXZZl9Ag1JUjzfeETxaxR8WJTaJswZZvnK
-         hS8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=4KV0yn/NjRr9fnRDAYkJx34PxHIonAhhduVl0Tj79jY=;
-        b=5erwE/L5AhY+zzLIQbrOg1Di/5h9EdxDUBNX+opNWNzAOzPpIl3R5YPvyC/5LRQ259
-         W7kHyxyIovF65p3kIgOBdmasE3rWwxZa0unBylUlnoj1f2kTrFsDJZH/OaXcVI3Pahl3
-         1O4tFqQiz7iJHjenVLEDXJSh6BVS8fuayzIhftOalw04jWziGAcAR+5gv0U/akVv1FH+
-         ylkWaJCDvNSBWcMToqKbMvr7hfclLgdGDeju8YVVg9ebyLZvqUblH98EZ6I85YH0km9D
-         ssyIZvQNbdwwwNpMytcyfAqIAuSxFZ9TuoBwBJ2033ZDYnD/vLkAyWGgegLFlD8Igc0x
-         E9ng==
-X-Gm-Message-State: ACgBeo3VDq4L9/0lYXA9ZtwSbRUT/QnTNJW1uyXn55yCzAx2zXe6814X
-        ONEG4i/0sN5nXjo7vOj7f23HpdjKQAwPF5UOvJ1hVZB2jso=
-X-Google-Smtp-Source: AA6agR7B/OPWTAC8mtg7+avOtn/zgJZZJ20QhZUSHP6YIz9kSzxyyBvFrPaa3Lr5ml23lBsT22YjZe9RIux35CbBqb4=
-X-Received: by 2002:a81:2596:0:b0:329:da3a:e1d3 with SMTP id
- l144-20020a812596000000b00329da3ae1d3mr6252641ywl.41.1660898593562; Fri, 19
- Aug 2022 01:43:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <20220819081700.96279-1-chi.minghao@zte.com.cn>
-In-Reply-To: <20220819081700.96279-1-chi.minghao@zte.com.cn>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 19 Aug 2022 17:42:57 +0900
-Message-ID: <CAKFNMon7N0NAHNoXuH7JzwqbO_we95X+2MFi2tHf3OPs_uygNg@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: delete unnecessary checks before brelse()
-To:     cgel.zte@gmail.com
-Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Fri, 19 Aug 2022 17:31:51 -0400
+Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AF9E114184
+        for <linux-nilfs@vger.kernel.org>; Fri, 19 Aug 2022 14:31:49 -0700 (PDT)
+Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ uk-mta-257-ftTluvfLP_yQT57jEBdPxg-1; Fri, 19 Aug 2022 22:31:46 +0100
+X-MC-Unique: ftTluvfLP_yQT57jEBdPxg-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
+ Server (TLS) id 15.0.1497.38; Fri, 19 Aug 2022 22:31:46 +0100
+Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
+ AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
+ 15.00.1497.040; Fri, 19 Aug 2022 22:31:45 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     "'cgel.zte@gmail.com'" <cgel.zte@gmail.com>,
+        "konishi.ryusuke@gmail.com" <konishi.ryusuke@gmail.com>
+CC:     "linux-nilfs@vger.kernel.org" <linux-nilfs@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Minghao Chi <chi.minghao@zte.com.cn>,
         Zeal Robot <zealci@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Subject: RE: [PATCH] nilfs2: delete unnecessary checks before brelse()
+Thread-Topic: [PATCH] nilfs2: delete unnecessary checks before brelse()
+Thread-Index: AQHYs6QzVivB1J0+p0G/dRvjohFw+a22vqKA
+Date:   Fri, 19 Aug 2022 21:31:45 +0000
+Message-ID: <0d78d24dd26441818dbaedffde611485@AcuMS.aculab.com>
+References: <20220819081700.96279-1-chi.minghao@zte.com.cn>
+In-Reply-To: <20220819081700.96279-1-chi.minghao@zte.com.cn>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri, Aug 19, 2022 at 5:17 PM wrote:
->
-> From: Minghao Chi <chi.minghao@zte.com.cn>
->
+From: cgel.zte@gmail.com
+> Sent: 19 August 2022 09:17
+> 
 > The brelse() function tests whether its argument is NULL
 > and then returns immediately.
 > Thus remove the tests which are not needed around the shown calls.
->
+
+The test is the caller makes sense if it is a 'hot' path
+and bh is normally NULL.
+
+	David
+
+> 
 > Reported-by: Zeal Robot <zealci@zte.com.cn>
 > Signed-off-by: Minghao Chi <chi.minghao@zte.com.cn>
 > ---
 >  fs/nilfs2/btree.c | 6 ++----
 >  1 file changed, 2 insertions(+), 4 deletions(-)
+> 
+> diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
+> index f544c22fff78..b3b5a46488c2 100644
+> --- a/fs/nilfs2/btree.c
+> +++ b/fs/nilfs2/btree.c
+> @@ -1668,8 +1668,7 @@ static int nilfs_btree_check_delete(struct nilfs_bmap *btree, __u64 key)
+>  	maxkey = nilfs_btree_node_get_key(node, nchildren - 1);
+>  	nextmaxkey = (nchildren > 1) ?
+>  		nilfs_btree_node_get_key(node, nchildren - 2) : 0;
+> -	if (bh != NULL)
+> -		brelse(bh);
+> +	brelse(bh);
+> 
+>  	return (maxkey == key) && (nextmaxkey < NILFS_BMAP_LARGE_LOW);
+>  }
+> @@ -1717,8 +1716,7 @@ static int nilfs_btree_gather_data(struct nilfs_bmap *btree,
+>  		ptrs[i] = le64_to_cpu(dptrs[i]);
+>  	}
+> 
+> -	if (bh != NULL)
+> -		brelse(bh);
+> +	brelse(bh);
+> 
+>  	return nitems;
+>  }
+> --
+> 2.25.1
 
-Will apply, thanks!
+-
+Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
+Registration No: 1397386 (Wales)
 
-Ryusuke Konishi
