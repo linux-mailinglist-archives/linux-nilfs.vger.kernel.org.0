@@ -2,89 +2,103 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 628B759F26C
-	for <lists+linux-nilfs@lfdr.de>; Wed, 24 Aug 2022 06:12:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4558C5A3598
+	for <lists+linux-nilfs@lfdr.de>; Sat, 27 Aug 2022 09:30:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234491AbiHXELj (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 24 Aug 2022 00:11:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57216 "EHLO
+        id S230232AbiH0HaA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 27 Aug 2022 03:30:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36598 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbiHXELi (ORCPT
+        with ESMTP id S229639AbiH0H37 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 24 Aug 2022 00:11:38 -0400
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51FA87D1F4;
-        Tue, 23 Aug 2022 21:11:36 -0700 (PDT)
-Received: by mail-ej1-x62b.google.com with SMTP id bj12so14132121ejb.13;
-        Tue, 23 Aug 2022 21:11:36 -0700 (PDT)
+        Sat, 27 Aug 2022 03:29:59 -0400
+Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0690546DA2
+        for <linux-nilfs@vger.kernel.org>; Sat, 27 Aug 2022 00:29:58 -0700 (PDT)
+Received: by mail-ua1-x92b.google.com with SMTP id x12so1318905uaf.0
+        for <linux-nilfs@vger.kernel.org>; Sat, 27 Aug 2022 00:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc;
-        bh=1SWmPxwQyH5LYZrwY6U9XBorttydo0GXweh3dw5/QKE=;
-        b=aB5Gk0PGmxav71TxeXANmr1pPDPghLTSfQ29XJ8LQy6WvkEb8HPfBSqN5qkhPDpuUS
-         7RXfKn4IOpvkyiAGIGpUlc8/7FaY0Z2NXa1XkOs9/zXwUfvDusGj+ct52/rKAulJ6Chf
-         lONMykmHKfe4ukqG1F/WMOfl3oqYGykOX1fErzqYsP/7D5TU7VkHGULWyaiGY8oKLumW
-         mliTpyuj5LrIBwrR10LcRQMn2zqdmDjcqi2PVcDmmBgJghBAwztDCODbjgnpxCS4XT19
-         GW9hWN6b5BneomBEXiE7nAjgVSOuT8gq6lIVEeutl71hFIevTTlSS1BwjFdshjZtW/+L
-         dL0A==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
+        bh=41kW5fOWjdzzcQ6HaiOHsjJFnjWCo4jg2HDR0g9ZrRI=;
+        b=hL2uH7mv80FXMcIBGMBne3Obb1N8gGai5+Cw70WtC9qZNUlgCAHbRE443uermX06s8
+         1a8PdzdxlNWaGHtG6tzEikVEMRkCZbj7zPF3L5VI/pg/Q740Ps+Znip2kOoia9TiQ2m9
+         3zv+H/jRYNEgS+ukvVx3aTZ5KoYDawf0YPEawbT2gfHbctj05KgVPTiZknuJUbCk132y
+         XGFLh3IRv5uEook0dz8Bje5/+6vUu3MAExvkXpVMhBK1QRDowaahUI6wvpWliUq32LI/
+         +AmI//+kZuGKrfpduk9OgOvQTtNDU4+Fpsv2XwJFTFgJkYCGPT8HQudqrCCFCZkoGkDB
+         SPlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc;
-        bh=1SWmPxwQyH5LYZrwY6U9XBorttydo0GXweh3dw5/QKE=;
-        b=ytJFg0LMCuvH+8J+Jm28kk/LGmDtJsscm/icAvWBSuIV8sv00XhwWFy2663dF2YzdK
-         7Pz7Hm4+OuuPaSF577dZ2/fJBQ9QwClrgcM70nCQFHT6CGHcNx3FNRa3owFV1gBEmULt
-         FpoV9vAqO262np839v6clNnU3DXXi3ZWlqXOGppqCXjvMEnqpCugMg9iUI5JDHMPzhoe
-         WLkZrYkJPE6+0jTt8vRDz8F7otjU41TwyUkuKvrK2oDfrT0AD51209kAFA9EkR6Eha1r
-         fBcGIGnMlxkezoUBe+C9TZ1YWGPWeDRTTsMAje6Pf5mGpulfMx06IrwfCSyZ2ON5Kkhi
-         FFPg==
-X-Gm-Message-State: ACgBeo17VNELAPiuBV4tlVhtWJdbkog7E4OsGXntP7TiC5J2fPvxmtPK
-        BL3/GWZWrFY55nUfex1emv8fK9Qha5EXtrhHLhOhwSMBbd2Hdw==
-X-Google-Smtp-Source: AA6agR4cufQC1ybMe0UuAZb3MJf2BHeBD6bTNPsU6naKJlaYsRTjLVGNlcd3crGT1O5HhTLM9yRM3D1aUHgdUSPVjaE=
-X-Received: by 2002:a17:907:e9e:b0:73d:69fa:9b1c with SMTP id
- ho30-20020a1709070e9e00b0073d69fa9b1cmr1551540ejc.681.1661314294805; Tue, 23
- Aug 2022 21:11:34 -0700 (PDT)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc;
+        bh=41kW5fOWjdzzcQ6HaiOHsjJFnjWCo4jg2HDR0g9ZrRI=;
+        b=fyO1I9qYLZGaty5qcB1ddLlkb+bPnLPFVHUg1AVjVOKvxSAjMnft/nMVdoO3YrV3dr
+         +FbClFfSIUs9lQKbL3lbByhTQh0u/mSExNNpjqRlpekY5g33AD8I9jKbtXEPPpY/GNdB
+         XhnFdau2INxOVSABADj1mhOZA/4Xx0PBUegm1SydVhRLaEddNlBYXILyXy/ocrnE/uGD
+         lJh3KGpA45xNYOGlx6fqqj0lb95ujQQj85ZuKzW9S7ypWNEWtNJMV+XfDWfnRNJZRmAN
+         IftgPJZRqf7JST6+J/u3KBrCfCH6S2i1zrscWD+PGANmo22xrshzHkEKwk/9AkRXBJ8t
+         gb7w==
+X-Gm-Message-State: ACgBeo3mkos5R2FWUSeCEnKhKve7GfVvChO+P+gebBS/l1u6F+aSDDyu
+        g8c2PqMRoZGiyN7ZdRhwK0cbE7PINPEyWibemle607cwHMXYVA==
+X-Google-Smtp-Source: AA6agR4dxUQOKcoeKrAMJn1hWv+u9PpRrlsNqTB/UXeHCyGKU2Hr5l4RWCGb1TR2nYfdakCN3LBVidBgVLteDHCJK4Q=
+X-Received: by 2002:a05:6830:449e:b0:638:c72b:68ff with SMTP id
+ r30-20020a056830449e00b00638c72b68ffmr2732113otv.26.1661584951054; Sat, 27
+ Aug 2022 00:22:31 -0700 (PDT)
 MIME-Version: 1.0
-References: <20220824004023.77310-1-vishal.moola@gmail.com> <20220824004023.77310-6-vishal.moola@gmail.com>
-In-Reply-To: <20220824004023.77310-6-vishal.moola@gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 24 Aug 2022 13:11:17 +0900
-Message-ID: <CAKFNMomaxii8r_B3XA4KdkvcD+9Crm=S=0KE-nDa4+qs78E4dQ@mail.gmail.com>
-Subject: Re: [PATCH v3 5/7] nilfs2: Convert nilfs_find_uncommited_extent() to
- use filemap_get_folios_contig()
-To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-mm@kvack.org,
-        linux-kernel@vger.kernel.org
+Received: by 2002:a05:6850:604c:b0:32a:7951:35f0 with HTTP; Sat, 27 Aug 2022
+ 00:22:30 -0700 (PDT)
+Reply-To: abdwabbom447@gmail.com
+From:   Maddah Hussain <klimowiczd0@gmail.com>
+Date:   Sat, 27 Aug 2022 00:22:30 -0700
+Message-ID: <CA+ARbHTGmWKjeivSgq9ofEgKefx=wtjE-W9aaTgHU=faR+L4dQ@mail.gmail.com>
+Subject: Get Back to me(URGENT)
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,SUSPICIOUS_RECIPS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SCC_BODY_URI_ONLY,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:92b listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.4989]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [abdwabbom447[at]gmail.com]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [klimowiczd0[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [klimowiczd0[at]gmail.com]
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  1.5 SCC_BODY_URI_ONLY No description available.
+        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Aug 24, 2022 at 9:43 AM Vishal Moola (Oracle)  wrote:
->
-> Converted function to use folios throughout. This is in preparation for
-> the removal of find_get_pages_contig(). Now also supports large folios.
->
-> Also cleaned up an unnecessary if statement - pvec.pages[0]->index > index
-> will always evaluate to false, and filemap_get_folios_contig() returns 0 if
-> there is no folio found at index.
->
-> Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-> ---
->  fs/nilfs2/page.c | 45 ++++++++++++++++++---------------------------
->  1 file changed, 18 insertions(+), 27 deletions(-)
-
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-
-Looks good, thank you!
-
-
-Ryusuke Konishi
+-- 
+Dear,
+I had sent you a mail but i don't think you received it that's why am
+writing you again.It is important you get back to me as soon as you
+can.
+Maddah Hussain
