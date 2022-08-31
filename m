@@ -2,64 +2,61 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D3515A747E
-	for <lists+linux-nilfs@lfdr.de>; Wed, 31 Aug 2022 05:34:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D8D35A7558
+	for <lists+linux-nilfs@lfdr.de>; Wed, 31 Aug 2022 07:00:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230341AbiHaDeM (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 30 Aug 2022 23:34:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50040 "EHLO
+        id S230129AbiHaFAz (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 31 Aug 2022 01:00:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229481AbiHaDeL (ORCPT
+        with ESMTP id S229523AbiHaFAy (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 30 Aug 2022 23:34:11 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5556472851;
-        Tue, 30 Aug 2022 20:34:10 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id u22so12970748plq.12;
-        Tue, 30 Aug 2022 20:34:10 -0700 (PDT)
+        Wed, 31 Aug 2022 01:00:54 -0400
+Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF524D4EF;
+        Tue, 30 Aug 2022 22:00:52 -0700 (PDT)
+Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-3321c2a8d4cso297299047b3.5;
+        Tue, 30 Aug 2022 22:00:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc;
-        bh=OA6ZBoW6tn54/FgmsdfdLrU3vD7MdBVPqn+LErflnVQ=;
-        b=e2g6MN3EJpfYl45WC5dxQGRvivXW81wOQIEYjU2qfv81vB9FTvz/6upDepxVuhuya2
-         +taNNFrBbvjxC0fp6LyH1SlxXlM7R9EdVnO4jiQBNyzy0VGa/K137Be/VPm01AAqK9ei
-         BVS0Xmjz4NPcoXiVrqLfTYIIkMds9cXJ/vJ0MFTgY7qoJOB8P405Tr21LZZ2/g9NzUad
-         aOvG4/eNUpqTTXMvH3nevgv/yJxX0U0ip3VEX2lRBrAj6A9SIqwdwwuYMHIn9Yp4lRGQ
-         D6n7gLjN0v8+T8FbOOD4eCT73U385gPmdiYufueATdy7BPaxisevTC8NOrQUZavGhCib
-         u6uw==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=hP8w1oBDqJGAsXujKb/CVqCqGWT4GD4/gS/Uk4niIUc=;
+        b=U2sDz1rAezdP1Sj5bHvd6szx1iNoBX0K5Wbnu3cW5OoN0uwMug+oJaS1qFsfwIj27Y
+         9QnA5WX5EmaF5C4S9DZClPg090f0Q4WB7oj/zql033FyPO64hgVcJmz82ha61HGB9ui+
+         pGGZAhhCdk1aMih0sPm6heP7qBleYkX9JUALM3LCooawCjqTyHM6KSfN+uCFf9/+Y465
+         ZgsTK2945Bki0iqTqVbCdht/My8a+3lppMb9V5gHT6aZXzkymempomdgy715W+3ILsq0
+         s29UshM1/lOqLLXHhw15oCDzWvyVsiIV5PBYqvseqX5FI0QHzWwc5apZf7BgELpJ53hR
+         uwyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc;
-        bh=OA6ZBoW6tn54/FgmsdfdLrU3vD7MdBVPqn+LErflnVQ=;
-        b=DES5QrIj5x46KtsNwEbmSIuaiYkwQHfugOkaHijxR0f2wKVfxHk3UN5FVezsDRPXti
-         WRbxit/5w79u73hz/22eSAWoZBNr4Cd9oQ0MnrPI8RVnUdLIM5jRn8DD5AHtK+ZXqR3V
-         4G4EH+nfG5cC94x3NJqJNtC3Y0or8K2LD5P5v1fCV/lwPQnTu96tKz/cBnnU23kV7yh9
-         wJv6sztSOHV5rt4PmnImSCy68dkYzK0JQXZOb3njnyCGto8sK2LrOese5U/0EKNO6ndP
-         mw/Nv/yuHrbgqIEcVtf1Gf4XD4y+pgBz1ybBGcpyN6/SyP/1SMcqHVrh5wOW+TYvQG34
-         StqQ==
-X-Gm-Message-State: ACgBeo3z/2aqspWLXH6yPMZmS/HS/j5ufa7uvBBvI9gII/UVmanmLwcw
-        AR/pTWkH3z781JynBymjIAM=
-X-Google-Smtp-Source: AA6agR5tn6t50NcAH4dIghqyCwlDHVV7yw3QtH+YFO06ApdnNnZagxi12y3SaRc0nBJTuLru0llq0A==
-X-Received: by 2002:a17:902:db05:b0:172:f759:f99d with SMTP id m5-20020a170902db0500b00172f759f99dmr23989099plx.76.1661916849880;
-        Tue, 30 Aug 2022 20:34:09 -0700 (PDT)
-Received: from localhost.localdomain ([193.203.214.57])
-        by smtp.gmail.com with ESMTPSA id q5-20020aa79605000000b00537a6b81bb7sm10404829pfg.148.2022.08.30.20.34.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Aug 2022 20:34:09 -0700 (PDT)
-From:   cgel.zte@gmail.com
-X-Google-Original-From: ye.xingchen@zte.com.cn
-To:     konishi.ryusuke@gmail.com
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=hP8w1oBDqJGAsXujKb/CVqCqGWT4GD4/gS/Uk4niIUc=;
+        b=kpowJHSmlo2RlsdjxlEWIeaEdl9rvikxjbSRWg/sZsJNzY66stV4ia+7RV2pLVhyuC
+         NBFmyyXOpk3Z0G5QWvnYcRoXrTgh1lOvb3HKmwDkefNjC3B5k1+5oS/4yARGpQ0LyMzh
+         5f5nxztATQ7wbehOVMa1HVA7Zs1wdBnkvuyQa1oQ3C1PQ1tpj/fETjm+E+ffSMgYjO3U
+         BOCR+VAXEpZiHTB58LM1rDaXbtFgBU1ZnDvJwzeNA3NnMHb+pT50cP0prFmblcv7P3C2
+         9EEHGLu4vkXnLrPxIa6JxI4dK1ahpAANsejmkh1w85SfW7I6S7hwVZv+jTYBq5rldvxD
+         F9Yw==
+X-Gm-Message-State: ACgBeo2WKa0gElrfnGxxPgI1P7Vp36m29hGXdAA2zgtTVonc7NcgWSGt
+        Pw3vD324SDDojaZGM+rw2olqU1dRNBoGFwekNPQ=
+X-Google-Smtp-Source: AA6agR43V4aiIKKAM0zrA3bkYsgumo2YxP7cn71v6O/qFUFZ/SaxVh9+QMKJg/zVg8qU5nYEmRLd1029vhYoWUpBiJ4=
+X-Received: by 2002:a0d:d5c2:0:b0:337:5d95:8bcb with SMTP id
+ x185-20020a0dd5c2000000b003375d958bcbmr16567963ywd.359.1661922051649; Tue, 30
+ Aug 2022 22:00:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220831033403.302184-1-ye.xingchen@zte.com.cn>
+In-Reply-To: <20220831033403.302184-1-ye.xingchen@zte.com.cn>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Wed, 31 Aug 2022 14:00:34 +0900
+Message-ID: <CAKFNMokS2zV5hJsBkcj=wiSkOkVHiqT_jFi18aBFW_gbNHnP5w@mail.gmail.com>
+Subject: Re: [PATCH linux-next] nilfs2: Remove the unneeded result variable
+To:     cgel.zte@gmail.com
 Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
         ye xingchen <ye.xingchen@zte.com.cn>,
         Zeal Robot <zealci@zte.com.cn>
-Subject: [PATCH linux-next] nilfs2: Remove the unneeded result variable
-Date:   Wed, 31 Aug 2022 03:34:03 +0000
-Message-Id: <20220831033403.302184-1-ye.xingchen@zte.com.cn>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -70,38 +67,46 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: ye xingchen <ye.xingchen@zte.com.cn>
+On Wed, Aug 31, 2022 at 12:34 PM wrote:
+>
+> From: ye xingchen <ye.xingchen@zte.com.cn>
+>
+> Return the value nilfs_segctor_sync() directly instead of storing it in
+> another redundant variable.
+>
+> Reported-by: Zeal Robot <zealci@zte.com.cn>
+> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
+> ---
+>  fs/nilfs2/segment.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+>
+> diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+> index 0afe0832c754..9abae2c9120e 100644
+> --- a/fs/nilfs2/segment.c
+> +++ b/fs/nilfs2/segment.c
+> @@ -2235,7 +2235,6 @@ int nilfs_construct_segment(struct super_block *sb)
+>         struct the_nilfs *nilfs = sb->s_fs_info;
+>         struct nilfs_sc_info *sci = nilfs->ns_writer;
+>         struct nilfs_transaction_info *ti;
+> -       int err;
+>
+>         if (!sci)
+>                 return -EROFS;
+> @@ -2243,8 +2242,7 @@ int nilfs_construct_segment(struct super_block *sb)
+>         /* A call inside transactions causes a deadlock. */
+>         BUG_ON((ti = current->journal_info) && ti->ti_magic == NILFS_TI_MAGIC);
+>
+> -       err = nilfs_segctor_sync(sci);
+> -       return err;
+> +       return nilfs_segctor_sync(sci);
+>  }
+>
+>  /**
+> --
+> 2.25.1
 
-Return the value nilfs_segctor_sync() directly instead of storing it in
-another redundant variable.
+The patch is not wrong though this kind of minor rewrite seems endless.
+Anyway, I would like to queue this unless there is an objection.
 
-Reported-by: Zeal Robot <zealci@zte.com.cn>
-Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
----
- fs/nilfs2/segment.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 0afe0832c754..9abae2c9120e 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -2235,7 +2235,6 @@ int nilfs_construct_segment(struct super_block *sb)
- 	struct the_nilfs *nilfs = sb->s_fs_info;
- 	struct nilfs_sc_info *sci = nilfs->ns_writer;
- 	struct nilfs_transaction_info *ti;
--	int err;
- 
- 	if (!sci)
- 		return -EROFS;
-@@ -2243,8 +2242,7 @@ int nilfs_construct_segment(struct super_block *sb)
- 	/* A call inside transactions causes a deadlock. */
- 	BUG_ON((ti = current->journal_info) && ti->ti_magic == NILFS_TI_MAGIC);
- 
--	err = nilfs_segctor_sync(sci);
--	return err;
-+	return nilfs_segctor_sync(sci);
- }
- 
- /**
--- 
-2.25.1
+Thanks,
+Ryusuke Konishi
