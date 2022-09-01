@@ -2,61 +2,65 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D8D35A7558
-	for <lists+linux-nilfs@lfdr.de>; Wed, 31 Aug 2022 07:00:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 721385AA1EE
+	for <lists+linux-nilfs@lfdr.de>; Fri,  2 Sep 2022 00:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230129AbiHaFAz (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 31 Aug 2022 01:00:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
+        id S234195AbiIAWCp (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 1 Sep 2022 18:02:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229523AbiHaFAy (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 31 Aug 2022 01:00:54 -0400
-Received: from mail-yw1-x1129.google.com (mail-yw1-x1129.google.com [IPv6:2607:f8b0:4864:20::1129])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF524D4EF;
-        Tue, 30 Aug 2022 22:00:52 -0700 (PDT)
-Received: by mail-yw1-x1129.google.com with SMTP id 00721157ae682-3321c2a8d4cso297299047b3.5;
-        Tue, 30 Aug 2022 22:00:52 -0700 (PDT)
+        with ESMTP id S229514AbiIAWCg (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 1 Sep 2022 18:02:36 -0400
+Received: from mail-pf1-x432.google.com (mail-pf1-x432.google.com [IPv6:2607:f8b0:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2C4C4F671;
+        Thu,  1 Sep 2022 15:02:34 -0700 (PDT)
+Received: by mail-pf1-x432.google.com with SMTP id 199so132502pfz.2;
+        Thu, 01 Sep 2022 15:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=hP8w1oBDqJGAsXujKb/CVqCqGWT4GD4/gS/Uk4niIUc=;
-        b=U2sDz1rAezdP1Sj5bHvd6szx1iNoBX0K5Wbnu3cW5OoN0uwMug+oJaS1qFsfwIj27Y
-         9QnA5WX5EmaF5C4S9DZClPg090f0Q4WB7oj/zql033FyPO64hgVcJmz82ha61HGB9ui+
-         pGGZAhhCdk1aMih0sPm6heP7qBleYkX9JUALM3LCooawCjqTyHM6KSfN+uCFf9/+Y465
-         ZgsTK2945Bki0iqTqVbCdht/My8a+3lppMb9V5gHT6aZXzkymempomdgy715W+3ILsq0
-         s29UshM1/lOqLLXHhw15oCDzWvyVsiIV5PBYqvseqX5FI0QHzWwc5apZf7BgELpJ53hR
-         uwyg==
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=9AhdqT0NnU3T2Py6z8gOWa0P0fDVhbOVg/CkZAFmw8w=;
+        b=qqKY9adEs9TgtJmoU7MkA9KxJfs/ZTmfIPOpeAs+A4H8hVlDwQBSv2Jq3kNi9lgE6S
+         8sJ+rYnWCFvuUeYVIPMMc2exsm8WDRdpvjl5fwAEJA+hLvjFfZAtjhOJ0rUOJchnBc56
+         yhvalmUSmzK+izTbVuCqRNjA9nDlcTXylDL3VZlcV3KVFQb7Jua/oZo7BYKQbAaqTLSA
+         0nn5TAj8h81O2WRfodLf6sJyeFFan770SoHigA/s/3I6JiZR3jJOqLuh3a2ws+xWJr7A
+         6uzZs0H1SnSL3lrVxw1n/ypvvcF4KXV5Qs7Kr5OM5r1RoP7UiydsApsG1GNd8TC+k7RW
+         PKfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=hP8w1oBDqJGAsXujKb/CVqCqGWT4GD4/gS/Uk4niIUc=;
-        b=kpowJHSmlo2RlsdjxlEWIeaEdl9rvikxjbSRWg/sZsJNzY66stV4ia+7RV2pLVhyuC
-         NBFmyyXOpk3Z0G5QWvnYcRoXrTgh1lOvb3HKmwDkefNjC3B5k1+5oS/4yARGpQ0LyMzh
-         5f5nxztATQ7wbehOVMa1HVA7Zs1wdBnkvuyQa1oQ3C1PQ1tpj/fETjm+E+ffSMgYjO3U
-         BOCR+VAXEpZiHTB58LM1rDaXbtFgBU1ZnDvJwzeNA3NnMHb+pT50cP0prFmblcv7P3C2
-         9EEHGLu4vkXnLrPxIa6JxI4dK1ahpAANsejmkh1w85SfW7I6S7hwVZv+jTYBq5rldvxD
-         F9Yw==
-X-Gm-Message-State: ACgBeo2WKa0gElrfnGxxPgI1P7Vp36m29hGXdAA2zgtTVonc7NcgWSGt
-        Pw3vD324SDDojaZGM+rw2olqU1dRNBoGFwekNPQ=
-X-Google-Smtp-Source: AA6agR43V4aiIKKAM0zrA3bkYsgumo2YxP7cn71v6O/qFUFZ/SaxVh9+QMKJg/zVg8qU5nYEmRLd1029vhYoWUpBiJ4=
-X-Received: by 2002:a0d:d5c2:0:b0:337:5d95:8bcb with SMTP id
- x185-20020a0dd5c2000000b003375d958bcbmr16567963ywd.359.1661922051649; Tue, 30
- Aug 2022 22:00:51 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=9AhdqT0NnU3T2Py6z8gOWa0P0fDVhbOVg/CkZAFmw8w=;
+        b=QF/DzVmKPZNh5CB1h/b8WlvrfHZPacKN9riz39uu/fbixL5LcJq4SsmR52S0DdAbxI
+         OFdUjqYVtRtojVcOH5l9eakJ4ve7o6aPSpOEIGlwgc5ogYyGjjs9cksVY7y7w7LcWXfA
+         3ttwghzazfUK2c1C6nwiXqQ+iHaRLmhAer5Zj0ie0v4UZfY9OdyoN8VLHbl+JsDbfMfF
+         nZ+N9YOTRAX2kvzLf6vpSONBkvybPrZjfZ6fyubjvyN5DJBTAgqhdSMLm65O1Ok/6cf4
+         bEe/rsRt3NUgS/oluk+NgajGxPnzsCeH+sFer3h3tKiM/Vwca53j0lC9FcRFMVLpSTP6
+         NBvg==
+X-Gm-Message-State: ACgBeo1SxaUqbNRRD8clAlUZtgNhqhT53fRkChLv2q/6AD/d9x5ydY7b
+        ZHOyqpNdtZecNkjJOe5zZy/GqbG8qtJ+uw==
+X-Google-Smtp-Source: AA6agR4DbAW2WPj9nw69+I1LEgmTLkTdrd7+Xqwg+w+CQfOQH0TJG5g4HJoQPF72jeEeLW1NipGm9A==
+X-Received: by 2002:a65:6d89:0:b0:421:94bc:cb89 with SMTP id bc9-20020a656d89000000b0042194bccb89mr27551314pgb.129.1662069754081;
+        Thu, 01 Sep 2022 15:02:34 -0700 (PDT)
+Received: from vmfolio.. (c-73-189-111-8.hsd1.ca.comcast.net. [73.189.111.8])
+        by smtp.googlemail.com with ESMTPSA id fv4-20020a17090b0e8400b001fb350026f1sm128894pjb.4.2022.09.01.15.02.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Sep 2022 15:02:33 -0700 (PDT)
+From:   "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-nilfs@vger.kernel.org, linux-mm@kvack.org,
+        "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: [PATCH 00/23] Convert to filemap_get_folios_tag()
+Date:   Thu,  1 Sep 2022 15:01:15 -0700
+Message-Id: <20220901220138.182896-1-vishal.moola@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-References: <20220831033403.302184-1-ye.xingchen@zte.com.cn>
-In-Reply-To: <20220831033403.302184-1-ye.xingchen@zte.com.cn>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 31 Aug 2022 14:00:34 +0900
-Message-ID: <CAKFNMokS2zV5hJsBkcj=wiSkOkVHiqT_jFi18aBFW_gbNHnP5w@mail.gmail.com>
-Subject: Re: [PATCH linux-next] nilfs2: Remove the unneeded result variable
-To:     cgel.zte@gmail.com
-Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ye xingchen <ye.xingchen@zte.com.cn>,
-        Zeal Robot <zealci@zte.com.cn>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
@@ -67,46 +71,79 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Aug 31, 2022 at 12:34 PM wrote:
->
-> From: ye xingchen <ye.xingchen@zte.com.cn>
->
-> Return the value nilfs_segctor_sync() directly instead of storing it in
-> another redundant variable.
->
-> Reported-by: Zeal Robot <zealci@zte.com.cn>
-> Signed-off-by: ye xingchen <ye.xingchen@zte.com.cn>
-> ---
->  fs/nilfs2/segment.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-> index 0afe0832c754..9abae2c9120e 100644
-> --- a/fs/nilfs2/segment.c
-> +++ b/fs/nilfs2/segment.c
-> @@ -2235,7 +2235,6 @@ int nilfs_construct_segment(struct super_block *sb)
->         struct the_nilfs *nilfs = sb->s_fs_info;
->         struct nilfs_sc_info *sci = nilfs->ns_writer;
->         struct nilfs_transaction_info *ti;
-> -       int err;
->
->         if (!sci)
->                 return -EROFS;
-> @@ -2243,8 +2242,7 @@ int nilfs_construct_segment(struct super_block *sb)
->         /* A call inside transactions causes a deadlock. */
->         BUG_ON((ti = current->journal_info) && ti->ti_magic == NILFS_TI_MAGIC);
->
-> -       err = nilfs_segctor_sync(sci);
-> -       return err;
-> +       return nilfs_segctor_sync(sci);
->  }
->
->  /**
-> --
-> 2.25.1
+This patch series replaces find_get_pages_range_tag() with
+filemap_get_folios_tag(). This also allows the removal of multiple
+calls to compound_head() throughout.
+It also makes a good chunk of the straightforward conversions to folios,
+and takes the opportunity to introduce a function that grabs a folio
+from the pagecache.
 
-The patch is not wrong though this kind of minor rewrite seems endless.
-Anyway, I would like to queue this unless there is an objection.
+F2fs and Ceph have quite alot of work to be done regarding folios, so
+for now those patches only have the changes necessary for the removal of
+find_get_pages_range_tag(), and only support folios of size 1 (which is
+all they use right now anyways).
 
-Thanks,
-Ryusuke Konishi
+I've run xfstests on btrfs, ext4, f2fs, and nilfs2, but more testing may be
+beneficial. The page-writeback and filemap changes implicitly work. Testing
+and review of the other changes (afs, ceph, cifs, gfs2) would be appreciated.
+
+Vishal Moola (Oracle) (23):
+  pagemap: Add filemap_grab_folio()
+  filemap: Added filemap_get_folios_tag()
+  filemap: Convert __filemap_fdatawait_range() to use
+    filemap_get_folios_tag()
+  page-writeback: Convert write_cache_pages() to use
+    filemap_get_folios_tag()
+  afs: Convert afs_writepages_region() to use filemap_get_folios_tag()
+  btrfs: Convert btree_write_cache_pages() to use
+    filemap_get_folio_tag()
+  btrfs: Convert extent_write_cache_pages() to use
+    filemap_get_folios_tag()
+  ceph: Convert ceph_writepages_start() to use filemap_get_folios_tag()
+  cifs: Convert wdata_alloc_and_fillpages() to use
+    filemap_get_folios_tag()
+  ext4: Convert mpage_prepare_extent_to_map() to use
+    filemap_get_folios_tag()
+  f2fs: Convert f2fs_fsync_node_pages() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_flush_inline_data() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_sync_node_pages() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_write_cache_pages() to use filemap_get_folios_tag()
+  f2fs: Convert last_fsync_dnode() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_sync_meta_pages() to use filemap_get_folios_tag()
+  gfs2: Convert gfs2_write_cache_jdata() to use filemap_get_folios_tag()
+  nilfs2: Convert nilfs_lookup_dirty_data_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_lookup_dirty_node_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_btree_lookup_dirty_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_copy_dirty_pages() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_clear_dirty_pages() to use
+    filemap_get_folios_tag()
+  filemap: Remove find_get_pages_range_tag()
+
+ fs/afs/write.c          | 114 +++++++++++++++++----------------
+ fs/btrfs/extent_io.c    |  57 +++++++++--------
+ fs/ceph/addr.c          | 138 ++++++++++++++++++++--------------------
+ fs/cifs/file.c          |  33 +++++++++-
+ fs/ext4/inode.c         |  55 ++++++++--------
+ fs/f2fs/checkpoint.c    |  49 +++++++-------
+ fs/f2fs/compress.c      |  13 ++--
+ fs/f2fs/data.c          |  67 ++++++++++---------
+ fs/f2fs/f2fs.h          |   5 +-
+ fs/f2fs/node.c          |  72 +++++++++++----------
+ fs/gfs2/aops.c          |  64 ++++++++++---------
+ fs/nilfs2/btree.c       |  14 ++--
+ fs/nilfs2/page.c        |  59 ++++++++---------
+ fs/nilfs2/segment.c     |  44 +++++++------
+ include/linux/pagemap.h |  32 +++++++---
+ include/linux/pagevec.h |   8 ---
+ mm/filemap.c            |  87 ++++++++++++-------------
+ mm/page-writeback.c     |  44 +++++++------
+ mm/swap.c               |  10 ---
+ 19 files changed, 506 insertions(+), 459 deletions(-)
+
+-- 
+2.36.1
+
