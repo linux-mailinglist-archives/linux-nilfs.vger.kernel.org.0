@@ -1,152 +1,155 @@
 Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
-Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0395C5B4C67
-	for <lists+linux-nilfs@lfdr.de>; Sun, 11 Sep 2022 09:00:57 +0200 (CEST)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 715335B6028
+	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Sep 2022 20:25:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229707AbiIKHAf (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 11 Sep 2022 03:00:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52710 "EHLO
+        id S229920AbiILSZ1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 12 Sep 2022 14:25:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50996 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229712AbiIKHAd (ORCPT
+        with ESMTP id S229801AbiILSZW (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 11 Sep 2022 03:00:33 -0400
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676723BC78
-        for <linux-nilfs@vger.kernel.org>; Sun, 11 Sep 2022 00:00:29 -0700 (PDT)
-Received: by mail-io1-f69.google.com with SMTP id u23-20020a6be917000000b0069f4854e11eso3725207iof.2
-        for <linux-nilfs@vger.kernel.org>; Sun, 11 Sep 2022 00:00:29 -0700 (PDT)
+        Mon, 12 Sep 2022 14:25:22 -0400
+Received: from mail-pj1-x1029.google.com (mail-pj1-x1029.google.com [IPv6:2607:f8b0:4864:20::1029])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46B0A1276E;
+        Mon, 12 Sep 2022 11:25:21 -0700 (PDT)
+Received: by mail-pj1-x1029.google.com with SMTP id q9-20020a17090a178900b0020265d92ae3so13181603pja.5;
+        Mon, 12 Sep 2022 11:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date;
+        bh=jinrTf2dRXCM8P7beDGhcdymXhWilSgCNRAiFQeNJHI=;
+        b=mLMtjbzG1Kl+0NHJzKAxbllsuBufduMNF2LO9iIaeSIwdabQAHzY6k1ExlrHjBbQ3b
+         5Ek8x+gOY9qsai4wca5CayyELpfftgvEGk6LfP6oka3EzZll/EmV533QU3P7IFXouFCf
+         cJeJKlEzBYjyYGcPOEHfG0y3Jv1EYtZx06IidZtpY/PqdJm61eR+KtWvr0pNEQezNvEu
+         pFzkoOMvpUyHjk+sBH0Tjhr2kErcS9rXwIAF4/QuotmYMkJOC+XpiPqyqRRB177xZq4d
+         caSw8M6mKHirkEV6wHnYvUKeI8Qc2RnoK7f9RHWvkM+Feqcfmz5JThhG20mxA0JX18zd
+         681Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date;
-        bh=RzRVyacMGk8buYtNBN6F8JDQNMXhhobkcMzIpQ0hBBg=;
-        b=XB4lGMeVlR+TQHqrqiKfzzk/p5OwUpekgFtzwn0jfTCuUQ6M4xtrUUZ9acggeFvyHT
-         F/iEDvHYbCmJeiwcMpXdjQoQNbDegm9Gw0ufoSXaOE2mSGW+mknoUkbSMXscAVyaD/rq
-         O5vUVj0mA7mkhbs12c38zY5PBsfSrFD+PuPnQq6OlolEJdEmJZfQaaAMvM6Qavv5+V83
-         IMnZDmyPCt1XxMDsqnLzRmCTsiWusJaAghlbqt1VoQ4JhYmayGOXPjKPSXSh0Phhv9z9
-         ZXcfoncTT5+0siEElPyPf1fS64SVWXyMqIfLK6+qanMx0JR5R3/8xpfqg9P2VrhfDYCc
-         0MUg==
-X-Gm-Message-State: ACgBeo1gEQgQEOL1AOonjE7Pny3kD4S1yogx486oI8HsD/QMByeqrs7o
-        H0S7KXt6y+noOgDi5jGcGTOnylHmU4G5RQAOUcDcYZjIOXtg
-X-Google-Smtp-Source: AA6agR7hjYcT/UrJnqKqSNoe+Xz6OkUReNaNFeP+8M6tLx+8yZrawloLaBmmEyrKJC6S6gbe57uFOT0Wgc2c+hSFckrRrv0JMYdf
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date;
+        bh=jinrTf2dRXCM8P7beDGhcdymXhWilSgCNRAiFQeNJHI=;
+        b=A4v3HuxOD3Z+JXbTX2pG4oWFlR/L2rYFmU1tpfhA96/DQCi+inUGnLEI2uBSM5QaWV
+         G2wnNv8C87mh8bYgtR6+3tHgidTAMZrW9tA1HNWKFp+sHZWRPCLO/Sc38J+marm4dKAF
+         3COF/32LflCEX+YDi+o0y+SygMa3nA23JlW5qhLHVP9IojeJhANfSm67YAdwT3E+LOWd
+         5D6Vnpsxyud1/noej1n5mx8vYvh7/FyIyCSO1BEPxbmmV1mKq8AwbWj31A5X+mE452mq
+         gXQ7KlAlpPqKeQie/cfCjAzXvpKsILBi2nG/8lS3LuH9zsKIT+9QtaJEj5jrlsVMn3fk
+         EcKA==
+X-Gm-Message-State: ACgBeo2a69zEp+6r3Ju6NMk1Qr7VfBXbNHTAv1NIoK8S8MoiMsgOwRQe
+        5M8W6ZoV+Qk8amDsxqBtURpWK2AJLSlyvg==
+X-Google-Smtp-Source: AA6agR7TErEeniLb8NygdX/YotrQEVmapgtPdEtpEWF/iOvuOSsfvdyhlVfrcnUmKBhBkPJIGioMFA==
+X-Received: by 2002:a17:90b:180e:b0:202:a0c3:6da with SMTP id lw14-20020a17090b180e00b00202a0c306damr14093608pjb.94.1663007120382;
+        Mon, 12 Sep 2022 11:25:20 -0700 (PDT)
+Received: from vmfolio.. (c-73-189-111-8.hsd1.ca.comcast.net. [73.189.111.8])
+        by smtp.googlemail.com with ESMTPSA id x127-20020a626385000000b0053b2681b0e0sm5916894pfb.39.2022.09.12.11.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Sep 2022 11:25:19 -0700 (PDT)
+From:   "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-nilfs@vger.kernel.org, linux-mm@kvack.org,
+        "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Subject: [PATCH v2 00/23] Convert to filemap_get_folios_tag()
+Date:   Mon, 12 Sep 2022 11:22:01 -0700
+Message-Id: <20220912182224.514561-1-vishal.moola@gmail.com>
+X-Mailer: git-send-email 2.36.1
 MIME-Version: 1.0
-X-Received: by 2002:a92:c267:0:b0:2f1:b17c:994e with SMTP id
- h7-20020a92c267000000b002f1b17c994emr7934242ild.275.1662879628665; Sun, 11
- Sep 2022 00:00:28 -0700 (PDT)
-Date:   Sun, 11 Sep 2022 00:00:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000922a2105e8615576@google.com>
-Subject: [syzbot] BUG: unable to handle kernel paging request in alloc_nilfs
-From:   syzbot <syzbot+19d51a2ee09e1cb9ba06@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+This patch series replaces find_get_pages_range_tag() with
+filemap_get_folios_tag(). This also allows the removal of multiple
+calls to compound_head() throughout.
+It also makes a good chunk of the straightforward conversions to folios,
+and takes the opportunity to introduce a function that grabs a folio
+from the pagecache.
 
-syzbot found the following issue on:
+F2fs and Ceph have quite alot of work to be done regarding folios, so
+for now those patches only have the changes necessary for the removal of
+find_get_pages_range_tag(), and only support folios of size 1 (which is
+all they use right now anyways).
 
-HEAD commit:    25050c56fa3c Merge branch 'for-next/fixes' into for-kernelci
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-console output: https://syzkaller.appspot.com/x/log.txt?x=176f0273080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=db8b30b83a444315
-dashboard link: https://syzkaller.appspot.com/bug?extid=19d51a2ee09e1cb9ba06
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-userspace arch: arm64
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=152b3417080000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13ded8f5080000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+19d51a2ee09e1cb9ba06@syzkaller.appspotmail.com
-
-loop0: detected capacity change from 0 to 200
-Unable to handle kernel paging request at virtual address dead4ead00000400
-Mem abort info:
-  ESR = 0x0000000096000004
-  EC = 0x25: DABT (current EL), IL = 32 bits
-  SET = 0, FnV = 0
-  EA = 0, S1PTW = 0
-  FSC = 0x04: level 0 translation fault
-Data abort info:
-  ISV = 0, ISS = 0x00000004
-  CM = 0, WnR = 0
-[dead4ead00000400] address between user and kernel address ranges
-Internal error: Oops: 96000004 [#1] PREEMPT SMP
-Modules linked in:
-CPU: 0 PID: 3066 Comm: syz-executor208 Not tainted 6.0.0-rc4-syzkaller-17186-g25050c56fa3c #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/22/2022
-pstate: 40400005 (nZcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-pc : slab_alloc mm/slub.c:3251 [inline]
-pc : kmem_cache_alloc_trace+0x184/0x324 mm/slub.c:3282
-lr : slab_pre_alloc_hook mm/slab.h:702 [inline]
-lr : slab_alloc_node mm/slub.c:3157 [inline]
-lr : slab_alloc mm/slub.c:3251 [inline]
-lr : kmem_cache_alloc_trace+0x8c/0x324 mm/slub.c:3282
-sp : ffff8000127f3a80
-x29: ffff8000127f3a90 x28: ffff0000c58c0000 x27: ffff80000d379000
-x26: ffff80000cdb4419 x25: 0000000000000083 x24: dead4ead00000000
-x23: 0000000000000000 x22: ffff800008f7bda0 x21: ffff0000c0001600
-x20: 00000000000004d0 x19: 0000000000000dc0 x18: 0000000000000000
-x17: 0000000000000000 x16: ffff80000dbb8658 x15: ffff0000c58c0000
-x14: 0000000000000010 x13: 0000000000000000 x12: ffff0000c58c0000
-x11: 0000000000000001 x10: 0000000000000000 x9 : 0000000000000400
-x8 : 0000000000001ec8 x7 : ffff8000084b7800 x6 : 0000000000000000
-x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000001ed0
-x2 : 0000000000000000 x1 : 0000000000000800 x0 : 0000000000000000
-Call trace:
- next_tid mm/slub.c:2311 [inline]
- slab_alloc_node mm/slub.c:3227 [inline]
- slab_alloc mm/slub.c:3251 [inline]
- kmem_cache_alloc_trace+0x184/0x324 mm/slub.c:3282
- kmalloc include/linux/slab.h:600 [inline]
- kzalloc include/linux/slab.h:733 [inline]
- alloc_nilfs+0x2c/0x13c fs/nilfs2/the_nilfs.c:59
- nilfs_fill_super+0x40/0x2e8 fs/nilfs2/super.c:1041
- nilfs_mount+0x370/0x52c fs/nilfs2/super.c:1317
- legacy_get_tree+0x30/0x74 fs/fs_context.c:610
- vfs_get_tree+0x40/0x140 fs/super.c:1530
- do_new_mount+0x1dc/0x4e4 fs/namespace.c:3040
- path_mount+0x358/0x914 fs/namespace.c:3370
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount fs/namespace.c:3568 [inline]
- __arm64_sys_mount+0x2f8/0x408 fs/namespace.c:3568
- __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
- invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
- el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
- do_el0_svc+0x48/0x154 arch/arm64/kernel/syscall.c:206
- el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
- el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
- el0t_64_sync+0x18c/0x190
-Code: 54000d41 34000d4b b9402aa9 91002103 (f8696b19) 
----[ end trace 0000000000000000 ]---
-----------------
-Code disassembly (best guess):
-   0:	54000d41 	b.ne	0x1a8  // b.any
-   4:	34000d4b 	cbz	w11, 0x1ac
-   8:	b9402aa9 	ldr	w9, [x21, #40]
-   c:	91002103 	add	x3, x8, #0x8
-* 10:	f8696b19 	ldr	x25, [x24, x9] <-- trapping instruction
-
-
+I've run xfstests on btrfs, ext4, f2fs, and nilfs2, but more testing may be
+beneficial. The page-writeback and filemap changes implicitly work. Testing
+and review of the other changes (afs, ceph, cifs, gfs2) would be appreciated.
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+v2:
+  Got Acked-By tags for nilfs and btrfs changes
+  Fixed an error arising in f2fs
+  - Reported-by: kernel test robot <lkp@intel.com>
+   
+Vishal Moola (Oracle) (23):
+  pagemap: Add filemap_grab_folio()
+  filemap: Added filemap_get_folios_tag()
+  filemap: Convert __filemap_fdatawait_range() to use
+    filemap_get_folios_tag()
+  page-writeback: Convert write_cache_pages() to use
+    filemap_get_folios_tag()
+  afs: Convert afs_writepages_region() to use filemap_get_folios_tag()
+  btrfs: Convert btree_write_cache_pages() to use
+    filemap_get_folio_tag()
+  btrfs: Convert extent_write_cache_pages() to use
+    filemap_get_folios_tag()
+  ceph: Convert ceph_writepages_start() to use filemap_get_folios_tag()
+  cifs: Convert wdata_alloc_and_fillpages() to use
+    filemap_get_folios_tag()
+  ext4: Convert mpage_prepare_extent_to_map() to use
+    filemap_get_folios_tag()
+  f2fs: Convert f2fs_fsync_node_pages() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_flush_inline_data() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_sync_node_pages() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_write_cache_pages() to use filemap_get_folios_tag()
+  f2fs: Convert last_fsync_dnode() to use filemap_get_folios_tag()
+  f2fs: Convert f2fs_sync_meta_pages() to use filemap_get_folios_tag()
+  gfs2: Convert gfs2_write_cache_jdata() to use filemap_get_folios_tag()
+  nilfs2: Convert nilfs_lookup_dirty_data_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_lookup_dirty_node_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_btree_lookup_dirty_buffers() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_copy_dirty_pages() to use
+    filemap_get_folios_tag()
+  nilfs2: Convert nilfs_clear_dirty_pages() to use
+    filemap_get_folios_tag()
+  filemap: Remove find_get_pages_range_tag()
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+ fs/afs/write.c          | 114 +++++++++++++++++----------------
+ fs/btrfs/extent_io.c    |  57 +++++++++--------
+ fs/ceph/addr.c          | 138 ++++++++++++++++++++--------------------
+ fs/cifs/file.c          |  33 +++++++++-
+ fs/ext4/inode.c         |  55 ++++++++--------
+ fs/f2fs/checkpoint.c    |  49 +++++++-------
+ fs/f2fs/compress.c      |  13 ++--
+ fs/f2fs/data.c          |  69 ++++++++++----------
+ fs/f2fs/f2fs.h          |   5 +-
+ fs/f2fs/node.c          |  72 +++++++++++----------
+ fs/gfs2/aops.c          |  64 ++++++++++---------
+ fs/nilfs2/btree.c       |  14 ++--
+ fs/nilfs2/page.c        |  59 ++++++++---------
+ fs/nilfs2/segment.c     |  44 +++++++------
+ include/linux/pagemap.h |  32 +++++++---
+ include/linux/pagevec.h |   8 ---
+ mm/filemap.c            |  87 ++++++++++++-------------
+ mm/page-writeback.c     |  44 +++++++------
+ mm/swap.c               |  10 ---
+ 19 files changed, 507 insertions(+), 460 deletions(-)
+
+-- 
+2.36.1
+
