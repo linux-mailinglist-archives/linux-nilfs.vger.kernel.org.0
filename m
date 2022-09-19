@@ -2,66 +2,207 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9965BBD76
-	for <lists+linux-nilfs@lfdr.de>; Sun, 18 Sep 2022 12:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AB265BC2BA
+	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Sep 2022 08:12:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229532AbiIRKn2 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 18 Sep 2022 06:43:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51714 "EHLO
+        id S229496AbiISGMl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 19 Sep 2022 02:12:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229519AbiIRKn1 (ORCPT
+        with ESMTP id S229519AbiISGMk (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 18 Sep 2022 06:43:27 -0400
-Received: from www262.sakura.ne.jp (www262.sakura.ne.jp [202.181.97.72])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400D0140A3
-        for <linux-nilfs@vger.kernel.org>; Sun, 18 Sep 2022 03:43:26 -0700 (PDT)
-Received: from fsav415.sakura.ne.jp (fsav415.sakura.ne.jp [133.242.250.114])
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTP id 28IAhHPf030230;
-        Sun, 18 Sep 2022 19:43:17 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Received: from www262.sakura.ne.jp (202.181.97.72)
- by fsav415.sakura.ne.jp (F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp);
- Sun, 18 Sep 2022 19:43:17 +0900 (JST)
-X-Virus-Status: clean(F-Secure/fsigk_smtp/550/fsav415.sakura.ne.jp)
-Received: from [192.168.1.9] (M106072142033.v4.enabler.ne.jp [106.72.142.33])
-        (authenticated bits=0)
-        by www262.sakura.ne.jp (8.15.2/8.15.2) with ESMTPSA id 28IAhFeX030225
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
-        Sun, 18 Sep 2022 19:43:17 +0900 (JST)
-        (envelope-from penguin-kernel@I-love.SAKURA.ne.jp)
-Message-ID: <29200a14-e722-2d1e-66a2-c07b105036e8@I-love.SAKURA.ne.jp>
-Date:   Sun, 18 Sep 2022 19:43:15 +0900
+        Mon, 19 Sep 2022 02:12:40 -0400
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6E91AF2F
+        for <linux-nilfs@vger.kernel.org>; Sun, 18 Sep 2022 23:12:38 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id o15-20020a056e02188f00b002f01f1dfebcso18962706ilu.10
+        for <linux-nilfs@vger.kernel.org>; Sun, 18 Sep 2022 23:12:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=xFZ8/88ZSPPqC0pTtwfOfwuuvy6tQkm4s2uX0q0HHRE=;
+        b=1QNG2sOPfomhs+SAsiDto+qn8pbRXmpgLrAjWstQsL2xbt1XWSPHpNn8j4vKo+KCbN
+         wNQY1T1PlRAy+jDyfmA0wo4juUuVjH5BUIbYnoNmXAcQ2qqnnvj/dHPTB71xeDFuCz7Y
+         97vg1ctkHDbHoPiT6UUJb8omAFmg0TrgMo4SvmNZggby/ht4IIdBYOMZcid7uQ2TdFJ2
+         mRsYJpYvhIs134W7kJ2u45F2Q69145CKGIvpqA+U8xuRbWGD4e4bkje44+IE7FaVhRJM
+         x5Tw6Ro+bAkjrRrVL3BSDhXsjFtytp4xgOtY/NPkfITINKtO6gvdoRE1SGMBT8ml1cey
+         vn5w==
+X-Gm-Message-State: ACrzQf0eqLYYM2hiHrHdXHkH+JxUEFm/2ZrMH/pA04JlVOMPbXr9IaSm
+        0wY/FbNTk1/VbUFgkK6aOT4LilgG//SNXk8v5mjAvQ6gvsdw
+X-Google-Smtp-Source: AMsMyM5Y4ehE0q4NCUUcbnxYxE8pXXWsAo0bxkz+K+VQgN+p9lPvKyo6FxSZAdAc/4QEUGe+7moNxK8uHcnFVUcAx2yvbXiUm6AJ
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 6.3; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.2
-Subject: Re: [syzbot] BUG: unable to handle kernel paging request in
- kernfs_put_active
-Content-Language: en-US
-To:     syzbot <syzbot+258ad6d2cb6685e145bc@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc:     linux-nilfs@vger.kernel.org
-References: <00000000000095339805e8d6958e@google.com>
- <de81bf82-3ddf-4875-381d-e52949046b25@I-love.SAKURA.ne.jp>
- <f3b88739-148c-323c-2458-4b9d6bf9c592@I-love.SAKURA.ne.jp>
- <CAKFNMo=XjvQjoSo+N-MJGv5h4FPnjVm6bGaJm0QkO8GxjMNtTg@mail.gmail.com>
-From:   Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-In-Reply-To: <CAKFNMo=XjvQjoSo+N-MJGv5h4FPnjVm6bGaJm0QkO8GxjMNtTg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a02:5108:0:b0:35a:eca0:92c1 with SMTP id
+ s8-20020a025108000000b0035aeca092c1mr102756jaa.81.1663567957574; Sun, 18 Sep
+ 2022 23:12:37 -0700 (PDT)
+Date:   Sun, 18 Sep 2022 23:12:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002bcef705e90199cd@google.com>
+Subject: [syzbot] WARNING in __virt_to_phys
+From:   syzbot <syzbot+443228fd71f385302265@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On 2022/09/18 19:19, Ryusuke Konishi wrote:
-> I'm not sure if the patch [2] fixes the originally reported problem,
-> but it will be fixed if it's the same.
+Hello,
 
-Will be fixed. Thank you.
+syzbot found the following issue on:
 
-#syz fix: fs: fix UAF/GPF bug in nilfs_mdt_destroy
+HEAD commit:    a6b443748715 Merge branch 'for-next/core', remote-tracking..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=14fc366f080000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=14bf9ec0df433b27
+dashboard link: https://syzkaller.appspot.com/bug?extid=443228fd71f385302265
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
 
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/81b491dd5861/disk-a6b44374.raw.xz
+vmlinux: https://storage.googleapis.com/69c979cdc99a/vmlinux-a6b44374.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+443228fd71f385302265@syzkaller.appspotmail.com
+
+virt_to_phys used for non-linear address: 00000000b6fc6bf9 (0x44006b7369643d45)
+WARNING: CPU: 0 PID: 24583 at arch/arm64/mm/physaddr.c:15 __virt_to_phys+0x80/0x98 arch/arm64/mm/physaddr.c:17
+Modules linked in:
+CPU: 0 PID: 24583 Comm: syz-executor.3 Not tainted 6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : __virt_to_phys+0x80/0x98 arch/arm64/mm/physaddr.c:17
+lr : __virt_to_phys+0x7c/0x98 arch/arm64/mm/physaddr.c:12
+sp : ffff80001f993b00
+x29: ffff80001f993b00 x28: 0000000000000000 x27: ffff0000ed649d68
+x26: ffff0000fa388000 x25: 00000000ffff8000
+ x24: 0000000000000000
+
+x23: ffff000108325800 x22: 00000000ffff8000 x21: 0000000040000000
+x20: 44016b7369643d45 x19: 44006b7369643d45 x18: 00000000000001b8
+x17: ffff80000c00d6bc
+ x16: ffff80000db78658 x15: ffff0000fa388000
+x14: 0000000000000000 x13: 00000000ffffffff x12: 0000000000040000
+x11: 0000000000005389 x10: ffff800017fb2000 x9 : 48cd7cd042b5b300
+x8 : ffff80000cf0e000 x7 : ffff800008162e5c x6 : 0000000000000000
+x5 : 0000000000000080 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000007 x1 : 0000000100000000 x0 : 000000000000004f
+Call trace:
+ __virt_to_phys+0x80/0x98 arch/arm64/mm/physaddr.c:17
+ virt_to_folio include/linux/mm.h:856 [inline]
+ kfree+0x70/0x348 mm/slub.c:4556
+ nilfs_mdt_destroy+0x24/0x3c fs/nilfs2/mdt.c:497
+ nilfs_free_inode+0x2c/0x54 fs/nilfs2/super.c:168
+ i_callback fs/inode.c:249 [inline]
+ alloc_inode+0xdc/0x104 fs/inode.c:274
+ new_inode_pseudo fs/inode.c:1019 [inline]
+ new_inode+0x2c/0xc0 fs/inode.c:1047
+ nilfs_new_inode+0x48/0x378 fs/nilfs2/inode.c:334
+ nilfs_create+0x74/0x17c fs/nilfs2/namei.c:85
+ vfs_create+0x1c8/0x270 fs/namei.c:3115
+ do_mknodat+0x274/0x3e8 fs/namei.c:3942
+ __do_sys_mknodat fs/namei.c:3970 [inline]
+ __se_sys_mknodat fs/namei.c:3967 [inline]
+ __arm64_sys_mknodat+0x4c/0x64 fs/namei.c:3967
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
+ el0t_64_sync+0x18c/0x190
+irq event stamp: 2368
+hardirqs last  enabled at (2367): [<ffff800008162eec>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
+hardirqs last  enabled at (2367): [<ffff800008162eec>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
+hardirqs last disabled at (2368): [<ffff80000bfc5c8c>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:395
+softirqs last  enabled at (2364): [<ffff8000080102e4>] _stext+0x2e4/0x37c
+softirqs last disabled at (2287): [<ffff800008017c48>] ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:79
+---[ end trace 0000000000000000 ]---
+Unable to handle kernel paging request at virtual address 000fffadd38710c8
+Mem abort info:
+  ESR = 0x0000000096000004
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x04: level 0 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000004
+  CM = 0, WnR = 0
+[000fffadd38710c8] address between user and kernel address ranges
+Internal error: Oops: 96000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 0 PID: 24583 Comm: syz-executor.3 Tainted: G        W          6.0.0-rc4-syzkaller-17255-ga6b443748715 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/26/2022
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : _compound_head include/linux/page-flags.h:253 [inline]
+pc : virt_to_folio include/linux/mm.h:858 [inline]
+pc : kfree+0x80/0x348 mm/slub.c:4556
+lr : virt_to_folio include/linux/mm.h:856 [inline]
+lr : kfree+0x70/0x348 mm/slub.c:4556
+sp : ffff80001f993b20
+x29: ffff80001f993b30 x28: 0000000000000000 x27: ffff0000ed649d68
+x26: ffff0000fa388000 x25: 00000000ffff8000 x24: 0000000000000000
+x23: ffff000108325800
+ x22: 00000000ffff8000
+ x21: 010fffadd38710c0
+x20: ffff800008f58ab8
+ x19: 44006b7369643d45 x18: 00000000000001b8
+x17: ffff80000c00d6bc
+ x16: ffff80000db78658 x15: ffff0000fa388000
+x14: 0000000000000000
+ x13: 00000000ffffffff x12: 0000000000040000
+x11: 0000000000005389
+ x10: ffff800017fb2000 x9 : fffffc0000000000
+x8 : 0004400eb74e1c43 x7 : ffff800008162e5c x6 : 0000000000000000
+x5 : 0000000000000080 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000007 x1 : 0000000100000000 x0 : 4400eb7521c43d45
+Call trace:
+ virt_to_folio include/linux/mm.h:856 [inline]
+ kfree+0x80/0x348 mm/slub.c:4556
+ nilfs_mdt_destroy+0x24/0x3c fs/nilfs2/mdt.c:497
+ nilfs_free_inode+0x2c/0x54 fs/nilfs2/super.c:168
+ i_callback fs/inode.c:249 [inline]
+ alloc_inode+0xdc/0x104 fs/inode.c:274
+ new_inode_pseudo fs/inode.c:1019 [inline]
+ new_inode+0x2c/0xc0 fs/inode.c:1047
+ nilfs_new_inode+0x48/0x378 fs/nilfs2/inode.c:334
+ nilfs_create+0x74/0x17c fs/nilfs2/namei.c:85
+ vfs_create+0x1c8/0x270 fs/namei.c:3115
+ do_mknodat+0x274/0x3e8 fs/namei.c:3942
+ __do_sys_mknodat fs/namei.c:3970 [inline]
+ __se_sys_mknodat fs/namei.c:3967 [inline]
+ __arm64_sys_mknodat+0x4c/0x64 fs/namei.c:3967
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:624
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:642
+ el0t_64_sync+0x18c/0x190
+Code: d34cfc08 cb953108 b25657e9 8b081935 (f94006a8) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	d34cfc08 	lsr	x8, x0, #12
+   4:	cb953108 	sub	x8, x8, x21, asr #12
+   8:	b25657e9 	mov	x9, #0xfffffc0000000000    	// #-4398046511104
+   c:	8b081935 	add	x21, x9, x8, lsl #6
+* 10:	f94006a8 	ldr	x8, [x21, #8] <-- trapping instruction
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
