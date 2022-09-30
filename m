@@ -2,395 +2,121 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A979B5F10EF
-	for <lists+linux-nilfs@lfdr.de>; Fri, 30 Sep 2022 19:33:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A5F75F161A
+	for <lists+linux-nilfs@lfdr.de>; Sat,  1 Oct 2022 00:27:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232437AbiI3Rdm (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 30 Sep 2022 13:33:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58324 "EHLO
+        id S231517AbiI3W1C (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 30 Sep 2022 18:27:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232409AbiI3Rdk (ORCPT
+        with ESMTP id S232755AbiI3W0p (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 30 Sep 2022 13:33:40 -0400
-Received: from mail-oo1-xc2f.google.com (mail-oo1-xc2f.google.com [IPv6:2607:f8b0:4864:20::c2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C9001D8F3D;
-        Fri, 30 Sep 2022 10:33:38 -0700 (PDT)
-Received: by mail-oo1-xc2f.google.com with SMTP id k11-20020a4ab28b000000b0047659ccfc28so2691038ooo.8;
-        Fri, 30 Sep 2022 10:33:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=kKwAFRI6H6S4yy+ZsrO+zojsSzh8+YLFFYtXFQ/BEZk=;
-        b=X8OCNFrO8ajHcgvNmUPRIKc3i/Co8dAyD1Yp4sOE3CQpChxxvMuJWv8NHCTZA0FW5E
-         GWguHTMWuwpTCtizko1rNJCX49r1rC5mFkRZAmUJvrcbDUfzeHNH9fEHLHtHa11PsxBY
-         9Qm4kTOnRoAFI5hFcCG+D4l3hoIZgiOzvNb/QdMn79U9l0Qkp5nPSTOgU4dpQ/tMwwb/
-         BMng97a/bh55vWGkAksY5+LkKvayRbdSIYapBOrDf2C5JHUNolYsdEbu0W4IJyAjbIzN
-         PH6f3BWTT6jRlBnwEF60+DGQzFogFxlHUwZc+2/4H91ytJ2GrSbB4r1tDgYHscT+BrcQ
-         Iz5Q==
+        Fri, 30 Sep 2022 18:26:45 -0400
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52E43EDE93
+        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:26:44 -0700 (PDT)
+Received: by mail-io1-f70.google.com with SMTP id v4-20020a5ec204000000b006a32e713217so3656869iop.15
+        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:26:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=kKwAFRI6H6S4yy+ZsrO+zojsSzh8+YLFFYtXFQ/BEZk=;
-        b=W2L3XknQzP2E9HLRGjRrc7SVudhCPEQIh2Nfm1/euswZXsEtJvWe44tiHwFZRxKUuX
-         Uet4tXj9Tx/KA3546oAFH1/mzUoUVipV3Gzbaue1s7iZWQJhHevj/VcNHoE+8saMqdl6
-         O3OAgFHp9/J25rUdYyMrve077pOrWwfTb37g2vxRCXhMjlhHnNsbVxr2iKW2VVUsdjPN
-         +wMITffE2jwxp9R0Ci3LsffxHBhr7f57t/CIykkKDmHbixSbMIKITKekR6wsPWUkZSkn
-         Jpo3Dw8rL4GsliLFukL/yjzo0G7zhimW648LEs5Ozu8vpF3ZKgYvYkUa8J/40f5JQMGV
-         nPcg==
-X-Gm-Message-State: ACrzQf0ZBpIBtTQfOPmfFZjZlVBU69TWTfTryZrqalSkvRoYnMeh4bQv
-        WlrH/90mu57hrJz5xlezmjfW91eBFxjGutujDxc=
-X-Google-Smtp-Source: AMsMyM4e13ATtfH3+0NSYF/fIXZPdPMCFUMtKS8GkK1jIEg4Cb+gNx36XCgf8ns2P8vpzN68ybP8DHEPoH7e9cxFL+8=
-X-Received: by 2002:a9d:6a95:0:b0:65c:77fd:53a with SMTP id
- l21-20020a9d6a95000000b0065c77fd053amr2759522otq.125.1664559217796; Fri, 30
- Sep 2022 10:33:37 -0700 (PDT)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=yqzu+pQ7mY7EMK1zSooECdQ62Yy639KU9X1VTzHLljc=;
+        b=urbzwlrOhiItg+Bi6PHvMMj0ae/oqxnNXgMF8+sNhdIh3clGpM0x6405DHYyi+CY1z
+         bX04UKzCPRAbEIUff/o3JGAX5cifv0RgO2GvY3T4gS1/Z3dtyJzpbLErGtuH5sGrQAJC
+         pvQ4/Vlae4m/bqoYuegNpem0Z6fjvJsBHJNu9xlL375OlZgp4IG9sHJyHfUql0qW0YM3
+         wHAQLs4Z0n0N8A8eT7z0ugr8+s1vHGhQw4PeqR9IJ+akm5ShrM1RezEwEmgu5nO9Y9jg
+         SeTbK0ZkBPXTnwrOvcyMSVZpJcV8pLIm68WJcnQO+PMNSu4ZXZIWt1/Gs5JciEIkET/n
+         Y4YQ==
+X-Gm-Message-State: ACrzQf04OcBK5J0gxpaPCN4WF6eAZCrVbi8rP9qmJ13pCLLtqJ1LR5iG
+        XbHFkqQY4emaSz6254BmL6/iTuxKTKnK29isRRhKvNrieDYs
+X-Google-Smtp-Source: AMsMyM7tveVr9Hz8iwQCl5u9eG6MXCTvdyCYud3o0qSEgjjqPEiiGtPnuIvhgVL9F/veKLWIMNbfjjRghC8J0kio6sBXwOrCVx6R
 MIME-Version: 1.0
-References: <20220912182224.514561-1-vishal.moola@gmail.com>
- <20220912182224.514561-9-vishal.moola@gmail.com> <35d965bbc3d27e43d6743fc3a5cb042503a1b7bf.camel@kernel.org>
-In-Reply-To: <35d965bbc3d27e43d6743fc3a5cb042503a1b7bf.camel@kernel.org>
-From:   Vishal Moola <vishal.moola@gmail.com>
-Date:   Fri, 30 Sep 2022 10:33:26 -0700
-Message-ID: <CAOzc2pwMfLzp3HzakyFJBxkD+qYS2wnYUF5xqUHuxTa+CAgu9A@mail.gmail.com>
-Subject: Re: [PATCH v2 08/23] ceph: Convert ceph_writepages_start() to use filemap_get_folios_tag()
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        cluster-devel@redhat.com, linux-nilfs@vger.kernel.org,
-        linux-mm@kvack.org
+X-Received: by 2002:a05:6e02:1b8e:b0:2f9:167c:bd97 with SMTP id
+ h14-20020a056e021b8e00b002f9167cbd97mr5256940ili.186.1664576803652; Fri, 30
+ Sep 2022 15:26:43 -0700 (PDT)
+Date:   Fri, 30 Sep 2022 15:26:43 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000154d2c05e9ec7df6@google.com>
+Subject: [syzbot] WARNING in nilfs_dat_commit_end
+From:   syzbot <syzbot+cbff7a52b6f99059e67f@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri, Sep 30, 2022 at 9:25 AM Jeff Layton <jlayton@kernel.org> wrote:
->
-> On Mon, 2022-09-12 at 11:22 -0700, Vishal Moola (Oracle) wrote:
-> > Convert function to use folios throughout. This is in preparation for
-> > the removal of find_get_pages_range_tag().
-> >
-> > This change does NOT support large folios. This shouldn't be an issue as
-> > of now since ceph only utilizes folios of size 1 anyways, and there is a
-> > lot of work to be done on ceph conversions to folios for later patches
-> > at some point.
-> >
-> > Also some minor renaming for consistency.
-> >
-> > Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-> > ---
-> >  fs/ceph/addr.c | 138 +++++++++++++++++++++++++------------------------
-> >  1 file changed, 70 insertions(+), 68 deletions(-)
-> >
-> > diff --git a/fs/ceph/addr.c b/fs/ceph/addr.c
-> > index dcf701b05cc1..33dbe55b08be 100644
-> > --- a/fs/ceph/addr.c
-> > +++ b/fs/ceph/addr.c
-> > @@ -792,7 +792,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >       struct ceph_vino vino = ceph_vino(inode);
-> >       pgoff_t index, start_index, end = -1;
-> >       struct ceph_snap_context *snapc = NULL, *last_snapc = NULL, *pgsnapc;
-> > -     struct pagevec pvec;
-> > +     struct folio_batch fbatch;
-> >       int rc = 0;
-> >       unsigned int wsize = i_blocksize(inode);
-> >       struct ceph_osd_request *req = NULL;
-> > @@ -821,7 +821,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >       if (fsc->mount_options->wsize < wsize)
-> >               wsize = fsc->mount_options->wsize;
-> >
-> > -     pagevec_init(&pvec);
-> > +     folio_batch_init(&fbatch);
-> >
-> >       start_index = wbc->range_cyclic ? mapping->writeback_index : 0;
-> >       index = start_index;
-> > @@ -869,9 +869,9 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >
-> >       while (!done && index <= end) {
-> >               int num_ops = 0, op_idx;
-> > -             unsigned i, pvec_pages, max_pages, locked_pages = 0;
-> > +             unsigned i, nr_folios, max_pages, locked_pages = 0;
-> >               struct page **pages = NULL, **data_pages;
-> > -             struct page *page;
-> > +             struct folio *folio;
-> >               pgoff_t strip_unit_end = 0;
-> >               u64 offset = 0, len = 0;
-> >               bool from_pool = false;
-> > @@ -879,28 +879,28 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >               max_pages = wsize >> PAGE_SHIFT;
-> >
-> >  get_more_pages:
-> > -             pvec_pages = pagevec_lookup_range_tag(&pvec, mapping, &index,
-> > -                                             end, PAGECACHE_TAG_DIRTY);
-> > -             dout("pagevec_lookup_range_tag got %d\n", pvec_pages);
-> > -             if (!pvec_pages && !locked_pages)
-> > +             nr_folios = filemap_get_folios_tag(mapping, &index,
-> > +                             end, PAGECACHE_TAG_DIRTY, &fbatch);
-> > +             dout("filemap_get_folios_tag got %d\n", nr_folios);
-> > +             if (!nr_folios && !locked_pages)
-> >                       break;
-> > -             for (i = 0; i < pvec_pages && locked_pages < max_pages; i++) {
-> > -                     page = pvec.pages[i];
-> > -                     dout("? %p idx %lu\n", page, page->index);
-> > +             for (i = 0; i < nr_folios && locked_pages < max_pages; i++) {
-> > +                     folio = fbatch.folios[i];
-> > +                     dout("? %p idx %lu\n", folio, folio->index);
-> >                       if (locked_pages == 0)
-> > -                             lock_page(page);  /* first page */
-> > -                     else if (!trylock_page(page))
-> > +                             folio_lock(folio); /* first folio */
-> > +                     else if (!folio_trylock(folio))
-> >                               break;
-> >
-> >                       /* only dirty pages, or our accounting breaks */
-> > -                     if (unlikely(!PageDirty(page)) ||
-> > -                         unlikely(page->mapping != mapping)) {
-> > -                             dout("!dirty or !mapping %p\n", page);
-> > -                             unlock_page(page);
-> > +                     if (unlikely(!folio_test_dirty(folio)) ||
-> > +                         unlikely(folio->mapping != mapping)) {
-> > +                             dout("!dirty or !mapping %p\n", folio);
-> > +                             folio_unlock(folio);
-> >                               continue;
-> >                       }
-> >                       /* only if matching snap context */
-> > -                     pgsnapc = page_snap_context(page);
-> > +                     pgsnapc = page_snap_context(&folio->page);
-> >                       if (pgsnapc != snapc) {
-> >                               dout("page snapc %p %lld != oldest %p %lld\n",
-> >                                    pgsnapc, pgsnapc->seq, snapc, snapc->seq);
-> > @@ -908,11 +908,10 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                                   !ceph_wbc.head_snapc &&
-> >                                   wbc->sync_mode != WB_SYNC_NONE)
-> >                                       should_loop = true;
-> > -                             unlock_page(page);
-> > +                             folio_unlock(folio);
-> >                               continue;
-> >                       }
-> > -                     if (page_offset(page) >= ceph_wbc.i_size) {
-> > -                             struct folio *folio = page_folio(page);
-> > +                     if (folio_pos(folio) >= ceph_wbc.i_size) {
-> >
-> >                               dout("folio at %lu beyond eof %llu\n",
-> >                                    folio->index, ceph_wbc.i_size);
-> > @@ -924,25 +923,26 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                               folio_unlock(folio);
-> >                               continue;
-> >                       }
-> > -                     if (strip_unit_end && (page->index > strip_unit_end)) {
-> > -                             dout("end of strip unit %p\n", page);
-> > -                             unlock_page(page);
-> > +                     if (strip_unit_end && (folio->index > strip_unit_end)) {
-> > +                             dout("end of strip unit %p\n", folio);
-> > +                             folio_unlock(folio);
-> >                               break;
-> >                       }
-> > -                     if (PageWriteback(page) || PageFsCache(page)) {
-> > +                     if (folio_test_writeback(folio) ||
-> > +                                     folio_test_fscache(folio)) {
-> >                               if (wbc->sync_mode == WB_SYNC_NONE) {
-> > -                                     dout("%p under writeback\n", page);
-> > -                                     unlock_page(page);
-> > +                                     dout("%p under writeback\n", folio);
-> > +                                     folio_unlock(folio);
-> >                                       continue;
-> >                               }
-> > -                             dout("waiting on writeback %p\n", page);
-> > -                             wait_on_page_writeback(page);
-> > -                             wait_on_page_fscache(page);
-> > +                             dout("waiting on writeback %p\n", folio);
-> > +                             folio_wait_writeback(folio);
-> > +                             folio_wait_fscache(folio);
-> >                       }
-> >
-> > -                     if (!clear_page_dirty_for_io(page)) {
-> > -                             dout("%p !clear_page_dirty_for_io\n", page);
-> > -                             unlock_page(page);
-> > +                     if (!folio_clear_dirty_for_io(folio)) {
-> > +                             dout("%p !clear_page_dirty_for_io\n", folio);
-> > +                             folio_unlock(folio);
-> >                               continue;
-> >                       }
-> >
-> > @@ -958,7 +958,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                               u32 xlen;
-> >
-> >                               /* prepare async write request */
-> > -                             offset = (u64)page_offset(page);
-> > +                             offset = (u64)folio_pos(folio);
-> >                               ceph_calc_file_object_mapping(&ci->i_layout,
-> >                                                             offset, wsize,
-> >                                                             &objnum, &objoff,
-> > @@ -966,7 +966,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                               len = xlen;
-> >
-> >                               num_ops = 1;
-> > -                             strip_unit_end = page->index +
-> > +                             strip_unit_end = folio->index +
-> >                                       ((len - 1) >> PAGE_SHIFT);
-> >
-> >                               BUG_ON(pages);
-> > @@ -981,54 +981,53 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                               }
-> >
-> >                               len = 0;
-> > -                     } else if (page->index !=
-> > +                     } else if (folio->index !=
-> >                                  (offset + len) >> PAGE_SHIFT) {
-> >                               if (num_ops >= (from_pool ?  CEPH_OSD_SLAB_OPS :
-> >                                                            CEPH_OSD_MAX_OPS)) {
-> > -                                     redirty_page_for_writepage(wbc, page);
-> > -                                     unlock_page(page);
-> > +                                     folio_redirty_for_writepage(wbc, folio);
-> > +                                     folio_unlock(folio);
-> >                                       break;
-> >                               }
-> >
-> >                               num_ops++;
-> > -                             offset = (u64)page_offset(page);
-> > +                             offset = (u64)folio_pos(folio);
-> >                               len = 0;
-> >                       }
-> >
-> > -                     /* note position of first page in pvec */
-> > +                     /* note position of first page in fbatch */
-> >                       dout("%p will write page %p idx %lu\n",
-> > -                          inode, page, page->index);
-> > +                          inode, folio, folio->index);
-> >
-> >                       if (atomic_long_inc_return(&fsc->writeback_count) >
-> >                           CONGESTION_ON_THRESH(
-> >                                   fsc->mount_options->congestion_kb))
-> >                               fsc->write_congested = true;
-> >
-> > -                     pages[locked_pages++] = page;
-> > -                     pvec.pages[i] = NULL;
-> > +                     pages[locked_pages++] = &folio->page;
-> > +                     fbatch.folios[i] = NULL;
-> >
-> > -                     len += thp_size(page);
-> > +                     len += folio_size(folio);
-> >               }
-> >
-> >               /* did we get anything? */
-> >               if (!locked_pages)
-> > -                     goto release_pvec_pages;
-> > +                     goto release_folio_batches;
-> >               if (i) {
-> >                       unsigned j, n = 0;
-> > -                     /* shift unused page to beginning of pvec */
-> > -                     for (j = 0; j < pvec_pages; j++) {
-> > -                             if (!pvec.pages[j])
-> > +                     /* shift unused folio to the beginning of fbatch */
-> > +                     for (j = 0; j < nr_folios; j++) {
-> > +                             if (!fbatch.folios[j])
-> >                                       continue;
-> >                               if (n < j)
-> > -                                     pvec.pages[n] = pvec.pages[j];
-> > +                                     fbatch.folios[n] = fbatch.folios[j];
-> >                               n++;
-> >                       }
-> > -                     pvec.nr = n;
-> > -
-> > -                     if (pvec_pages && i == pvec_pages &&
-> > +                     fbatch.nr = n;
-> > +                     if (nr_folios && i == nr_folios &&
-> >                           locked_pages < max_pages) {
-> > -                             dout("reached end pvec, trying for more\n");
-> > -                             pagevec_release(&pvec);
-> > +                             dout("reached end of fbatch, trying for more\n");
-> > +                             folio_batch_release(&fbatch);
-> >                               goto get_more_pages;
-> >                       }
-> >               }
-> > @@ -1056,7 +1055,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                       BUG_ON(IS_ERR(req));
-> >               }
-> >               BUG_ON(len < page_offset(pages[locked_pages - 1]) +
-> > -                          thp_size(page) - offset);
-> > +                          folio_size(folio) - offset);
-> >
-> >               req->r_callback = writepages_finish;
-> >               req->r_inode = inode;
-> > @@ -1098,7 +1097,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                       set_page_writeback(pages[i]);
-> >                       if (caching)
-> >                               ceph_set_page_fscache(pages[i]);
-> > -                     len += thp_size(page);
-> > +                     len += folio_size(folio);
-> >               }
-> >               ceph_fscache_write_to_cache(inode, offset, len, caching);
-> >
-> > @@ -1108,7 +1107,7 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >                       /* writepages_finish() clears writeback pages
-> >                        * according to the data length, so make sure
-> >                        * data length covers all locked pages */
-> > -                     u64 min_len = len + 1 - thp_size(page);
-> > +                     u64 min_len = len + 1 - folio_size(folio);
-> >                       len = get_writepages_data_length(inode, pages[i - 1],
-> >                                                        offset);
-> >                       len = max(len, min_len);
-> > @@ -1164,10 +1163,10 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >               if (wbc->nr_to_write <= 0 && wbc->sync_mode == WB_SYNC_NONE)
-> >                       done = true;
-> >
-> > -release_pvec_pages:
-> > -             dout("pagevec_release on %d pages (%p)\n", (int)pvec.nr,
-> > -                  pvec.nr ? pvec.pages[0] : NULL);
-> > -             pagevec_release(&pvec);
-> > +release_folio_batches:
-> > +             dout("folio_batch_release on %d batches (%p)", (int) fbatch.nr,
-> > +                             fbatch.nr ? fbatch.folios[0] : NULL);
-> > +             folio_batch_release(&fbatch);
-> >       }
-> >
-> >       if (should_loop && !done) {
-> > @@ -1180,19 +1179,22 @@ static int ceph_writepages_start(struct address_space *mapping,
-> >               if (wbc->sync_mode != WB_SYNC_NONE &&
-> >                   start_index == 0 && /* all dirty pages were checked */
-> >                   !ceph_wbc.head_snapc) {
-> > -                     struct page *page;
-> > +                     struct folio *folio;
-> >                       unsigned i, nr;
-> >                       index = 0;
-> >                       while ((index <= end) &&
-> > -                            (nr = pagevec_lookup_tag(&pvec, mapping, &index,
-> > -                                             PAGECACHE_TAG_WRITEBACK))) {
-> > +                             (nr = filemap_get_folios_tag(mapping, &index,
-> > +                                             (pgoff_t)-1,
-> > +                                             PAGECACHE_TAG_WRITEBACK,
-> > +                                             &fbatch))) {
-> >                               for (i = 0; i < nr; i++) {
-> > -                                     page = pvec.pages[i];
-> > -                                     if (page_snap_context(page) != snapc)
-> > +                                     folio = fbatch.folios[i];
-> > +                                     if (page_snap_context(&folio->page) !=
-> > +                                                     snapc)
-> >                                               continue;
-> > -                                     wait_on_page_writeback(page);
-> > +                                     folio_wait_writeback(folio);
-> >                               }
-> > -                             pagevec_release(&pvec);
-> > +                             folio_batch_release(&fbatch);
-> >                               cond_resched();
-> >                       }
-> >               }
->
->
-> We have some work in progress to add write helpers to netfslib. Once we
-> get those in place, we plan to convert ceph to use them. At that point
-> ceph_writepages just goes away.
-> I think it'd be best to just wait for that and to just ensure that
-> netfslib uses filemap_get_folios_tag and the like where appropriate.
-> --
-> Jeff Layton <jlayton@kernel.org>
+Hello,
 
-Sounds good, let's do that. That will make the patch a lot simpler, and less
-prone to errors. I'll strip this down to the necessary changes in v3.
+syzbot found the following issue on:
+
+HEAD commit:    c3e0e1e23c70 Merge tag 'irq_urgent_for_v6.0' of git://git...
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=10f98c04880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+dashboard link: https://syzkaller.appspot.com/bug?extid=cbff7a52b6f99059e67f
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=15d224b8880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13d3e4d0880000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e7f1f925f94e/disk-c3e0e1e2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/830dabeedf0d/vmlinux-c3e0e1e2.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cbff7a52b6f99059e67f@syzkaller.appspotmail.com
+
+NILFS (loop0): segctord starting. Construction interval = 5 seconds, CP frequency < 30 seconds
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3609 at fs/nilfs2/dat.c:186 nilfs_dat_commit_end+0x56b/0x610
+Modules linked in:
+CPU: 0 PID: 3609 Comm: segctord Not tainted 6.0.0-rc7-syzkaller-00081-gc3e0e1e23c70 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:nilfs_dat_commit_end+0x56b/0x610 fs/nilfs2/dat.c:186
+Code: 48 89 ee 48 83 c4 38 5b 41 5c 41 5d 41 5e 41 5f 5d e9 69 77 03 00 e8 14 49 40 fe e8 0f 46 b9 fd e9 24 fd ff ff e8 05 49 40 fe <0f> 0b e9 75 fc ff ff e8 f9 48 40 fe e8 f4 45 b9 fd 43 80 7c 25 00
+RSP: 0018:ffffc9000389f2a8 EFLAGS: 00010293
+RAX: ffffffff8347407b RBX: ffff888079c311a0 RCX: ffff8880775a9d80
+RDX: 0000000000000000 RSI: 0000000000000003 RDI: 000023d50af30002
+RBP: 0000000000000003 R08: ffffffff83473ce9 R09: ffffed100f211f9b
+R10: ffffed100f211f9b R11: 1ffff1100f211f9a R12: ffff8880723fda40
+R13: ffffc9000389f3b8 R14: ffff888074fb8180 R15: 000023d50af30002
+FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007fec40ab81d0 CR3: 000000000c88e000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ nilfs_dat_commit_update+0x25/0x40 fs/nilfs2/dat.c:236
+ nilfs_direct_propagate+0x215/0x390 fs/nilfs2/direct.c:277
+ nilfs_bmap_propagate+0x6d/0x120 fs/nilfs2/bmap.c:337
+ nilfs_collect_file_data+0x49/0xc0 fs/nilfs2/segment.c:568
+ nilfs_segctor_apply_buffers+0x192/0x380 fs/nilfs2/segment.c:1012
+ nilfs_segctor_scan_file+0x842/0xaf0 fs/nilfs2/segment.c:1061
+ nilfs_segctor_collect_blocks fs/nilfs2/segment.c:1170 [inline]
+ nilfs_segctor_collect fs/nilfs2/segment.c:1497 [inline]
+ nilfs_segctor_do_construct+0x1cce/0x6fe0 fs/nilfs2/segment.c:2039
+ nilfs_segctor_construct+0x143/0x8d0 fs/nilfs2/segment.c:2375
+ nilfs_segctor_thread_construct fs/nilfs2/segment.c:2483 [inline]
+ nilfs_segctor_thread+0x534/0x1180 fs/nilfs2/segment.c:2566
+ kthread+0x266/0x300 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
