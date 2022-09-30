@@ -2,45 +2,45 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0B5C5F1619
-	for <lists+linux-nilfs@lfdr.de>; Sat,  1 Oct 2022 00:27:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F72B5F161F
+	for <lists+linux-nilfs@lfdr.de>; Sat,  1 Oct 2022 00:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbiI3W1C (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 30 Sep 2022 18:27:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53292 "EHLO
+        id S232009AbiI3W1s (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 30 Sep 2022 18:27:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54712 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232762AbiI3W0r (ORCPT
+        with ESMTP id S231719AbiI3W1r (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 30 Sep 2022 18:26:47 -0400
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1170E7424
-        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:26:45 -0700 (PDT)
-Received: by mail-io1-f70.google.com with SMTP id x22-20020a6bda16000000b006a123cb02beso3655488iob.18
-        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:26:45 -0700 (PDT)
+        Fri, 30 Sep 2022 18:27:47 -0400
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F62CEEB47
+        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:27:45 -0700 (PDT)
+Received: by mail-io1-f69.google.com with SMTP id b9-20020a6be709000000b006a469cf388eso3623810ioh.19
+        for <linux-nilfs@vger.kernel.org>; Fri, 30 Sep 2022 15:27:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date;
-        bh=ufeonRo4zBtWkmJUhuRWXTQlF3ed18EhL4i+GiuA3/w=;
-        b=6J20pCOYmUBGhyhMii/TxbPNGnriwOYqpFwU3UCCZ0LjArdZKTgrxbh2h6gk/4QrLS
-         mAR3xtJ55I1Xi+s8ArhTvuA3BEInN+IB4KFCWa1HiQX5JbWASUDm6N2Dx2GLYRRhH7XV
-         uaBHAziymHXAwkeeZBAoDMHxQlJS3C482CBN0lf44iLxcjeqfJ4dw42eQCccgJXvMvx8
-         2M/Z5Vh4kjpu1kwWeEUUYuZ6JhnjrzU9ih27oXPKKLlS7DNTB2HRELRX3jUQ5hPbVFvn
-         4QQBXmA6UE0prIq9MRUsU/z7u9JqCacK21DhXaypwNqkdGfViFZ0I5fFRAiGLj5iQ9U1
-         uyPw==
-X-Gm-Message-State: ACrzQf0VI3LIFvLE3tsY2puQLpmPt0QxxZvfPa83Eus3qBHd5CEp+jvb
-        G3XKcBOygVQczGFV5wKIrlcjtiSSU1BIIotBwkZ+VC4f9wqP
-X-Google-Smtp-Source: AMsMyM4w4OeguFRwIiiQkoXKm1zyaMN3YbvjaNaMitCQLY0pzKWmIFmevSSqWC+HMiTulvIpc5ysLxVQrjQzJT4TSv6VDWNB38Pa
+        bh=iM68O+nrezsM8T9jjDicidZ/blgRr6uFHhEtL5Spu3M=;
+        b=LJfNExgPlAzTggnn2JNPhFZs93VcixOEA425EgFQ0OktbHzA81Rex0x9FgZ6yRGDWF
+         YkfKbkIXoHqwU1sP3ExNfgqJ6IbVNWMT/UCyOzJi25HRmxebik0Z3j785hOpoZcDRgMl
+         HTKt++2UDHDKIxmwK920/LpCEIw6mg7jQsldTn/2sYVKWuuBi+2Od8yG1GxYB8JAwrLu
+         SdIhbwmt3qJrYKKK9vg1cRuQgFIfEX9hJk0brtMeaSHEqEQLmVrBj2XsI92TY/qMbGM3
+         c4rahGTJ8VN2u44wKDGkb7lyzH9unLT25cK0f7e1L7/dIvQb/SEFncRat/3RGcCtw5kE
+         CUrQ==
+X-Gm-Message-State: ACrzQf1G6/Gc8M7U0uY8/YX40TxgXbJ+jtpfvfd+3Mf4P6ufPM4TmHA5
+        t26cRdx4DTCVl/T/nKXLmKY5gcbNXSwgu5NTckLEzDGCiXe4
+X-Google-Smtp-Source: AMsMyM59fGFjFSm+JImi+1B6GKoGkgcB5hs2xKBj3Ubq5bFQPFbmdL+ajPZ/3nnnxieEbxZ3DJZJq0dSrhzGZ8G94SeQeSz1njIy
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:194e:b0:2f8:fa94:9da1 with SMTP id
- x14-20020a056e02194e00b002f8fa949da1mr5241269ilu.102.1664576804374; Fri, 30
- Sep 2022 15:26:44 -0700 (PDT)
-Date:   Fri, 30 Sep 2022 15:26:44 -0700
+X-Received: by 2002:a05:6e02:12cf:b0:2f5:ddd9:b3d3 with SMTP id
+ i15-20020a056e0212cf00b002f5ddd9b3d3mr5196081ilm.122.1664576864305; Fri, 30
+ Sep 2022 15:27:44 -0700 (PDT)
+Date:   Fri, 30 Sep 2022 15:27:44 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002052a505e9ec7d41@google.com>
-Subject: [syzbot] WARNING in nilfs_sufile_set_segment_usage
-From:   syzbot <syzbot+14e9f834f6ddecece094@syzkaller.appspotmail.com>
+Message-ID: <000000000000b2c9fb05e9ec8058@google.com>
+Subject: [syzbot] general protection fault in nilfs_bmap_lookup_at_level
+From:   syzbot <syzbot+76f0ebea6c1e032bbe49@syzkaller.appspotmail.com>
 To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
         linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
@@ -57,51 +57,107 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    987a926c1d8a Merge tag 'pull-fixes' of git://git.kernel.or..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=10b2f7df080000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
-dashboard link: https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11369198880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14aec750880000
+HEAD commit:    aaa11ce2ffc8 Add linux-next specific files for 20220923
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=12904574880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=186d1ff305f10294
+dashboard link: https://syzkaller.appspot.com/bug?extid=76f0ebea6c1e032bbe49
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1181a5c4880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12bdc2e0880000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/3f613b00c57b/disk-987a926c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/92e205364bcf/vmlinux-987a926c.xz
+disk image: https://storage.googleapis.com/syzbot-assets/95c7bf83c07e/disk-aaa11ce2.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/b161cd56a7a3/vmlinux-aaa11ce2.xz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+14e9f834f6ddecece094@syzkaller.appspotmail.com
+Reported-by: syzbot+76f0ebea6c1e032bbe49@syzkaller.appspotmail.com
 
-NILFS (loop0): segctord starting. Construction interval = 5 seconds, CP frequency < 30 seconds
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 3618 at fs/nilfs2/sufile.c:531 nilfs_sufile_set_segment_usage+0x4d8/0x5c0
-Modules linked in:
-CPU: 0 PID: 3618 Comm: segctord Not tainted 6.0.0-rc7-syzkaller-00132-g987a926c1d8a #0
+loop0: detected capacity change from 0 to 2048
+general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 PID: 3609 Comm: syz-executor421 Not tainted 6.0.0-rc6-next-20220923-syzkaller #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
-RIP: 0010:nilfs_sufile_set_segment_usage+0x4d8/0x5c0 fs/nilfs2/sufile.c:531
-Code: 25 28 00 00 00 48 3b 84 24 a0 00 00 00 0f 85 fa 00 00 00 44 89 f8 48 8d 65 d8 5b 41 5c 41 5d 41 5e 41 5f 5d c3 e8 68 3b 3d fe <0f> 0b e9 1a fe ff ff e8 5c 3b 3d fe e8 57 38 b6 fd e9 ca fe ff ff
-RSP: 0018:ffffc9000394f620 EFLAGS: 00010293
-RAX: ffffffff834a4e18 RBX: 0000000000000004 RCX: ffff88802831bb00
-RDX: 0000000000000000 RSI: 0000000000000004 RDI: 0000000000000000
-RBP: ffffc9000394f710 R08: ffffffff834a4c21 R09: ffffffff83459693
-R10: 0000000000000002 R11: ffff88802831bb00 R12: 0000000000000050
-R13: ffff888021f86000 R14: 1ffff92000729ed0 R15: ffff888071d0a160
-FS:  0000000000000000(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+RIP: 0010:nilfs_bmap_lookup_at_level+0xb5/0x3e0 fs/nilfs2/bmap.c:69
+Code: df 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 95 02 00 00 48 8b 83 d8 00 00 00 48 ba 00 00 00 00 00 fc ff df 48 89 c1 48 c1 e9 03 <80> 3c 11 00 0f 85 7d 02 00 00 4c 89 e6 48 89 e9 44 89 fa 48 89 df
+RSP: 0018:ffffc90003caf6d8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff8880738da688 RCX: 0000000000000000
+RDX: dffffc0000000000 RSI: 0000000000000008 RDI: ffff8880738da760
+RBP: ffffc90003caf7b8 R08: 0000000000000001 R09: ffff8880738da6cf
+R10: ffffed100e71b4d9 R11: 000000000008c07e R12: 0000000000000002
+R13: 1ffff92000795edc R14: ffff8880738da6c0 R15: 0000000000000001
+FS:  0000555555ac8300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000561c6b8abb68 CR3: 0000000021cc6000 CR4: 00000000003506f0
+CR2: 00000000005d84c8 CR3: 000000005942f000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- nilfs_segctor_update_segusage fs/nilfs2/segment.c:1441 [inline]
- nilfs_segctor_do_construct+0x4b4a/0x6fe0 fs/nilfs2/segment.c:2065
- nilfs_segctor_construct+0x143/0x8d0 fs/nilfs2/segment.c:2375
- nilfs_segctor_thread_construct fs/nilfs2/segment.c:2483 [inline]
- nilfs_segctor_thread+0x534/0x1180 fs/nilfs2/segment.c:2566
- kthread+0x266/0x300 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ nilfs_bmap_lookup fs/nilfs2/bmap.h:170 [inline]
+ nilfs_mdt_submit_block+0x1a1/0xb40 fs/nilfs2/mdt.c:142
+ nilfs_mdt_read_block+0x92/0x3c0 fs/nilfs2/mdt.c:176
+ nilfs_mdt_get_block+0xe3/0xe00 fs/nilfs2/mdt.c:251
+ nilfs_palloc_get_block+0xc4/0x2b0 fs/nilfs2/alloc.c:216
+ nilfs_palloc_get_entry_block+0x167/0x1d0 fs/nilfs2/alloc.c:318
+ nilfs_ifile_get_inode_block+0xbf/0x190 fs/nilfs2/ifile.c:143
+ __nilfs_read_inode fs/nilfs2/inode.c:477 [inline]
+ nilfs_iget+0x208/0x870 fs/nilfs2/inode.c:603
+ nilfs_get_root_dentry+0x26/0x240 fs/nilfs2/super.c:904
+ nilfs_fill_super fs/nilfs2/super.c:1078 [inline]
+ nilfs_mount+0xbb2/0xfb0 fs/nilfs2/super.c:1317
+ legacy_get_tree+0x105/0x220 fs/fs_context.c:610
+ vfs_get_tree+0x89/0x2f0 fs/super.c:1530
+ do_new_mount fs/namespace.c:3040 [inline]
+ path_mount+0x1326/0x1e20 fs/namespace.c:3370
+ do_mount fs/namespace.c:3383 [inline]
+ __do_sys_mount fs/namespace.c:3591 [inline]
+ __se_sys_mount fs/namespace.c:3568 [inline]
+ __x64_sys_mount+0x27f/0x300 fs/namespace.c:3568
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x35/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fd84078b60a
+Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffc2a043bd8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
+RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007fd84078b60a
+RDX: 0000000020000000 RSI: 0000000020000080 RDI: 00007ffc2a043bf0
+RBP: 00007ffc2a043bf0 R08: 00007ffc2a043c30 R09: 0000555555ac82c0
+R10: 0000000000000000 R11: 0000000000000286 R12: 0000000000000004
+R13: 00007ffc2a043c30 R14: 000000000000003a R15: 0000000020000770
  </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:nilfs_bmap_lookup_at_level+0xb5/0x3e0 fs/nilfs2/bmap.c:69
+Code: df 48 89 fa 48 c1 ea 03 80 3c 02 00 0f 85 95 02 00 00 48 8b 83 d8 00 00 00 48 ba 00 00 00 00 00 fc ff df 48 89 c1 48 c1 e9 03 <80> 3c 11 00 0f 85 7d 02 00 00 4c 89 e6 48 89 e9 44 89 fa 48 89 df
+RSP: 0018:ffffc90003caf6d8 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: ffff8880738da688 RCX: 0000000000000000
+RDX: dffffc0000000000 RSI: 0000000000000008 RDI: ffff8880738da760
+RBP: ffffc90003caf7b8 R08: 0000000000000001 R09: ffff8880738da6cf
+R10: ffffed100e71b4d9 R11: 000000000008c07e R12: 0000000000000002
+R13: 1ffff92000795edc R14: ffff8880738da6c0 R15: 0000000000000001
+FS:  0000555555ac8300(0000) GS:ffff8880b9a00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000005d84c8 CR3: 000000005942f000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	df 48 89             	fisttps -0x77(%rax)
+   3:	fa                   	cli
+   4:	48 c1 ea 03          	shr    $0x3,%rdx
+   8:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+   c:	0f 85 95 02 00 00    	jne    0x2a7
+  12:	48 8b 83 d8 00 00 00 	mov    0xd8(%rbx),%rax
+  19:	48 ba 00 00 00 00 00 	movabs $0xdffffc0000000000,%rdx
+  20:	fc ff df
+  23:	48 89 c1             	mov    %rax,%rcx
+  26:	48 c1 e9 03          	shr    $0x3,%rcx
+* 2a:	80 3c 11 00          	cmpb   $0x0,(%rcx,%rdx,1) <-- trapping instruction
+  2e:	0f 85 7d 02 00 00    	jne    0x2b1
+  34:	4c 89 e6             	mov    %r12,%rsi
+  37:	48 89 e9             	mov    %rbp,%rcx
+  3a:	44 89 fa             	mov    %r15d,%edx
+  3d:	48 89 df             	mov    %rbx,%rdi
 
 
 ---
