@@ -2,69 +2,63 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A03FD5F2250
-	for <lists+linux-nilfs@lfdr.de>; Sun,  2 Oct 2022 11:25:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBBF65F23F2
+	for <lists+linux-nilfs@lfdr.de>; Sun,  2 Oct 2022 17:52:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229640AbiJBJZ3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 2 Oct 2022 05:25:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53612 "EHLO
+        id S229967AbiJBPwh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 2 Oct 2022 11:52:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbiJBJZ2 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 2 Oct 2022 05:25:28 -0400
-Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 520463BC76;
-        Sun,  2 Oct 2022 02:25:26 -0700 (PDT)
-Received: by mail-pj1-x102d.google.com with SMTP id v10-20020a17090a634a00b00205e48cf845so12831767pjs.4;
-        Sun, 02 Oct 2022 02:25:26 -0700 (PDT)
+        with ESMTP id S229811AbiJBPwg (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 2 Oct 2022 11:52:36 -0400
+Received: from mail-vk1-xa2d.google.com (mail-vk1-xa2d.google.com [IPv6:2607:f8b0:4864:20::a2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21CA120B2;
+        Sun,  2 Oct 2022 08:52:35 -0700 (PDT)
+Received: by mail-vk1-xa2d.google.com with SMTP id n5so205750vke.12;
+        Sun, 02 Oct 2022 08:52:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:subject:from:reply-to:to:content-language
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date;
-        bh=RS87/OMI0Aoi7/wAWBy+a2IoLMxK46Hso1++35Znhl4=;
-        b=Xd9E8KCVc+gQe+SAizBHsD8rOuIuiI5Yl4lsFTaYIKrY+E/HLGZpHAWZTKH3d7RVv+
-         /85plcy6Sy5cSCW8iY5Q0VUUUH1eZpSbwf+kLgwzvy22I0c41oZMjxph4TdL/Zdg6rab
-         yWwOrlRlAsVkRDgQXU06kxdbVrKsnockFt4uQs31BM5vgnSPaxRMXwGUlVHeqvnnsdqW
-         DKb4VGfN3bAvOEyi2Z/15MmdZDTVa8mhtbcXCWrmpNxqwhbcCNe2WbLyqBKwAJFhwVE0
-         1PSOtInKf7SwWBVXsBh/d5QXfysYZEY2zZ+p6GSb9oKnDvnndz4MxNslV4PagqkgQUQM
-         xeJA==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date;
+        bh=vjeLG2XTrGNkMtJovXcIe08FMWx6adqZPyqcWpGEYZU=;
+        b=XS0E4dEy/uW5hV/GqUalKvHGucERBmvC0l6QwKX8jlI4p8bc0BiM8WZeytuKzwfL39
+         zPjoD0RHV6BWH7SgQ5H4a4ThrDq08jlr4P9zJhZM5lN9MbO2LEks1Hi/maT+LKtWHAvs
+         IItu68qvujotO/hlBYPGhLCjtGhujSMNAiPu+xSrBXdIdrZQgCC6fmJ7rFipYybKce/O
+         67e8kM1PcSyDlwHjPU/z9ZbOy7M62RIRcZ8RKe+2JHzCcxygC+e16mv7TdGpDXOnno4r
+         5u3seElxMo2fGYK/W1+ts10uupIQDk4Y5tOMo1MWx1A18ohRNWBsMFQWpGUYpiBIHmlZ
+         5shQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:subject:from:reply-to:to:content-language
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date;
-        bh=RS87/OMI0Aoi7/wAWBy+a2IoLMxK46Hso1++35Znhl4=;
-        b=121fn7EqjaWFVSKDGFO4vjnzFlTsdbZQ8iF+5MyiCzWvY2IaLfBQn52zE0WFt/C9XB
-         Z3zNcOZ/vK97fyYdlofDR8UZ0KqxQfk0o/qsgExZjErk/9HVhaf0/9mja8JRDOEjExqO
-         uhCg31ghXp1FZ+XL3sje+xUF784qtpgVDkAk/1VLo9P9bwy/z8kEjrsy0zvcBbJPKVwO
-         qCQdbF4F1p+cYvoLdH0jY7yJiGn7cTnZbPrFzgkgjinxJuJuvUi90n36V9DSChPtjGnR
-         xNnXCydmZhLPyhV06rHgm8Hd9DVIZm218uUNId3lheUR5J3R3ARwvqPjtNBczjwh3E02
-         e6kQ==
-X-Gm-Message-State: ACrzQf2T7EwAnPXo91mdF4kQaDmTEja1c7FtXrWaGh5UOIR56Lwi3Ame
-        38551tBzl0IuQmcFvpLZnUoP+X6eQ8uSVA==
-X-Google-Smtp-Source: AMsMyM5LLcpVOhf6oryT2wAIYU90Ivuuut50G6j2/hpb5ypDf/R6oQcPRspE6I+EH6qQ5ClXS0/2Qg==
-X-Received: by 2002:a17:90b:2246:b0:205:97a5:520e with SMTP id hk6-20020a17090b224600b0020597a5520emr6817538pjb.244.1664702725736;
-        Sun, 02 Oct 2022 02:25:25 -0700 (PDT)
-Received: from [192.168.0.110] ([103.159.189.149])
-        by smtp.gmail.com with ESMTPSA id l18-20020a170903121200b0017a8aed0a5asm5088377plh.136.2022.10.02.02.25.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Oct 2022 02:25:25 -0700 (PDT)
-Message-ID: <3b7a3398-0826-04de-f805-c926b39e7d35@gmail.com>
-Date:   Sun, 2 Oct 2022 15:25:21 +0600
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date;
+        bh=vjeLG2XTrGNkMtJovXcIe08FMWx6adqZPyqcWpGEYZU=;
+        b=NkmW4AhiZfU+9gf9pyA9+4LYdPxtOsXxr/2ZaGqQN8wpLAId7J0AXSipxQ51Nj3aHL
+         v4sDbAHsajGFjGDgCRXwsFJHk88J6DKDd0nB3S3DfdG2WaoZ0Dyxyg4+hyA8/R/ZNQoo
+         Rn/T7TUQSokbB+1HuQDTVUnaqP1zJZWIm94guw9Ml1HztgBb1sTUHGA3SIbxxmsKpq9o
+         S+mZaE2Y3VSva2OtopHHt525a8e3Ci9B1Ow/fk7ikftcJ3KmT6NDvhE6NaKkoD4a5QHb
+         +EpIFVfAgFwOZ5CaLTFNtrmOGDWLv/EpEbTEXvzkAn7wY/kHf8rK7+ejWISLuvLBUvlm
+         N86w==
+X-Gm-Message-State: ACrzQf2EiEMRbPRygA6VYstu/jp0XXdmdJdo9nSSiQ0eqnIxW+aO0Jy7
+        A7LZUA1IZky2SnAq4qG5UWYzcTH+Zrk9a0uOHwOaA1hyZEk=
+X-Google-Smtp-Source: AMsMyM4UDxzaeRh30SUXiIB2z7rBUp26QpuzouT5qJuG0A7NkIJieZ3BKt76ilhNssHBD/fR2RLOkmzAg2ce48mZ+rI=
+X-Received: by 2002:a1f:a7ca:0:b0:3a2:cb7e:65a1 with SMTP id
+ q193-20020a1fa7ca000000b003a2cb7e65a1mr7861521vke.4.1664725954939; Sun, 02
+ Oct 2022 08:52:34 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.7.0
-Content-Language: en-US
-To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        syzbot <syzbot+b8c672b0e22615c80fe0@syzkaller.appspotmail.com>
-Reply-To: 000000000000219dcd05e9f95ed9@google.com
-From:   Khalid Masum <khalid.masum.92@gmail.com>
+References: <3b7a3398-0826-04de-f805-c926b39e7d35@gmail.com>
+In-Reply-To: <3b7a3398-0826-04de-f805-c926b39e7d35@gmail.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Mon, 3 Oct 2022 00:52:18 +0900
+Message-ID: <CAKFNMom7Z_5QWaGTG-=C67n0aT__nu4Wfs=Tsa3jgpXQMtWkEA@mail.gmail.com>
 Subject: Re: [syzbot] KASAN: use-after-free Read in nilfs_segctor_confirm
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+To:     000000000000219dcd05e9f95ed9@google.com
+Cc:     linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com,
+        syzbot <syzbot+b8c672b0e22615c80fe0@syzkaller.appspotmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -72,12 +66,22 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi all,
+On Sun, Oct 2, 2022 at 6:25 PM Khalid Masum wrote:
+>
+> Hi all,
+>
+> The reproducer triggers the same bug in upstream 6.0-rc7 as well.
+>
+>
+> Thanks,
+>
+>    -- Khalid Masum
 
-The reproducer triggers the same bug in upstream 6.0-rc7 as well.
+It looks like this and a few similar issues are caused by duplicate
+inode allocation with the same inode number
+as the root inode on a corrupted disk image.
 
+I'm now digging into the issue and trying to fix it.
 
 Thanks,
-
-   -- Khalid Masum
-
+Ryusuke Konishi
