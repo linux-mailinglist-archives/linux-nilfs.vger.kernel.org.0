@@ -2,62 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B71465F1CE4
-	for <lists+linux-nilfs@lfdr.de>; Sat,  1 Oct 2022 16:39:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79B855F211A
+	for <lists+linux-nilfs@lfdr.de>; Sun,  2 Oct 2022 05:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229511AbiJAOjq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 1 Oct 2022 10:39:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36558 "EHLO
+        id S229482AbiJBDIM (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 1 Oct 2022 23:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbiJAOjq (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 1 Oct 2022 10:39:46 -0400
-Received: from mail-vk1-xa32.google.com (mail-vk1-xa32.google.com [IPv6:2607:f8b0:4864:20::a32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77C57CE27
-        for <linux-nilfs@vger.kernel.org>; Sat,  1 Oct 2022 07:39:43 -0700 (PDT)
-Received: by mail-vk1-xa32.google.com with SMTP id bi53so3592792vkb.12
-        for <linux-nilfs@vger.kernel.org>; Sat, 01 Oct 2022 07:39:43 -0700 (PDT)
+        with ESMTP id S229449AbiJBDIK (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 1 Oct 2022 23:08:10 -0400
+Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F4F2BE1C;
+        Sat,  1 Oct 2022 20:08:09 -0700 (PDT)
+Received: by mail-pf1-x431.google.com with SMTP id i6so7501931pfb.2;
+        Sat, 01 Oct 2022 20:08:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date;
-        bh=4KqazxCTvLkfxkm5AfsUxNfKP7jqF68GM9nSLaqwIGc=;
-        b=Al8vbn8gcQbfbcbrnFJuMYvif2f+Ah/bqueBaP0kMQEX2XlXSwG1rwYcAsGfZNY6oj
-         mmhe9xlZ33L1Y3ABBaszZ+Uef8WMYBmvbQdAYn1Tdn2cQH35svz0yAENvtXXb6cvaxN4
-         7LnrgGVEEYaXScpFpfstZKRkArFJUSr3Em3FHDRYXT6wNZ7C6rXTlBdSGX87WPq5VQsF
-         5efGOF7bwHYm0qmQ6c6WcllKFRFckfjSruEp/gnTwkAdImwOJnNXzk29hkVewAPu9ReE
-         y2TL+2H0aNEY/2ngWEnn2WcTRuDJ+OzvVV6tqRRzJ49rvuG4Sh3Lk6r26bF3amFTWzYJ
-         XBBA==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
+        bh=H94AYH5YtHBkal/GiFTQVCFtPlhU2OjgiQ2dQ8FUTFw=;
+        b=qgbNytB8z5Bj8JoQzwz8kS+Ikv4oEd/VUDI9jP8UhJGyS0e/YhY63cwuhgqUnwSOCa
+         5HIxK4LRq9UCO4rUodculT+kZBKOZMfQ7ly+s7k6B2igC9vQ4svXAOZE8kh8n2a0xeI0
+         //YeLO0OXjJAAqOoDkqneYmp30k7B+PACZ/WohdrOwT0Y3bL89DomMz5gMM1Ri4lGV1j
+         xEFhSYS43RY1ueVJK5THxT3mwmMSMzII2gJRb4i9MazyXnwUqJFvhSeK2cD9a8ebN6f6
+         dBbgTkDPtGqko9cck0EYgH4m5IeqiGUbuwVPQ/UdW5K2kQlyWLuIBtJdg4W/4nQsAwz0
+         7keQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=4KqazxCTvLkfxkm5AfsUxNfKP7jqF68GM9nSLaqwIGc=;
-        b=HKp+sexfWjjQR6jRbx+zw2XcdPgeLcWQo2BXA0ybjK5koS8e/Yi1gYGGQtY2gdmvJF
-         l8ulXO9sx9Wzqk3YmrUIRyhDXpSgs8Ke7pFTq/VQvMkxNNxovrvkZ8O0hV+VFlbJ4Q3K
-         3idogfY2m8C8qJ0OqtrVIMeM4oX98gVk2doOxwKeBulDziJ+4II8QgASU+q74q+0Ha1m
-         hngKsSTIhRP6bGsjDAyh2iZxsqYQsG1BAO5nul1o+LXQ/aRBFdL0GufP859clW7YC/56
-         95JHD+hsobtK60XOkhqb282lbOGkb1Ezp4972fGaXNJhttgl0H2ZpEb+q8S/c4Jx8fn1
-         Thvg==
-X-Gm-Message-State: ACrzQf3d24MJj5iFz/JfVLlNJ49uTvAhg0Nt62XIUaRMaOM8CA3l5fKx
-        DNWqEb3jNLCidWFAHc8CUhi96NMP63mrfIakMSaD8tLf
-X-Google-Smtp-Source: AMsMyM6jd4GFOIFiBwC6cLZfQJ/nYL0uviSIORCHXlv6sIWqETNnTypmRAP+/EGczmKZKuf4BJazN3j2RC2qGBHgw7A=
-X-Received: by 2002:a1f:a7ca:0:b0:3a2:cb7e:65a1 with SMTP id
- q193-20020a1fa7ca000000b003a2cb7e65a1mr6628139vke.4.1664635182502; Sat, 01
- Oct 2022 07:39:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <000000000000eb0ba805e9d6e30e@google.com> <f1438f46-a52d-707b-4ef9-ab29525f1c98@I-love.SAKURA.ne.jp>
- <4ac809f9-a414-e936-0da1-f943e0551ef2@I-love.SAKURA.ne.jp>
- <CAKFNMom4G5jzSZ_i-kKnykzkhDags+XKYbRZD-cu_FeTVrFMwg@mail.gmail.com> <7d6a80dc-940c-8a64-020d-4a524913512a@I-love.SAKURA.ne.jp>
-In-Reply-To: <7d6a80dc-940c-8a64-020d-4a524913512a@I-love.SAKURA.ne.jp>
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date;
+        bh=H94AYH5YtHBkal/GiFTQVCFtPlhU2OjgiQ2dQ8FUTFw=;
+        b=UY25YdoQFSHyeWQ7SSOu24zX07TZXcU/8utTt9q/8MbbDs37fpBbeDfYGe1UJC7Cc/
+         io+NfHx1fpcBjxX3/2n0DQOpUXItBuM/WpEbrKCx63/Qsx5LB2HeV6OeJNj+jDw2VxEy
+         61S6GrtJ0Qb5WVxZK84v5w94J4PUdCBKrEaeWzlHVpL2mQm/QJ0FDME/bfwKMuINzCgP
+         +h4mBIaF3t9+M+AljuBxKrQbQB8xYnVCI5hKzYhhhlge6vzOeUluVGitgUTPu9IzxsPN
+         ZwfM7x3IhYFd+Tm+2r3hFOKZY5Yj52BGy2KLCot/o6w9BUtuSTKeNMenHnsLG+EHDb6Y
+         cvtQ==
+X-Gm-Message-State: ACrzQf1OdFa4snjBDHj/idKEo99wkRQhQNVbasSQ9iYCHOAWFU+ObMgK
+        xtS0DfbIS32xHSYTpO14Oxk=
+X-Google-Smtp-Source: AMsMyM5SfKLd0YiOP8TGufRZ3gOlacqHTP3wRF38GE/B7TIcPJXSsB2SCuSBIpDU9Splneb1B08kSw==
+X-Received: by 2002:a65:6cc4:0:b0:412:35fa:5bce with SMTP id g4-20020a656cc4000000b0041235fa5bcemr13374373pgw.466.1664680089138;
+        Sat, 01 Oct 2022 20:08:09 -0700 (PDT)
+Received: from carrot.. (i220-109-170-101.s42.a014.ap.plala.or.jp. [220.109.170.101])
+        by smtp.gmail.com with ESMTPSA id lb12-20020a17090b4a4c00b00205fafa6768sm6677189pjb.6.2022.10.01.20.08.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 01 Oct 2022 20:08:08 -0700 (PDT)
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Sat, 1 Oct 2022 23:39:25 +0900
-Message-ID: <CAKFNMomOwpW6feTDa-PsEVHBySuwt=5hZRtWxqaeaUZkdX2ECw@mail.gmail.com>
-Subject: Re: [PATCH] nilfs: check filetype/uid/gid at nilfs_read_inode_common()
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     linux-nilfs@vger.kernel.org,
-        syzbot+2b32eb36c1a825b7a74c@syzkaller.appspotmail.com,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        syzbot <syzbot+2b32eb36c1a825b7a74c@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] nilfs2: fix NULL pointer dereference at nilfs_bmap_lookup_at_level()
+Date:   Sun,  2 Oct 2022 12:08:04 +0900
+Message-Id: <20221002030804.29978-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <000000000000eb0ba805e9d6e30e@google.com>
+References: <000000000000eb0ba805e9d6e30e@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -68,18 +72,37 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sat, Oct 1, 2022 at 11:35 PM Tetsuo Handa wrote:
->
-> On 2022/10/01 23:28, Ryusuke Konishi wrote:
-> > I think the former is fine because we don't have the idea to add
-> > metadata file inodes other
-> > than file type.   If you make a revised patch, I will approve or
-> > handle it.   Or if you are busy,
-> > I will take over the fix.
->
-> Please take over the fix. Thank you.
+If the i_mode field in inode of metadata files is corrupted on disk,
+it can cause the initialization of bmap structure, which should have
+been called from nilfs_read_inode_common(), not to be called.  This
+causes a lockdep warning followed by a NULL pointer dereference at
+nilfs_bmap_lookup_at_level().
 
-All right,  thank you for your help so far!
+This patch fixes these issues by adding a missing sanitiy check for
+the i_mode field of metadata file's inode.
 
-Thanks,
-Ryusuke Konishi
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+2b32eb36c1a825b7a74c@syzkaller.appspotmail.com
+Reported-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ fs/nilfs2/inode.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index 67f63cfeade5..d4e653d51869 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -440,6 +440,8 @@ int nilfs_read_inode_common(struct inode *inode,
+ 	inode->i_atime.tv_nsec = le32_to_cpu(raw_inode->i_mtime_nsec);
+ 	inode->i_ctime.tv_nsec = le32_to_cpu(raw_inode->i_ctime_nsec);
+ 	inode->i_mtime.tv_nsec = le32_to_cpu(raw_inode->i_mtime_nsec);
++	if (nilfs_is_metadata_file_inode(inode) && !S_ISREG(inode->i_mode))
++		return -EIO; /* this inode is for metadata and corrupted */
+ 	if (inode->i_nlink == 0)
+ 		return -ESTALE; /* this inode is deleted */
+ 
+-- 
+2.34.1
+
