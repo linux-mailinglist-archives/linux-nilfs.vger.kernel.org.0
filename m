@@ -2,134 +2,119 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE9C75F324C
-	for <lists+linux-nilfs@lfdr.de>; Mon,  3 Oct 2022 17:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A61A5F3397
+	for <lists+linux-nilfs@lfdr.de>; Mon,  3 Oct 2022 18:30:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230113AbiJCPFg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 3 Oct 2022 11:05:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54192 "EHLO
+        id S229890AbiJCQar (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 3 Oct 2022 12:30:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230122AbiJCPFe (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 3 Oct 2022 11:05:34 -0400
-Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 950761B9FE;
-        Mon,  3 Oct 2022 08:05:25 -0700 (PDT)
-Received: by mail-pg1-x534.google.com with SMTP id f193so9939905pgc.0;
-        Mon, 03 Oct 2022 08:05:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date;
-        bh=ezoaBJIqRF7gg3OoVAkSemBRNoXtolfSSBzIMhoaSGI=;
-        b=SZHyb4Rjp36YHYykDDQ3ZcOlnLFNVIk5WEX2UQcpDrbLzDZTOlE+aKtkDmELWkbcYb
-         BqGGlm2lr1FNI0XT+ygAmxUjabea4DI4P5MX5zDS9nVrbVFm75vtptTfRldu0yWqJ4r4
-         MhvFEjd0KM+WV1m1dDEs8QqZUIzhFoiGuymTKyH0eWDh3Aoy7qD7v7WVZ1FXAy9T8Las
-         t8NzxNyc0/icf2kZAkhPQa3Ip49+kme0YAzNlH+/MPW4GQkkf1UZexR1sbT7IK6KzG1L
-         Kb+p0M7BQTQuTS7ipBPGQxu9K2sS12jlTRbmqQZ8JwAPcRGljSmOW0yOKDqsNNFFB9NY
-         rlJg==
+        with ESMTP id S229884AbiJCQap (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 3 Oct 2022 12:30:45 -0400
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B79541F9C4
+        for <linux-nilfs@vger.kernel.org>; Mon,  3 Oct 2022 09:30:42 -0700 (PDT)
+Received: by mail-il1-f199.google.com with SMTP id a9-20020a056e0208a900b002f6b21181f5so8884030ilt.10
+        for <linux-nilfs@vger.kernel.org>; Mon, 03 Oct 2022 09:30:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date;
-        bh=ezoaBJIqRF7gg3OoVAkSemBRNoXtolfSSBzIMhoaSGI=;
-        b=BWbp2nFIGZVBpVGaY3d0Nj+rTCsa703yTTskrhvZ+B/Q5hbEPCbiwh54I8X63ENhDr
-         Kf25OzenTPYuzk7PnK0LtUv+8raMfzvVoWTnlQlku7v0RsENRiTpe3YXPtG1hjxLXiGJ
-         4ryWynpsEtFJlEJlxFQykq9fkiD7eAgHmG2f6vE7Xg+RoLfsiC/knljJQaZs0HPuOaho
-         +JVgsv494PMMbS367Wf0W/qOCos1iNRtC5KnDo67UV4yNMmRrnOWOgz9Vx9hyiBF6JR9
-         2tASY3yXNElS4B3vBQtwkVy1jOzLpS1tJ0mNeRODr8WjtJa+fJSEly9wNUFxe/Sze36f
-         +NFQ==
-X-Gm-Message-State: ACrzQf2h67FBubEcEDq0ZuaDactkGXK4Cod/ZUYH/wtzVsZYrD62n/dx
-        WYOfNRwm4rIyGVHoPv8U5MJ0qBB+c5k=
-X-Google-Smtp-Source: AMsMyM5hDd8rl7H0sg8T64TzHvyh01H8qi0lJfGnrfOWV1SGTdgtNXC9zkyjUkNxpBcHjqDR97peLA==
-X-Received: by 2002:a05:6a00:80b:b0:545:c0d2:9729 with SMTP id m11-20020a056a00080b00b00545c0d29729mr22946628pfk.66.1664809524565;
-        Mon, 03 Oct 2022 08:05:24 -0700 (PDT)
-Received: from carrot.. (i220-109-170-101.s42.a014.ap.plala.or.jp. [220.109.170.101])
-        by smtp.gmail.com with ESMTPSA id m2-20020a170902db0200b0017e64da44c5sm3635947plx.203.2022.10.03.08.05.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Oct 2022 08:05:23 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        syzbot <syzbot+b8c672b0e22615c80fe0@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] nilfs2: fix use-after-free bug of struct nilfs_root
-Date:   Tue,  4 Oct 2022 00:05:19 +0900
-Message-Id: <20221003150519.39789-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <000000000000219dcd05e9f95ed9@google.com>
-References: <000000000000219dcd05e9f95ed9@google.com>
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date;
+        bh=rwiT/sy7NEzjdEE2iC1KVGA2WpvFuRRbJ9KhGB+mow8=;
+        b=m0cg0O+dx+4hXuYjbKja+UbNOawl1VV35ktq8qsx4cHKprmuJBTIErLbHEstH3/lzn
+         TIg8FIHf2o/wXKpCXfXtJCTfUfrcXrjdnbsMgjlTtBsAjEvdtURcERQugINc+PxMF4D5
+         QTi/PQIXIMYLijqbx1paen8hLMiaqMvkpUJoYv8cpNDUsJb8Yot3t/A0uxbx4bApSbCn
+         3YTmMA8QZ7xp+zTRnwyeKuudcq5VMetgOlqrJ3b5pI8xbp4Kq+HBBEOsXqFrmpQIWqD/
+         mXNZFSxnQVicZAIK7wPUQZ30kx3mhfki37gfJ59Mkp0AfG0A/u8cITV5ACeBIhKc2YBR
+         8Wvg==
+X-Gm-Message-State: ACrzQf1+nv4p4E8SMR2UePhEDuYxm2iigfHiKz2ZBlezV+HjPW/MAgyk
+        R20Kby2Cj+dlOkujMtgJ5/Dj+rZClqUS9UTaRpcf2Y17eCko
+X-Google-Smtp-Source: AMsMyM6RfSEwMALRq1yz1by1DkLwmWD/WZuVi30+r8h+l3uWqQ1Bfvg8P+352d88/PoBNDFMx1SZf61zjk7EcgNHAkYhQhiPl/4T
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6638:41a8:b0:35a:2b7b:1a3f with SMTP id
+ az40-20020a05663841a800b0035a2b7b1a3fmr10765404jab.101.1664814642148; Mon, 03
+ Oct 2022 09:30:42 -0700 (PDT)
+Date:   Mon, 03 Oct 2022 09:30:42 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005cc3d205ea23ddcf@google.com>
+Subject: [syzbot] WARNING in nilfs_dat_prepare_end
+From:   syzbot <syzbot+5d5d25f90f195a3cfcb4@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-If the beginning of the inode bitmap area is corrupted on disk, an
-inode with the same inode number as the root inode can be allocated
-and fail soon after.  In this case, the subsequent call to
-nilfs_clear_inode() on that bogus root inode will wrongly decrement
-the reference counter of struct nilfs_root, and this will erroneously
-free struct nilfs_root, causing kernel oopses.
+Hello,
 
-This fixes the problem by changing nilfs_new_inode() to skip reserved
-inode numbers while repairing the inode bitmap.
+syzbot found the following issue on:
 
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: syzbot+b8c672b0e22615c80fe0@syzkaller.appspotmail.com
-Reported-by: Khalid Masum <khalid.masum.92@gmail.com>
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: stable@vger.kernel.org
+HEAD commit:    a962b54e162c Merge tag 'i2c-for-6.0-rc8' of git://git.kern..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=16708124880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=ba0d23aa7e1ffaf5
+dashboard link: https://syzkaller.appspot.com/bug?extid=5d5d25f90f195a3cfcb4
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=165b2f98880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c20e82880000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7cf7771c181a/disk-a962b54e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/dcd5516984d8/vmlinux-a962b54e.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5d5d25f90f195a3cfcb4@syzkaller.appspotmail.com
+
+NILFS (loop0): segctord starting. Construction interval = 5 seconds, CP frequency < 30 seconds
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3609 at fs/nilfs2/dat.c:151 nilfs_dat_prepare_end+0x247/0x2a0
+Modules linked in:
+CPU: 0 PID: 3609 Comm: segctord Not tainted 6.0.0-rc7-syzkaller-00250-ga962b54e162c #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/22/2022
+RIP: 0010:nilfs_dat_prepare_end+0x247/0x2a0 fs/nilfs2/dat.c:151
+Code: 3f 40 fe 89 eb 89 d8 48 83 c4 10 5b 41 5c 41 5d 41 5e 41 5f 5d c3 e8 b8 3f 40 fe e8 b3 3c b9 fd e9 5a ff ff ff e8 a9 3f 40 fe <0f> 0b bb fe ff ff ff eb d2 44 89 f9 80 e1 07 80 c1 03 38 c1 0f 8c
+RSP: 0018:ffffc9000390f310 EFLAGS: 00010293
+RAX: ffffffff834749d7 RBX: 00000000fffffffe RCX: ffff888027003b00
+RDX: 0000000000000000 RSI: 00000000fffffffe RDI: 00000000fffffffe
+RBP: 1ffff92000721e7c R08: ffffffff83474950 R09: ffffffff834596a3
+R10: 0000000000000002 R11: ffff888027003b00 R12: ffffc9000390f3e0
+R13: ffff88804cf90158 R14: ffffc9000390f3f8 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff8880b9b00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055db1609ac08 CR3: 000000000c88e000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ nilfs_dat_prepare_update+0x1f/0xd0 fs/nilfs2/dat.c:223
+ nilfs_direct_propagate+0x1c2/0x390 fs/nilfs2/direct.c:274
+ nilfs_bmap_propagate+0x6d/0x120 fs/nilfs2/bmap.c:337
+ nilfs_segctor_apply_buffers+0x192/0x380 fs/nilfs2/segment.c:1012
+ nilfs_segctor_scan_file+0x8b5/0xaf0 fs/nilfs2/segment.c:1072
+ nilfs_segctor_collect_blocks fs/nilfs2/segment.c:1170 [inline]
+ nilfs_segctor_collect fs/nilfs2/segment.c:1497 [inline]
+ nilfs_segctor_do_construct+0x1cce/0x6fe0 fs/nilfs2/segment.c:2039
+ nilfs_segctor_construct+0x143/0x8d0 fs/nilfs2/segment.c:2375
+ nilfs_segctor_thread_construct fs/nilfs2/segment.c:2483 [inline]
+ nilfs_segctor_thread+0x534/0x1180 fs/nilfs2/segment.c:2566
+ kthread+0x266/0x300 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:306
+ </TASK>
+
+
 ---
- fs/nilfs2/inode.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-index 67f63cfeade5..b074144f6f83 100644
---- a/fs/nilfs2/inode.c
-+++ b/fs/nilfs2/inode.c
-@@ -328,6 +328,7 @@ struct inode *nilfs_new_inode(struct inode *dir, umode_t mode)
- 	struct inode *inode;
- 	struct nilfs_inode_info *ii;
- 	struct nilfs_root *root;
-+	struct buffer_head *bh;
- 	int err = -ENOMEM;
- 	ino_t ino;
- 
-@@ -343,11 +344,25 @@ struct inode *nilfs_new_inode(struct inode *dir, umode_t mode)
- 	ii->i_state = BIT(NILFS_I_NEW);
- 	ii->i_root = root;
- 
--	err = nilfs_ifile_create_inode(root->ifile, &ino, &ii->i_bh);
-+	err = nilfs_ifile_create_inode(root->ifile, &ino, &bh);
- 	if (unlikely(err))
- 		goto failed_ifile_create_inode;
- 	/* reference count of i_bh inherits from nilfs_mdt_read_block() */
- 
-+	if (unlikely(ino < NILFS_USER_INO)) {
-+		nilfs_warn(sb,
-+			   "inode bitmap is inconsistent for reserved inodes");
-+		do {
-+			brelse(bh);
-+			err = nilfs_ifile_create_inode(root->ifile, &ino, &bh);
-+			if (unlikely(err))
-+				goto failed_ifile_create_inode;
-+		} while (ino < NILFS_USER_INO);
-+
-+		nilfs_info(sb, "repaired inode bitmap for reserved inodes");
-+	}
-+	ii->i_bh = bh;
-+
- 	atomic64_inc(&root->inodes_count);
- 	inode_init_owner(&init_user_ns, inode, dir, mode);
- 	inode->i_ino = ino;
--- 
-2.34.1
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
