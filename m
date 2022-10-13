@@ -2,75 +2,147 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90B375FD408
-	for <lists+linux-nilfs@lfdr.de>; Thu, 13 Oct 2022 07:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B15AC5FD611
+	for <lists+linux-nilfs@lfdr.de>; Thu, 13 Oct 2022 10:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229572AbiJMFDN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 13 Oct 2022 01:03:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37100 "EHLO
+        id S229828AbiJMIS7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 13 Oct 2022 04:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229504AbiJMFDM (ORCPT
+        with ESMTP id S229615AbiJMIS6 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 13 Oct 2022 01:03:12 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7516F10451E
-        for <linux-nilfs@vger.kernel.org>; Wed, 12 Oct 2022 22:03:11 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a26so1480008ejc.4
-        for <linux-nilfs@vger.kernel.org>; Wed, 12 Oct 2022 22:03:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:reply-to:from:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/PfYWSirR67BTrJN7fdQGoiM+rqlbDrrqo9mIGM6FvQ=;
-        b=YqeRHJ0jO+UYTeBDnhpWMQjvffmyWnTt8QNzqjnG6t37CY/9Uh2bhtzsZmKOLk7FZO
-         tFFHs/czme1MO6OZSrNDN6h0F6vP9sXw61I97ljX4Ji8nF8duj2yR7QWRhGV/021LPtw
-         cpsLMyezmnZBbczLdIhVW1/WizhMePYO+WKKW5NfjvmvpHn5avW4fRKUgwTRUw6fWY2Y
-         FayIuhn1PmiW5/RFRkn2qQlHWY3qoduBMy6Tb5t9Nr9HoJGeyMYwQ02T1b53Svs4h1rK
-         qJLtR/GtOkot0o5e0Em3O2PflXbWhjlcYKoiTv2wOnWpMKpoYLg+ac1FWsb9sglsB7JR
-         Fpsw==
+        Thu, 13 Oct 2022 04:18:58 -0400
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AD3514D8C6
+        for <linux-nilfs@vger.kernel.org>; Thu, 13 Oct 2022 01:18:53 -0700 (PDT)
+Received: by mail-il1-f200.google.com with SMTP id s2-20020a056e02216200b002f9de38e484so962530ilv.8
+        for <linux-nilfs@vger.kernel.org>; Thu, 13 Oct 2022 01:18:53 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:reply-to:from:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/PfYWSirR67BTrJN7fdQGoiM+rqlbDrrqo9mIGM6FvQ=;
-        b=PJA2Zl0L+s3Hdx5IVxzy+z6rlXYuEKrIb7y2Z1A970p26eWaaogT5bUfczGuUPT+mO
-         HPsS2rRRZwDhOOXgl2QQlTVuHQbCjZsOmjaaSpOm2OvX8RbDOXduAYDH2n8TxEo4KGdT
-         dgyGst4dYphvzn+7sgdRth90vrE8REedVrPRPCDnzsQUNdAYpZkpaaj1oSQfwUzPsRfQ
-         Ay9LpR58cYCDBecm+qyjdrOZe2quiuwQN9dvf9wWrhMAqHRsqzqG2Fr+kN+aACFWN7h2
-         +0CiMCcVeK318m5cniUpI+4TAIV2hVFVPeJK2MOOzHuSwQh3ixr6r+qfAE7UGdwMr+P5
-         m9OQ==
-X-Gm-Message-State: ACrzQf0Viwa9WJWvQ6nogyFBv0MGuHXtxTTr+Iy4PloE+SU/NOvqG5xk
-        fqfoX10N/qZC4YLJh5ngjR9LlardPOzDqwbzpG+uNuJ2
-X-Google-Smtp-Source: AMsMyM4B0FeBvaBpBgEEWnyKsz8s2ZXpzGPNeCCeijTdQhlQQXvYTgMbYX3kZuubJvPWrpYhME3KfPRtp+vIjT8rMKA=
-X-Received: by 2002:a17:907:2712:b0:78d:a223:729b with SMTP id
- w18-20020a170907271200b0078da223729bmr17419574ejk.443.1665637389962; Wed, 12
- Oct 2022 22:03:09 -0700 (PDT)
-Received: from 927538837578 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 12 Oct 2022 22:03:08 -0700
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZIo+ZGkT23s6BpGYkB5/ULZ9WbcZZsu9Y0Jv5oIOYeQ=;
+        b=n52DhjQXp0HAUirL6m/ln1qvpMr5SKPSSXd2qh6DXhk6Z3MtO+Dw3AX8LLrI8wL6ph
+         C0J1nYyHtMhX9pTEtkZkg4EPSrbOpQzip+lTmlCV9PgG3SS7vvyfdb4Xrej/rLLRrjFN
+         4qJnjZ1nd9Z6iPenRWnjY8XijvbZhXxkKUyLtjSmyfbBD/43eCA0N3BHFFiEZ9lp0x73
+         8Q+D3LnFpCUmOwf8eHxKHEvihMj+TtUpSWD1OkWX/neJvP+xu/Q5gIKq4ZggomNVdcv/
+         A3t5nR706PbKxiUHNcuOy2tYZf0TM0AAso+RZBDMHWt6Yz0gqkRe9HVD/ETMceDJpvYp
+         IFQw==
+X-Gm-Message-State: ACrzQf2imgFg2P3e+OBr32dvL7qkK4pCGmKLOcZyGkHscfbaMo9U4r2a
+        SEqL0tg2FjlS8my7EhdgMpzp+7GXEfztqONfKYrP9onJ6CJ2
+X-Google-Smtp-Source: AMsMyM4yCbHGFzuGG+usyCNC4Yh61KxnF0BCjvvuqgGjyWW5/l2kXmayC4n5pf7AAFpNMdoS6quZN7kLOQxPB7EEcljRs7O1odqT
 MIME-Version: 1.0
-From:   "Linux NILFS <linuxnilfs@gmail.com>" <linuxnilfs@gmail.com>
-Reply-To: Linux NILFS <linux-nilfs@vger.kernel.org>
-Date:   Wed, 12 Oct 2022 22:03:08 -0700
-Message-ID: <CAE7Udf9Wv-GHRUJ1ukGMreanpmEtm0hVVHy8GhOqWz6eX7xP7g@mail.gmail.com>
-Subject: Published nilfs2-kmod8.
-To:     linux-nilfs@vger.kernel.org
+X-Received: by 2002:a92:d410:0:b0:2fc:3b7f:aa6c with SMTP id
+ q16-20020a92d410000000b002fc3b7faa6cmr10128294ilm.266.1665649131910; Thu, 13
+ Oct 2022 01:18:51 -0700 (PDT)
+Date:   Thu, 13 Oct 2022 01:18:51 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000d3fe2105eae628eb@google.com>
+Subject: [syzbot] WARNING: ODEBUG bug in nilfs_mdt_destroy
+From:   syzbot <syzbot+e67c6877ee7e6e68c45a@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Published nilfs2-kmod8, a standalone kernel module for RHEL 8 clones.
-At the moment, it's only available with the latest versions of
-AlmaLinux 8, Rocky Linux 8 and CentOS Stream 8.
+Hello,
 
-For details, please see the repository,
+syzbot found the following issue on:
 
-ChangeLog file, or commit logs.
+HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=161c8578880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
+dashboard link: https://syzkaller.appspot.com/bug?extid=e67c6877ee7e6e68c45a
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
 
-from https://nilfs.sourceforge.io/en/index.html#n134
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e67c6877ee7e6e68c45a@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object type: timer_list hint: br_multicast_group_expired+0x0/0x230 net/bridge/br_multicast.c:606
+WARNING: CPU: 1 PID: 8079 at lib/debugobjects.c:505 debug_print_object lib/debugobjects.c:502 [inline]
+WARNING: CPU: 1 PID: 8079 at lib/debugobjects.c:505 __debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
+WARNING: CPU: 1 PID: 8079 at lib/debugobjects.c:505 debug_check_no_obj_freed+0x214/0x2b0 lib/debugobjects.c:1020
+Modules linked in:
+CPU: 1 PID: 8079 Comm: syz-executor.4 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : debug_print_object lib/debugobjects.c:502 [inline]
+pc : __debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
+pc : debug_check_no_obj_freed+0x214/0x2b0 lib/debugobjects.c:1020
+lr : debug_print_object lib/debugobjects.c:502 [inline]
+lr : __debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
+lr : debug_check_no_obj_freed+0x214/0x2b0 lib/debugobjects.c:1020
+sp : ffff80001488b990
+x29: ffff80001488b9b0 x28: ffff000134488000 x27: ffff000134489000
+x26: ffff0001362a1398 x25: ffff000121ada0f0 x24: ffff80000bfff5b8
+x23: ffff000134488f40 x22: ffff80000bfff5b8 x21: 0000000000000001
+x20: dead000000000100 x19: ffff000134488f00 x18: 000000000000010e
+x17: 0000000000000000 x16: ffff80000db49158 x15: ffff0000facdb500
+x14: 0000000000000000 x13: 00000000ffffffff x12: 0000000000040000
+x11: 0000000000006464 x10: ffff80001f2be000 x9 : 49f3c7340dde9a00
+x8 : 49f3c7340dde9a00 x7 : ffff800008161d1c x6 : 0000000000000000
+x5 : 0000000000000080 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000007 x1 : 0000000100000000 x0 : 0000000000000067
+Call trace:
+ debug_print_object lib/debugobjects.c:502 [inline]
+ __debug_check_no_obj_freed lib/debugobjects.c:989 [inline]
+ debug_check_no_obj_freed+0x214/0x2b0 lib/debugobjects.c:1020
+ slab_free_hook mm/slub.c:1734 [inline]
+ slab_free_freelist_hook mm/slub.c:1785 [inline]
+ slab_free mm/slub.c:3539 [inline]
+ kfree+0x14c/0x348 mm/slub.c:4567
+ nilfs_mdt_destroy+0x2c/0x3c fs/nilfs2/mdt.c:498
+ nilfs_free_inode+0x2c/0x54 fs/nilfs2/super.c:168
+ i_callback fs/inode.c:249 [inline]
+ alloc_inode+0xdc/0x104 fs/inode.c:274
+ new_inode_pseudo fs/inode.c:1019 [inline]
+ new_inode+0x2c/0xc0 fs/inode.c:1047
+ nilfs_new_inode+0x48/0x378 fs/nilfs2/inode.c:334
+ nilfs_mknod+0x7c/0x170 fs/nilfs2/namei.c:113
+ vfs_mknod+0x2e8/0x318 fs/namei.c:3892
+ unix_bind_bsd+0x138/0x320 net/unix/af_unix.c:1192
+ unix_bind+0xd4/0x10c net/unix/af_unix.c:1283
+ __sys_bind+0x148/0x1b0 net/socket.c:1776
+ __do_sys_bind net/socket.c:1787 [inline]
+ __se_sys_bind net/socket.c:1785 [inline]
+ __arm64_sys_bind+0x28/0x3c net/socket.c:1785
+ __invoke_syscall arch/arm64/kernel/syscall.c:38 [inline]
+ invoke_syscall arch/arm64/kernel/syscall.c:52 [inline]
+ el0_svc_common+0x138/0x220 arch/arm64/kernel/syscall.c:142
+ do_el0_svc+0x48/0x164 arch/arm64/kernel/syscall.c:206
+ el0_svc+0x58/0x150 arch/arm64/kernel/entry-common.c:636
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+irq event stamp: 3716
+hardirqs last  enabled at (3715): [<ffff800008161dac>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1367 [inline]
+hardirqs last  enabled at (3715): [<ffff800008161dac>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4942
+hardirqs last disabled at (3716): [<ffff80000bfb5fbc>] el1_dbg+0x24/0x5c arch/arm64/kernel/entry-common.c:404
+softirqs last  enabled at (3520): [<ffff80000801c33c>] local_bh_enable+0x10/0x34 include/linux/bottom_half.h:32
+softirqs last disabled at (3518): [<ffff80000801c308>] local_bh_disable+0x10/0x34 include/linux/bottom_half.h:19
+---[ end trace 0000000000000000 ]---
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
