@@ -2,62 +2,50 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 375EC602969
-	for <lists+linux-nilfs@lfdr.de>; Tue, 18 Oct 2022 12:36:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A535F60348C
+	for <lists+linux-nilfs@lfdr.de>; Tue, 18 Oct 2022 23:02:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229573AbiJRKge (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 18 Oct 2022 06:36:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38970 "EHLO
+        id S230230AbiJRVCk (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 18 Oct 2022 17:02:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46136 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229463AbiJRKgd (ORCPT
+        with ESMTP id S230121AbiJRVCi (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 18 Oct 2022 06:36:33 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23D432B632
-        for <linux-nilfs@vger.kernel.org>; Tue, 18 Oct 2022 03:36:30 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id n73so11326635iod.13
-        for <linux-nilfs@vger.kernel.org>; Tue, 18 Oct 2022 03:36:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:reply-to:from:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8bghXZht/FJ5ch8pbZ5Ej2OdFU1AcwTtiCLzsPZREjY=;
-        b=Gn0oeG5qQW7Rm6+kr0ewLnKPPFkrRwHac+bcS44GHF8mDyjloX30TRHS09GVUamrCC
-         pvQ9nxDHuXC/A8zM4gBoMsB+lnflTO1f3KjqPn/GQfLBFNo1fv1SBKfDNIFBBOYJP7ur
-         8erHkaWH565nbQ4560AwZ9+li5N4+pKFI379lTe+Ok8uk6WD68PdAGGG7Cfti/p/XarS
-         UjW6iMLX6FSUxLR66h7DG5SKwP23/XIPW7HQjUwis5DJjdjXzLYJXyvqpOVtRiwVUK9b
-         GwA7fID/4s5dZdrGBVMiIqiojqBLqqcFBUZaPxFK5a4ddBeWhvAOWubHFwBO+0Zy8Hsh
-         knSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:reply-to:from:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8bghXZht/FJ5ch8pbZ5Ej2OdFU1AcwTtiCLzsPZREjY=;
-        b=uzHYbSblV9WSf1nUVhcJn9paAB2bMoIrrytuFP/WW6T6gjDRgLk9Nm2ankT9l38mKE
-         0WtbhOkJqdRdA0u5jNAuSu40WToYzmO6FbS+KOubAykPxqtDo458wQmP0ai2VcBKoLQu
-         3FPfAU9ZCaXvP/F4Apnaipc2ZY3BMWS4d3gaHaSUW6AcUv5ev50mjsTlNHg06F/eKhE0
-         mNaLIE00Y4mupgUUiDQfOXAAYObCrmnJXdLVkVHOYtU6MUZ0TcitUckYeRfdBgn4Zw7C
-         RGkg6TPYjPqh9OX6KHGjD42NfQXFHHjYTzHz3V3f60IrgLJrupDOlnlFYrpr/smUWNGD
-         NezQ==
-X-Gm-Message-State: ACrzQf37KlbuOpEd8HsAzWHf4alpOHAfBuSb9lFyJArgen39figSgF7z
-        1KXqW/IYxFdmFJvmyL39cXKMHNvdzxj8yWN7Pq8mFl6q
-X-Google-Smtp-Source: AMsMyM7vKlbSEpziWAdgxfBbcSBbuWRU7Nuux1k2WnwnD+Cf36Q4ZVL2dlq71d8jZvugZJU/ZbcEuhnGAMnEyJdawFU=
-X-Received: by 2002:a5d:9ac1:0:b0:6a3:1938:e6b0 with SMTP id
- x1-20020a5d9ac1000000b006a31938e6b0mr1329828ion.186.1666089390152; Tue, 18
- Oct 2022 03:36:30 -0700 (PDT)
-Received: from 927538837578 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 18 Oct 2022 03:36:29 -0700
+        Tue, 18 Oct 2022 17:02:38 -0400
+Received: from mail104.syd.optusnet.com.au (mail104.syd.optusnet.com.au [211.29.132.246])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B7F622288;
+        Tue, 18 Oct 2022 14:02:27 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-106-210.pa.nsw.optusnet.com.au [49.181.106.210])
+        by mail104.syd.optusnet.com.au (Postfix) with ESMTPS id 967678AE0CC;
+        Wed, 19 Oct 2022 08:01:53 +1100 (AEDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1oktii-003bE7-4J; Wed, 19 Oct 2022 08:01:52 +1100
+Date:   Wed, 19 Oct 2022 08:01:52 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        cluster-devel@redhat.com, linux-nilfs@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH 04/23] page-writeback: Convert write_cache_pages() to use
+ filemap_get_folios_tag()
+Message-ID: <20221018210152.GH2703033@dread.disaster.area>
+References: <20220901220138.182896-1-vishal.moola@gmail.com>
+ <20220901220138.182896-5-vishal.moola@gmail.com>
 MIME-Version: 1.0
-From:   "Linux NILFS <linuxnilfs@gmail.com>" <linuxnilfs@gmail.com>
-Reply-To: Linux NILFS <linux-nilfs@vger.kernel.org>
-Date:   Tue, 18 Oct 2022 03:36:29 -0700
-Message-ID: <CAE7Udf9z-LbpQoNCXj+FAdZQhTfgg9SqhDD4qK8h_Nbya=W+3A@mail.gmail.com>
-Subject: Published nilfs2-kmod9.
-To:     linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220901220138.182896-5-vishal.moola@gmail.com>
+X-Optus-CM-Score: 0
+X-Optus-CM-Analysis: v=2.4 cv=e9dl9Yl/ c=1 sm=1 tr=0 ts=634f1443
+        a=j6JUzzrSC7wlfFge/rmVbg==:117 a=j6JUzzrSC7wlfFge/rmVbg==:17
+        a=kj9zAlcOel0A:10 a=Qawa6l4ZSaYA:10 a=pGLkceISAAAA:8 a=7-415B0cAAAA:8
+        a=K-JhRxFi-CGouRt9WdAA:9 a=CjuIK1q_8ugA:10 a=biEYGPWJfzWAr4FL6Ov7:22
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,11 +53,113 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Published nilfs2-kmod9, a standalone kernel module for RHEL 9 clones.
-Available for AlmaLinux 9, Rocky Linux 9 and CentOS Stream 9.
+On Thu, Sep 01, 2022 at 03:01:19PM -0700, Vishal Moola (Oracle) wrote:
+> Converted function to use folios throughout. This is in preparation for
+> the removal of find_get_pages_range_tag().
+> 
+> Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+> ---
+>  mm/page-writeback.c | 44 +++++++++++++++++++++++---------------------
+>  1 file changed, 23 insertions(+), 21 deletions(-)
+> 
+> diff --git a/mm/page-writeback.c b/mm/page-writeback.c
+> index 032a7bf8d259..087165357a5a 100644
+> --- a/mm/page-writeback.c
+> +++ b/mm/page-writeback.c
+> @@ -2285,15 +2285,15 @@ int write_cache_pages(struct address_space *mapping,
+>  	int ret = 0;
+>  	int done = 0;
+>  	int error;
+> -	struct pagevec pvec;
+> -	int nr_pages;
+> +	struct folio_batch fbatch;
+> +	int nr_folios;
+>  	pgoff_t index;
+>  	pgoff_t end;		/* Inclusive */
+>  	pgoff_t done_index;
+>  	int range_whole = 0;
+>  	xa_mark_t tag;
+>  
+> -	pagevec_init(&pvec);
+> +	folio_batch_init(&fbatch);
+>  	if (wbc->range_cyclic) {
+>  		index = mapping->writeback_index; /* prev offset */
+>  		end = -1;
+> @@ -2313,17 +2313,18 @@ int write_cache_pages(struct address_space *mapping,
+>  	while (!done && (index <= end)) {
+>  		int i;
+>  
+> -		nr_pages = pagevec_lookup_range_tag(&pvec, mapping, &index, end,
+> -				tag);
+> -		if (nr_pages == 0)
+> +		nr_folios = filemap_get_folios_tag(mapping, &index, end,
+> +				tag, &fbatch);
 
-For details, please see the repository,
+This can find and return dirty multi-page folios if the filesystem
+enables them in the mapping at instantiation time, right?
 
-ChangeLog file, or commit logs.
+> +
+> +		if (nr_folios == 0)
+>  			break;
+>  
+> -		for (i = 0; i < nr_pages; i++) {
+> -			struct page *page = pvec.pages[i];
+> +		for (i = 0; i < nr_folios; i++) {
+> +			struct folio *folio = fbatch.folios[i];
+>  
+> -			done_index = page->index;
+> +			done_index = folio->index;
+>  
+> -			lock_page(page);
+> +			folio_lock(folio);
+>  
+>  			/*
+>  			 * Page truncated or invalidated. We can freely skip it
+> @@ -2333,30 +2334,30 @@ int write_cache_pages(struct address_space *mapping,
+>  			 * even if there is now a new, dirty page at the same
+>  			 * pagecache address.
+>  			 */
+> -			if (unlikely(page->mapping != mapping)) {
+> +			if (unlikely(folio->mapping != mapping)) {
+>  continue_unlock:
+> -				unlock_page(page);
+> +				folio_unlock(folio);
+>  				continue;
+>  			}
+>  
+> -			if (!PageDirty(page)) {
+> +			if (!folio_test_dirty(folio)) {
+>  				/* someone wrote it for us */
+>  				goto continue_unlock;
+>  			}
+>  
+> -			if (PageWriteback(page)) {
+> +			if (folio_test_writeback(folio)) {
+>  				if (wbc->sync_mode != WB_SYNC_NONE)
+> -					wait_on_page_writeback(page);
+> +					folio_wait_writeback(folio);
+>  				else
+>  					goto continue_unlock;
+>  			}
+>  
+> -			BUG_ON(PageWriteback(page));
+> -			if (!clear_page_dirty_for_io(page))
+> +			BUG_ON(folio_test_writeback(folio));
+> +			if (!folio_clear_dirty_for_io(folio))
+>  				goto continue_unlock;
+>  
+>  			trace_wbc_writepage(wbc, inode_to_bdi(mapping->host));
+> -			error = (*writepage)(page, wbc, data);
+> +			error = writepage(&folio->page, wbc, data);
 
-from https://nilfs.sourceforge.io/en/index.html#n135
+Yet, IIUC, this treats all folios as if they are single page folios.
+i.e. it passes the head page of a multi-page folio to a callback
+that will treat it as a single PAGE_SIZE page, because that's all
+the writepage callbacks are currently expected to be passed...
+
+So won't this break writeback of dirty multipage folios?
+
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
