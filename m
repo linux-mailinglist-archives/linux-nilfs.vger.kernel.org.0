@@ -2,152 +2,243 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A1D160B724
-	for <lists+linux-nilfs@lfdr.de>; Mon, 24 Oct 2022 21:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E2B160BBF7
+	for <lists+linux-nilfs@lfdr.de>; Mon, 24 Oct 2022 23:20:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231268AbiJXTU7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 24 Oct 2022 15:20:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55812 "EHLO
+        id S232196AbiJXVTr (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 24 Oct 2022 17:19:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232341AbiJXTUk (ORCPT
+        with ESMTP id S231559AbiJXVSh (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 24 Oct 2022 15:20:40 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631184C2D8;
-        Mon, 24 Oct 2022 10:56:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=GAA+twGNDeaPAzEOVLEHkS7mFrAV7A+aL5F5kQnQ4PU=; b=LKdhPmq7UGavg1rKa4gDzIfhHy
-        S2Hh+D4esuS/0ECE6dSboiimpFZhw+TYQPXD0V0o+GAFAJgRZ5PQXjI8qvUDQSIzCz6PDNDm5XRnQ
-        YtGu9lwFKFKquGp2hSqQTwE+R3AMUhfgzUvpxlxc9Bng6NyGUTn01pg/pUSO5vvVLOjuBUpYbEg9Z
-        2mjjm1PkTmWKQNQUAFAPNUAE0Xih+q9LZamKdUf2QhlFC58lEohFhKfEFSgHfP8UJ9MamnBM+WxUM
-        Z25qZw9De/n5ngD4Z94ee7Ye5JDQXflXuH8L5SFT/qDAJx9fCSCaI3H+t9NvduGfuBVLYlfFNRFN7
-        7ALuZkEg==;
-Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1on0dP-00FaWA-Nb; Mon, 24 Oct 2022 16:49:07 +0000
-Date:   Mon, 24 Oct 2022 17:49:07 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     syzbot <syzbot+f1eb7f33bbf683a5e1e1@syzkaller.appspotmail.com>
-Cc:     akpm@linux-foundation.org, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        syzkaller-bugs@googlegroups.com,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        linux-nilfs@vger.kernel.org
-Subject: Re: [syzbot] BUG: unable to handle kernel NULL pointer dereference
- in filemap_free_folio
-Message-ID: <Y1bCA416yQ9ZVHVQ@casper.infradead.org>
-References: <0000000000008e8b8505ebca6cc7@google.com>
+        Mon, 24 Oct 2022 17:18:37 -0400
+Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE19D57566;
+        Mon, 24 Oct 2022 12:24:48 -0700 (PDT)
+Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-369c2f83697so86961827b3.3;
+        Mon, 24 Oct 2022 12:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=YNQKfFH/J4u1O0RDYXKWFImeY+htr9CT0XG4blIptF8=;
+        b=BZ07ttqeleBSPnDK6U+YYl4PqDUBbDSEX+WjIwTCayimKOvCWQ7QJMsRTbYZsiVgqd
+         EPz3Kssuzqwb+DuV01u77FroRmxl2Oh6cZq5to1O1dgnkU1zmgohLPGe1Vnqvzt4EEfq
+         UidgeyS0Y9tA7MFOSRR/Hl408Q6977DSlBV5an5pjChLODwH4qrSLz+huTxqO2oeeugs
+         Y5lojn/s8STiv9jUlWIiLpxr1Ml7lBHDrgQGF6DCe76VDPmKxmi79ylCmm7nM5tyKHUQ
+         XKsULy6TfrVTx89x+MSxKDo6XFVnqqivPcXKUNiJ2AXL3gDfjx2EKDTvO6VMcUmcvqOP
+         zWwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YNQKfFH/J4u1O0RDYXKWFImeY+htr9CT0XG4blIptF8=;
+        b=uSaBudvZBCOVfJGC4D+t2LbZyvlAEhlwN3ldg41gLMXnoNZqGJLa7Q5+ZAN1li3wKl
+         i/BLpJg4HQLW0D71PvBb6PQaDxZfugRY0DneODCI//rcLYIr73LD2Tl/Bdy7o1mCtYcn
+         +pgIa709NnfnQvhtUAWQ2zjjpD53kwsTKi9bWSsSOX1FM5o2yncnkY2JphZJQofNjeGc
+         iZiZ8ThNnCVYInMr/hmbp2a4j490k87v7JrA2gq2sStwMy1MOEDYTkXIY3azcqJE3rhT
+         dF/WTX9oWSsX/NSGa7omRyXVW83YkSyxSOx0PmiVrwuYI7ggpP/j6Ri0SHUKcKOSkfjo
+         P2Nw==
+X-Gm-Message-State: ACrzQf1sow6xW7qEDrMWDW2ZdheyH8dL+c0ICSoWXkFXpmz06kjwfnGo
+        MtFkgkksokjWuLbPZGhq9dDaAPpNYES2uISH+eY8NC1uiRs=
+X-Google-Smtp-Source: AMsMyM4zQHncqMnc13JolI9a0bQPoGwvoozFFIXgkb0S+8TY5Wbz7IROxLSB7QZhSNOK0oJhcsH0Lm1a9opE48XevoI=
+X-Received: by 2002:a81:71c6:0:b0:36a:5682:2c44 with SMTP id
+ m189-20020a8171c6000000b0036a56822c44mr14280778ywc.308.1666639398914; Mon, 24
+ Oct 2022 12:23:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0000000000008e8b8505ebca6cc7@google.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+References: <20221017202451.4951-1-vishal.moola@gmail.com> <20221017202451.4951-18-vishal.moola@gmail.com>
+In-Reply-To: <20221017202451.4951-18-vishal.moola@gmail.com>
+From:   Vishal Moola <vishal.moola@gmail.com>
+Date:   Mon, 24 Oct 2022 12:23:07 -0700
+Message-ID: <CAOzc2pya9kuNYT3Uff3wVmrZ3JVSnFs2kwH5CK8ite6Qn67mRg@mail.gmail.com>
+Subject: Re: [PATCH v3 17/23] gfs2: Convert gfs2_write_cache_jdata() to use filemap_get_folios_tag()
+To:     linux-fsdevel@vger.kernel.org
+Cc:     linux-afs@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-nilfs@vger.kernel.org, linux-mm@kvack.org,
+        rpeterso@redhat.com, agruenba@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Adding the nilfs maintainers ...
+On Mon, Oct 17, 2022 at 1:25 PM Vishal Moola (Oracle)
+<vishal.moola@gmail.com> wrote:
+>
+> Converted function to use folios throughout. This is in preparation for
+> the removal of find_get_pgaes_range_tag().
+>
+> Also had to modify and rename gfs2_write_jdata_pagevec() to take in
+> and utilize folio_batch rather than pagevec and use folios rather
+> than pages. gfs2_write_jdata_batch() now supports large folios.
+>
+> Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+> ---
+>  fs/gfs2/aops.c | 64 +++++++++++++++++++++++++++-----------------------
+>  1 file changed, 35 insertions(+), 29 deletions(-)
+>
+> diff --git a/fs/gfs2/aops.c b/fs/gfs2/aops.c
+> index 05bee80ac7de..8f87c2551a3d 100644
+> --- a/fs/gfs2/aops.c
+> +++ b/fs/gfs2/aops.c
+> @@ -195,67 +195,71 @@ static int gfs2_writepages(struct address_space *mapping,
+>  }
+>
+>  /**
+> - * gfs2_write_jdata_pagevec - Write back a pagevec's worth of pages
+> + * gfs2_write_jdata_batch - Write back a folio batch's worth of folios
+>   * @mapping: The mapping
+>   * @wbc: The writeback control
+> - * @pvec: The vector of pages
+> - * @nr_pages: The number of pages to write
+> + * @fbatch: The batch of folios
+>   * @done_index: Page index
+>   *
+>   * Returns: non-zero if loop should terminate, zero otherwise
+>   */
+>
+> -static int gfs2_write_jdata_pagevec(struct address_space *mapping,
+> +static int gfs2_write_jdata_batch(struct address_space *mapping,
+>                                     struct writeback_control *wbc,
+> -                                   struct pagevec *pvec,
+> -                                   int nr_pages,
+> +                                   struct folio_batch *fbatch,
+>                                     pgoff_t *done_index)
+>  {
+>         struct inode *inode = mapping->host;
+>         struct gfs2_sbd *sdp = GFS2_SB(inode);
+> -       unsigned nrblocks = nr_pages * (PAGE_SIZE >> inode->i_blkbits);
+> +       unsigned nrblocks;
+>         int i;
+>         int ret;
+> +       int nr_pages = 0;
+> +       int nr_folios = folio_batch_count(fbatch);
+> +
+> +       for (i = 0; i < nr_folios; i++)
+> +               nr_pages += folio_nr_pages(fbatch->folios[i]);
+> +       nrblocks = nr_pages * (PAGE_SIZE >> inode->i_blkbits);
+>
+>         ret = gfs2_trans_begin(sdp, nrblocks, nrblocks);
+>         if (ret < 0)
+>                 return ret;
+>
+> -       for(i = 0; i < nr_pages; i++) {
+> -               struct page *page = pvec->pages[i];
+> +       for (i = 0; i < nr_folios; i++) {
+> +               struct folio *folio = fbatch->folios[i];
+>
+> -               *done_index = page->index;
+> +               *done_index = folio->index;
+>
+> -               lock_page(page);
+> +               folio_lock(folio);
+>
+> -               if (unlikely(page->mapping != mapping)) {
+> +               if (unlikely(folio->mapping != mapping)) {
+>  continue_unlock:
+> -                       unlock_page(page);
+> +                       folio_unlock(folio);
+>                         continue;
+>                 }
+>
+> -               if (!PageDirty(page)) {
+> +               if (!folio_test_dirty(folio)) {
+>                         /* someone wrote it for us */
+>                         goto continue_unlock;
+>                 }
+>
+> -               if (PageWriteback(page)) {
+> +               if (folio_test_writeback(folio)) {
+>                         if (wbc->sync_mode != WB_SYNC_NONE)
+> -                               wait_on_page_writeback(page);
+> +                               folio_wait_writeback(folio);
+>                         else
+>                                 goto continue_unlock;
+>                 }
+>
+> -               BUG_ON(PageWriteback(page));
+> -               if (!clear_page_dirty_for_io(page))
+> +               BUG_ON(folio_test_writeback(folio));
+> +               if (!folio_clear_dirty_for_io(folio))
+>                         goto continue_unlock;
+>
+>                 trace_wbc_writepage(wbc, inode_to_bdi(inode));
+>
+> -               ret = __gfs2_jdata_writepage(page, wbc);
+> +               ret = __gfs2_jdata_writepage(&folio->page, wbc);
+>                 if (unlikely(ret)) {
+>                         if (ret == AOP_WRITEPAGE_ACTIVATE) {
+> -                               unlock_page(page);
+> +                               folio_unlock(folio);
+>                                 ret = 0;
+>                         } else {
+>
+> @@ -268,7 +272,8 @@ static int gfs2_write_jdata_pagevec(struct address_space *mapping,
+>                                  * not be suitable for data integrity
+>                                  * writeout).
+>                                  */
+> -                               *done_index = page->index + 1;
+> +                               *done_index = folio->index +
+> +                                       folio_nr_pages(folio);
+>                                 ret = 1;
+>                                 break;
+>                         }
+> @@ -305,8 +310,8 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>  {
+>         int ret = 0;
+>         int done = 0;
+> -       struct pagevec pvec;
+> -       int nr_pages;
+> +       struct folio_batch fbatch;
+> +       int nr_folios;
+>         pgoff_t writeback_index;
+>         pgoff_t index;
+>         pgoff_t end;
+> @@ -315,7 +320,7 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>         int range_whole = 0;
+>         xa_mark_t tag;
+>
+> -       pagevec_init(&pvec);
+> +       folio_batch_init(&fbatch);
+>         if (wbc->range_cyclic) {
+>                 writeback_index = mapping->writeback_index; /* prev offset */
+>                 index = writeback_index;
+> @@ -341,17 +346,18 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>                 tag_pages_for_writeback(mapping, index, end);
+>         done_index = index;
+>         while (!done && (index <= end)) {
+> -               nr_pages = pagevec_lookup_range_tag(&pvec, mapping, &index, end,
+> -                               tag);
+> -               if (nr_pages == 0)
+> +               nr_folios = filemap_get_folios_tag(mapping, &index, end,
+> +                               tag, &fbatch);
+> +               if (nr_folios == 0)
+>                         break;
+>
+> -               ret = gfs2_write_jdata_pagevec(mapping, wbc, &pvec, nr_pages, &done_index);
+> +               ret = gfs2_write_jdata_batch(mapping, wbc, &fbatch,
+> +                               &done_index);
+>                 if (ret)
+>                         done = 1;
+>                 if (ret > 0)
+>                         ret = 0;
+> -               pagevec_release(&pvec);
+> +               folio_batch_release(&fbatch);
+>                 cond_resched();
+>         }
+>
+> --
+> 2.36.1
+>
 
-On Mon, Oct 24, 2022 at 09:38:40AM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
-> git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
-> console output: https://syzkaller.appspot.com/x/log.txt?x=15788ec2880000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
-> dashboard link: https://syzkaller.appspot.com/bug?extid=f1eb7f33bbf683a5e1e1
-> compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-> userspace arch: arm64
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+f1eb7f33bbf683a5e1e1@syzkaller.appspotmail.com
-> 
-> Unable to handle kernel NULL pointer dereference at virtual address 0000000000000050
-> Mem abort info:
->   ESR = 0x0000000096000005
->   EC = 0x25: DABT (current EL), IL = 32 bits
->   SET = 0, FnV = 0
->   EA = 0, S1PTW = 0
->   FSC = 0x05: level 1 translation fault
-> Data abort info:
->   ISV = 0, ISS = 0x00000005
->   CM = 0, WnR = 0
-> user pgtable: 4k pages, 48-bit VAs, pgdp=000000014a8d0000
-> [0000000000000050] pgd=08000001532c9003, p4d=08000001532c9003, pud=0000000000000000
-> Internal error: Oops: 0000000096000005 [#1] PREEMPT SMP
-> Modules linked in:
-> CPU: 0 PID: 3066 Comm: syz-executor.3 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
-> pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> pc : filemap_free_folio+0x20/0x288 mm/filemap.c:231
-> lr : filemap_free_folio+0x1c/0x288 mm/filemap.c:227
-> sp : ffff80001280b990
-> x29: ffff80001280b990 x28: ffff000117b4ea00 x27: 0000000000000000
-> x26: 0000000000000001 x25: ffff80000cb6fd9e x24: fffffffffffffffe
-> x23: 0000000000000000 x22: fffffc0004cfa8c0 x21: 0000000000000001
-> x20: ffff0001127af450 x19: fffffc0004cfa8c0 x18: 00000000000003b8
-> x17: ffff80000bffd6bc x16: 0000000000000002 x15: 0000000000000000
-> x14: 0000000000000000 x13: 0000000000000003 x12: ffff80000d5f02b0
-> x11: ff808000083c31e8 x10: 0000000000000000 x9 : ffff8000083c31e8
-> x8 : 0000000000000000 x7 : ffff80000856806c x6 : 0000000000000000
-> x5 : 0000000000000080 x4 : 0000000000000000 x3 : 0000000000000000
-> x2 : 0000000000000006 x1 : fffffc0004cfa8c0 x0 : ffff0001127af450
-> Call trace:
->  filemap_free_folio+0x20/0x288 mm/filemap.c:231
->  delete_from_page_cache_batch+0x148/0x184 mm/filemap.c:341
->  truncate_inode_pages_range+0x174/0xb94 mm/truncate.c:370
->  truncate_inode_pages mm/truncate.c:452 [inline]
->  truncate_inode_pages_final+0x8c/0x9c mm/truncate.c:487
->  nilfs_evict_inode+0x58/0x1cc fs/nilfs2/inode.c:906
->  evict+0xec/0x334 fs/inode.c:665
->  dispose_list fs/inode.c:698 [inline]
->  evict_inodes+0x2e0/0x354 fs/inode.c:748
->  generic_shutdown_super+0x50/0x190 fs/super.c:480
->  kill_block_super+0x30/0x78 fs/super.c:1427
->  deactivate_locked_super+0x70/0xe8 fs/super.c:332
->  deactivate_super+0xd0/0xd4 fs/super.c:363
->  cleanup_mnt+0x1f8/0x234 fs/namespace.c:1186
->  __cleanup_mnt+0x20/0x30 fs/namespace.c:1193
->  task_work_run+0xc4/0x14c kernel/task_work.c:177
->  resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
->  do_notify_resume+0x174/0x1f0 arch/arm64/kernel/signal.c:1127
->  prepare_exit_to_user_mode arch/arm64/kernel/entry-common.c:137 [inline]
->  exit_to_user_mode arch/arm64/kernel/entry-common.c:142 [inline]
->  el0_svc+0x9c/0x150 arch/arm64/kernel/entry-common.c:637
->  el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
->  el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
-> Code: aa0103f3 aa0003f4 97fb728c f940de88 (f9402914) 
-> ---[ end trace 0000000000000000 ]---
-> ----------------
-> Code disassembly (best guess):
->    0:	aa0103f3 	mov	x19, x1
->    4:	aa0003f4 	mov	x20, x0
->    8:	97fb728c 	bl	0xffffffffffedca38
->    c:	f940de88 	ldr	x8, [x20, #440]
-> * 10:	f9402914 	ldr	x20, [x8, #80] <-- trapping instruction
-
-As far as I can tell, this is:
-
-        free_folio = mapping->a_ops->free_folio;
-
-and the first dereference (mapping->a_ops) is offset 440 from mapping,
-which works fine, but is NULL.  So loading aops->free_folio is the
-NULL pointer dereference.
-
-So does nilfs have an address_space with a NULL a_ops?  That doesn't
-seem to be allowed; at least I don't see any checks of a_ops for
-being NULL in the rest of the VFS or MM.
+Would anyone familiar with gfs2 have time to look over this patch (17/23)?
+I've cc-ed the gfs2 supporters, feedback would be appreciated.
