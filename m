@@ -2,123 +2,97 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AC5560D2D2
-	for <lists+linux-nilfs@lfdr.de>; Tue, 25 Oct 2022 19:54:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D46060EF1E
+	for <lists+linux-nilfs@lfdr.de>; Thu, 27 Oct 2022 06:43:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232229AbiJYRys (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 25 Oct 2022 13:54:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60190 "EHLO
+        id S229379AbiJ0EnN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 27 Oct 2022 00:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232192AbiJYRyp (ORCPT
+        with ESMTP id S229473AbiJ0EnN (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 25 Oct 2022 13:54:45 -0400
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70867193D0
-        for <linux-nilfs@vger.kernel.org>; Tue, 25 Oct 2022 10:54:40 -0700 (PDT)
-Received: by mail-il1-f197.google.com with SMTP id n7-20020a056e02148700b002ffbfe5a9aeso6623944ilk.19
-        for <linux-nilfs@vger.kernel.org>; Tue, 25 Oct 2022 10:54:40 -0700 (PDT)
+        Thu, 27 Oct 2022 00:43:13 -0400
+Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0494156244;
+        Wed, 26 Oct 2022 21:43:11 -0700 (PDT)
+Received: by mail-pl1-x629.google.com with SMTP id d9so250345pll.7;
+        Wed, 26 Oct 2022 21:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=N0isRSvxKOUKWvo+ShVUDgJ9UCs7Mq+apMEV7CTZEMk=;
+        b=N2AJ9L/0qCKpQPijTw8x49MBqW2P0RpzCe8819sLrCro+2o24U/vLj05vRH3Q/mWIK
+         uMzgF2KBW+sOJtrHUxHojNiPKvKE14OsrchOSK/EiYNEzNj7xkzR0QYzH8m9XmW+llm7
+         V+a4NCGC+5B3c0bNLref33ejocHMoHVUbawBLStmL/qxkbAbk85YZKOhcRhFpIibxjOo
+         qmQ387RT1I9h9SD1esWs5cr+c+H1I1L6Ge6taNcWykUfVCcBrq+5RdbV/o1Ssr9/e+oP
+         Eg72UOZMWjax0G+DKrAqLy23+HHYAu5PCAkCfai7Vdixjax/Xm6elFn0qz+A0+eeTyoB
+         sntQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vwHXjbhutL7a6YaighTokFNLdwjSrZnOy4BnNjzimdM=;
-        b=ULVDGoEFVmdAq229O/8b0JPMObqaobUfllENVETCfGvs5CmY00uE371sHnxRLzkw7L
-         H5qRhazHzyicaRX7oeb4jUEAUQw26mhWCX5clUFtJgM5ohJ9Rm6VBmlWdvsFzOMS5R4G
-         +g+/8DX19Hv8eXs4vUOMYn/qV+2FQCIY0Wy/ZAsDbfYsDZKsJCXVvktoPk4tlwQqVCId
-         cwX+/46xn02aLdt6XWchd98YgdrJT3nfuCj6EwmIjEEZSTaSUPZtsLVlTstjgc9XjaO5
-         tIbjHlNCVhsGdcKhSxBNH79KwXrtx5nxSdUWiE7+G2M0d+iPWJaftZJB1j3Pwzt1KoSr
-         S+/w==
-X-Gm-Message-State: ACrzQf3CUpSYEr5sufDzUGRgj6G3EOQtBFzoZl1lpZnvhy635P/1KlEM
-        J540AGQDSeWNKI6G4iG1ML24WCipBe1yifeCC7cnykjPkWEE
-X-Google-Smtp-Source: AMsMyM6FiX21BrF6HEjMggVfjfXSIcSTwrZr+kHfFI/tbRjry3myG4A5pcmSLz8gqZTsPpB5ZcXK0Gd2jG8vaVU+uBbQAfDWTibO
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=N0isRSvxKOUKWvo+ShVUDgJ9UCs7Mq+apMEV7CTZEMk=;
+        b=8SHkeBwzlsc3E64M+k94orJts4LwcJ5xVB9IIL0i6Ez6Uka20hEN3Cx517IChHfq5+
+         Io+hMri809wSB+wXyl5vxYPoivZWG394773N6tB7uUCLjwYOhX4uefSKYQUUdQWLXQwR
+         wHz8AfXVib9YnXxvlnfAPD2mt5mSLlCGnKEdvScvG7v9AUr5uFDt8oJxcfnQfIZhSMQz
+         FHNekjnZeAWCkXqYDt7DyCmHPtIsmXJHl3HUWS5WPRk9lkqm0xJ26vGuK4poWCALqEJl
+         uBI7PGuoDFFD5SA3NkGE7pSZt2oKH2laJ0M7s5YIStBr9uX4/lcISJu/oFss89lQUCJ4
+         vo6A==
+X-Gm-Message-State: ACrzQf0urjKKw5NpoclpUyk+cRnNhT7b0Ia5Z6tUITS2okpMtZ4o8yOE
+        zfCpK6Pf+36E9KrNtZ5l21Y=
+X-Google-Smtp-Source: AMsMyM4rgdABOZ7G87wg1z2ZmiSU4FTB0mDsl/gKDZi09g0dgYADtvL8rnrohhIoq51iaQ/ZUfRZoA==
+X-Received: by 2002:a17:903:245:b0:178:e0ba:e507 with SMTP id j5-20020a170903024500b00178e0bae507mr49071531plh.115.1666845791170;
+        Wed, 26 Oct 2022 21:43:11 -0700 (PDT)
+Received: from carrot.. (i220-108-44-211.s42.a014.ap.plala.or.jp. [220.108.44.211])
+        by smtp.gmail.com with ESMTPSA id m4-20020a170902db0400b00186a2274382sm186929plx.76.2022.10.26.21.43.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Oct 2022 21:43:10 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        syzbot <syzbot+e91619dd4c11c4960706@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] nilfs2: fix UBSAN shift-out-of-bounds warnings on mount time
+Date:   Thu, 27 Oct 2022 13:43:04 +0900
+Message-Id: <20221027044306.42774-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-Received: by 2002:a5e:9e0a:0:b0:6c0:dbd0:cfac with SMTP id
- i10-20020a5e9e0a000000b006c0dbd0cfacmr1075436ioq.106.1666720479732; Tue, 25
- Oct 2022 10:54:39 -0700 (PDT)
-Date:   Tue, 25 Oct 2022 10:54:39 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000226f6d05ebdf9ab7@google.com>
-Subject: [syzbot] UBSAN: shift-out-of-bounds in nilfs_load_super_block
-From:   syzbot <syzbot+e91619dd4c11c4960706@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Hi Andrew,
 
-syzbot found the following issue on:
+please apply the following bug fixes to -mm tree:
 
-HEAD commit:    337a0a0b63f1 Merge tag 'net-6.1-rc3-1' of git://git.kernel..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1002c326880000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1d3548a4365ba17d
-dashboard link: https://syzkaller.appspot.com/bug?extid=e91619dd4c11c4960706
-compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1141be22880000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=114e6a22880000
+Ryusuke Konishi (2):
+  nilfs2: fix shift-out-of-bounds/overflow in nilfs_sb2_bad_offset()
+  nilfs2: fix shift-out-of-bounds due to too large exponent of block
+    size
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/c011f7e4e764/disk-337a0a0b.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d019c4ed2ed2/vmlinux-337a0a0b.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/c3f2dcdec39e/mount_0.gz
+The first patch fixes a reported bug by syzbot, and the second one
+fixes the remaining bug of the same kind.  Although they are triggered
+by the same super block data anomaly, I divided it into the above two
+because the details of the issues and how to fix it are different.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e91619dd4c11c4960706@syzkaller.appspotmail.com
+Both are required to eliminate the shift-out-of-bounds issues on mount time.
 
-loop0: detected capacity change from 0 to 4192
-================================================================================
-UBSAN: shift-out-of-bounds in fs/nilfs2/the_nilfs.c:449:46
-shift exponent 38983 is too large for 64-bit type 'unsigned long long'
-CPU: 0 PID: 3611 Comm: syz-executor485 Not tainted 6.1.0-rc2-syzkaller-00061-g337a0a0b63f1 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/11/2022
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:88 [inline]
- dump_stack_lvl+0x1b1/0x28e lib/dump_stack.c:106
- ubsan_epilogue lib/ubsan.c:151 [inline]
- __ubsan_handle_shift_out_of_bounds+0x33d/0x3b0 lib/ubsan.c:322
- nilfs_sb2_bad_offset fs/nilfs2/the_nilfs.c:449 [inline]
- nilfs_load_super_block+0xdf5/0xe00 fs/nilfs2/the_nilfs.c:523
- init_nilfs+0xb7/0x7d0 fs/nilfs2/the_nilfs.c:577
- nilfs_fill_super+0xb1/0x5d0 fs/nilfs2/super.c:1047
- nilfs_mount+0x613/0x9b0 fs/nilfs2/super.c:1317
- legacy_get_tree+0xea/0x180 fs/fs_context.c:610
- vfs_get_tree+0x88/0x270 fs/super.c:1530
- do_new_mount+0x289/0xad0 fs/namespace.c:3040
- do_mount fs/namespace.c:3383 [inline]
- __do_sys_mount fs/namespace.c:3591 [inline]
- __se_sys_mount+0x2d3/0x3c0 fs/namespace.c:3568
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f6d8986065a
-Code: 83 c4 08 5b 5d c3 66 2e 0f 1f 84 00 00 00 00 00 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 49 89 ca b8 a5 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff429054d8 EFLAGS: 00000286 ORIG_RAX: 00000000000000a5
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f6d8986065a
-RDX: 00000000200000c0 RSI: 0000000020000100 RDI: 00007fff429054f0
-RBP: 00007fff429054f0 R08: 00007fff42905530 R09: 00005555561872c0
-R10: 0000000000010400 R11: 0000000000000286 R12: 0000000000000004
-R13: 00007fff42905530 R14: 000000000000003a R15: 0000000020000770
- </TASK>
-================================================================================
+Thanks,
+Ryusuke Konishi
 
+ fs/nilfs2/the_nilfs.c | 73 ++++++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 65 insertions(+), 8 deletions(-)
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+-- 
+2.34.1
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this issue, for details see:
-https://goo.gl/tpsmEJ#testing-patches
