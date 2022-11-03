@@ -2,73 +2,73 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFE9561771F
-	for <lists+linux-nilfs@lfdr.de>; Thu,  3 Nov 2022 08:08:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1493617F45
+	for <lists+linux-nilfs@lfdr.de>; Thu,  3 Nov 2022 15:19:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229823AbiKCHIO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 3 Nov 2022 03:08:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43296 "EHLO
+        id S231687AbiKCOTk (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 3 Nov 2022 10:19:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbiKCHIN (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 3 Nov 2022 03:08:13 -0400
-Received: from mail-pl1-x629.google.com (mail-pl1-x629.google.com [IPv6:2607:f8b0:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BECF560EB
-        for <linux-nilfs@vger.kernel.org>; Thu,  3 Nov 2022 00:08:12 -0700 (PDT)
-Received: by mail-pl1-x629.google.com with SMTP id u6so1061970plq.12
-        for <linux-nilfs@vger.kernel.org>; Thu, 03 Nov 2022 00:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20210112.gappssmtp.com; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UCGx+I//h802HOEchXeQ4l9Uif7TwqahE8c/QVCmorA=;
-        b=Qo0pCYgx3Qq1H7gtsjTo9ahtaWGAPbAqpUUP7w83R+hioFcvnb/Vum4t6njrIqmCbQ
-         9oglIFHFznb8HWDOhJ8VqGBZno5DvMa/i9rWqzvIS3F1Qe6lSOVMpDruWh58G2ZJDVRR
-         +irGuRxsC3szEMLHnbBdSVWy+8gAtIi3/dsdlKShS4dWGsFcwevGYm9bbQNs76cqEy+l
-         a7aTzEEQgFxLLhP1XqsxI1o93xRoLeyOkLszg3jyihUg4tqsI4qRKCp463KDJruVxcER
-         uahSco4O56I/ia+N+pdnGxKbS5y4Jn6JIOipSvnU+FLMXl5F+IFO/pgiKOzrTt8rdoYE
-         jcgA==
+        with ESMTP id S231727AbiKCOT0 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 3 Nov 2022 10:19:26 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F82101FA
+        for <linux-nilfs@vger.kernel.org>; Thu,  3 Nov 2022 07:18:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1667485089;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=7sFhbFjsyed+EphiRBlueeREBkJAs1QiqobCz6ZZTfY=;
+        b=K+WxXayITKcz2e4xpEGpZZr1+QLKsNauZ4S7CS+kiOfMxUimslN9BX8wZ/PfRG/rU2kbk2
+        QeBwQ0fCY0TxqT7banXultIFaFovdEsEC1Fey0kaRaA7ztxlFXkUhALoQpoKJ3EGCPAzdJ
+        R+TH1gIjGBrqND75cK9FoS9HvIGcesg=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-464-CNkE3meeO0iO0VMoBM36Sg-1; Thu, 03 Nov 2022 10:18:08 -0400
+X-MC-Unique: CNkE3meeO0iO0VMoBM36Sg-1
+Received: by mail-pf1-f200.google.com with SMTP id f189-20020a6238c6000000b0056e3400fdc0so802004pfa.10
+        for <linux-nilfs@vger.kernel.org>; Thu, 03 Nov 2022 07:18:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UCGx+I//h802HOEchXeQ4l9Uif7TwqahE8c/QVCmorA=;
-        b=xZKdx7hdaCqXb80ZnHMWNpSeuyYD5LuaDde6S2Tclr+FYu/93JCfHwYm6LeCmAk3+v
-         a50I8MF+pT7JfZJiz3sro1845MjVXPBJfhZjSLSeVv+lHeW6u5jjpZWevCXEiFN176S+
-         TwehdfCNBPRnFAdpmz0ag3bVeTwTDXKoQYISYfBdQf6HVNbHmgGjo2iiXSTsD29h+U19
-         Ne/AIR95oUt7VcFpkdLAzk1GE3xj+0pPLI5FhXhRTG3YeCdQZjRCy94tDLKr8mWiUdcu
-         1EWbnY9Ht2glIH3iXjAVG4anAQND9j+tinzFns087H1S7KVP/0yqS+wfJglqAbtxWqCQ
-         kYWQ==
-X-Gm-Message-State: ACrzQf0H1MWBMhRshzgZgmegt5q7DUERGEnv1Go3mJIiZj+hpj7lfA9L
-        oopJxnUxP9vocZI9vtpe+aUbxA==
-X-Google-Smtp-Source: AMsMyM7EbTGuTativfwuYw+G5QrvaMpsSoYHAtMTN9boWfI/C7HSKjfDJIybcNCOqaRH/jY3hHhBSg==
-X-Received: by 2002:a17:902:ed8e:b0:187:1c78:80c2 with SMTP id e14-20020a170902ed8e00b001871c7880c2mr21606400plj.38.1667459292279;
-        Thu, 03 Nov 2022 00:08:12 -0700 (PDT)
-Received: from dread.disaster.area (pa49-181-106-210.pa.nsw.optusnet.com.au. [49.181.106.210])
-        by smtp.gmail.com with ESMTPSA id s7-20020a170902988700b00179e1f08634sm9438901plp.222.2022.11.03.00.08.11
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7sFhbFjsyed+EphiRBlueeREBkJAs1QiqobCz6ZZTfY=;
+        b=TmCwQ8Dew708044YEqzk5vNcCNEtQ8POnCJJDMaswV+7CNSlu0te0MakHvulzu8K56
+         POpGuvonVLrrDzr8EkwoA6lOFagHtD5AlOk7JN6PzzS/qxmDp10/fP1I5FvXW3YfBIFJ
+         5z7sb4bdlXtYv12/8JfOCP0tLonbP1zPdgXEJfKtneYrb4hCrmsLlGnMFQyfvAFwc898
+         PqRlrNv0A8t3RYejl93ob0S2Iaapa46kzz0gZcJmgMp4JGGglIT3hiKsPE3n1SLwmCjY
+         rzdJzhPRoH8Yz4Q678OpLXjfyNO6llyblHXMjQvhvva78CNhUuNOWi/KbDEjWPNO+5Dj
+         m9ug==
+X-Gm-Message-State: ACrzQf2+A/YuRbe5zeGkIDfkBhdZcg5uN9rvpKdLwPOBf584eQqWCDXp
+        jCTzw39itaxqvG8Ji90wMo5j/lj1BaYgCzkEO/wtZvKqpRjaLaX3YhSKk5xwTjMrIzLJhpJLyjO
+        iFf9Enr1Z0KD6/KkwvM5nd7A=
+X-Received: by 2002:a17:903:2411:b0:184:7159:dce6 with SMTP id e17-20020a170903241100b001847159dce6mr30858919plo.101.1667485086965;
+        Thu, 03 Nov 2022 07:18:06 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM6I/WFalNfYH/3sFbEjanTaxkxJ1wJL/15Zu/ebEfrCM+l4I16qNoEzd1/CBQMRz0CoooQADw==
+X-Received: by 2002:a17:903:2411:b0:184:7159:dce6 with SMTP id e17-20020a170903241100b001847159dce6mr30858903plo.101.1667485086707;
+        Thu, 03 Nov 2022 07:18:06 -0700 (PDT)
+Received: from ryzen.. ([240d:1a:c0d:9f00:fc9c:8ee9:e32c:2d9])
+        by smtp.gmail.com with ESMTPSA id gf7-20020a17090ac7c700b00214247989dfsm39222pjb.13.2022.11.03.07.18.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Nov 2022 00:08:11 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.92.3)
-        (envelope-from <david@fromorbit.com>)
-        id 1oqUKd-009gYz-VX; Thu, 03 Nov 2022 18:08:08 +1100
-Date:   Thu, 3 Nov 2022 18:08:07 +1100
-From:   Dave Chinner <david@fromorbit.com>
-To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
-Cc:     linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        cluster-devel@redhat.com, linux-nilfs@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: Re: [PATCH v4 00/23] Convert to filemap_get_folios_tag()
-Message-ID: <20221103070807.GX2703033@dread.disaster.area>
-References: <20221102161031.5820-1-vishal.moola@gmail.com>
+        Thu, 03 Nov 2022 07:18:06 -0700 (PDT)
+From:   Shigeru Yoshida <syoshida@redhat.com>
+To:     konishi.ryusuke@gmail.com
+Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com,
+        Shigeru Yoshida <syoshida@redhat.com>,
+        syzbot+f816fa82f8783f7a02bb@syzkaller.appspotmail.com
+Subject: [PATCH] nilfs: Avoid use-after-free caused by nilfs->ns_writer
+Date:   Thu,  3 Nov 2022 23:17:59 +0900
+Message-Id: <20221103141759.1836312-1-syoshida@redhat.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20221102161031.5820-1-vishal.moola@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,29 +76,75 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Nov 02, 2022 at 09:10:08AM -0700, Vishal Moola (Oracle) wrote:
-> This patch series replaces find_get_pages_range_tag() with
-> filemap_get_folios_tag(). This also allows the removal of multiple
-> calls to compound_head() throughout.
-> It also makes a good chunk of the straightforward conversions to folios,
-> and takes the opportunity to introduce a function that grabs a folio
-> from the pagecache.
-> 
-> F2fs and Ceph have quite a lot of work to be done regarding folios, so
-> for now those patches only have the changes necessary for the removal of
-> find_get_pages_range_tag(), and only support folios of size 1 (which is
-> all they use right now anyways).
-> 
-> I've run xfstests on btrfs, ext4, f2fs, and nilfs2, but more testing may be
-> beneficial. The page-writeback and filemap changes implicitly work. Testing
-> and review of the other changes (afs, ceph, cifs, gfs2) would be appreciated.
+syzbot reported use-after-free in nilfs_segctor_sync() [1].
 
-Same question as last time: have you tested this with multipage
-folios enabled? If you haven't tested XFS, then I'm guessing the
-answer is no, and you haven't fixed the bug I pointed out in
-the write_cache_pages() implementation....
+The use-after-free occurs with nilfs->ns_writer.  The scenario for the
+issue is as follows:
 
--Dave.
+Task1                                   Task2
+----------------------------------------------------------------------
+nilfs_construct_segment
+  nilfs_segctor_sync
+    init_wait
+    init_waitqueue_entry
+    add_wait_queue
+    schedule
+                                        nilfs_detach_log_writer
+                                          nilfs_segctor_destroy
+                                            kfree
+    finish_wait
+      _raw_spin_lock_irqsave
+        __raw_spin_lock_irqsave
+          do_raw_spin_lock
+            debug_spin_lock_before  <-- use-after-free
+
+While Task1 is sleeping, nilfs->ns_writer is freed by Task2.  After
+Task1 waked up, Task1 accesses nilfs->ns_writer which is already
+freed.
+
+This patch fixes the issue by taking nilfs->ns_segctor_sem in
+nilfs_construct_segment() so that nilfs->ns_segctor_sem cannot be
+freed while nilfs_segctor_sync() is sleeping.
+
+Link: https://syzkaller.appspot.com/bug?id=79a4c002e960419ca173d55e863bd09e8112df8b [1]
+Reported-by: syzbot+f816fa82f8783f7a02bb@syzkaller.appspotmail.com
+Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
+---
+ fs/nilfs2/segment.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index b4cebad21b48..d4f10d82664d 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -2239,16 +2239,24 @@ static void nilfs_segctor_wakeup(struct nilfs_sc_info *sci, int err)
+ int nilfs_construct_segment(struct super_block *sb)
+ {
+ 	struct the_nilfs *nilfs = sb->s_fs_info;
+-	struct nilfs_sc_info *sci = nilfs->ns_writer;
++	struct nilfs_sc_info *sci;
+ 	struct nilfs_transaction_info *ti;
++	int ret;
+ 
+-	if (!sci)
++	down_write(&nilfs->ns_segctor_sem);
++	sci = nilfs->ns_writer;
++	if (!sci) {
++		up_write(&nilfs->ns_segctor_sem);
+ 		return -EROFS;
++	}
+ 
+ 	/* A call inside transactions causes a deadlock. */
+ 	BUG_ON((ti = current->journal_info) && ti->ti_magic == NILFS_TI_MAGIC);
+ 
+-	return nilfs_segctor_sync(sci);
++	ret = nilfs_segctor_sync(sci);
++	up_write(&nilfs->ns_segctor_sem);
++
++	return ret;
+ }
+ 
+ /**
 -- 
-Dave Chinner
-david@fromorbit.com
+2.37.3
+
