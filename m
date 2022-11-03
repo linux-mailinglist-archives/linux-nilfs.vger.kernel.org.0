@@ -2,159 +2,121 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C945A618803
-	for <lists+linux-nilfs@lfdr.de>; Thu,  3 Nov 2022 19:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F17DA6189DB
+	for <lists+linux-nilfs@lfdr.de>; Thu,  3 Nov 2022 21:47:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230111AbiKCS4m (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 3 Nov 2022 14:56:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44666 "EHLO
+        id S231228AbiKCUr0 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 3 Nov 2022 16:47:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229699AbiKCS4l (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 3 Nov 2022 14:56:41 -0400
-Received: from mail-vs1-xe29.google.com (mail-vs1-xe29.google.com [IPv6:2607:f8b0:4864:20::e29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1AE31A20B;
-        Thu,  3 Nov 2022 11:56:37 -0700 (PDT)
-Received: by mail-vs1-xe29.google.com with SMTP id 1so2825433vsx.1;
-        Thu, 03 Nov 2022 11:56:37 -0700 (PDT)
+        with ESMTP id S230511AbiKCUrY (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 3 Nov 2022 16:47:24 -0400
+Received: from mail-pj1-x1033.google.com (mail-pj1-x1033.google.com [IPv6:2607:f8b0:4864:20::1033])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 008A72099A
+        for <linux-nilfs@vger.kernel.org>; Thu,  3 Nov 2022 13:47:22 -0700 (PDT)
+Received: by mail-pj1-x1033.google.com with SMTP id f5-20020a17090a4a8500b002131bb59d61so6169235pjh.1
+        for <linux-nilfs@vger.kernel.org>; Thu, 03 Nov 2022 13:47:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=M8ZxHqehtSCexx7BuFI+vfJrqxKMqvMHNZW3sS2W088=;
-        b=hzVuz5H1Uuyy09qJnT5S06m90RimROo1ozi4238CG0WyXBBA2ahhB0DALa4dpmelRB
-         48BZQzxH3RpCyvXiIL9Bo3KXdgY1hiK2SSS2j//wwyJ1Tc90BZgXsg7Slqi00T6efCAs
-         5mgn/lU1S1wkmZ8993YnKF2QbGB54EiwUUXKuKnQAdWVTFqMDhKVKWGAKVzXjMGyASto
-         kKJC9470nqwB0l3e5TAmZUI+rMZ0yUIL8ML2Upaobi+xrb1W8AzEZM/LOtpJS7JnSwyI
-         xZB5VQGZLRxijAeedTSvRPw9lwiqwVzNujzDTE44+HuNCxTSOK+Jgq0gDwUeCLZc+miY
-         6ETA==
+        d=fromorbit-com.20210112.gappssmtp.com; s=20210112;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MxS/4UcS9QV06TA42jz+n7cPJ0B1Da1lpvr3ubjc6GY=;
+        b=cuP5UtrVPLmPkgDyIU7nXUWip6wPNwEQX83eaiYzuSaa/NwaBOHxdiCCYvHyd3mrWb
+         UX4IYw78zXIF0mMu0R7qDreIqrr7PvviOTacDCidW9f3UUssGYk9RosDNLvY+hm88Tz8
+         hEooCKFouHczA6F3wBjXPLYrpYIszUEwnYnlDxkOvhuNi8oE//fz5w1SOEhhUUoWt77E
+         pAHn5L/ZZzWw3HkpcasZr6hnf6O/XMcGhjxvLwJ33vohngsJ1KBKVvIfn+XAYIa1YRVX
+         Vkpw4CNDgLSlpQfjW7+15/HKqs/xOt8+2WdHOo1jGBPReCKhIlOzYbvvyYROh/eydkAD
+         rc0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M8ZxHqehtSCexx7BuFI+vfJrqxKMqvMHNZW3sS2W088=;
-        b=5lpZVaJgqyu4UuF4CivFkHvP9wOywo/GEDIziSq4SFOFUKi8g+hj3YoFLT4j2UZoi6
-         7FauPKclTlvPSwQlQw2rcAr0VjSukKyRjXsGE6Np2Bit/QLiqYrQLTiYPpzfjPAj+YWY
-         JxGJsrE7azUwx9EzAUXLuE5wSkl2H/v3Pxui/XJVE4oP26xilCNtvo85OZTGr8DaV2u6
-         ZG9Krszu9WmAwcHraajhMutwqBXI0UbK+IslPOOiu5G3Ip6IWuwyWcwav6YMpSXxH2OP
-         qXkImVah7/FiF41sWQKAI7qbHN10QssmxBth0rbGGxT3tS3stmbh9cUaOqAvMx9ceyhb
-         R2ew==
-X-Gm-Message-State: ACrzQf0BdWvxviFiRNTyXEecYjvjnk0eBt+GWOwVlYXdzE2XyJjuQvPB
-        p1nZWjuTgrrI8taweriTeOKKz7AoZcx+r6fCHDc=
-X-Google-Smtp-Source: AMsMyM6E2K+/y8wl95FqQHuOdSXOP5o7JeYLQpxMn8AkU2QaTNL8Zumsne6PSnVW65VYTS1f/nOZWzVzjPJfHow+R4I=
-X-Received: by 2002:a67:db0d:0:b0:3aa:12be:c26c with SMTP id
- z13-20020a67db0d000000b003aa12bec26cmr18044287vsj.26.1667501796654; Thu, 03
- Nov 2022 11:56:36 -0700 (PDT)
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MxS/4UcS9QV06TA42jz+n7cPJ0B1Da1lpvr3ubjc6GY=;
+        b=elCYQSDVwKnCWjQPjJecnwnH6eVGXa7yROSK58FCAk9Ugu5Uw6T+zKQ0KeArHNf8nL
+         ycW0MA2rdsGCoLoyxQvoOJUkjmjfdjY4Fk6GWkThAWvDhwe1gyeGMMXl4PuDbhZMScbY
+         cr2l7SoHzLKChN6hlYurMxwX325+AlFMAvLmVAyl8GYWex/10lL/tN2L/1jNcI6pTmRv
+         A4jn6aG0oLkvQF6+2uMI8tMEcJzRZvkhd2QEFhhyG9G2zm4NkNmQECPWgPMpYl3GGc5o
+         Zu89HcYgb3FJgBJZ2P5q27jviLkHdi8UUEjmEYelLaWJ3QP8T8vwuop2Umrj275cGa3C
+         0jmQ==
+X-Gm-Message-State: ACrzQf0ovrfCmA46JxpK0BuGCYtw6h/ZKQI01XuZGougH+QZOt/66H1P
+        ziM6Gd25tibHqWE3QgNhQHWPJA==
+X-Google-Smtp-Source: AMsMyM5GUtVQUrVsmSVgFmsiPB/ae+Y5AFUcecj0KBZFMpN2UeC1Le+3w3RaW8dan20LGNVVX2XxhA==
+X-Received: by 2002:a17:90a:5781:b0:20a:9962:bb4a with SMTP id g1-20020a17090a578100b0020a9962bb4amr49118773pji.185.1667508442530;
+        Thu, 03 Nov 2022 13:47:22 -0700 (PDT)
+Received: from dread.disaster.area (pa49-181-106-210.pa.nsw.optusnet.com.au. [49.181.106.210])
+        by smtp.gmail.com with ESMTPSA id y12-20020aa78f2c000000b00561b455267fsm1205656pfr.27.2022.11.03.13.47.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Nov 2022 13:47:22 -0700 (PDT)
+Received: from dave by dread.disaster.area with local (Exim 4.92.3)
+        (envelope-from <david@fromorbit.com>)
+        id 1oqh7P-009uXX-4a; Fri, 04 Nov 2022 07:47:19 +1100
+Date:   Fri, 4 Nov 2022 07:47:19 +1100
+From:   Dave Chinner <david@fromorbit.com>
+To:     Vishal Moola <vishal.moola@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-btrfs@vger.kernel.org,
+        ceph-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+        cluster-devel@redhat.com, linux-nilfs@vger.kernel.org,
+        linux-mm@kvack.org
+Subject: Re: [PATCH v4 00/23] Convert to filemap_get_folios_tag()
+Message-ID: <20221103204719.GY2703033@dread.disaster.area>
+References: <20221102161031.5820-1-vishal.moola@gmail.com>
+ <20221103070807.GX2703033@dread.disaster.area>
+ <CAOzc2pzFMU-XiGZ9bsp40JkpYVSzQuxs2VXgfw_p9abkj4GrFw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20221103141759.1836312-1-syoshida@redhat.com>
-In-Reply-To: <20221103141759.1836312-1-syoshida@redhat.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 4 Nov 2022 03:56:19 +0900
-Message-ID: <CAKFNMonawKi4b4G1d3CfJ6-+NLFOqVkHzNOO_5DocAJxGnkz7A@mail.gmail.com>
-Subject: Re: [PATCH] nilfs: Avoid use-after-free caused by nilfs->ns_writer
-To:     Shigeru Yoshida <syoshida@redhat.com>
-Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com,
-        syzbot+f816fa82f8783f7a02bb@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAOzc2pzFMU-XiGZ9bsp40JkpYVSzQuxs2VXgfw_p9abkj4GrFw@mail.gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, Nov 3, 2022 at 11:18 PM Shigeru Yoshida wrote:
->
-> syzbot reported use-after-free in nilfs_segctor_sync() [1].
->
-> The use-after-free occurs with nilfs->ns_writer.  The scenario for the
-> issue is as follows:
->
-> Task1                                   Task2
-> ----------------------------------------------------------------------
-> nilfs_construct_segment
->   nilfs_segctor_sync
->     init_wait
->     init_waitqueue_entry
->     add_wait_queue
->     schedule
->                                         nilfs_detach_log_writer
->                                           nilfs_segctor_destroy
->                                             kfree
->     finish_wait
->       _raw_spin_lock_irqsave
->         __raw_spin_lock_irqsave
->           do_raw_spin_lock
->             debug_spin_lock_before  <-- use-after-free
->
-> While Task1 is sleeping, nilfs->ns_writer is freed by Task2.  After
-> Task1 waked up, Task1 accesses nilfs->ns_writer which is already
-> freed.
->
-> This patch fixes the issue by taking nilfs->ns_segctor_sem in
-> nilfs_construct_segment() so that nilfs->ns_segctor_sem cannot be
-> freed while nilfs_segctor_sync() is sleeping.
->
-> Link: https://syzkaller.appspot.com/bug?id=79a4c002e960419ca173d55e863bd09e8112df8b [1]
-> Reported-by: syzbot+f816fa82f8783f7a02bb@syzkaller.appspotmail.com
-> Signed-off-by: Shigeru Yoshida <syoshida@redhat.com>
-> ---
->  fs/nilfs2/segment.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-> index b4cebad21b48..d4f10d82664d 100644
-> --- a/fs/nilfs2/segment.c
-> +++ b/fs/nilfs2/segment.c
-> @@ -2239,16 +2239,24 @@ static void nilfs_segctor_wakeup(struct nilfs_sc_info *sci, int err)
->  int nilfs_construct_segment(struct super_block *sb)
->  {
->         struct the_nilfs *nilfs = sb->s_fs_info;
-> -       struct nilfs_sc_info *sci = nilfs->ns_writer;
-> +       struct nilfs_sc_info *sci;
->         struct nilfs_transaction_info *ti;
-> +       int ret;
->
-> -       if (!sci)
-> +       down_write(&nilfs->ns_segctor_sem);
-> +       sci = nilfs->ns_writer;
-> +       if (!sci) {
-> +               up_write(&nilfs->ns_segctor_sem);
->                 return -EROFS;
-> +       }
->
->         /* A call inside transactions causes a deadlock. */
->         BUG_ON((ti = current->journal_info) && ti->ti_magic == NILFS_TI_MAGIC);
->
-> -       return nilfs_segctor_sync(sci);
-> +       ret = nilfs_segctor_sync(sci);
-> +       up_write(&nilfs->ns_segctor_sem);
-> +
-> +       return ret;
->  }
->
->  /**
-> --
-> 2.37.3
->
+On Thu, Nov 03, 2022 at 09:38:48AM -0700, Vishal Moola wrote:
+> On Thu, Nov 3, 2022 at 12:08 AM Dave Chinner <david@fromorbit.com> wrote:
+> >
+> > On Wed, Nov 02, 2022 at 09:10:08AM -0700, Vishal Moola (Oracle) wrote:
+> > > This patch series replaces find_get_pages_range_tag() with
+> > > filemap_get_folios_tag(). This also allows the removal of multiple
+> > > calls to compound_head() throughout.
+> > > It also makes a good chunk of the straightforward conversions to folios,
+> > > and takes the opportunity to introduce a function that grabs a folio
+> > > from the pagecache.
+> > >
+> > > F2fs and Ceph have quite a lot of work to be done regarding folios, so
+> > > for now those patches only have the changes necessary for the removal of
+> > > find_get_pages_range_tag(), and only support folios of size 1 (which is
+> > > all they use right now anyways).
+> > >
+> > > I've run xfstests on btrfs, ext4, f2fs, and nilfs2, but more testing may be
+> > > beneficial. The page-writeback and filemap changes implicitly work. Testing
+> > > and review of the other changes (afs, ceph, cifs, gfs2) would be appreciated.
+> >
+> > Same question as last time: have you tested this with multipage
+> > folios enabled? If you haven't tested XFS, then I'm guessing the
+> > answer is no, and you haven't fixed the bug I pointed out in
+> > the write_cache_pages() implementation....
+> >
+> 
+> I haven't tested the series with multipage folios or XFS.
+> 
+> I don't seem to have gotten your earlier comments, and I
+> can't seem to find them on the mailing lists. Could you
+> please send them again so I can take a look?
 
-Thank you for your help Yoshida-san.
+They are in the lore -fsdevel archive - no idea why you couldn't
+find them....
 
-Your analysis of the bug cause is quite correct.
+https://lore.kernel.org/linux-fsdevel/20221018210152.GH2703033@dread.disaster.area/
+https://lore.kernel.org/linux-fsdevel/20221018214544.GI2703033@dread.disaster.area/
 
-However, this patch caused deadlock for tests with fsync() or mkcp
-command (i.e. nilfs_ioctl_sync).
-They both call nilfs_construct_segment().
-The approach implemented in this patch may not avoid the deadlock regression.
-
-I'd like to consider other approaches.
-My current thoughts are either to stop detaching ns_writer on remount
-which is the root cause of the UAF races, or to introduce a refcount
-on struct nilfs_sc_info.
-
-Regards,
-Ryusuke Konishi
+-Dave.
+-- 
+Dave Chinner
+david@fromorbit.com
