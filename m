@@ -2,80 +2,73 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 02C9C61D7BD
-	for <lists+linux-nilfs@lfdr.de>; Sat,  5 Nov 2022 07:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA92761DA10
+	for <lists+linux-nilfs@lfdr.de>; Sat,  5 Nov 2022 13:39:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229842AbiKEGCW (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 5 Nov 2022 02:02:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60138 "EHLO
+        id S229779AbiKEMjO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 5 Nov 2022 08:39:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbiKEGBf (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 5 Nov 2022 02:01:35 -0400
-Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D455531340;
-        Fri,  4 Nov 2022 23:01:33 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ams.source.kernel.org (Postfix) with ESMTPS id 871CFB830BB;
-        Sat,  5 Nov 2022 06:01:32 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40710C433D6;
-        Sat,  5 Nov 2022 06:01:31 +0000 (UTC)
-Received: from rostedt by gandalf.local.home with local (Exim 4.96)
-        (envelope-from <rostedt@goodmis.org>)
-        id 1orCFj-007OsN-1L;
-        Sat, 05 Nov 2022 02:01:59 -0400
-Message-ID: <20221105060159.247328506@goodmis.org>
-User-Agent: quilt/0.66
-Date:   Sat, 05 Nov 2022 02:00:48 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs@vger.kernel.org,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Subject: [PATCH v4a 24/38] timers: fs/nilfs2: Use timer_shutdown_sync() before freeing timer
-References: <20221105060024.598488967@goodmis.org>
+        with ESMTP id S229782AbiKEMjC (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 5 Nov 2022 08:39:02 -0400
+Received: from mail-oi1-x22f.google.com (mail-oi1-x22f.google.com [IPv6:2607:f8b0:4864:20::22f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 874EA1742C
+        for <linux-nilfs@vger.kernel.org>; Sat,  5 Nov 2022 05:39:01 -0700 (PDT)
+Received: by mail-oi1-x22f.google.com with SMTP id s206so7818787oie.3
+        for <linux-nilfs@vger.kernel.org>; Sat, 05 Nov 2022 05:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=ZV2TcGDoVIbq1v5Mx1L1rUnUNhUQbze72wuOuh+wa69lbnQcoFfWFbkhfb7gZAMr2W
+         ByUyHxmNJ+EgAzfkEbgt2p4DOLQzRBGtUuogzeUQqAM9RqI4JEUvU9sSGNzhT5Afew3Q
+         d4OngWwLOFgISkd6x5vooHRKK9Az4aJczFzroYPLH7Dt+vGVCRowVZ5uZAV52Cgy+A2F
+         D3j8/lIwVLi3bxecncjVVFxwzOJ1xg3DK6jhFVflm1wFbGzu0e/ikP7247t4mqip1Jkf
+         Njk6WVMatLJ/Jf10pKJi5H9vXXx7mlCmIY7ZKhF8dEeWXppRLVuVdsqFZujt6LQJeXIn
+         5+hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c8XA1N0uaxkLO/wKHErNWHaSuu64k5Pjb5u9dmcZrOc=;
+        b=VhPZx9bmVPfS/C3n9WgAG6rBY0YT7MNmksT93hR6Vy6COHXvcSuHfYhPc2hwkNRsMK
+         81Wz+8GsyBS3d20kmI36zDGqwy9RI3Ecb+ddKwcaypoQXd5VK8ymQiAVrzm6bwSX3XB/
+         RbVel4Vq1wEGIsaWATSqzaXvGKgPmzPD5YfedgYeQUaA9AI/PVvAlDodokZUX1y+09yG
+         uC54rNhLPtTwzn1UoppaRab3R8TJ2UCydIAncLZSAtYPk3Dbbwc9uIuLPfvW4CuvLtF1
+         /uGt09NjlsVmvzHdr9chiUfgxIhWOhAgGKPt4DwewW7n9G6yTq6GW7XsLI41Y577+24Y
+         lxSA==
+X-Gm-Message-State: ACrzQf0lTRD0UtKcXaFhTlpK6NKbM9nz/3WQ99fs4bQH09mWBUh9DkDl
+        1nTMCzlharB7Ld3+ncsvzBp/tiyuuiM216hzSTnosi5Xxq4=
+X-Google-Smtp-Source: AMsMyM4kXiQfEHD7xTnbuAFjuPJHm46vGSi/KRiuWhPRjTwiHbLpMEWmL5EuXvVkMsm5T5CXDTvs4U+iY+YcWl58B1s=
+X-Received: by 2002:a17:90b:4ac3:b0:213:3918:f276 with SMTP id
+ mh3-20020a17090b4ac300b002133918f276mr57019553pjb.19.1667651930232; Sat, 05
+ Nov 2022 05:38:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a05:7301:2e91:b0:83:922d:c616 with HTTP; Sat, 5 Nov 2022
+ 05:38:49 -0700 (PDT)
+Reply-To: stefanopessia755@hotmail.com
+From:   Stefano Pessina <wamathaibenard@gmail.com>
+Date:   Sat, 5 Nov 2022 15:38:49 +0300
+Message-ID: <CAN7bvZJ4rp_NOu942tGepXyrWhRuYBiZxGOwGAGice4B=GS3aA@mail.gmail.com>
+Subject: Geldspende
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: "Steven Rostedt (Google)" <rostedt@goodmis.org>
-
-Before a timer is freed, timer_shutdown_sync() must be called.
-
-Link: https://lore.kernel.org/all/20221104054053.431922658@goodmis.org/
-
-Cc: linux-nilfs@vger.kernel.org
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Signed-off-by: Steven Rostedt (Google) <rostedt@goodmis.org>
----
- fs/nilfs2/segment.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index b4cebad21b48..c50dc377da26 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -2752,7 +2752,7 @@ static void nilfs_segctor_destroy(struct nilfs_sc_info *sci)
- 
- 	down_write(&nilfs->ns_segctor_sem);
- 
--	del_timer_sync(&sci->sc_timer);
-+	timer_shutdown_sync(&sci->sc_timer);
- 	kfree(sci);
- }
- 
--- 
-2.35.1
+--=20
+Die Summe von 500.000,00 =E2=82=AC wurde Ihnen von STEFANO PESSINA gespende=
+t.
+Bitte kontaktieren Sie uns f=C3=BCr weitere Informationen =C3=BCber
+stefanopessia755@hotmail.com
