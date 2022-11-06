@@ -2,167 +2,221 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C657D61E2F9
-	for <lists+linux-nilfs@lfdr.de>; Sun,  6 Nov 2022 16:27:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED4EC61E399
+	for <lists+linux-nilfs@lfdr.de>; Sun,  6 Nov 2022 18:02:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229832AbiKFP1w (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 6 Nov 2022 10:27:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41468 "EHLO
+        id S230116AbiKFRCq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 6 Nov 2022 12:02:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbiKFP1v (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 6 Nov 2022 10:27:51 -0500
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B89796157;
-        Sun,  6 Nov 2022 07:27:49 -0800 (PST)
-Received: by mail-ua1-x92b.google.com with SMTP id x20so3463295ual.6;
-        Sun, 06 Nov 2022 07:27:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=RNuv1ZoU6kI7p8n+YWyl/HbSlD2LruLzUh3Rh2IVAvM=;
-        b=EXEsz9rmq8O0qE9iEsoEEgMyKY22kIW45QgenZPz5Gf/HZrzFC6zAlb8qfZHbVuKKJ
-         pFx586iFeA6o3QmQb/l5NvKUdSxFhId5dH2Kh1A7fL5B1Fs9C61CYURgWQMQRY8uFwzo
-         rGun95UD43/hrVco8BUYFa5NHAop6pr4B+GQZTdmzeGj+CSujty9g4xHR+vQCFfUIzXe
-         9aW6J+JpSXKTqw6Y/UJOvCn2DeQT544OXwcYF4vJOh4uH8jUBh0wtgvBvECmLaJI9XTh
-         /+Dv+tD3AxdiAKCut3+jykDmLLTZ5xZJs7ZupH26dUYDP8ug6sVtFHvUpC22/aQ92qQp
-         GcPw==
+        with ESMTP id S229952AbiKFRCq (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 6 Nov 2022 12:02:46 -0500
+Received: from mail-il1-f200.google.com (mail-il1-f200.google.com [209.85.166.200])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACDE0DEC1
+        for <linux-nilfs@vger.kernel.org>; Sun,  6 Nov 2022 09:02:44 -0800 (PST)
+Received: by mail-il1-f200.google.com with SMTP id o13-20020a056e0214cd00b00300a27f9424so7238601ilk.10
+        for <linux-nilfs@vger.kernel.org>; Sun, 06 Nov 2022 09:02:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RNuv1ZoU6kI7p8n+YWyl/HbSlD2LruLzUh3Rh2IVAvM=;
-        b=TZ7gCzSwLn4AyGU/pxs1nvSP1DhOI/gxJt3WQcdzDv++6GZJFwCLvKFC8JJ8CdghZW
-         raZSyAfQVtYRGISNIB+Lqdivo5CWvLqkmc0AZFyH8bLro5sWOX3PcvOPhSez4eDNqQgd
-         ipB8LvHNZLMoqY7830gdGox/orNmNVzEm1KPOzQkL1f8jrxRu6P/X83la+8lYE1ZANNA
-         Urjhn9MWFqAiIHOObpoN4obycJNbJs1vXbQgCE94oFBsBf/aTMf4RQtGZOEAs+lhG9hS
-         oWyXGsY4dwEbXyF3L29wKg8fGEAU5518hWViOdArU73y+A1e6wb7FPEWMxCWsSvUZBHY
-         FweQ==
-X-Gm-Message-State: ACrzQf0u6foJb5HeB5XQ66kgIkUr0uWRlUCWPhxfhmEE0/z9Fmf+5uRw
-        jNTBZnl7SqVMtRXsS13RvqNR5U1ysZq2nxOLF6u56nu9XUw=
-X-Google-Smtp-Source: AMsMyM4hyVH7ZUGTo5T7bnWTfkWirnMSsrQupQW5gwSBP/HdiM1fnhaynEuvRwuQ3zf2Z2RAVVTAkKlAqIYIQGJJm5g=
-X-Received: by 2002:ab0:2651:0:b0:3b8:4a1a:5a63 with SMTP id
- q17-20020ab02651000000b003b84a1a5a63mr12449151uao.110.1667748468725; Sun, 06
- Nov 2022 07:27:48 -0800 (PST)
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xDlgrcD9SJudmDD1gRBTi5Y8bQBy1VzLs9hI0NPdXGI=;
+        b=V+bWpkrLjdYhZBYI6tAQL/GmMFSrUt58wYx7ShgnYllq9IRyQK5i0cJHXSLTYDQh+K
+         1xG+q2vZDpLd98QA/5dmTDFdF74tEFy5oW4WigXAyeZgi+m2VC+9o78LFw2DgcZNosT1
+         K3SnwPHqICrsNG0wWJqkQGBx3nCvH4TnlN4W7/1a/MC6F7jD+BBdCdDJI7onUQM/OXso
+         jYnzSUi+Q8uQG77S1m5U7Mi6KWeE2hHC7r50yjPLvZ6USy3GS9OqmN4f27TqzHTWSS0v
+         An5mn+P/6h6IUYdLZC9N//Xkc1JV3P0RJKI3IkS+qKVH12ayTdlm7VvKXW14MSjqRn6d
+         t+FA==
+X-Gm-Message-State: ACrzQf1CIq4z+amlJwYK/zzxk4Olbr3Z5IW/0UnJ75hk8Ln7Y+X2+G96
+        ln6T3ffEWTMo1BlUjOzbwYS2ehK1TcxszHjx4jPjR2Iedfx4
+X-Google-Smtp-Source: AMsMyM56fwOx8861UTxK4qSyQZl5N6L1EQbcWeXxtZ+QaPkk+xiq1qyy/jViN7eAl81n6cCz/EptW0k4nq90te05ZFCKKkmWI6Po
 MIME-Version: 1.0
-References: <45076368.fMDQidcC6G@jaydesktop>
-In-Reply-To: <45076368.fMDQidcC6G@jaydesktop>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Mon, 7 Nov 2022 00:27:32 +0900
-Message-ID: <CAKFNMo=gWHLJU0KyM-YES=qk-yZEAxBEFDTzuN50zFttRZ4ceQ@mail.gmail.com>
-Subject: Re: [BUG] fs: nilfs2: Null dereference in nilfs_grab_buffer
-To:     wuhoipok@gmail.com
-Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
+X-Received: by 2002:a02:b10c:0:b0:375:8839:bd9a with SMTP id
+ r12-20020a02b10c000000b003758839bd9amr12128205jah.177.1667754164066; Sun, 06
+ Nov 2022 09:02:44 -0800 (PST)
+Date:   Sun, 06 Nov 2022 09:02:44 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000859fca05ecd04647@google.com>
+Subject: [syzbot] WARNING: locking bug in nilfs_palloc_destroy_cache
+From:   syzbot <syzbot+52bf723c703aa9b88640@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sun, Nov 6, 2022 at 11:58 PM wrote:
->
-> Hi, upon my investigation of a bug reported by syzbot with the following link.
->
-> https://syzkaller.appspot.com/bug?id=c7c4748e11ffcc367cef04f76e02e931833cbd24
->
-> By enabling event tracing running the c repro, touch_buffer(bh) would panic
-> the kernel with handling NULL pointer dereference, it is because the
-> buffer_header does not have a block device pointing to. The problem is that I
-> do not know if this is a defined behaviour of buffer_header, I am
-> inexperienced here. I would post the panic message down here.
->
-> [  155.995180][ T6861] loop0: detected capacity change from 0 to 2048
-> [  156.018325][ T6861] NILFS (loop0): broken superblock, retrying with spare
-> superblock (blocksize = 1024)
-> [  156.089921][ T6861] Unable to handle kernel NULL pointer dereference at
-> virtual address 0000000000000024
-> [  156.091476][ T6861] Mem abort info:
-> [  156.092114][ T6861]   ESR = 0x0000000096000006
-> [  156.096162][ T6861]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [  156.100850][ T6861]   SET = 0, FnV = 0
-> [  156.104732][ T6861]   EA = 0, S1PTW = 0
-> [  156.108397][ T6861]   FSC = 0x06: level 2 translation fault
-> [  156.113937][ T6861] Data abort info:
-> [  156.120935][ T6861]   ISV = 0, ISS = 0x00000006
-> [  156.127581][ T6861]   CM = 0, WnR = 0
-> [  156.134563][ T6861] user pgtable: 4k pages, 48-bit VAs,
-> pgdp=000000011353c000
-> [  156.141306][ T6861] [0000000000000024] pgd=080000010d35a003,
-> p4d=080000010d35a003, pud=080000010ecfb003, pmd=0000000000000000
-> [  156.149362][ T6861] Internal error: Oops: 0000000096000006 [#1] PREEMPT SMP
-> [  156.155439][ T6861] Modules linked in:
-> [  156.160673][ T6861] CPU: 6 PID: 6861 Comm: repro Not tainted 6.1.0-rc3-
-> next-20221104 #38
-> [  156.164042][ T6861] Hardware name: linux,dummy-virt (DT)
-> [  156.169001][ T6861] pstate: 00400005 (nzcv daif +PAN -UAO -TCO -DIT -SSBS
-> BTYPE=--)
-> [  156.174568][ T6861] pc : trace_event_raw_event_block_buffer+0x64/0xc0
-> [  156.180880][ T6861] lr : trace_event_raw_event_block_buffer+0x54/0xc0
-> [  156.184271][ T6861] sp : ffff80000fe73810
-> [  156.187185][ T6861] x29: ffff80000fe73810 x28: 0000000000000000 x27:
-> 00000000000000c0
-> [  156.191900][ T6861] x26: 0000000000000000 x25: 0000000000000000 x24:
-> 0000000000000000
-> [  156.197326][ T6861] x23: ffff0000cd36ce00 x22: ffff80000bd49000 x21:
-> ffff80000bd49368
-> [  156.202531][ T6861] x20: ffff0000c00c6580 x19: ffff0000cdf172a0 x18:
-> 0000000000000000
-> [  156.208112][ T6861] x17: 0000000000000000 x16: 0000000000000519 x15:
-> 0000000000000001
-> [  156.212665][ T6861] x14: 0000000000000002 x13: 00000000000278a7 x12:
-> 0000000000100000
-> [  156.217123][ T6861] x11: 0000000000100000 x10: 0000000000000000 x9 :
-> ffff80000ce98000
-> [  156.222096][ T6861] x8 : ffff80000fe73768 x7 : 0000000000000000 x6 :
-> 000000000de4379f
-> [  156.227209][ T6861] x5 : 0000000000000020 x4 : 000000000024ba04 x3 :
-> 0000000000000000
-> [  156.231371][ T6861] x2 : ffff0000d320ed9c x1 : 0000000000000000 x0 :
-> ffff80000fe73838
-> [  156.236095][ T6861] Call trace:
-> [  156.240201][ T6861]  trace_event_raw_event_block_buffer+0x64/0xc0
-> [  156.243814][ T6861]  __traceiter_block_touch_buffer+0x38/0x54
-> [  156.246562][ T6861]  touch_buffer+0x128/0x1b0
-> [  156.249087][ T6861]  nilfs_grab_buffer+0xb8/0x200
-> [  156.251763][ T6861]  nilfs_mdt_submit_block+0x4c/0x470
-> [  156.254103][ T6861]  nilfs_mdt_read_block+0x44/0x154
-> [  156.256216][ T6861]  nilfs_mdt_get_block+0x58/0x520
-> [  156.258450][ T6861]  nilfs_sufile_read+0x104/0x220
-> [  156.260480][ T6861]  load_nilfs+0x25c/0x4e0
-> [  156.262535][ T6861]  nilfs_mount+0x3f0/0x624
-> [  156.264678][ T6861]  legacy_get_tree+0x30/0x60
-> [  156.266801][ T6861]  vfs_get_tree+0x28/0xf0
-> [  156.270048][ T6861]  path_mount+0x3dc/0xbb0
-> [  156.273158][ T6861]  __arm64_sys_mount+0x204/0x2dc
-> [  156.276088][ T6861]  invoke_syscall+0x48/0x114
-> [  156.279141][ T6861]  el0_svc_common.constprop.0+0xfc/0x11c
-> [  156.282159][ T6861]  do_el0_svc+0x2c/0xd0
-> [  156.285177][ T6861]  el0_svc+0x50/0x140
-> [  156.288452][ T6861]  el0t_64_sync_handler+0xf4/0x120
-> [  156.291375][ T6861]  el0t_64_sync+0x18c/0x190
-> [  156.294203][ T6861] Code: aa0003e2 b4000140 f9401a61 9100a3e0 (b9402421)
-> [  156.298191][ T6861] ---[ end trace 0000000000000000 ]---
-> [  156.301621][ T6861] Kernel panic - not syncing: Oops: Fatal exception
-> [  156.304165][ T6861] SMP: stopping secondary CPUs
-> [  156.306561][ T6861] Kernel Offset: disabled
-> [  156.308120][ T6861] CPU features: 0x00000,00070084,6601720b
-> [  156.309695][ T6861] Memory Limit: none
-> [  156.311323][ T6861] Rebooting in 86400 seconds..
->
-> Any help would be appreciated, Thank you!
+Hello,
 
-Thank you for your feedback.
+syzbot found the following issue on:
 
-I'm also now investigating the cause of the NULL pointer dereference
-in nilfs_segctor_prepare_write() but didn't know this.  Which one I
-fix first depends on the situation, but anyway I'll put this in my
-queue as well.
+HEAD commit:    bbed346d5a96 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=157dc905880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3a4a45d2d827c1e
+dashboard link: https://syzkaller.appspot.com/bug?extid=52bf723c703aa9b88640
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17179651880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10cc5d91880000
 
-Thanks,
-Ryusuke Konishi
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/e8e91bc79312/disk-bbed346d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c1cb3fb3b77e/vmlinux-bbed346d.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/3bd548b7efd3/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+52bf723c703aa9b88640@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+DEBUG_LOCKS_WARN_ON(1)
+WARNING: CPU: 1 PID: 3031 at kernel/locking/lockdep.c:231 check_wait_context kernel/locking/lockdep.c:4727 [inline]
+WARNING: CPU: 1 PID: 3031 at kernel/locking/lockdep.c:231 __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
+Modules linked in:
+CPU: 1 PID: 3031 Comm: syz-executor196 Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : check_wait_context kernel/locking/lockdep.c:4727 [inline]
+pc : __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
+lr : hlock_class kernel/locking/lockdep.c:231 [inline]
+lr : check_wait_context kernel/locking/lockdep.c:4727 [inline]
+lr : __lock_acquire+0x298/0x30a4 kernel/locking/lockdep.c:5003
+sp : ffff8000129f3900
+x29: ffff8000129f39e0 x28: 0000000000000001 x27: ffff0000c5371aa8
+x26: ffff80000cb49def x25: ffff0000c53724d8 x24: 0000000000000000
+x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
+x20: 0000000000000000 x19: 55f07fe0846faa84 x18: 00000000000003e8
+x17: ffff80000bffd6bc x16: ffff80000db49158 x15: ffff0000c5371a80
+x14: 0000000000000000 x13: 0000000000000012 x12: ffff80000d5ef920
+x11: ff808000081c0d5c x10: ffff80000dd0b198 x9 : 62dca878cb47c300
+x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000819545c
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000100000001 x0 : 0000000000000016
+Call trace:
+ check_wait_context kernel/locking/lockdep.c:4727 [inline]
+ __lock_acquire+0x2b0/0x30a4 kernel/locking/lockdep.c:5003
+ lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:349 [inline]
+ nilfs_palloc_clear_cache fs/nilfs2/alloc.c:848 [inline]
+ nilfs_palloc_destroy_cache+0x2c/0xb8 fs/nilfs2/alloc.c:860
+ nilfs_mdt_clear+0x34/0x70 fs/nilfs2/mdt.c:478
+ nilfs_clear_inode+0x64/0x140 fs/nilfs2/inode.c:886
+ nilfs_evict_inode+0x68/0x1cc fs/nilfs2/inode.c:908
+ evict+0xec/0x334 fs/inode.c:665
+ iput_final fs/inode.c:1748 [inline]
+ iput+0x2c4/0x324 fs/inode.c:1774
+ nilfs_put_super+0x6c/0x9c fs/nilfs2/super.c:476
+ generic_shutdown_super+0x8c/0x190 fs/super.c:491
+ kill_block_super+0x30/0x78 fs/super.c:1427
+ deactivate_locked_super+0x70/0xe8 fs/super.c:332
+ deactivate_super+0xd0/0xd4 fs/super.c:363
+ cleanup_mnt+0x1f8/0x234 fs/namespace.c:1186
+ __cleanup_mnt+0x20/0x30 fs/namespace.c:1193
+ task_work_run+0xc4/0x14c kernel/task_work.c:177
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ do_notify_resume+0x174/0x1f0 arch/arm64/kernel/signal.c:1127
+ prepare_exit_to_user_mode arch/arm64/kernel/entry-common.c:137 [inline]
+ exit_to_user_mode arch/arm64/kernel/entry-common.c:142 [inline]
+ el0_svc+0x9c/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+irq event stamp: 356107
+hardirqs last  enabled at (356107): [<ffff80000bfc8a34>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:159 [inline]
+hardirqs last  enabled at (356107): [<ffff80000bfc8a34>] _raw_spin_unlock_irq+0x3c/0x70 kernel/locking/spinlock.c:202
+hardirqs last disabled at (356106): [<ffff80000bfc8834>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:117 [inline]
+hardirqs last disabled at (356106): [<ffff80000bfc8834>] _raw_spin_lock_irq+0x34/0x9c kernel/locking/spinlock.c:170
+softirqs last  enabled at (355348): [<ffff80000801c33c>] local_bh_enable+0x10/0x34 include/linux/bottom_half.h:32
+softirqs last disabled at (355346): [<ffff80000801c308>] local_bh_disable+0x10/0x34 include/linux/bottom_half.h:19
+---[ end trace 0000000000000000 ]---
+Unable to handle kernel NULL pointer dereference at virtual address 00000000000000b8
+Mem abort info:
+  ESR = 0x0000000096000004
+  EC = 0x25: DABT (current EL), IL = 32 bits
+  SET = 0, FnV = 0
+  EA = 0, S1PTW = 0
+  FSC = 0x04: level 0 translation fault
+Data abort info:
+  ISV = 0, ISS = 0x00000004
+  CM = 0, WnR = 0
+user pgtable: 4k pages, 48-bit VAs, pgdp=000000010ae77000
+[00000000000000b8] pgd=0000000000000000, p4d=0000000000000000
+Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+Modules linked in:
+CPU: 1 PID: 3031 Comm: syz-executor196 Tainted: G        W          6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 604000c5 (nZCv daIF +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : check_wait_context kernel/locking/lockdep.c:4727 [inline]
+pc : __lock_acquire+0x2d0/0x30a4 kernel/locking/lockdep.c:5003
+lr : hlock_class kernel/locking/lockdep.c:231 [inline]
+lr : check_wait_context kernel/locking/lockdep.c:4727 [inline]
+lr : __lock_acquire+0x298/0x30a4 kernel/locking/lockdep.c:5003
+sp : ffff8000129f3900
+x29: ffff8000129f39e0 x28: 0000000000000001 x27: ffff0000c5371aa8
+x26: ffff80000cb49def x25: ffff0000c53724d8 x24: 0000000000000000
+x23: 0000000000000000 x22: 0000000000000001 x21: 0000000000000000
+x20: 0000000000000000 x19: 55f07fe0846faa84 x18: 00000000000003e8
+x17: ffff80000bffd6bc x16: ffff80000db49158 x15: ffff0000c5371a80
+x14: 0000000000000000 x13: 0000000000000012 x12: ffff80000d5ef920
+x11: ff808000081c0d5c x10: ffff80000dd0b198 x9 : 0000000000040a84
+x8 : 0000000000000000 x7 : 4e5241575f534b43 x6 : ffff80000819545c
+x5 : 0000000000000000 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : 0000000000000000 x1 : 0000000100000001 x0 : 0000000000000016
+Call trace:
+ hlock_class kernel/locking/lockdep.c:222 [inline]
+ check_wait_context kernel/locking/lockdep.c:4728 [inline]
+ __lock_acquire+0x2d0/0x30a4 kernel/locking/lockdep.c:5003
+ lock_acquire+0x100/0x1f8 kernel/locking/lockdep.c:5666
+ __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
+ _raw_spin_lock+0x54/0x6c kernel/locking/spinlock.c:154
+ spin_lock include/linux/spinlock.h:349 [inline]
+ nilfs_palloc_clear_cache fs/nilfs2/alloc.c:848 [inline]
+ nilfs_palloc_destroy_cache+0x2c/0xb8 fs/nilfs2/alloc.c:860
+ nilfs_mdt_clear+0x34/0x70 fs/nilfs2/mdt.c:478
+ nilfs_clear_inode+0x64/0x140 fs/nilfs2/inode.c:886
+ nilfs_evict_inode+0x68/0x1cc fs/nilfs2/inode.c:908
+ evict+0xec/0x334 fs/inode.c:665
+ iput_final fs/inode.c:1748 [inline]
+ iput+0x2c4/0x324 fs/inode.c:1774
+ nilfs_put_super+0x6c/0x9c fs/nilfs2/super.c:476
+ generic_shutdown_super+0x8c/0x190 fs/super.c:491
+ kill_block_super+0x30/0x78 fs/super.c:1427
+ deactivate_locked_super+0x70/0xe8 fs/super.c:332
+ deactivate_super+0xd0/0xd4 fs/super.c:363
+ cleanup_mnt+0x1f8/0x234 fs/namespace.c:1186
+ __cleanup_mnt+0x20/0x30 fs/namespace.c:1193
+ task_work_run+0xc4/0x14c kernel/task_work.c:177
+ resume_user_mode_work include/linux/resume_user_mode.h:49 [inline]
+ do_notify_resume+0x174/0x1f0 arch/arm64/kernel/signal.c:1127
+ prepare_exit_to_user_mode arch/arm64/kernel/entry-common.c:137 [inline]
+ exit_to_user_mode arch/arm64/kernel/entry-common.c:142 [inline]
+ el0_svc+0x9c/0x150 arch/arm64/kernel/entry-common.c:637
+ el0t_64_sync_handler+0x84/0xf0 arch/arm64/kernel/entry-common.c:654
+ el0t_64_sync+0x18c/0x190 arch/arm64/kernel/entry.S:581
+Code: b002db8a 91056210 9106614a b9400329 (3942e114) 
+---[ end trace 0000000000000000 ]---
+----------------
+Code disassembly (best guess):
+   0:	b002db8a 	adrp	x10, 0x5b71000
+   4:	91056210 	add	x16, x16, #0x158
+   8:	9106614a 	add	x10, x10, #0x198
+   c:	b9400329 	ldr	w9, [x25]
+* 10:	3942e114 	ldrb	w20, [x8, #184] <-- trapping instruction
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
