@@ -2,114 +2,105 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E9ED620E4B
-	for <lists+linux-nilfs@lfdr.de>; Tue,  8 Nov 2022 12:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 38A88620E96
+	for <lists+linux-nilfs@lfdr.de>; Tue,  8 Nov 2022 12:20:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233993AbiKHLK4 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 8 Nov 2022 06:10:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54580 "EHLO
+        id S233601AbiKHLUq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 8 Nov 2022 06:20:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233977AbiKHLKz (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 8 Nov 2022 06:10:55 -0500
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84AB61007;
-        Tue,  8 Nov 2022 03:10:54 -0800 (PST)
-Received: by mail-vs1-xe36.google.com with SMTP id t5so13314886vsh.8;
-        Tue, 08 Nov 2022 03:10:54 -0800 (PST)
+        with ESMTP id S233917AbiKHLUi (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 8 Nov 2022 06:20:38 -0500
+Received: from mail-yb1-xb29.google.com (mail-yb1-xb29.google.com [IPv6:2607:f8b0:4864:20::b29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EC7819295
+        for <linux-nilfs@vger.kernel.org>; Tue,  8 Nov 2022 03:20:37 -0800 (PST)
+Received: by mail-yb1-xb29.google.com with SMTP id r3so16996416yba.5
+        for <linux-nilfs@vger.kernel.org>; Tue, 08 Nov 2022 03:20:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ljbpqeUpzJfqMkrUw95JFard8abiZdbIIeeNMaJgi7o=;
-        b=OWFcdkRkt3mUC7aZDXwMSmKSkIjAiC/88vBm15uJO7ZbayYo0iQb9qG0oOsOgqJnoe
-         4OtiDpZ2YTl1z/sKporedNlzRdVfYHUZ+/GqghpAVz1jpoKhTpPoKSU/ZVHp/oFOb0dm
-         QGdNMZF6PhWQppBWZHdS4AUZHk5ogRWzwvVg2pDh9TPYXUxbmJ9rFHZNngQQfdGDjH/Y
-         oynQaiOSjjArHRiRXWDMgCzmNvgO2KjxR04x5sbrZwJQ8Olm655W8ict3prlu0UWhzci
-         UNTkn5GsfTA+W8PqLWzk+5aXne2BqxpU2kZIzZmP9Axm1CB2zTVPzbYFT1XHtxNUALC8
-         4j2g==
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jD/YBCtOhOa1ipEyheDVa6geA3XolzkSqDbroMLmTEw=;
+        b=J4BNN7jKfVfT0aL+JmOkjuoB8t6+kSq+FK+qtmRP1DScVaKYSfpiIdvKdYE9swFUQY
+         XtHjWaqnZFsSXqYA0o+q8CHye3arwTjr+hJBusI7mFqLyj6iQwnPEZnxpt7jEFXDv67C
+         i1RnWN77TDRD4R5bcXZk31BtpxWQI5F6il/aa7D6YEvXraa0x5EmFHE7S5DfyEv8K6Mr
+         sqvmxMR+LFYCNchTyksG6bgH4YMBdFO7Jyo5yt1Gfv8N5WpJHQg7liyYPj6Ln7TcsJ1M
+         7IF7H63JmVDaojfGa4RBrUx2qi70wmC2uC2C6sS9nlgayiVSuogPYEW3OyiZYJzoef10
+         VIFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ljbpqeUpzJfqMkrUw95JFard8abiZdbIIeeNMaJgi7o=;
-        b=udOQyu6GgyXgvgbiNGvmY/OepisV+wHfnfiBRS+azlz5rkYlabToCGjHUyWNxrH8zJ
-         f0G4Rq4NWZ/2t0DO7+Z2JLsO/gShqgqE+/F50iAfbK/xjPhUDB1oMpZ/3zpMlJc7oMUg
-         cdxiNx3yR5HpemdcO/XSCIOgpn/RLDuZE3KzzDkZQEyCVONb5+m2TdPuDKW7WJfgTfy6
-         hRMk+l7Dvg6wIvudI2lSpbKZc2Q9syT2xc314wP6Nk+7FT4S7mAwKqRLH3a+oToSjB7F
-         meryY8AW7Zr/KdquT6adRk4AT4elErIZ/io7mVpJeSI7kJEYFfUr/9uiEZTq2EYBpKYP
-         Tjlg==
-X-Gm-Message-State: ACrzQf2CzUvfyFMVzAr132k61tQdcW4k21ET3mc1NGLBAwHB4PdtqFAI
-        SfHNCdzVv2UkgLwvCgTvUZbYz1ZfCEq3F04wfNZKXbw0UQY=
-X-Google-Smtp-Source: AMsMyM7RhO/d4B9S+gGi4XVF9igYGk47lHmdXDW7IG0Fp/XQSmvna+p1iWfoskzqEf+UM6q3231bACuBCs9t8mZixJU=
-X-Received: by 2002:a05:6102:571b:b0:3aa:5a1:bf59 with SMTP id
- dg27-20020a056102571b00b003aa05a1bf59mr30299215vsb.84.1667905853444; Tue, 08
- Nov 2022 03:10:53 -0800 (PST)
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jD/YBCtOhOa1ipEyheDVa6geA3XolzkSqDbroMLmTEw=;
+        b=P+ZjDvmYTpLxE8t0hO0/nhl4Rjh9MI1RY+V7+FaOEJOn1xbO9xTJNnPEdA4kAqa+mG
+         R0cESupYFE3KvvQn1Qp+5mrOTE2a48g2r1jE2HPnq29tbF2ggahf8IndZLtkYxeao09d
+         QGK7ZjrOF7fUP12E6h/URzBgQ/4U7OVz6mQQ1VRErVrYAnR/b0QtsFF8upZaREofYVs1
+         rJ1XunswPpp5ioBCPLfwmlbucdYB+BHTKb5oELO2rNfGdxpFKORTciJahfuXw5GV+jtk
+         a3BUuUf0dg7Xh7nJXygZlKviRPTNwhZLLX1fNdeqON23aEbW8z1sj6TcERvIyegRPlok
+         aTIQ==
+X-Gm-Message-State: ACrzQf0r6wXzhmKPEPVA1uTb6EbmU7H6Kn+q86cmJPioVLxKEyaMhGFW
+        Td6XV0qHR1mzmj7wM5YFDr8Hz0sR3Bqp6tYqBIo=
+X-Google-Smtp-Source: AMsMyM6xKqU5Rjh4+2+AxAqC0U0YC7Pv+rLQ5ILVu1L9p+G2RCExT06n9hL8M7TD2Z3SGUMSH2B3gfKMmkK13680VKQ=
+X-Received: by 2002:a25:a088:0:b0:6ca:33ff:5b30 with SMTP id
+ y8-20020a25a088000000b006ca33ff5b30mr54330551ybh.242.1667906436602; Tue, 08
+ Nov 2022 03:20:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20221108022928.497746-1-liushixin2@huawei.com>
- <CAKFNMo=n8_NkHzvxOBuiU4XahdRnWNbwmZKu4pw0KZ7bfWuVhg@mail.gmail.com>
- <5c8dd545-2190-162e-a9de-2323fcad716f@huawei.com> <CAKFNMokcSj9YSLeXm=S4rY5nMx6DjQvRHXVaLVu2CbNEia7-2Q@mail.gmail.com>
-In-Reply-To: <CAKFNMokcSj9YSLeXm=S4rY5nMx6DjQvRHXVaLVu2CbNEia7-2Q@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Tue, 8 Nov 2022 20:10:36 +0900
-Message-ID: <CAKFNMo=bbR+ZgJQosEoj=yfoY2y=PmYHVfz3CdLCvCWVK7igTQ@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: fix NULL pointer dereference in nilfs_segctor_prepare_write()
-To:     Liu Shixin <liushixin2@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Received: by 2002:a05:7010:a38a:b0:313:c983:1d7e with HTTP; Tue, 8 Nov 2022
+ 03:20:36 -0800 (PST)
+Reply-To: mrinvest1010@gmail.com
+From:   "K. A. Mr. Kairi" <ctocik2@gmail.com>
+Date:   Tue, 8 Nov 2022 03:20:36 -0800
+Message-ID: <CAC9COZf4gVM4aT_ghoemxu3B8PtJ41D3GAMuMHbW-Zm3a0vanw@mail.gmail.com>
+Subject: Re: My Response..
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+X-Spam-Status: Yes, score=5.0 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:b29 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5001]
+        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
+        *      digit
+        *      [mrinvest1010[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [ctocik2[at]gmail.com]
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [ctocik2[at]gmail.com]
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Nov 8, 2022 at 7:33 PM Ryusuke Konishi  wrote:
-> On Tue, Nov 8, 2022 at 3:49 PM Liu Shixin wrote:
-> > Then in nilfs_segctor_extend_segments(), we set sb_segnum by prev->sb_nextnum directly,
-> > and calculate next sb_segnum by nilfs_sufile_alloc(), since last_alloc is not updated,
-> > we will get sb_segnum again.
->
-> nilfs_segctor_extend_segments() pre-allocates one or more segments
-> large enough to store updated blocks of metadata files that need to be
-> written in a series of logs at once, and sets up a chain of segbufs.
-> (Sorry for the missing function comment).
->
-> sb_segnum is set by prev->sb_nextnum to form a chain of buffers for
-> segments.  This is expected behavior.
-> And, the sb_nextnum (= next sb_segnum) will be given by
-> nilfs_sufile_alloc().   This is also expected.
-> It looks like the problem is that nilfs_sufile_alloc() here allocates
-> the same segnum again.
->
-> Because sb_segnum is set by prev->sb_nextnum which is allocated by the
-> previous nilfs_sufile_alloc() call,
-> this usually does not happen.
->
-> A possible anomaly is if the segment pointed by the first nextnum (or
-> segnum) was not marked dirty on sufile.
-> This may happen if the sufile is corrupted on the test disk image that
-> syzbot provided (mounted).
->
-> Can you confirm if this is actually happening?
+-- 
+Hi
 
-If we can mount the test disk image, the state of sufile can be
-confirmed quickly with lssu command:
+How are you with your family, I have a serious client, whom will be
+interested to invest in your country, I got your Details through the
+Investment Network and world Global Business directory.
 
-$ lssu
-              SEGNUM        DATE     TIME STAT     NBLOCKS
-                   3  2022-11-04 23:23:49  -d-        2048
-                   4  2022-11-04 23:23:50  ad-         103
-                   5  ---------- --:--:--  ad-           0
+If you are interested for more details.....
 
-Here, the flag "d" in STAT means the segment is dirty (in-use) and the
-segment of ns_segnum or ns_nextnum is indicated with the "a" flag.
-This is an example of a normal disk image.
-Or, if it's easy to insert debug code to check, that's fine too.
-
-Regards,
-Ryusuke Konishi
+Sincerely,
+Kairi Andrew
