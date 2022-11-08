@@ -2,147 +2,207 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 257D062085C
-	for <lists+linux-nilfs@lfdr.de>; Tue,  8 Nov 2022 05:42:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02E39620981
+	for <lists+linux-nilfs@lfdr.de>; Tue,  8 Nov 2022 07:20:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230248AbiKHEmh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 7 Nov 2022 23:42:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53970 "EHLO
+        id S233532AbiKHGUZ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 8 Nov 2022 01:20:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232816AbiKHEmf (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 7 Nov 2022 23:42:35 -0500
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A8222F03E
-        for <linux-nilfs@vger.kernel.org>; Mon,  7 Nov 2022 20:42:34 -0800 (PST)
-Received: by mail-pj1-x1034.google.com with SMTP id f5-20020a17090a4a8500b002131bb59d61so506257pjh.1
-        for <linux-nilfs@vger.kernel.org>; Mon, 07 Nov 2022 20:42:34 -0800 (PST)
+        with ESMTP id S233486AbiKHGUD (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 8 Nov 2022 01:20:03 -0500
+Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADE0326FB;
+        Mon,  7 Nov 2022 22:20:01 -0800 (PST)
+Received: by mail-vk1-xa2f.google.com with SMTP id b81so8240931vkf.1;
+        Mon, 07 Nov 2022 22:20:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+VoC5O6h7ZfIBAy9yt0jFTh5sWdzWSPpFHMVA1UnB6o=;
-        b=Amgys6yR9ThhrGUWgN0xwAeQVN11/9ieXyMbX53skvp+611RG7k7wb0w0vSOJ3j9s9
-         XtkeQ2dDiGvKdp9oPkWiZ86JTtcRE8BNcRAmdLSkzuHwcx/QOOplsvuIJVx9LECxSSLN
-         YvS5X40w6psbnkn7hSZM32LWh728Fdq/ep6JZS3rjgHQuKFXc8YaBPq3xHAkEQKxKcuz
-         1f4JJMfy+xjUeeJZLZ5S0nLKU2/44tr09WDzvIY4bsstdpbH+ACIM+FcZ5zucOBwGLEm
-         g5W5NuZQbt6erB3C5OG47Wa+SPRDsGknZJNCregml6WMAY4rhYbouwhjEl51e0Q41NWv
-         hVmg==
+        bh=ePxJ0cMyxU7hZKfemaCo4z91ENavbF4DP5tqDnIrbwA=;
+        b=O6n+B4JVsNQC+/U+91ztdlsa9C9dvgnG1Q4TU2mQtn4+4rZmKqrRH2OodY6FEI74yG
+         3QoLgs89funPWDHiSt/QKVe06bsqt5LU16UPyJ/KomqmN0ebtPWiyh9ahvnJ7pvd0h/G
+         Zkjh31ntbnlFq4oaqmb+nkbaspdMUr2kgLBs2WSDkZKXm/Hz7eHcVp00CwIVwPRlyMlM
+         duuyzOYRoRHUl3TRjmcP34tKsekMxVYsuDNP9etAxP8KfSOj1+oKn2haTAewktx1t2Us
+         1slQ5Ccps1+9ZDkrMROkDplczHxVbxe0kvVnVo6KxZKHW13rV4gnL6tiLQZ+RlJzW9oZ
+         1s1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=+VoC5O6h7ZfIBAy9yt0jFTh5sWdzWSPpFHMVA1UnB6o=;
-        b=mZnJ64O8W9/hdtATlew0eVccfGsNnGcn772+bdiIVp0W0jVIak0k/xqWRiwAnOfbFy
-         bv4zcARZVQzDCfC59Xr9ykNUJkdTkTPtoH5vnuzpK2FR0yUge+icmuIJSLIFoeSSWkRd
-         eg/f0gNnU5AVV/QAkmvgY/ZuonawjtcepcUDORg17y4eD14K7TxtnpuT76xL83YzPJw2
-         9kWTjmyEDAmPWEncrL58jJ9qOztk2J7CQlETG8064R+w/+1/Zur2STXOcl1SHVv7n4K7
-         EJdTZZSrK2ErnGaThiE/sX+XZNw48k9fr3pDfqDkFIZ1L/k4GNME+4yvlhEyG/Nozzqh
-         V38w==
-X-Gm-Message-State: ACrzQf2S/IOT7Z27/azduyrQ5tzBMHln6+d3qwpkXy1zVPK9BQmStwtC
-        9HBYIudOMcsqSsFZGoM2HFjfl/VFF6N0eDJig6A=
-X-Google-Smtp-Source: AMsMyM6Kq3rk40ALl/YgkZXlUCq9NxAtWqN3do0TiYDNdcGLIfZ/Z/Hz1l3Zx0dndk5ZiHl0FiobuSJHCnWiwk+xMn4=
-X-Received: by 2002:a17:902:dac5:b0:186:a687:e082 with SMTP id
- q5-20020a170902dac500b00186a687e082mr55171671plx.84.1667882553684; Mon, 07
- Nov 2022 20:42:33 -0800 (PST)
+        bh=ePxJ0cMyxU7hZKfemaCo4z91ENavbF4DP5tqDnIrbwA=;
+        b=7cjPbbxNbvQTpgs2LFQ/ri9L578ojBNcXd6okCmun5qGQ4a1PY+QM47Huemz9fqKRq
+         6xA3mElTYPrGZ8Ei9W2vFxOHK58DocJLyVQ7dKkp6fyZJkY88cMWp87BvAj9Wvq9oA37
+         NRFy0e+8jD9gKPfbFl2iLaxRNOdlsssNAIrJF4AD1PcaGFYJG2Dy8WVKsVroAPZ7njKo
+         q9p+bmE9CAX79cseBHnX5FTHihJ7UF678G1KIjTLgNYQvusiYVdFHmz8jn7vnuWGCajj
+         lQOFIF4DXqUqklOkvpGjQXt9gZmIoSaQztivm3dGTHiNbwKiiSiiAdQmRS7ANF/u/LC7
+         pmiQ==
+X-Gm-Message-State: ACrzQf0OXQJvVQYILH1d67kvKXiGLjHXmYEZl51NWGuaPHHUuIYlrwNc
+        dVTBgqOenidNZevP+2bj2urvHOeXfNzM4WFsxbb3PUivp3A=
+X-Google-Smtp-Source: AMsMyM65ZI4UGvStFgGfxG/RcXmy+pA4u8gpsIdyWTq8invX8x5iQ5DBy6VcyNy15DWQSkQRzjm2jQDvYgidBf1zFF8=
+X-Received: by 2002:a1f:254f:0:b0:3b7:7495:86d5 with SMTP id
+ l76-20020a1f254f000000b003b7749586d5mr28262884vkl.23.1667888399963; Mon, 07
+ Nov 2022 22:19:59 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:a17:522:8e11:b0:472:3709:5064 with HTTP; Mon, 7 Nov 2022
- 20:42:33 -0800 (PST)
-Reply-To: mrstheresaheidi8@gmail.com
-From:   "Ms. Theresa Heidi" <rev.johnpatrick1@gmail.com>
-Date:   Mon, 7 Nov 2022 20:42:33 -0800
-Message-ID: <CAMiB5XggM2hEnjNkoM+PXcTy4kQE1Jdpw4p-WtpeWs8rd4KUog@mail.gmail.com>
-Subject: =?UTF-8?B?56eB44KS5Yqp44GR44Gm44GP44Gg44GV44GE?=
-To:     undisclosed-recipients:;
+References: <20221108022928.497746-1-liushixin2@huawei.com> <CAKFNMo=n8_NkHzvxOBuiU4XahdRnWNbwmZKu4pw0KZ7bfWuVhg@mail.gmail.com>
+In-Reply-To: <CAKFNMo=n8_NkHzvxOBuiU4XahdRnWNbwmZKu4pw0KZ7bfWuVhg@mail.gmail.com>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Tue, 8 Nov 2022 15:19:43 +0900
+Message-ID: <CAKFNMok3YGAPfrze=_Ed2tWAvOFp_3kYbGGnOvY1ZmCdF4dKMA@mail.gmail.com>
+Subject: Re: [PATCH] nilfs2: fix NULL pointer dereference in nilfs_segctor_prepare_write()
+To:     Liu Shixin <liushixin2@huawei.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: Yes, score=7.9 required=5.0 tests=BAYES_99,BAYES_999,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:1034 listed in]
-        [list.dnswl.org]
-        *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 1.0000]
-        *  0.2 BAYES_999 BODY: Bayes spam probability is 99.9 to 100%
-        *      [score: 1.0000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [rev.johnpatrick1[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [rev.johnpatrick1[at]gmail.com]
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [mrstheresaheidi8[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  2.9 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *******
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-5oWI5ZaE5a+E5LuY77yBDQoNCuazqOaEj+a3seOBj+OBiuiqreOBv+OBj+OBoOOBleOBhOOAguOB
-k+OBruaJi+e0meOBjOOBguOBquOBn+OBq+OCteODl+ODqeOCpOOCuuOBqOOBl+OBpuWxiuOBj+OB
-i+OCguOBl+OCjOOBquOBhOOBk+OBqOOBr+S6i+Wun+OBp+OBmeOAguOBguOBquOBn+OBruWKqeOB
-keOBjOW/heimgeOBquOBqOOBjeOBq+OAgeODl+ODqeOCpOODmeODvOODiOaknOe0ouOBp+OBguOB
-quOBn+OBrumbu+WtkOODoeODvOODq+mAo+e1oeWFiOOBq+WHuuS8muOBhOOBvuOBl+OBn+OAguen
-geOBr+W/g+OBruS4reOBp+OBk+OBruODoeODvOODq+OCkuabuOOBhOOBpuOBhOOBvuOBmeOBjOOA
-geOCpOODs+OCv+ODvOODjeODg+ODiOOBr+S+neeEtuOBqOOBl+OBpuacgOmAn+OBrumAmuS/oeaJ
-i+auteOBp+OBguOCi+OBn+OCgeOAgeOCpOODs+OCv+ODvOODjeODg+ODiOOCkuS7i+OBl+OBpuOB
-guOBquOBn+OBq+mAo+e1oeOBmeOCi+OBk+OBqOOCkumBuOaKnuOBl+OBvuOBl+OBn+OAgg0KDQrn
-p4Hjga/nj77lnKjjgIHogrrjgYzjgpPjga7jgZ/jgoHjgqTjgrnjg6njgqjjg6vjga7np4Hnq4vn
-l4XpmaLjgavlhaXpmaLjgZfjgabjgYTjgosgNjINCuats+OBruODhuODrOOCteODj+OCpOOCuOWk
-q+S6uuOBp+OBmeOAguengeOBrzTlubTliY3jgIHjgZnjgbnjgabjgpLmrovjgZfjgabjgY/jgozj
-gZ/lpKvjgYzkuqHjgY/jgarjgaPjgZ/nm7TlvozjgavogrrjgYzjgpPjgajoqLrmlq3jgZXjgozj
-gb7jgZfjgZ/jgILnp4Hjga/jgIHogrrjgYzjgpPjga7msrvnmYLjgpLlj5fjgZHjgabjgYTjgovn
-l4XpmaLjgafjg6njg4Pjg5fjg4jjg4Pjg5fjgpLmjIHjgaPjgabjgYTjgb7jgZnjgIINCg0K56eB
-44Gv5Lqh44GP44Gq44Gj44Gf5aSr44GL44KJ5Y+X44GR57aZ44GE44Gg6LOH6YeR44KS5oyB44Gj
-44Gm44GE44G+44GZ44CC44Gd44Gu57eP6aGN44Gv44Gf44Gj44Gf44GuIDEyMCDkuIfjg4njg6sN
-CigxMuWEhOexs+ODieODqynjgafjgZnjgILku4rjgIHnp4HjgYzkurrnlJ/jga7mnIDlvozjga7m
-l6Xjgavov5HjgaXjgYTjgabjgYTjgovjgZPjgajjga/mmI7jgonjgYvjgafjgZnjgILjgZPjga7j
-gYrph5Hjga/jgoLjgYblv4XopoHjgarjgYTjgajmgJ3jgYTjgb7jgZnjgIIu56eB44Gu5Li75rK7
-5Yy744Gv44CB56eB44GM6IK644GM44KT44Gu5ZWP6aGM44Gu44Gf44KB44GrDQoxIOW5tOmWk+OB
-r+eUn+OBjeOCieOCjOOBquOBhOOBk+OBqOOCkueQhuino+OBleOBm+OBvuOBl+OBn+OAgg0KDQrj
-gZPjga7jgYrph5Hjga/jgb7jgaDlpJblm73jga7pioDooYzjgavkv53nrqHjgZXjgozjgabjgYrj
-gorjgIHntYzllrbpmaPjga/jgIHnp4HjgYznl4XmsJfjga7jgZ/jgoHjgavmnaXjgovjgZPjgajj
-gYzjgafjgY3jgarjgYTjga7jgafjgIHjgYrph5HjgpLlj5fjgZHlj5bjgovjgZ/jgoHjgavliY3j
-gavmnaXjgovjgYvjgIHku6Pjgo/jgorjgavoqrDjgYvjgavjgYrph5HjgpLlj5fjgZHlj5bjgovj
-gZ/jgoHjga7mib/oqo3mm7jjgpLnmbrooYzjgZnjgovjgojjgYbjgavjgIHnnJ/jga7miYDmnIno
-gIXjgajjgZfjgabnp4HjgavmiYvntJnjgpLmm7jjgY3jgb7jgZfjgZ/jgIIu6YqA6KGM44Gu6KGM
-5YuV44KS5oCg44KL44Go44CB6LOH6YeR44KS6ZW35pyf6ZaT5L+d566h44GX44Gf44Gf44KB44Gr
-6LOH6YeR44GM5rKh5Y+O44GV44KM44KL5Y+v6IO95oCn44GM44GC44KK44G+44GZ44CCDQoNCuOB
-k+OBruOBiumHkeOCkuWkluWbveOBrumKgOihjOOBi+OCieW8leOBjeWHuuOBl+OBpuOAgeaBteOB
-vuOCjOOBquOBhOS6uuOAheOCkuWKqeOBkeOCi+ODgeODo+ODquODhuOCo+ODvOa0u+WLleOBq+iz
-h+mHkeOCkuS9v+eUqOOBmeOCi+OBruOCkuaJi+S8neOBo+OBpuOBj+OCjOOCi+OBi+OBqeOBhuOB
-i+OAgeOBneOBl+OBpuiIiOWRs+OBjOOBguOCi+OBquOCieOAgeengeOBr+OBguOBquOBn+OBq+mA
-o+e1oeOBmeOCi+OBk+OBqOOBq+axuuOCgeOBvuOBl+OBny7np4HjgavkvZXjgYvjgYzotbfjgZPj
-govliY3jgavjgIHjgZPjgozjgonjga7kv6HoqJfln7rph5HjgpLoqqDlrp/jgavlh6bnkIbjgZfj
-gabjgbvjgZfjgYQu44GT44KM44Gv55uX44G+44KM44Gf44GK6YeR44Gn44Gv44Gq44GP44CB5a6M
-5YWo44Gq5rOV55qE6Ki85oug44GM44GC44KK44CBMTAwJQ0K44Oq44K544Kv44GM44Gq44GP44CB
-5Y2x6Zm644Gv44GC44KK44G+44Gb44KT44CCDQoNCuOBiumHkeOBriA1NSUg44Gv5oWI5ZaE5rS7
-5YuV44Gr5L2/44KP44KM44CB5ZCI6KiI6YeR6aGN44GuIDQ1JQ0K44Gv44GC44Gq44Gf44Gu5YCL
-5Lq655qE44Gq5L2/55So44Gu44Gf44KB44Gr5Y+W44Gj44Gm44G744GX44GELuengeOBr+engeOB
-ruacgOW+jOOBrumhmOOBhOOCkuWNsemZuuOBq+OBleOCieOBmeOCiOOBhuOBquOBk+OBqOOBr+S9
-leOCguacm+OCk+OBp+OBhOOBquOBhOOBruOBp+OAgeengeOBruW/g+OBi+OCieOBrumhmOOBhOOC
-kumBlOaIkOOBmeOCi+OBn+OCgeOBq+OAgeOBguOBquOBn+OBruacgOWkp+mZkOOBruS/oemgvOOB
-qOenmOWvhuS/neaMgeOBq+aEn+isneOBl+OBvuOBmS7jgZPjga7miYvntJnjgpLov7fmg5Hjg6Hj
-g7zjg6vjgaflj5fjgZHlj5bjgaPjgZ/loLTlkIjjga/jgIHnlLPjgZfoqLPjgYLjgorjgb7jgZvj
-gpPjgYzjgIHjgZPjgozjga/jgZPjga7lm73jgafjga7mnIDov5Hjga7mjqXntprjgqjjg6njg7zj
-gavjgojjgovjgoLjga7jgafjgZnjgIINCg0K44GC44Gq44Gf44Gu5pyA5oSb44Gu5aa544CCDQrj
-g4bjg6zjgrXjg7vjg4/jgqTjgrjlpKvkuroNCg==
+On Tue, Nov 8, 2022 at 1:41 PM Ryusuke Konishi wrote:
+>
+> Hi Liu Shixin,
+>
+> On Tue, Nov 8, 2022 at 10:41 AM Liu Shixin wrote:
+> >
+> > Syzbot reported a NULL pointer dereference:
+> >
+> >  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000168
+> >  Mem abort info:
+> >    ESR = 0x0000000096000004
+> >    EC = 0x25: DABT (current EL), IL = 32 bits
+> >    SET = 0, FnV = 0
+> >    EA = 0, S1PTW = 0
+> >    FSC = 0x04: level 0 translation fault
+> >  Data abort info:
+> >    ISV = 0, ISS = 0x00000004
+> >    CM = 0, WnR = 0
+> >  user pgtable: 4k pages, 48-bit VAs, pgdp=0000000108bcf000
+> >  [0000000000000168] pgd=0000000000000000, p4d=0000000000000000
+> >  Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+> >  Modules linked in:
+> >  CPU: 1 PID: 3032 Comm: segctord Not tainted 6.0.0-rc7-syzkaller-18095-gbbed346d5a96 #0
+> >  Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+> >  pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> >  pc : _compound_head include/linux/page-flags.h:253 [inline]
+> >  pc : lock_page+0x28/0x1e0 include/linux/pagemap.h:958
+> >  lr : lock_page+0x28/0x1e0 include/linux/pagemap.h:956
+> >  sp : ffff80001290bc00
+> >  x29: ffff80001290bc00 x28: ffff80001290bde0 x27: 000000000000001b
+> >  x26: fffffc000330d7c0 x25: ffff0000caa56d68 x24: ffff0000ca9fb1c0
+> >  x23: 0000000000000080 x22: ffff0000ca9fb130 x21: 0000000000000160
+> >  x20: ffff0000c91e10b8 x19: 0000000000000160 x18: 00000000000000c0
+> >  x17: ffff80000dd0b198 x16: ffff80000db49158 x15: ffff0000c3e63500
+> >  x14: 0000000000000000 x13: 00000000ffffffff x12: ffff0000c3e63500
+> >  x11: ff808000095d1a0c x10: 0000000000000000 x9 : 0000000000000000
+> >  x8 : 0000000000000000 x7 : ffff80000856806c x6 : 0000000000000000
+> >  x5 : 0000000000000080 x4 : 0000000000000000 x3 : 0000000000000000
+> >  x2 : 0000000000000000 x1 : ffff80000cb431b1 x0 : 0000000000000000
+> >  Call trace:
+> >   lock_page+0x28/0x1e0 include/linux/pagemap.h:956
+> >   nilfs_segctor_prepare_write+0x6c/0x21c fs/nilfs2/segment.c:1658
+> >   nilfs_segctor_do_construct+0x9f4/0xee8 fs/nilfs2/segment.c:2068
+> >   nilfs_segctor_construct+0xa0/0x380 fs/nilfs2/segment.c:2375
+> >   nilfs_segctor_thread_construct fs/nilfs2/segment.c:2483 [inline]
+> >   nilfs_segctor_thread+0x180/0x660 fs/nilfs2/segment.c:2566
+> >   kthread+0x12c/0x158 kernel/kthread.c:376
+> >   ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:860
+> >
+> > If didn't call nilfs_sufile_alloc() in nilfs_segctor_begin_construction(),
+> > nilfs_sufile_header's sh_last_alloc is not updated. In such case, we will
+> > add a bh in two segbuf->sb_segsum_buffers. And finally cause list error.
+> >
+> > Reported-by: syzbot+77e4f005cb899d4268d1@syzkaller.appspotmail.com
+> > Fixes: 9ff05123e3bf ("nilfs2: segment constructor")
+> > Signed-off-by: Liu Shixin <liushixin2@huawei.com>
+> > ---
+> >  fs/nilfs2/segment.c | 1 +
+> >  fs/nilfs2/sufile.c  | 2 +-
+> >  2 files changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+> > index b4cebad21b48..7be632c15f91 100644
+> > --- a/fs/nilfs2/segment.c
+> > +++ b/fs/nilfs2/segment.c
+> > @@ -1371,6 +1371,7 @@ static int nilfs_segctor_extend_segments(struct nilfs_sc_info *sci,
+> >                 sci->sc_segbuf_nblocks += segbuf->sb_rest_blocks;
+> >
+> >                 /* allocate the next next full segment */
+> > +               nextnextnum = segbuf->sb_segnum;
+> >                 err = nilfs_sufile_alloc(sufile, &nextnextnum);
+> >                 if (unlikely(err))
+> >                         goto failed_segbuf;
+> > diff --git a/fs/nilfs2/sufile.c b/fs/nilfs2/sufile.c
+> > index 77ff8e95421f..853a8212114f 100644
+> > --- a/fs/nilfs2/sufile.c
+> > +++ b/fs/nilfs2/sufile.c
+> > @@ -317,7 +317,7 @@ int nilfs_sufile_alloc(struct inode *sufile, __u64 *segnump)
+> >                 goto out_sem;
+> >         kaddr = kmap_atomic(header_bh->b_page);
+> >         header = kaddr + bh_offset(header_bh);
+> > -       last_alloc = le64_to_cpu(header->sh_last_alloc);
+> > +       last_alloc = max(le64_to_cpu(header->sh_last_alloc), *segnump);
+> >         kunmap_atomic(kaddr);
+> >
+> >         nsegments = nilfs_sufile_get_nsegments(sufile);
+> > --
+> > 2.25.1
+>
+> Thank you for your help.   I have a few questions, so I'll ask them below.
+>
+> > If didn't call nilfs_sufile_alloc() in nilfs_segctor_begin_construction(),
+> > nilfs_sufile_header's sh_last_alloc is not updated. In such case, we will
+> > add a bh in two segbuf->sb_segsum_buffers.
+>
+> If nilfs_sufile_alloc() succeeds to allocate a segment, sh_last_alloc
+> is updated.
+> all segment allocation must be done through nilfs_sufile_alloc().
+> And, the allocated segment is marked dirty on the sufile not to be
+> reallocated until it's freed.
+>
+> So, why is it happening that the same segment is allocated twice in a log ?
+> Is it hard to fix the problem by correcting the calling sequence of
+> nilfs_sufile_alloc()/free()/etc without touching nilfs_sufile_alloc() ?
+
+If the cause of this problem is a sufile state inconsistency on disk,
+rather than an imperfection in the call sequence, then some sanity
+check should be added to treat the inconsistency as an error.
+Since this came from syzbot, I suspect that it may have created an
+on-disk metadata anomaly and hit this.
+
+For example, if the next (or next next) segment that the latest
+segment summary points to is not in the allocated (dirty) state and it
+is missed and is causing this oops, I think we should change it to
+check for that at mount time.
+
+Either way, I feel like we need to look a little more at the root cause.
+
+Ryusuke Konishi
+
+>
+> I haven't looked closely at this patch yet, but I'm concerned about
+> the impact on other places as well.
+> nilfs_sufile_alloc() is also used in
+> nilfs_segctor_begin_construction() and
+> nilfs_prepare_segment_for_recovery().  Are there any side effects?
+>
+> This patch turns an output-only argument into both input and output,
+> and that input value is always used in the calculation of
+> "last_alloc".
+> So, this change requires all callers to pass a meaningful initial
+> value (at least a valid value) to *segnump.
+>
+> Another question, will this work near the end of the segments ?
+> Since segments are used cyclically, wouldn't comparison with the max
+> function break down there?
+> (I mean it seems that sh_last_alloc may be chosen unintentionally at the end.)
+>
+> Regards,
+> Ryusuke Konishi
