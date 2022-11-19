@@ -2,63 +2,64 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 30CAD630CE5
-	for <lists+linux-nilfs@lfdr.de>; Sat, 19 Nov 2022 08:18:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD578630CEF
+	for <lists+linux-nilfs@lfdr.de>; Sat, 19 Nov 2022 08:25:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229683AbiKSHSG (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 19 Nov 2022 02:18:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60250 "EHLO
+        id S229615AbiKSHZJ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 19 Nov 2022 02:25:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229615AbiKSHSF (ORCPT
+        with ESMTP id S232279AbiKSHZI (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 19 Nov 2022 02:18:05 -0500
-Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74D00B7011;
-        Fri, 18 Nov 2022 23:18:04 -0800 (PST)
-Received: by mail-vs1-xe32.google.com with SMTP id t14so6770169vsr.9;
-        Fri, 18 Nov 2022 23:18:04 -0800 (PST)
+        Sat, 19 Nov 2022 02:25:08 -0500
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A6CFB9736;
+        Fri, 18 Nov 2022 23:25:01 -0800 (PST)
+Received: by mail-vs1-xe2a.google.com with SMTP id a6so6788356vsc.5;
+        Fri, 18 Nov 2022 23:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=T5+UwlhJcwWjm7+nwp869T/Xrji+nD7ZnGo6JwjADN0=;
-        b=dBILmOvL+mq3KdKRiq55myh11lfFkPoP6KxnVv8XotrkG7Hvqq+ajLYER9j1m4dJ8k
-         997ayW1FIhmZZxnGHrreNOEzLrKWtWUinXFVODI2NcJnZvFtOcczpK8++1N7/3HoosLD
-         QIIPJqhICPL+CQVd164jAqvXLXhhNqi6efUPvHGgsMCLctZ1+hkx8FlRR48yIip8zqUn
-         aJovWojrZT9wXnmsFfU9NTxvm6TOIN2jqrifm6xigOOSCZk5OWGePyzEOyeP/aQxCx7w
-         bajy6IENK72rXROpLB4n7kb6YC7gdy9sINhQhTPTRzODBU3Po3XM7nGHVGJJJdG2CRIU
-         KEtw==
+        bh=pBdMJNbSH8U8r3sDotTSzBIJa9GdWBR9o8sXjNY/x8I=;
+        b=QneZXLTu/TV8Zrw0Vs8fqN62kXxM0ofhET0pwOh3uIjPAu02hOdd4dXZXR2towYCV7
+         VWNyqv8eRp/XSY5b26St/+ch2z/LJ7oxVk7pFbGvfmYe6TezAR/MUe1VhuAMk0gAJxZN
+         KwtyG82Gj4zGut9f9xbX6YbI/EOYgG+3AqYvA1BpOLTYJzu+colIarHQKCJIPD3rfLT1
+         qf1eEujz2HsYv43WdEJxsQJ/dbPjPGstEgPMxKJkS84D7inypvpN5D/104wNMaVzLxS4
+         olGLbsCpb7a1L9cuCAaNIc/zlJp2TPc9orOCQUp0sWHpA0ppRQLPxJxTE90LslVyC+XM
+         EW5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=T5+UwlhJcwWjm7+nwp869T/Xrji+nD7ZnGo6JwjADN0=;
-        b=Qrf/xwpAQjb3ui3y2ZgARB5ER5F8Wd19Gvgr19W/wFfo/9ibg2O7E33vObyfxY93cn
-         KYjLBkPpLe11mnVlxdbz6DW8f+bb83+fQirrlJ+jsvOF09zShmdCQVQdPNPLyGxffy2Z
-         q0ElSMQa5o1f9fjuRq76fUELGtlp+g1HNftKBfaD4ctwly9zQt2Pre2PGq9lkTQL8XUU
-         7KbdpoK1Yo+Xm1WERHr30wKzuMdxj2j72irzxlCSf29DP5YnZksWKUZocSv/5Z393hzh
-         kpW1EgxXkVm1A5D2pVnH80IceNlT/1xPaNpeUtfekL29qDXTswo7GzL4uJOIFOok7Wwk
-         8+tg==
-X-Gm-Message-State: ANoB5plkullGyvh0ZjhHehTal9ju/96a2gi3QeLswhQ2ybLJLmR8jaB1
-        8HQWqsjQUYGnREeZgPjNP5O4hebNmaJO6UD+PtRo/xGXD1w=
-X-Google-Smtp-Source: AA0mqf4Dx6XmHygEgZqSCnODMgit8jjYfe9rzzHtA54gpd8DuWN6vsACtgbzL70va18XoYViEVb3aHq8SF644VbuBXg=
+        bh=pBdMJNbSH8U8r3sDotTSzBIJa9GdWBR9o8sXjNY/x8I=;
+        b=q6ToNR+bU1mSvnQFtjYF/krn2tws0UUK1WJsPkkJ+9pZugW5tFhPIARhFleDSWq2Xp
+         WmDDwZGUclc/UGumCRuwLZoROH25JuJiQLkN+7qkrntbruBLz+8PwDMTu54tYl+gAATs
+         JQNSjHGwvC343/V0OrdDre/pT8J9Nkic/cCUUyn2R2D1LcvfEMk6PqwJfX1/TLJq26tR
+         dWEBUr4rm+Jbb9KAGBujuJK5d6cYgMCz1Z+2rapsliaStYZ3OeHxUiwGzgFU3iK3RSFw
+         1veHmUhl6UTCxJ1lr0zgEEwrVmwU0ZF/Rnd6v8WCHoDVqPh1IXlLP9PGzf+ryssgqTTJ
+         Zy3Q==
+X-Gm-Message-State: ANoB5pnJBfdXQqblehJ22i5aBxX9dvyXvjSr1NZklYFP43umvg3KVZ1T
+        djBsdJqYh4sLXw9r2QXOY1GB9RYynRu1YhtYxAk=
+X-Google-Smtp-Source: AA0mqf5kgwvTQxQ74Nr66JB9hCXZ02yfsW/5qDiD+30udm8BlLYIhz/OZEWt8jfdQgtbP1H/yM/1XXJoxms9hhDtp5s=
 X-Received: by 2002:a67:1006:0:b0:3aa:5e8:3a19 with SMTP id
- 6-20020a671006000000b003aa05e83a19mr5329017vsq.37.1668842283372; Fri, 18 Nov
- 2022 23:18:03 -0800 (PST)
+ 6-20020a671006000000b003aa05e83a19mr5333896vsq.37.1668842700581; Fri, 18 Nov
+ 2022 23:25:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20221118063304.140187-1-chenzhongjin@huawei.com>
- <20221118141138.c091445bdda36b78f6277c1f@linux-foundation.org>
- <0e693d41-0bb5-b4a9-19b7-1c71e90e06bf@huawei.com> <55553de4-04c3-09f3-b075-f0112d2298cb@huawei.com>
-In-Reply-To: <55553de4-04c3-09f3-b075-f0112d2298cb@huawei.com>
+References: <20221114040441.1649940-1-zhangpeng362@huawei.com>
+ <CAKFNMomu3Sf4_QHOm=zXM-QiLaVxASpMqpjek0F3SQnXwje4KA@mail.gmail.com>
+ <CAKFNMonXdyMw9mrQeGe_KtSfMDPSC_jNai8FZGceVyV9Nxw8AQ@mail.gmail.com> <422d9c54-a119-b2a2-f381-11f83af3d9ea@huawei.com>
+In-Reply-To: <422d9c54-a119-b2a2-f381-11f83af3d9ea@huawei.com>
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Sat, 19 Nov 2022 16:17:46 +0900
-Message-ID: <CAKFNMom=vjGrXJoc02ut8GocQ6hMmHrkcdReEvk-ykcE4p0b-w@mail.gmail.com>
-Subject: Re: [PATCH] nilfs2: Fix nilfs_sufile_mark_dirty() not set segment
- usage as dirty
-To:     Chen Zhongjin <chenzhongjin@huawei.com>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Sat, 19 Nov 2022 16:24:43 +0900
+Message-ID: <CAKFNMokh1fQNyqVCMWoQVnRnXf65j__Op9p+a3Prz_qk-YnoVQ@mail.gmail.com>
+Subject: Re: [PATCH] nilfs2: fix NULL pointer dereference in nilfs_palloc_commit_free_entry()
+To:     "zhangpeng (AS)" <zhangpeng362@huawei.com>
+Cc:     ye.xingchen@zte.com.cn, chi.minghao@zte.com.cn,
+        vishal.moola@gmail.com, linux-nilfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        syzbot+ebe05ee8e98f755f61d0@syzkaller.appspotmail.com
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
@@ -70,99 +71,41 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi Chen Zhongjin,
-
-On Sat, Nov 19, 2022 at 2:29 PM Chen Zhongjin wrote:
+On Sat, Nov 19, 2022 at 3:38 PM zhangpeng (AS)  wrote:
 >
+> Hi, ZhangPeng,
 >
-> On 2022/11/19 13:24, Chen Zhongjin wrote:
-> > On 2022/11/19 6:11, Andrew Morton wrote:
-> >> On Fri, 18 Nov 2022 14:33:04 +0800 Chen Zhongjin
-> >> <chenzhongjin@huawei.com> wrote:
-> >>
-> >>> In nilfs_sufile_mark_dirty(), the buffer and inode are set dirty, but
-> >>> nilfs_segment_usage is not set dirty, which makes it can be found by
-> >>> nilfs_sufile_alloc() because it checks nilfs_segment_usage_clean(su).
-> >>>
-> >>> This will cause the problem reported by syzkaller:
-> >>> https://syzkaller.appspot.com/bug?id=c7c4748e11ffcc367cef04f76e02e931833cbd24
-> >>>
-> >>>
-> >>> It's because the case starts with segbuf1.segnum = 3, nextnum = 4, and
-> >>> nilfs_sufile_alloc() not called to allocate a new segment.
-> >>>
-> >>> The first time nilfs_segctor_extend_segments() allocated segment
-> >>> segbuf2.segnum = segbuf1.nextnum = 4, then nilfs_sufile_alloc() found
-> >>> nextnextnum = 4 segment because its su is not set dirty.
-> >>> So segbuf2.nextnum = 4, which causes next segbuf3.segnum = 4.
-> >>>
-> >>> sb_getblk() will get same bh for segbuf2 and segbuf3, and this bh is
-> >>> added to both buffer lists of two segbuf.
-> >>> It makes the list head of second list linked to the first one. When
-> >>> iterating the first one, it will access and deref the head of second,
-> >>> which causes NULL pointer dereference.
-> >>>
-> >>> Fixes: 9ff05123e3bf ("nilfs2: segment constructor")
-> >> Merged in 2009!
-> >
-> > Yes, seems it is introduced at the beginning of this file and the
-> > function called nilfs_touch_segusage().
-> >
-
-Could you please resubmit the patch reflecting the following comments ?
-
-After I replied to Andrew, I noticed them.
-Also, When reposting, it would be helpful if you could add all the
-tags I asked for Andrew in advance.
-
-Comments:
-1) Please change nilfs_sufile_mark_dirty() so that it protects the
-segusage modification
-with &NILFS_MDT(sufile)->mi_sem:
-
-> --- a/fs/nilfs2/sufile.c
-> +++ b/fs/nilfs2/sufile.c
-> @@ -495,12 +495,18 @@ void nilfs_sufile_do_free(struct inode *sufile, __u64 segnum,
->  int nilfs_sufile_mark_dirty(struct inode *sufile, __u64 segnum)
->  {
->       struct buffer_head *bh;
-> +     void *kaddr;
-> +     struct nilfs_segment_usage *su;
->       int ret;
+> On Tue, Nov 15, 2022 at 3:39 AM Ryusuke Konishi  wrote:
+> As for the current outlook, it seems difficult to eliminate
+> duplication of the virtual block number, so I think we will call
+> nilfs_error() as follows:
 >
->       ret = nilfs_sufile_get_segment_usage_block(sufile, segnum, 0, &bh);
+>         nilfs_dat_commit_entry(dat, req);
+> +        if (unlikely(req->pr_desc_bh == NULL || req->pr_bitmap_bh == NULL)) {
+> +                nilfs_error(dat->i_sb,
+> +                            "state inconsistency due to duplicate use
+> of vblocknr = %llu",
+> +                            (unsigned long long)req->pr_entry_nr);
+> +                return;
+> +       }
+>         nilfs_palloc_commit_free_entry(dat, req);
+>
+> In that case, I would like to modify your patch and send it upstream
+> as your patch.  Is that OK ?
+> Or do you want to fix it more by yourself ?
+>
+> Thanks,
+> Ryusuke Konishi
+>
+> Thanks for your advice.
+>
+> Please modify my patch and send it upstream.
+>
+> That is really a complicated problem. Duplication of the virtual block
+> number is not easy to fix. It is necessary to prevent further operations
+>  of the filesystem when the filesystem has a fatal flaw. I will continue
+>  to follow up.
 
-+       down_write(&NILFS_MDT(sufile)->mi_sem);
->       if (!ret) {
->               mark_buffer_dirty(bh);
->               nilfs_mdt_mark_dirty(sufile);
-> +             kaddr = kmap_atomic(bh->b_page);
-> +             su = nilfs_sufile_block_get_segment_usage(sufile, segnum, bh, kaddr);
-> +             nilfs_segment_usage_set_dirty(su);
-> +             kunmap_atomic(kaddr);
->               brelse(bh);
->       }
-+       up_write(&NILFS_MDT(sufile)->mi_sem);
->       return ret;
+All right, thanks!
 
-All functions that modify metadata on the sufile need protection with
-this R/W semaphore.
-You may not see this protection for some sufile functions as is, but
-in that case, the wrapper function that uses them acquires this R/W
-semaphore instead.
-
-Since I retested for this change as well, you don't have to drop my
-"Tested-by" tag.
-
-2) Please use the following complete email address for the
-"Reported-by" tag of syzbot.
-
-Reported-by: syzbot+77e4f005cb899d4268d1@syzkaller.appspotmail.com
-
-Your tag is partially abbreviated.  I don't know that abbreviation is
-valid, but there are very few examples of such.
-And even if it's valid for syzbot, I don't think that omission is
-desirable as some tools may not support it.
-
-Thanks,
 Ryusuke Konishi
