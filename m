@@ -2,77 +2,122 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DF53B642DA2
-	for <lists+linux-nilfs@lfdr.de>; Mon,  5 Dec 2022 17:50:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D3E4648C04
+	for <lists+linux-nilfs@lfdr.de>; Sat, 10 Dec 2022 01:57:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232128AbiLEQuR (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 5 Dec 2022 11:50:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47286 "EHLO
+        id S229635AbiLJA5j (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 9 Dec 2022 19:57:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44090 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232842AbiLEQtr (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 5 Dec 2022 11:49:47 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C84B72180E
-        for <linux-nilfs@vger.kernel.org>; Mon,  5 Dec 2022 08:49:04 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id ay8-20020a05600c1e0800b003d0808d2826so6183532wmb.1
-        for <linux-nilfs@vger.kernel.org>; Mon, 05 Dec 2022 08:49:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=Z2wBWagY9UnEZ+M5YPDdGkg6nVUsQfYS1BhjpcwGEao2GhG01+Mm/qvV+1fKOq1lbu
-         EFS78qR+UGfEwXQVt6IRXk6jTGT8mo+KAwwjj0fZxBmjE1jztugOoJP4/rka0x6XFhxu
-         W6iUCvsIDO6eHcdCHFvdIDlIVpJCsES5SD3xSnapoHClZmLcHlXbjXoeix+TX99ab7ry
-         BqOOHDFzUlmJeyU3OvUitATOsPkFA0DOczbi/Afsjm9NHI/YtApk72ny0qjFhFTXO+XP
-         yKXAtBeMHMlIwSKvmuRpEfOfWiK9b959mo8P7Fx64Ot+uHxQXUUrd10S+RG2s/yWLOX2
-         BSUg==
+        with ESMTP id S229734AbiLJA5h (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 9 Dec 2022 19:57:37 -0500
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 034BA6441
+        for <linux-nilfs@vger.kernel.org>; Fri,  9 Dec 2022 16:57:37 -0800 (PST)
+Received: by mail-io1-f72.google.com with SMTP id h11-20020a6b7a0b000000b006e0004fc167so3109889iom.5
+        for <linux-nilfs@vger.kernel.org>; Fri, 09 Dec 2022 16:57:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=O4WPtqOs6pYDke8VCfpzwsIX+8zN33o8tLS2XMy/lFU=;
-        b=ZLV3delOJ/V1JWcxjeKfvPlTobF9m0KLaKvOLuyIMBN89euXL/MCcEf29LarM0XZrh
-         /w/tdLOfrcdjsf8rR7XAlb+c/UUtVb+QgZtm/QTwnbYWc7Vs2EXt5UIgKeFroUGfyqWk
-         UVo4H67O0G/RAduUGETh+fNWKXvJPBuRcWQntbrFHD9P8003RK0TymROWLQu61f89B5U
-         VieS7oUqQ3vVlqPn4tggZUKJgZxIyNTzVVFyfqbLKnqPfBqx1UzD6OxCCsZ9LEWBUC3o
-         tLnxZwAg/W3bOfiE6Fdksd+3efP0Mqw76vZ3zgwOxj6QdVvFU2nFJwzzpj6kiQY1WllU
-         wTeQ==
-X-Gm-Message-State: ANoB5pmxXJHkC96UwR1kw+9siT122o7wJlrxuA+OHYYSVjvkvWvKoYMJ
-        LmMb88ykUGPdDXPPT5XaXX4N4xe/16GecqAr6Ic=
-X-Google-Smtp-Source: AA0mqf6LlThRqxALxahU+d5CDCL5XgA0Iri4oQFEx6hETTBFBZxUw9iI5CXyM5b3WvWotoaM22oBvK+CwFtVO/zgxX4=
-X-Received: by 2002:a7b:c8d0:0:b0:3cf:ca91:7094 with SMTP id
- f16-20020a7bc8d0000000b003cfca917094mr60628535wml.24.1670258943314; Mon, 05
- Dec 2022 08:49:03 -0800 (PST)
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OQCSmNJ3Xc0dOvaQuhHN4Oz2uPX+uvhvUhd62uhM/9k=;
+        b=KRgGzZgdLEsqUKdW2ByNYcQjKCvMI0o+sSLmVj4ByU9eU0SsWzDUISen4EIBk56Pky
+         K0U/eVKixHmR4qh3Z+IrJlevkHM9EyAXOnz+Uw6aqr+O3j3YPeq85WDMkWzSi/20iK5H
+         Q1WOtqUHRubZjLNIuEP1ZstnU6WNK8qew7A87WGgnoieme1QGllR2nGllJgKS+I7remF
+         2wZHFaylwQpZMYvieEzG9uecfS/kQn9u1qrOsiO8UYFUfCZxuVcQ4PUxBxUY4XVw7jnZ
+         U3UW4QT7ei1h7CPCWjrhCVznWPe9vjAwcJxPq4xZ6TQY3+U3dErl6xf3gXGtriJDYHvH
+         vlfA==
+X-Gm-Message-State: ANoB5plD6hUOWd4nJy+wy213hvl3YqHwYMPch3APskJX1kIwBjw0uIef
+        vtmfPbmVccFWUYx32zv0H/XiIF++VFx93kJswMDt3tWbtxzj
+X-Google-Smtp-Source: AA0mqf4io54+Avwf2gqBz+hJLuZyKNGq0VSSL9wcWnqxD2PXA/Ztg2riR/hYBDvNH4AMr5u6Edgg8BgqqOLGEaoQ49mxyvg/4Qll
 MIME-Version: 1.0
-Received: by 2002:a05:6000:5c1:0:0:0:0 with HTTP; Mon, 5 Dec 2022 08:49:02
- -0800 (PST)
-Reply-To: phmanu14@hotmail.com
-From:   Philip Manul <zagbamdjala@gmail.com>
-Date:   Mon, 5 Dec 2022 08:49:02 -0800
-Message-ID: <CAPCnorG0wZz4L65xmUUzHEvxvuhrsq0nQnSPJqno3Ah89AhSwA@mail.gmail.com>
-Subject: REP:
-To:     in <in@proposal.net>
+X-Received: by 2002:a02:a0c3:0:b0:38a:d70:cd27 with SMTP id
+ i3-20020a02a0c3000000b0038a0d70cd27mr16150140jah.226.1670633856345; Fri, 09
+ Dec 2022 16:57:36 -0800 (PST)
+Date:   Fri, 09 Dec 2022 16:57:36 -0800
+In-Reply-To: <0000000000001a6b6705e9b3533d@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000008eac3f05ef6ec145@google.com>
+Subject: Re: [syzbot] WARNING in nilfs_segctor_do_construct
+From:   syzbot <syzbot+fbb3e0b24e8dae5a16ee@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, gregkh@linuxfoundation.org,
+        konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, stable-commits@vger.kernel.org,
+        stable@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=1.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: *
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
---=20
-Guten tag,
-Mein Name ist Philip Manul. Ich bin von Beruf Rechtsanwalt. Ich habe
-einen verstorbenen Kunden, der zuf=C3=A4llig denselben Namen mit Ihnen
-teilt. Ich habe alle Papierdokumente in meinem Besitz. Ihr Verwandter,
-mein verstorbener Kunde, hat hier in meinem Land einen nicht
-beanspruchten Fonds zur=C3=BCckgelassen. Ich warte auf Ihre Antwort zum
-Verfahren.
-Philip Manul.
+syzbot has found a reproducer for the following issue on:
+
+HEAD commit:    a5541c0811a0 Merge branch 'for-next/core' into for-kernelci
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git for-kernelci
+console output: https://syzkaller.appspot.com/x/log.txt?x=15c56bdb880000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=cbd4e584773e9397
+dashboard link: https://syzkaller.appspot.com/bug?extid=fbb3e0b24e8dae5a16ee
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: arm64
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14caa71d880000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1032f2b7880000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/4b7702208fb9/disk-a5541c08.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9ec0153ec051/vmlinux-a5541c08.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/6f8725ad290a/Image-a5541c08.gz.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/0911b0ec76cf/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+fbb3e0b24e8dae5a16ee@syzkaller.appspotmail.com
+
+NILFS (loop0): segctord starting. Construction interval = 5 seconds, CP frequency < 30 seconds
+NILFS (loop0): nilfs_sufile_update: invalid segment number: 53
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 3149 at fs/nilfs2/segment.c:1482 nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1482 [inline]
+WARNING: CPU: 0 PID: 3149 at fs/nilfs2/segment.c:1482 nilfs_segctor_collect fs/nilfs2/segment.c:1534 [inline]
+WARNING: CPU: 0 PID: 3149 at fs/nilfs2/segment.c:1482 nilfs_segctor_do_construct+0x6cc/0xefc fs/nilfs2/segment.c:2045
+Modules linked in:
+CPU: 0 PID: 3149 Comm: segctord Not tainted 6.1.0-rc8-syzkaller-33330-ga5541c0811a0 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/30/2022
+pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+pc : nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1482 [inline]
+pc : nilfs_segctor_collect fs/nilfs2/segment.c:1534 [inline]
+pc : nilfs_segctor_do_construct+0x6cc/0xefc fs/nilfs2/segment.c:2045
+lr : nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1482 [inline]
+lr : nilfs_segctor_collect fs/nilfs2/segment.c:1534 [inline]
+lr : nilfs_segctor_do_construct+0x6cc/0xefc fs/nilfs2/segment.c:2045
+sp : ffff800012f6bc80
+x29: ffff800012f6bd00 x28: ffff800008f744fc x27: ffff0000c6cf9128
+x26: ffff0000c6cf9258 x25: ffff0000c9039138 x24: ffff0000ca797818
+x23: ffff0000c90390b8 x22: 00000000ffffffea x21: 0000000000000001
+x20: ffff0000cb9a8000 x19: ffff0000c9039000 x18: 000000000000027f
+x17: 0000000000000000 x16: ffff80000dbe6158 x15: ffff0000c6508000
+x14: 0000000000000000 x13: 00000000ffffffff x12: ffff0000c6508000
+x11: ff80800008f68d3c x10: 0000000000000000 x9 : ffff800008f68d3c
+x8 : ffff0000c6508000 x7 : ffff80000816678c x6 : 0000000000000000
+x5 : 0000000000000080 x4 : 0000000000000001 x3 : 0000000000000000
+x2 : ffff0001fefbecd0 x1 : 00000000ffffffea x0 : 0000000000000000
+Call trace:
+ nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1482 [inline]
+ nilfs_segctor_collect fs/nilfs2/segment.c:1534 [inline]
+ nilfs_segctor_do_construct+0x6cc/0xefc fs/nilfs2/segment.c:2045
+ nilfs_segctor_construct+0xa0/0x380 fs/nilfs2/segment.c:2379
+ nilfs_segctor_thread_construct fs/nilfs2/segment.c:2487 [inline]
+ nilfs_segctor_thread+0x180/0x634 fs/nilfs2/segment.c:2570
+ kthread+0x12c/0x158 kernel/kthread.c:376
+ ret_from_fork+0x10/0x20 arch/arm64/kernel/entry.S:863
+irq event stamp: 8892
+hardirqs last  enabled at (8891): [<ffff80000816681c>] raw_spin_rq_unlock_irq kernel/sched/sched.h:1366 [inline]
+hardirqs last  enabled at (8891): [<ffff80000816681c>] finish_lock_switch+0x94/0xe8 kernel/sched/core.c:4968
+hardirqs last disabled at (8892): [<ffff80000c084084>] el1_dbg+0x24/0x80 arch/arm64/kernel/entry-common.c:405
+softirqs last  enabled at (8698): [<ffff8000080102e4>] _stext+0x2e4/0x37c
+softirqs last disabled at (8677): [<ffff800008017c88>] ____do_softirq+0x14/0x20 arch/arm64/kernel/irq.c:80
+---[ end trace 0000000000000000 ]---
+
