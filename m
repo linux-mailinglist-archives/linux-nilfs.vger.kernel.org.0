@@ -2,48 +2,48 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4832D64FA75
-	for <lists+linux-nilfs@lfdr.de>; Sat, 17 Dec 2022 16:45:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A9864FAA8
+	for <lists+linux-nilfs@lfdr.de>; Sat, 17 Dec 2022 16:45:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230265AbiLQPiE (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 17 Dec 2022 10:38:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45544 "EHLO
+        id S231278AbiLQPjV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 17 Dec 2022 10:39:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230425AbiLQPfr (ORCPT
+        with ESMTP id S231445AbiLQPhr (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 17 Dec 2022 10:35:47 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BB222287;
-        Sat, 17 Dec 2022 07:30:02 -0800 (PST)
+        Sat, 17 Dec 2022 10:37:47 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30BFA1758E;
+        Sat, 17 Dec 2022 07:30:37 -0800 (PST)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 23EFB60C17;
-        Sat, 17 Dec 2022 15:30:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1FFCC433EF;
-        Sat, 17 Dec 2022 15:30:00 +0000 (UTC)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 4523FB803F5;
+        Sat, 17 Dec 2022 15:30:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439B1C433EF;
+        Sat, 17 Dec 2022 15:30:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1671291001;
+        s=k20201202; t=1671291024;
         bh=YZgSeHYj5jxf+uya8RhJZ5L4+aUfdAFox38v7ee+lek=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FUuuUwNFcFDDc9lddjWFKCtmYz1y3IqAMyPIUt+xP9mv4XzABeydW3sLpsGnm+tkC
-         kJCIePPwtS8H6KdM2OS1JoIfJsvAatwA2FVGbOIW6ATDb7Gx16uK4AzUw8HW+HT0Yc
-         mQjP9Aec7js07Bta6QDb97sn4QkmnnYF1Tlvj9Jb2AQkxJTQjjnFLyJJcCxVnrjjIk
-         QfqfzrESKamam1R84tVzEpf7DM/KNogP6u+P407qFiSdakjJOvQX1LKxmXv6v7D1wT
-         dHW7pkSyxfP84FbM5YtRdahch5D/4wajmUNsC5jYzbPX+85/wcxOTViDmKluNhgp7f
-         IMXH1TAklc5cA==
+        b=fnWdNgqH3JW3j7tUkm6iGwYcWQVg8Tai976iNiUa25Q9y28VIH8z+dpq697RDiHOr
+         blPEISGjBY4kSbJsQM+C6yIuA1Kflr7waQ6KJ0z2S1BdvMotCKeugOdq/ws5qOxGRe
+         QjwXBYk3TmgdoXiXbdgBsQ3L4iU7T+I5ehvIfVPs4wYz1ZvP+uwXy2COSwPBW8oRjd
+         mcMri0U92tPuMzpH6/8yt1B6DLsG+P0RphXZ7TwKNz6mk2yQBuqDluh7e6gXOxkE6u
+         TGjlez5x9N2GP7wi8Zs9qWr4O4KR6Ia2SenzfkVLnEc9/JW5qA/Lzr5zNiZrrc7FWg
+         myxYNcLiflqng==
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         syzbot+e91619dd4c11c4960706@syzkaller.appspotmail.com,
         Andrew Morton <akpm@linux-foundation.org>,
         Sasha Levin <sashal@kernel.org>, linux-nilfs@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 6/9] nilfs2: fix shift-out-of-bounds/overflow in nilfs_sb2_bad_offset()
-Date:   Sat, 17 Dec 2022 10:29:44 -0500
-Message-Id: <20221217152949.99146-6-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 6/8] nilfs2: fix shift-out-of-bounds/overflow in nilfs_sb2_bad_offset()
+Date:   Sat, 17 Dec 2022 10:30:08 -0500
+Message-Id: <20221217153012.99273-6-sashal@kernel.org>
 X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20221217152949.99146-1-sashal@kernel.org>
-References: <20221217152949.99146-1-sashal@kernel.org>
+In-Reply-To: <20221217153012.99273-1-sashal@kernel.org>
+References: <20221217153012.99273-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
