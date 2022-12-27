@@ -2,88 +2,137 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 26E1765525B
-	for <lists+linux-nilfs@lfdr.de>; Fri, 23 Dec 2022 16:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40430656724
+	for <lists+linux-nilfs@lfdr.de>; Tue, 27 Dec 2022 04:42:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236535AbiLWPle (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 23 Dec 2022 10:41:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
+        id S229592AbiL0Dmh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 26 Dec 2022 22:42:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46310 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236522AbiLWPlV (ORCPT
+        with ESMTP id S229540AbiL0Dmg (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 23 Dec 2022 10:41:21 -0500
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3314A1148;
-        Fri, 23 Dec 2022 07:41:20 -0800 (PST)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id A9E326158B;
-        Fri, 23 Dec 2022 15:41:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55F15C433D2;
-        Fri, 23 Dec 2022 15:41:15 +0000 (UTC)
-Date:   Fri, 23 Dec 2022 10:41:13 -0500
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Anna-Maria Gleixner <anna-maria@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Julia Lawall <Julia.Lawall@inria.fr>, linux-sh@vger.kernel.org,
-        cgroups@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-acpi@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org,
-        drbd-dev@lists.linbit.com, linux-bluetooth@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        SHA-cyfmac-dev-list@infineon.com, linux-scsi@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-ext4@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, bridge@lists.linux-foundation.org,
-        netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-        lvs-devel@vger.kernel.org, linux-nfs@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net, alsa-devel@alsa-project.org
-Subject: Re: [PATCH] treewide: Convert del_timer*() to timer_shutdown*()
-Message-ID: <20221223104113.0bc8d37f@gandalf.local.home>
-In-Reply-To: <20221220134519.3dd1318b@gandalf.local.home>
-References: <20221220134519.3dd1318b@gandalf.local.home>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        Mon, 26 Dec 2022 22:42:36 -0500
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 955576169
+        for <linux-nilfs@vger.kernel.org>; Mon, 26 Dec 2022 19:42:35 -0800 (PST)
+Received: by mail-io1-f70.google.com with SMTP id k1-20020a6b3c01000000b006f744aee560so755059iob.2
+        for <linux-nilfs@vger.kernel.org>; Mon, 26 Dec 2022 19:42:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HT6NQ6ZRebuvpIly3+Uy5dHIc3hJIKXVu5Ccu6rq1p0=;
+        b=psdiEQXfDw8niovV9ARy+ugKE6CyJTWtzE45OmXxnHoXtx0eDgdt5dKxdcZOzUs39H
+         EJQcZhA+XCJcBY5Q+0jbNjD+WcpSg8/4O1vP5V/cs0H6he5XrpNizc4zD1E8rshfFGbs
+         M/sw8gPirwXtvybiKZsz6OKLsEfxcsR7U+FoPPwkmwvui2/hNxuEcS8HXWc0WI8qI2dh
+         flINrEW4GJnPVy9dJm/gaHpuQat6d/R76m524kaSDPVZEFMlj12IOs3zvjO+Z5bc0GFF
+         6zlFAruhqlOU838kLm5ZRdCiGagQeIh7WOdfGTzqtqJJjM4ZV9r6h5keHLecDjGG7x9n
+         1NIA==
+X-Gm-Message-State: AFqh2kpID/aPC/ZUcMhEauueTldsBzKAix3GPHnJkWgQCb/CatXX1TAX
+        0+koAistzsDiD1gelXxqYjaPDCajAFhPZVY8UPaOrlc0rpC6
+X-Google-Smtp-Source: AMrXdXvEBUw/+j92DS13gGV1YYD8pfVnt1DDN1C+6fGvxMOtNoH67qiCOWXbqOO6jJk3Q4Xggs0aQqVHRKyEDMp0Ip8nP86GqhOt
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-6.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a92:7a03:0:b0:303:395:7359 with SMTP id
+ v3-20020a927a03000000b0030303957359mr1670658ilc.253.1672112554932; Mon, 26
+ Dec 2022 19:42:34 -0800 (PST)
+Date:   Mon, 26 Dec 2022 19:42:34 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000dc83d605f0c70a11@google.com>
+Subject: [syzbot] [nilfs2?] kernel BUG in folio_end_writeback
+From:   syzbot <syzbot+7e5cf1d80677ec185e63@syzkaller.appspotmail.com>
+To:     akpm@linux-foundation.org, konishi.ryusuke@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com, willy@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, 20 Dec 2022 13:45:19 -0500
-Steven Rostedt <rostedt@goodmis.org> wrote:
+Hello,
 
-> [
->   Linus,
-> 
->     I ran the script against your latest master branch:
->     commit b6bb9676f2165d518b35ba3bea5f1fcfc0d969bf
-> 
->     As the timer_shutdown*() code is now in your tree, I figured
->     we can start doing the conversions. At least add the trivial ones
->     now as Thomas suggested that this gets applied at the end of the
->     merge window, to avoid conflicts with linux-next during the
->     development cycle. I can wait to Friday to run it again, and
->     resubmit.
-> 
->     What is the best way to handle this?
-> ]
+syzbot found the following issue on:
 
-Note, I just did a git remote update, checked out the latest, re-ran the
-script, and this patch hasn't changed.
+HEAD commit:    0a924817d2ed Merge tag '6.2-rc-smb3-client-fixes-part2' of..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=16228274480000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4e2d7bfa2d6d5a76
+dashboard link: https://syzkaller.appspot.com/bug?extid=7e5cf1d80677ec185e63
+compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14494888480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11c189f8480000
 
--- Steve
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/b0959a409a79/disk-0a924817.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/388daa76797b/vmlinux-0a924817.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/b9d2d406c075/bzImage-0a924817.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/166e13821ab4/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7e5cf1d80677ec185e63@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+kernel BUG at mm/filemap.c:1615!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 15 Comm: ksoftirqd/0 Not tainted 6.1.0-syzkaller-14321-g0a924817d2ed #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
+RIP: 0010:folio_end_writeback+0x34d/0x530 mm/filemap.c:1615
+Code: 84 87 00 00 00 e8 13 5a d2 ff e9 36 fd ff ff e8 09 5a d2 ff 4c 89 f7 48 c7 c6 20 84 f8 8a e8 ca 3a 10 00 0f 0b e8 f3 59 d2 ff <0f> 0b e8 ec 59 d2 ff 4c 89 f7 48 c7 c6 60 86 f8 8a e8 ad 3a 10 00
+RSP: 0018:ffffc90000147b88 EFLAGS: 00010246
+RAX: ffffffff81b9813d RBX: 0000000000000082 RCX: ffff88813fefba80
+RDX: 0000000080000100 RSI: ffffffff8aedcc60 RDI: ffffffff8b4bbfe0
+RBP: 1ffffd40000ed426 R08: dffffc0000000000 R09: fffffbfff1d2cabe
+R10: fffffbfff1d2cabe R11: 1ffffffff1d2cabd R12: ffffea000076a134
+R13: dffffc0000000000 R14: ffffea000076a100 R15: 1ffffd40000ed420
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff727105718 CR3: 00000000291ab000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ end_bio_bh_io_sync+0xb1/0x110 fs/buffer.c:2655
+ req_bio_endio block/blk-mq.c:794 [inline]
+ blk_update_request+0x51c/0x1040 block/blk-mq.c:926
+ blk_mq_end_request+0x39/0x70 block/blk-mq.c:1053
+ blk_complete_reqs block/blk-mq.c:1131 [inline]
+ blk_done_softirq+0x119/0x160 block/blk-mq.c:1136
+ __do_softirq+0x277/0x738 kernel/softirq.c:571
+ run_ksoftirqd+0xa2/0x100 kernel/softirq.c:934
+ smpboot_thread_fn+0x533/0xa10 kernel/smpboot.c:164
+ kthread+0x266/0x300 kernel/kthread.c:376
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:folio_end_writeback+0x34d/0x530 mm/filemap.c:1615
+Code: 84 87 00 00 00 e8 13 5a d2 ff e9 36 fd ff ff e8 09 5a d2 ff 4c 89 f7 48 c7 c6 20 84 f8 8a e8 ca 3a 10 00 0f 0b e8 f3 59 d2 ff <0f> 0b e8 ec 59 d2 ff 4c 89 f7 48 c7 c6 60 86 f8 8a e8 ad 3a 10 00
+RSP: 0018:ffffc90000147b88 EFLAGS: 00010246
+RAX: ffffffff81b9813d RBX: 0000000000000082 RCX: ffff88813fefba80
+RDX: 0000000080000100 RSI: ffffffff8aedcc60 RDI: ffffffff8b4bbfe0
+RBP: 1ffffd40000ed426 R08: dffffc0000000000 R09: fffffbfff1d2cabe
+R10: fffffbfff1d2cabe R11: 1ffffffff1d2cabd R12: ffffea000076a134
+R13: dffffc0000000000 R14: ffffea000076a100 R15: 1ffffd40000ed420
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007ff727105718 CR3: 00000000291ab000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
