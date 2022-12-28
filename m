@@ -2,54 +2,51 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40430656724
-	for <lists+linux-nilfs@lfdr.de>; Tue, 27 Dec 2022 04:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8BD565775D
+	for <lists+linux-nilfs@lfdr.de>; Wed, 28 Dec 2022 14:40:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229592AbiL0Dmh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 26 Dec 2022 22:42:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46310 "EHLO
+        id S232873AbiL1Nkr (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 28 Dec 2022 08:40:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48546 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229540AbiL0Dmg (ORCPT
+        with ESMTP id S232924AbiL1Nkp (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 26 Dec 2022 22:42:36 -0500
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com [209.85.166.70])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 955576169
-        for <linux-nilfs@vger.kernel.org>; Mon, 26 Dec 2022 19:42:35 -0800 (PST)
-Received: by mail-io1-f70.google.com with SMTP id k1-20020a6b3c01000000b006f744aee560so755059iob.2
-        for <linux-nilfs@vger.kernel.org>; Mon, 26 Dec 2022 19:42:35 -0800 (PST)
+        Wed, 28 Dec 2022 08:40:45 -0500
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89C8618C
+        for <linux-nilfs@vger.kernel.org>; Wed, 28 Dec 2022 05:40:42 -0800 (PST)
+Received: by mail-il1-f198.google.com with SMTP id n15-20020a056e021baf00b0030387c2e1d3so10197506ili.5
+        for <linux-nilfs@vger.kernel.org>; Wed, 28 Dec 2022 05:40:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=HT6NQ6ZRebuvpIly3+Uy5dHIc3hJIKXVu5Ccu6rq1p0=;
-        b=psdiEQXfDw8niovV9ARy+ugKE6CyJTWtzE45OmXxnHoXtx0eDgdt5dKxdcZOzUs39H
-         EJQcZhA+XCJcBY5Q+0jbNjD+WcpSg8/4O1vP5V/cs0H6he5XrpNizc4zD1E8rshfFGbs
-         M/sw8gPirwXtvybiKZsz6OKLsEfxcsR7U+FoPPwkmwvui2/hNxuEcS8HXWc0WI8qI2dh
-         flINrEW4GJnPVy9dJm/gaHpuQat6d/R76m524kaSDPVZEFMlj12IOs3zvjO+Z5bc0GFF
-         6zlFAruhqlOU838kLm5ZRdCiGagQeIh7WOdfGTzqtqJJjM4ZV9r6h5keHLecDjGG7x9n
-         1NIA==
-X-Gm-Message-State: AFqh2kpID/aPC/ZUcMhEauueTldsBzKAix3GPHnJkWgQCb/CatXX1TAX
-        0+koAistzsDiD1gelXxqYjaPDCajAFhPZVY8UPaOrlc0rpC6
-X-Google-Smtp-Source: AMrXdXvEBUw/+j92DS13gGV1YYD8pfVnt1DDN1C+6fGvxMOtNoH67qiCOWXbqOO6jJk3Q4Xggs0aQqVHRKyEDMp0Ip8nP86GqhOt
+        bh=TFc4jtB2jB9QToNm0oIkI4LIX+MXekLHtnq5I9flniw=;
+        b=E1RjnECGsQeiuyJuUkxJFsO+I2HF6fWt9RJQxBomgGQS/yWXxHVdzFKZiSxyYkIna7
+         3DUH/mB0ek8dmcfZNF1KcTAPiQfwoHL6/+MJp9u5KgvDceRYd61JvcoUd44o65ipNG7n
+         47amr0QO8ylHpHXQT+FeMBbv1vl9GLrBySuKdoOLpf95az4bpmNth6xyzkFKmbyhVdYc
+         I0wHd2oTpU36QczTwJ/L548tCo/KO5m6jRU/8tn6Xt8rVa9LncT+StlFzwIKBM2HAZic
+         m4G6UrIN1T4dpghgYN4msu6tsrkHWb4L1IfIke53ULBg/vXV1FMTlHCblsyQ1eWBDMWV
+         lj2w==
+X-Gm-Message-State: AFqh2kqn3fl9wvInrfIyOCBsj7lLruxpnfaAWKw6ZsH4QmVVMsdRliTO
+        HOgq8A1cZvrfiHdAvHCqWFzkGptMlzkqaRTDbVhHuNYil29p
+X-Google-Smtp-Source: AMrXdXsbA3VMo3j/4dGboV6ENJweNGYnMneX1VCJI3ra0hSjhOsTwKsB55jW0s7mtVW2vv14/UiY7HtQGk7+at3FHenj0FuqQkQX
 MIME-Version: 1.0
-X-Received: by 2002:a92:7a03:0:b0:303:395:7359 with SMTP id
- v3-20020a927a03000000b0030303957359mr1670658ilc.253.1672112554932; Mon, 26
- Dec 2022 19:42:34 -0800 (PST)
-Date:   Mon, 26 Dec 2022 19:42:34 -0800
+X-Received: by 2002:a92:cf46:0:b0:303:cc0:689d with SMTP id
+ c6-20020a92cf46000000b003030cc0689dmr1632265ilr.73.1672234842030; Wed, 28 Dec
+ 2022 05:40:42 -0800 (PST)
+Date:   Wed, 28 Dec 2022 05:40:42 -0800
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000dc83d605f0c70a11@google.com>
-Subject: [syzbot] [nilfs2?] kernel BUG in folio_end_writeback
-From:   syzbot <syzbot+7e5cf1d80677ec185e63@syzkaller.appspotmail.com>
-To:     akpm@linux-foundation.org, konishi.ryusuke@gmail.com,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com, willy@infradead.org
+Message-ID: <000000000000bd89e205f0e38355@google.com>
+Subject: [syzbot] [nilfs2?] general protection fault in nilfs_btree_insert
+From:   syzbot <syzbot+ede796cecd5296353515@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -60,71 +57,108 @@ Hello,
 
 syzbot found the following issue on:
 
-HEAD commit:    0a924817d2ed Merge tag '6.2-rc-smb3-client-fixes-part2' of..
+HEAD commit:    51094a24b85e Merge tag 'hardening-v6.2-rc1-fixes' of git:/..
 git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=16228274480000
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=172e2b44480000
 kernel config:  https://syzkaller.appspot.com/x/.config?x=4e2d7bfa2d6d5a76
-dashboard link: https://syzkaller.appspot.com/bug?extid=7e5cf1d80677ec185e63
+dashboard link: https://syzkaller.appspot.com/bug?extid=ede796cecd5296353515
 compiler:       Debian clang version 13.0.1-++20220126092033+75e33f71c2da-1~exp1~20220126212112.63, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=14494888480000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11c189f8480000
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1243578c480000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1506f1ac480000
 
 Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/b0959a409a79/disk-0a924817.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/388daa76797b/vmlinux-0a924817.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b9d2d406c075/bzImage-0a924817.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/166e13821ab4/mount_0.gz
+disk image: https://storage.googleapis.com/syzbot-assets/a26f3769fdfb/disk-51094a24.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/5decc3ae71d7/vmlinux-51094a24.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/dd2ac18a5b04/bzImage-51094a24.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/559169c47ec8/mount_0.gz
 
 IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+7e5cf1d80677ec185e63@syzkaller.appspotmail.com
+Reported-by: syzbot+ede796cecd5296353515@syzkaller.appspotmail.com
 
-------------[ cut here ]------------
-kernel BUG at mm/filemap.c:1615!
-invalid opcode: 0000 [#1] PREEMPT SMP KASAN
-CPU: 0 PID: 15 Comm: ksoftirqd/0 Not tainted 6.1.0-syzkaller-14321-g0a924817d2ed #0
+loop0: detected capacity change from 0 to 2048
+general protection fault, probably for non-canonical address 0xdffffc0000000005: 0000 [#1] PREEMPT SMP KASAN
+KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
+CPU: 1 PID: 5066 Comm: syz-executor153 Not tainted 6.1.0-syzkaller-14587-g51094a24b85e #0
 Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/26/2022
-RIP: 0010:folio_end_writeback+0x34d/0x530 mm/filemap.c:1615
-Code: 84 87 00 00 00 e8 13 5a d2 ff e9 36 fd ff ff e8 09 5a d2 ff 4c 89 f7 48 c7 c6 20 84 f8 8a e8 ca 3a 10 00 0f 0b e8 f3 59 d2 ff <0f> 0b e8 ec 59 d2 ff 4c 89 f7 48 c7 c6 60 86 f8 8a e8 ad 3a 10 00
-RSP: 0018:ffffc90000147b88 EFLAGS: 00010246
-RAX: ffffffff81b9813d RBX: 0000000000000082 RCX: ffff88813fefba80
-RDX: 0000000080000100 RSI: ffffffff8aedcc60 RDI: ffffffff8b4bbfe0
-RBP: 1ffffd40000ed426 R08: dffffc0000000000 R09: fffffbfff1d2cabe
-R10: fffffbfff1d2cabe R11: 1ffffffff1d2cabd R12: ffffea000076a134
-R13: dffffc0000000000 R14: ffffea000076a100 R15: 1ffffd40000ed420
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+RIP: 0010:nilfs_btree_get_nonroot_node fs/nilfs2/btree.c:418 [inline]
+RIP: 0010:nilfs_btree_prepare_insert fs/nilfs2/btree.c:1077 [inline]
+RIP: 0010:nilfs_btree_insert+0x6d3/0x1c10 fs/nilfs2/btree.c:1238
+Code: bc 24 80 00 00 00 4c 89 f8 48 c1 e8 03 42 80 3c 28 00 74 08 4c 89 ff e8 4b 02 92 fe 4d 8b 3f 49 83 c7 28 4c 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 ff e8 2e 02 92 fe 4d 8b 3f 49 83 c7 02
+RSP: 0018:ffffc90003bcf4a0 EFLAGS: 00010206
+RAX: 0000000000000005 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff88807eba3a80 RSI: 0000000000000002 RDI: 0000000000000001
+RBP: ffffc90003bcf630 R08: ffffffff834f80d8 R09: ffffed100571ff9b
+R10: ffffed100571ff9b R11: 1ffff1100571ff9a R12: ffff888021d03480
+R13: dffffc0000000000 R14: 0000000000000002 R15: 0000000000000028
+FS:  000055555588c300(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff727105718 CR3: 00000000291ab000 CR4: 00000000003506f0
+CR2: 00007f4614ff5a70 CR3: 000000007eb7c000 CR4: 00000000003506e0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
 Call Trace:
  <TASK>
- end_bio_bh_io_sync+0xb1/0x110 fs/buffer.c:2655
- req_bio_endio block/blk-mq.c:794 [inline]
- blk_update_request+0x51c/0x1040 block/blk-mq.c:926
- blk_mq_end_request+0x39/0x70 block/blk-mq.c:1053
- blk_complete_reqs block/blk-mq.c:1131 [inline]
- blk_done_softirq+0x119/0x160 block/blk-mq.c:1136
- __do_softirq+0x277/0x738 kernel/softirq.c:571
- run_ksoftirqd+0xa2/0x100 kernel/softirq.c:934
- smpboot_thread_fn+0x533/0xa10 kernel/smpboot.c:164
- kthread+0x266/0x300 kernel/kthread.c:376
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ nilfs_bmap_do_insert fs/nilfs2/bmap.c:121 [inline]
+ nilfs_bmap_insert+0x20d/0x360 fs/nilfs2/bmap.c:147
+ nilfs_get_block+0x414/0x8d0 fs/nilfs2/inode.c:101
+ __block_write_begin_int+0x54c/0x1a80 fs/buffer.c:1991
+ __block_write_begin fs/buffer.c:2041 [inline]
+ block_write_begin+0x93/0x1e0 fs/buffer.c:2102
+ nilfs_write_begin+0x9c/0x110 fs/nilfs2/inode.c:261
+ generic_perform_write+0x2e4/0x5e0 mm/filemap.c:3772
+ __generic_file_write_iter+0x176/0x400 mm/filemap.c:3900
+ generic_file_write_iter+0xab/0x310 mm/filemap.c:3932
+ call_write_iter include/linux/fs.h:2186 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x7dc/0xc50 fs/read_write.c:584
+ ksys_write+0x177/0x2a0 fs/read_write.c:637
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7fca03d80b59
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 51 14 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdd1df8c28 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fca03d80b59
+RDX: 000000000000002f RSI: 0000000020000040 RDI: 0000000000000004
+RBP: 00007fca03d40160 R08: 0000000000000014 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007fca03d401f0
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
  </TASK>
 Modules linked in:
 ---[ end trace 0000000000000000 ]---
-RIP: 0010:folio_end_writeback+0x34d/0x530 mm/filemap.c:1615
-Code: 84 87 00 00 00 e8 13 5a d2 ff e9 36 fd ff ff e8 09 5a d2 ff 4c 89 f7 48 c7 c6 20 84 f8 8a e8 ca 3a 10 00 0f 0b e8 f3 59 d2 ff <0f> 0b e8 ec 59 d2 ff 4c 89 f7 48 c7 c6 60 86 f8 8a e8 ad 3a 10 00
-RSP: 0018:ffffc90000147b88 EFLAGS: 00010246
-RAX: ffffffff81b9813d RBX: 0000000000000082 RCX: ffff88813fefba80
-RDX: 0000000080000100 RSI: ffffffff8aedcc60 RDI: ffffffff8b4bbfe0
-RBP: 1ffffd40000ed426 R08: dffffc0000000000 R09: fffffbfff1d2cabe
-R10: fffffbfff1d2cabe R11: 1ffffffff1d2cabd R12: ffffea000076a134
-R13: dffffc0000000000 R14: ffffea000076a100 R15: 1ffffd40000ed420
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+RIP: 0010:nilfs_btree_get_nonroot_node fs/nilfs2/btree.c:418 [inline]
+RIP: 0010:nilfs_btree_prepare_insert fs/nilfs2/btree.c:1077 [inline]
+RIP: 0010:nilfs_btree_insert+0x6d3/0x1c10 fs/nilfs2/btree.c:1238
+Code: bc 24 80 00 00 00 4c 89 f8 48 c1 e8 03 42 80 3c 28 00 74 08 4c 89 ff e8 4b 02 92 fe 4d 8b 3f 49 83 c7 28 4c 89 f8 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 ff e8 2e 02 92 fe 4d 8b 3f 49 83 c7 02
+RSP: 0018:ffffc90003bcf4a0 EFLAGS: 00010206
+RAX: 0000000000000005 RBX: 0000000000000001 RCX: 0000000000000000
+RDX: ffff88807eba3a80 RSI: 0000000000000002 RDI: 0000000000000001
+RBP: ffffc90003bcf630 R08: ffffffff834f80d8 R09: ffffed100571ff9b
+R10: ffffed100571ff9b R11: 1ffff1100571ff9a R12: ffff888021d03480
+R13: dffffc0000000000 R14: 0000000000000002 R15: 0000000000000028
+FS:  000055555588c300(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
 CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ff727105718 CR3: 00000000291ab000 CR4: 00000000003506f0
+CR2: 000055a236e64fe0 CR3: 000000007eb7c000 CR4: 00000000003506f0
 DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
 DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+----------------
+Code disassembly (best guess):
+   0:	bc 24 80 00 00       	mov    $0x8024,%esp
+   5:	00 4c 89 f8          	add    %cl,-0x8(%rcx,%rcx,4)
+   9:	48 c1 e8 03          	shr    $0x3,%rax
+   d:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+  12:	74 08                	je     0x1c
+  14:	4c 89 ff             	mov    %r15,%rdi
+  17:	e8 4b 02 92 fe       	callq  0xfe920267
+  1c:	4d 8b 3f             	mov    (%r15),%r15
+  1f:	49 83 c7 28          	add    $0x28,%r15
+  23:	4c 89 f8             	mov    %r15,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 ff             	mov    %r15,%rdi
+  34:	e8 2e 02 92 fe       	callq  0xfe920267
+  39:	4d 8b 3f             	mov    (%r15),%r15
+  3c:	49 83 c7 02          	add    $0x2,%r15
 
 
 ---
