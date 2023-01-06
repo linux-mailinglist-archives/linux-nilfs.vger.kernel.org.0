@@ -2,70 +2,74 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C89865E54D
-	for <lists+linux-nilfs@lfdr.de>; Thu,  5 Jan 2023 06:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD71365FC59
+	for <lists+linux-nilfs@lfdr.de>; Fri,  6 Jan 2023 08:58:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229753AbjAEF6y (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 5 Jan 2023 00:58:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38228 "EHLO
+        id S232016AbjAFH6X (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 6 Jan 2023 02:58:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229462AbjAEF6x (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 5 Jan 2023 00:58:53 -0500
-Received: from mail-pl1-x632.google.com (mail-pl1-x632.google.com [IPv6:2607:f8b0:4864:20::632])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E96548824;
-        Wed,  4 Jan 2023 21:58:52 -0800 (PST)
-Received: by mail-pl1-x632.google.com with SMTP id c6so5166158pls.4;
-        Wed, 04 Jan 2023 21:58:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7tNdvPdu+g7RYVhcJLZlq9O+uy6an39IXGO//h1iwuE=;
-        b=jn9Gt5k69FQrB1By9QFNQpLTbmrKZhHwPNdfyJe0rAW/vl2+i85JKiCHohQWMtBFzN
-         dWupUyVBx1PUr9D4tRn8bfL7z/lVqWZYpmvy/rFn+lIfV+XbYJw4rmvimQmdQQfwIfcZ
-         8kFteXfBPf36bzn4j5lfaJkmsevv3J5kRdWdw46KL1tNTumuKLdN82VISgcWkE6tXYxD
-         lH3bPaRXmhF4POU2LFEtg5xjqAAzsuR9SL85bsZ/3LLNt6O0c4PVUQ7K+LZecM8eJHvN
-         +G3UQavd/EkyUF+rkXBDN5tqt7MOVws7PMx2BPKesZspF23qb820qDq3X6OSxtOSmxeQ
-         NrpA==
+        with ESMTP id S231894AbjAFH6U (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 6 Jan 2023 02:58:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D36C778155
+        for <linux-nilfs@vger.kernel.org>; Thu,  5 Jan 2023 23:57:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1672991854;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=xmb3IcLHCLsi/xOiQHUkWYlXfS8doiaC8cJwdmVUFK4=;
+        b=SLVzg7+qVCkSPwpEXCMyFeNPY9fsRC3J6m6t9JyyNaGFIjjHxovBVrdPL/kwwpyv/tLyr+
+        uAEuds0xSUup0UDOyInIosfoE5Z2o/gfG+Wqj40CVNLzVuwrG63GucOn2dCZ3OWAJ+VClz
+        dumlyhgYGDzQ/s+rMBR1O1MSWa7geiY=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-613-MGtw7M7uNp2Op-M4E92zQw-1; Fri, 06 Jan 2023 02:57:32 -0500
+X-MC-Unique: MGtw7M7uNp2Op-M4E92zQw-1
+Received: by mail-yb1-f197.google.com with SMTP id i17-20020a25bc11000000b007b59a5b74aaso1157324ybh.7
+        for <linux-nilfs@vger.kernel.org>; Thu, 05 Jan 2023 23:57:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7tNdvPdu+g7RYVhcJLZlq9O+uy6an39IXGO//h1iwuE=;
-        b=BpUefj+BgbcS/AhLFNdVYRKrGpBgrPabQfN8H+1OGbbjkq3jk7G9coDMqnO/QDF1nn
-         nBKOchg3m6SfYS/9Nkg/JhOiJvSLu+TdIlNIl74vBdMv3ilVx1wN/F/fjoWIpIWa2D2c
-         oUkcGQRtTrm9tDdDZ05U4YWfPq/sC5b3x3LQNeR8HPLoZu1W3h5G/21IKCnvvzopkoqZ
-         JbNBqb6/LCSIMmCggAlu6WKSUb5uJ3whgIp5tTfnxm/sWL7qZeoSIkLlO1VdWv8t4OWB
-         qdaBv0Jb7gPW1bDxG3WRDPlK/9VACOaojoECKGIaAS7cpCGHeTjKz2p1yBQ7PyEOJ8pZ
-         dfrg==
-X-Gm-Message-State: AFqh2kpfn22bbOnc/ZXCpdKGyZ3UV6KIgKFjRbmIgufox7Nw6o/MWMFB
-        8wksqYoFpIiuzb6EozArWNk=
-X-Google-Smtp-Source: AMrXdXsMzpPxQVFf3iC5UduJOyd52AgwM83STADIqtXW9/oQoxz4zKdGwqEtYw6UOdFykFHK9xknAA==
-X-Received: by 2002:a05:6a20:b047:b0:ac:10:adfe with SMTP id dx7-20020a056a20b04700b000ac0010adfemr47173436pzb.30.1672898331195;
-        Wed, 04 Jan 2023 21:58:51 -0800 (PST)
-Received: from carrot.. (i220-108-121-218.s42.a014.ap.plala.or.jp. [220.108.121.218])
-        by smtp.gmail.com with ESMTPSA id t14-20020a1709027fce00b0019141c79b1dsm25111577plb.254.2023.01.04.21.58.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Jan 2023 21:58:49 -0800 (PST)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        syzbot <syzbot+ede796cecd5296353515@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] nilfs2: fix general protection fault in nilfs_btree_insert()
-Date:   Thu,  5 Jan 2023 14:53:56 +0900
-Message-Id: <20230105055356.8811-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <000000000000bd89e205f0e38355@google.com>
-References: <000000000000bd89e205f0e38355@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xmb3IcLHCLsi/xOiQHUkWYlXfS8doiaC8cJwdmVUFK4=;
+        b=3ExryN8cQ1UYD2UxEp3oC0fu8OZd4/7OGJ1QlKdFl1vMkYxH9dCjH0W3smeco0SLk1
+         Sourylg0kZyTz+nvTfUxNRnTffOXS20Fx0bRF4XsYoFzm6pWJ5B/olm9gf9pU3hmq1i1
+         Xp5JOn8b/tsEnDAJXcH+7hXV2CW8NXLLxrTLqmKwfBz/vjX3o4k60Yfb1AwoaDD/nX39
+         hJ/bI9ocb9mqzheXTFosHtsYx3R8+GTv8UOb5zzxO0P1TFanJD+MqMdArrCDGWo2J9Z4
+         wcbh2BLyf7fkv4tsRSPgnLucA3XxB6C8BMWLqBGva1jfZVfae1+1WI0FnFdp8Bza++R6
+         hPoA==
+X-Gm-Message-State: AFqh2kpIKxnCKBwgPVQhjwjNVkp9hM2JhWAGQXL4gw7V0gUMaUpCc6H6
+        ORKM60JzyD7/uDo0g41g/uPIGtmJuhJJAwv/tm1TUjKLBUgX77wFULUIl9Uh9F2VmEFDPTPiizm
+        XoCmk7cZZMTgYuSsqbjUoJ37WA2Wm6w7/YenhoHM=
+X-Received: by 2002:a05:690c:87:b0:46f:36b1:a27 with SMTP id be7-20020a05690c008700b0046f36b10a27mr4200660ywb.147.1672991851848;
+        Thu, 05 Jan 2023 23:57:31 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuC/bbIcMr4bQ8ok16zXLqM2NrU98mA2WJd0uc+HAfHs8BnKxPTLzGpg1jIsSESD/q9eqv3v1Jyw7xgl7+RWvk=
+X-Received: by 2002:a05:690c:87:b0:46f:36b1:a27 with SMTP id
+ be7-20020a05690c008700b0046f36b10a27mr4200651ywb.147.1672991851590; Thu, 05
+ Jan 2023 23:57:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+References: <20230104211448.4804-1-vishal.moola@gmail.com> <20230104211448.4804-18-vishal.moola@gmail.com>
+In-Reply-To: <20230104211448.4804-18-vishal.moola@gmail.com>
+From:   Andreas Gruenbacher <agruenba@redhat.com>
+Date:   Fri, 6 Jan 2023 08:57:20 +0100
+Message-ID: <CAHc6FU55EfV0qvtpPUWAvHm72kPd7Rzb8=-GX0oFgfJonXt7Pg@mail.gmail.com>
+Subject: Re: [Cluster-devel] [PATCH v5 17/23] gfs2: Convert
+ gfs2_write_cache_jdata() to use filemap_get_folios_tag()
+To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-mm@kvack.org, ceph-devel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,106 +77,177 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-If nilfs2 reads a corrupted disk image and tries to reads a b-tree node
-block by calling __nilfs_btree_get_block() against an invalid virtual
-block address, it returns -ENOENT because conversion of the virtual
-block address to a disk block address fails.  However, this return
-value is the same as the internal code that b-tree lookup routines
-return to indicate that the block being searched does not exist, so
-functions that operate on that b-tree may misbehave.
+On Wed, Jan 4, 2023 at 10:15 PM Vishal Moola (Oracle)
+<vishal.moola@gmail.com> wrote:
+> Converted function to use folios throughout. This is in preparation for
+> the removal of find_get_pgaes_range_tag(). This change removes 8 calls
+> to compound_head().
+>
+> Also had to modify and rename gfs2_write_jdata_pagevec() to take in
+> and utilize folio_batch rather than pagevec and use folios rather
+> than pages. gfs2_write_jdata_batch() now supports large folios.
+>
+> Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
+> ---
+>  fs/gfs2/aops.c | 64 +++++++++++++++++++++++++++-----------------------
+>  1 file changed, 35 insertions(+), 29 deletions(-)
+>
+> diff --git a/fs/gfs2/aops.c b/fs/gfs2/aops.c
+> index e782b4f1d104..0a47068f9acc 100644
+> --- a/fs/gfs2/aops.c
+> +++ b/fs/gfs2/aops.c
+> @@ -195,67 +195,71 @@ static int gfs2_writepages(struct address_space *mapping,
+>  }
+>
+>  /**
+> - * gfs2_write_jdata_pagevec - Write back a pagevec's worth of pages
+> + * gfs2_write_jdata_batch - Write back a folio batch's worth of folios
+>   * @mapping: The mapping
+>   * @wbc: The writeback control
+> - * @pvec: The vector of pages
+> - * @nr_pages: The number of pages to write
+> + * @fbatch: The batch of folios
+>   * @done_index: Page index
+>   *
+>   * Returns: non-zero if loop should terminate, zero otherwise
+>   */
+>
+> -static int gfs2_write_jdata_pagevec(struct address_space *mapping,
+> +static int gfs2_write_jdata_batch(struct address_space *mapping,
+>                                     struct writeback_control *wbc,
+> -                                   struct pagevec *pvec,
+> -                                   int nr_pages,
+> +                                   struct folio_batch *fbatch,
+>                                     pgoff_t *done_index)
+>  {
+>         struct inode *inode = mapping->host;
+>         struct gfs2_sbd *sdp = GFS2_SB(inode);
+> -       unsigned nrblocks = nr_pages * (PAGE_SIZE >> inode->i_blkbits);
+> +       unsigned nrblocks;
+>         int i;
+>         int ret;
+> +       int nr_pages = 0;
+> +       int nr_folios = folio_batch_count(fbatch);
+> +
+> +       for (i = 0; i < nr_folios; i++)
+> +               nr_pages += folio_nr_pages(fbatch->folios[i]);
+> +       nrblocks = nr_pages * (PAGE_SIZE >> inode->i_blkbits);
+>
+>         ret = gfs2_trans_begin(sdp, nrblocks, nrblocks);
+>         if (ret < 0)
+>                 return ret;
+>
+> -       for(i = 0; i < nr_pages; i++) {
+> -               struct page *page = pvec->pages[i];
+> +       for (i = 0; i < nr_folios; i++) {
+> +               struct folio *folio = fbatch->folios[i];
+>
+> -               *done_index = page->index;
+> +               *done_index = folio->index;
+>
+> -               lock_page(page);
+> +               folio_lock(folio);
+>
+> -               if (unlikely(page->mapping != mapping)) {
+> +               if (unlikely(folio->mapping != mapping)) {
+>  continue_unlock:
+> -                       unlock_page(page);
+> +                       folio_unlock(folio);
+>                         continue;
+>                 }
+>
+> -               if (!PageDirty(page)) {
+> +               if (!folio_test_dirty(folio)) {
+>                         /* someone wrote it for us */
+>                         goto continue_unlock;
+>                 }
+>
+> -               if (PageWriteback(page)) {
+> +               if (folio_test_writeback(folio)) {
+>                         if (wbc->sync_mode != WB_SYNC_NONE)
+> -                               wait_on_page_writeback(page);
+> +                               folio_wait_writeback(folio);
+>                         else
+>                                 goto continue_unlock;
+>                 }
+>
+> -               BUG_ON(PageWriteback(page));
+> -               if (!clear_page_dirty_for_io(page))
+> +               BUG_ON(folio_test_writeback(folio));
+> +               if (!folio_clear_dirty_for_io(folio))
+>                         goto continue_unlock;
+>
+>                 trace_wbc_writepage(wbc, inode_to_bdi(inode));
+>
+> -               ret = __gfs2_jdata_writepage(page, wbc);
+> +               ret = __gfs2_jdata_writepage(&folio->page, wbc);
+>                 if (unlikely(ret)) {
+>                         if (ret == AOP_WRITEPAGE_ACTIVATE) {
+> -                               unlock_page(page);
+> +                               folio_unlock(folio);
+>                                 ret = 0;
+>                         } else {
+>
+> @@ -268,7 +272,8 @@ static int gfs2_write_jdata_pagevec(struct address_space *mapping,
+>                                  * not be suitable for data integrity
+>                                  * writeout).
+>                                  */
+> -                               *done_index = page->index + 1;
+> +                               *done_index = folio->index +
+> +                                       folio_nr_pages(folio);
+>                                 ret = 1;
+>                                 break;
+>                         }
+> @@ -305,8 +310,8 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>  {
+>         int ret = 0;
+>         int done = 0;
+> -       struct pagevec pvec;
+> -       int nr_pages;
+> +       struct folio_batch fbatch;
+> +       int nr_folios;
+>         pgoff_t writeback_index;
+>         pgoff_t index;
+>         pgoff_t end;
+> @@ -315,7 +320,7 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>         int range_whole = 0;
+>         xa_mark_t tag;
+>
+> -       pagevec_init(&pvec);
+> +       folio_batch_init(&fbatch);
+>         if (wbc->range_cyclic) {
+>                 writeback_index = mapping->writeback_index; /* prev offset */
+>                 index = writeback_index;
+> @@ -341,17 +346,18 @@ static int gfs2_write_cache_jdata(struct address_space *mapping,
+>                 tag_pages_for_writeback(mapping, index, end);
+>         done_index = index;
+>         while (!done && (index <= end)) {
+> -               nr_pages = pagevec_lookup_range_tag(&pvec, mapping, &index, end,
+> -                               tag);
+> -               if (nr_pages == 0)
+> +               nr_folios = filemap_get_folios_tag(mapping, &index, end,
+> +                               tag, &fbatch);
+> +               if (nr_folios == 0)
+>                         break;
+>
+> -               ret = gfs2_write_jdata_pagevec(mapping, wbc, &pvec, nr_pages, &done_index);
+> +               ret = gfs2_write_jdata_batch(mapping, wbc, &fbatch,
+> +                               &done_index);
+>                 if (ret)
+>                         done = 1;
+>                 if (ret > 0)
+>                         ret = 0;
+> -               pagevec_release(&pvec);
+> +               folio_batch_release(&fbatch);
+>                 cond_resched();
+>         }
+>
+> --
+> 2.38.1
+>
 
-When nilfs_btree_insert() receives this spurious 'not found' code from
-nilfs_btree_do_lookup(), it misunderstands that the 'not found' check
-was successful and continues the insert operation using incomplete
-lookup path data, causing the following crash:
-
- general protection fault, probably for non-canonical address
- 0xdffffc0000000005: 0000 [#1] PREEMPT SMP KASAN
- KASAN: null-ptr-deref in range [0x0000000000000028-0x000000000000002f]
- ...
- RIP: 0010:nilfs_btree_get_nonroot_node fs/nilfs2/btree.c:418 [inline]
- RIP: 0010:nilfs_btree_prepare_insert fs/nilfs2/btree.c:1077 [inline]
- RIP: 0010:nilfs_btree_insert+0x6d3/0x1c10 fs/nilfs2/btree.c:1238
- Code: bc 24 80 00 00 00 4c 89 f8 48 c1 e8 03 42 80 3c 28 00 74 08 4c 89
- ff e8 4b 02 92 fe 4d 8b 3f 49 83 c7 28 4c 89 f8 48 c1 e8 03 <42> 80 3c
- 28 00 74 08 4c 89 ff e8 2e 02 92 fe 4d 8b 3f 49 83 c7 02
- ...
- Call Trace:
- <TASK>
-  nilfs_bmap_do_insert fs/nilfs2/bmap.c:121 [inline]
-  nilfs_bmap_insert+0x20d/0x360 fs/nilfs2/bmap.c:147
-  nilfs_get_block+0x414/0x8d0 fs/nilfs2/inode.c:101
-  __block_write_begin_int+0x54c/0x1a80 fs/buffer.c:1991
-  __block_write_begin fs/buffer.c:2041 [inline]
-  block_write_begin+0x93/0x1e0 fs/buffer.c:2102
-  nilfs_write_begin+0x9c/0x110 fs/nilfs2/inode.c:261
-  generic_perform_write+0x2e4/0x5e0 mm/filemap.c:3772
-  __generic_file_write_iter+0x176/0x400 mm/filemap.c:3900
-  generic_file_write_iter+0xab/0x310 mm/filemap.c:3932
-  call_write_iter include/linux/fs.h:2186 [inline]
-  new_sync_write fs/read_write.c:491 [inline]
-  vfs_write+0x7dc/0xc50 fs/read_write.c:584
-  ksys_write+0x177/0x2a0 fs/read_write.c:637
-  do_syscall_x64 arch/x86/entry/common.c:50 [inline]
-  do_syscall_64+0x3d/0xb0 arch/x86/entry/common.c:80
-  entry_SYSCALL_64_after_hwframe+0x63/0xcd
- ...
- </TASK>
-
-This patch fixes the root cause of this problem by replacing the error
-code that __nilfs_btree_get_block() returns on block address conversion
-failure from -ENOENT to another internal code -EINVAL which means that
-the b-tree metadata is corrupted.
-
-By returning -EINVAL, it propagates without glitches, and for all
-relevant b-tree operations, functions in the upper bmap layer output
-an error message indicating corrupted b-tree metadata via
-nilfs_bmap_convert_error(), and code -EIO will be eventually returned
-as it should be.
-
-Link: https://lkml.kernel.org/r/000000000000bd89e205f0e38355@google.com
-Reported-by: syzbot+ede796cecd5296353515@syzkaller.appspotmail.com
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: stable@vger.kernel.org
----
-Hi Andrew, please apply this bugfix.
-This fixes the kernel crash above for corrupted disk images like
-the one syzbot produced, and presumably fixes some unexpected WARN_ONs
-on nilfs2 as well (which I will continue to investigate).
+Reviewed-by: Andreas Gruenbacher <agruenba@redhat.com>
 
 Thanks,
-Ryusuke Konishi
-
-fs/nilfs2/btree.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
-
-diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
-index b9d15c3df3cc..40ce92a332fe 100644
---- a/fs/nilfs2/btree.c
-+++ b/fs/nilfs2/btree.c
-@@ -480,9 +480,18 @@ static int __nilfs_btree_get_block(const struct nilfs_bmap *btree, __u64 ptr,
- 	ret = nilfs_btnode_submit_block(btnc, ptr, 0, REQ_OP_READ, &bh,
- 					&submit_ptr);
- 	if (ret) {
--		if (ret != -EEXIST)
--			return ret;
--		goto out_check;
-+		if (likely(ret == -EEXIST))
-+			goto out_check;
-+		if (ret == -ENOENT) {
-+			/*
-+			 * Block address translation failed due to invalid
-+			 * value of 'ptr'.  In this case, return internal code
-+			 * -EINVAL (broken bmap) to notify bmap layer of fatal
-+			 * metadata corruption.
-+			 */
-+			ret = -EINVAL;
-+		}
-+		return ret;
- 	}
- 
- 	if (ra) {
--- 
-2.34.1
+Andreas
 
