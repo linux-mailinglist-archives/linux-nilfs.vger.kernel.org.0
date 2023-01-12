@@ -2,68 +2,84 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E556C666D2E
-	for <lists+linux-nilfs@lfdr.de>; Thu, 12 Jan 2023 09:58:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E924F666F70
+	for <lists+linux-nilfs@lfdr.de>; Thu, 12 Jan 2023 11:23:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239899AbjALI62 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 12 Jan 2023 03:58:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49276 "EHLO
+        id S237182AbjALKXV (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 12 Jan 2023 05:23:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236749AbjALI5E (ORCPT
+        with ESMTP id S233069AbjALKWm (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 12 Jan 2023 03:57:04 -0500
-Received: from mail.glencoeaur.com (mail.glencoeaur.com [217.61.97.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 069F450F71
-        for <linux-nilfs@vger.kernel.org>; Thu, 12 Jan 2023 00:55:00 -0800 (PST)
-Received: by mail.glencoeaur.com (Postfix, from userid 1001)
-        id A2B708213E; Thu, 12 Jan 2023 08:35:57 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=glencoeaur.com;
-        s=mail; t=1673512559;
-        bh=2S0GQFScndXkBEK4sqdoOhOYLqsB2sEH8Q5XQfVvKpo=;
-        h=Date:From:To:Subject:From;
-        b=cMYmUfp1YQs+xwSE4/TVBL+AN7ewxHvMGLwjAGD20/KmjudjVk5bIZfG+xdSgE8uG
-         QAYSWekJfghjNbHs84gKkIg6xBzA+6HOP/a4SXb6kV2tWTPvxteZDqorDoTcCUxwDy
-         XQGdupn/cmhpAP3oYxzs7b+d7fDD5a4wMKcAVL5cZk2mE5b/1cKFi8GLrQe4zSqTO4
-         cEntR/w+hE+VkqWGr1m8a4AK27mLCiJLKo2kuaeh8cF0CxK6KK+2heuUpvqpllpJ/h
-         /93vacM9ywbK7f8PQkY5MOtYa49c/abX6M/Im4NW2bzrjxSn3RMHX+tkcwjbr613MB
-         nVRRgKySQz0Qg==
-Received: by mail.glencoeaur.com for <linux-nilfs@vger.kernel.org>; Thu, 12 Jan 2023 08:35:33 GMT
-Message-ID: <20230112074500-0.1.z.3g38.0.b4jq166o4r@glencoeaur.com>
-Date:   Thu, 12 Jan 2023 08:35:33 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@glencoeaur.com>
-To:     <linux-nilfs@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.glencoeaur.com
+        Thu, 12 Jan 2023 05:22:42 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4810459333;
+        Thu, 12 Jan 2023 02:17:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id B400561FAB;
+        Thu, 12 Jan 2023 10:17:58 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEB3CC433F0;
+        Thu, 12 Jan 2023 10:17:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1673518678;
+        bh=RWmztfAERjHa5tH2ViWsV3yzcmvZGe2nsppJNqvO6nY=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=QimElLgAUkm2pWG+9clfVm0g/+I6aeQhLiop1NXH3ggqRgiSMYuDCeVoo/S6+gzJY
+         PNOdc4zkc3g9vyJRLCGGXs4xGlo2bgd5WV5BpGVnWqWkZWHvG4+Twb3PpOcVWA00TQ
+         CtSJ6oBVJZuWds8Gzwxd8uJD8KaK/QeN/ecUiTunWAzFOgwVHZkQpn5DSQxQ5pMdCZ
+         nFZuhHlKq/ihDO4Z6VQ2I0D0Z7OO7T2vhPX7bVGqCpBjEdHbFWFj6FAHk6UWQOIMvG
+         bwAyAfb1J08LRHSsE2RopFWsuG50ER9ahudfzjFNkB4hLI0aND1X18nTETl1T5hHXf
+         F06w0Cy7QBsGA==
+Message-ID: <9481a114-04d3-7276-bc82-ee18c685b5a6@kernel.org>
+Date:   Thu, 12 Jan 2023 18:17:54 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [f2fs-dev] [PATCH v5 14/23] f2fs: Convert
+ f2fs_write_cache_pages() to use filemap_get_folios_tag()
+Content-Language: en-US
+To:     "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+        linux-fsdevel@vger.kernel.org
+Cc:     linux-cifs@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-mm@kvack.org, ceph-devel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org
+References: <20230104211448.4804-1-vishal.moola@gmail.com>
+ <20230104211448.4804-15-vishal.moola@gmail.com>
+From:   Chao Yu <chao@kernel.org>
+In-Reply-To: <20230104211448.4804-15-vishal.moola@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good morning,
+On 2023/1/5 5:14, Vishal Moola (Oracle) wrote:
+> Converted the function to use a folio_batch instead of pagevec. This is in
+> preparation for the removal of find_get_pages_range_tag().
+> 
+> Also modified f2fs_all_cluster_page_ready to take in a folio_batch instead
+> of pagevec. This does NOT support large folios. The function currently
+> only utilizes folios of size 1 so this shouldn't cause any issues right
+> now.
+> 
+> This version of the patch limits the number of pages fetched to
+> F2FS_ONSTACK_PAGES. If that ever happens, update the start index here
+> since filemap_get_folios_tag() updates the index to be after the last
+> found folio, not necessarily the last used page.
+> 
+> Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+Acked-by: Chao Yu <chao@kernel.org>
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
-
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
-
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
-
-Can I introduce what we can offer you?
-
-
-Best regards
-Zbynek Spacek
+Thanks,
