@@ -2,68 +2,66 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2D9A67D1F5
-	for <lists+linux-nilfs@lfdr.de>; Thu, 26 Jan 2023 17:42:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 838B767D2F8
+	for <lists+linux-nilfs@lfdr.de>; Thu, 26 Jan 2023 18:24:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232222AbjAZQmG (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 26 Jan 2023 11:42:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53262 "EHLO
+        id S230520AbjAZRYs (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 26 Jan 2023 12:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232249AbjAZQmA (ORCPT
+        with ESMTP id S229437AbjAZRYr (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 26 Jan 2023 11:42:00 -0500
-Received: from mail-pj1-x102f.google.com (mail-pj1-x102f.google.com [IPv6:2607:f8b0:4864:20::102f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B34B06BBCF;
-        Thu, 26 Jan 2023 08:41:54 -0800 (PST)
-Received: by mail-pj1-x102f.google.com with SMTP id x2-20020a17090a46c200b002295ca9855aso5810417pjg.2;
-        Thu, 26 Jan 2023 08:41:54 -0800 (PST)
+        Thu, 26 Jan 2023 12:24:47 -0500
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF2FEF9F;
+        Thu, 26 Jan 2023 09:24:46 -0800 (PST)
+Received: by mail-vs1-xe2d.google.com with SMTP id 3so2629967vsq.7;
+        Thu, 26 Jan 2023 09:24:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oMxWKmQ/i8aPoVTgMwXRe3wWNfCPGmN2wVMhtok6GV8=;
-        b=oSSqVGhtKAiNc1G4eRnYzKX2qSngVoikWgtvsP35LOPVpDms2+p9FYnNNn79s8suej
-         Cm3clzjflQjmKypAFrfwLXL4Rlik6QsGF60G6yghCEaxm0UbRSV+iO3f2lIsvmuGK0L6
-         oq66SJJkMnOght6aRWB5hUVV6cGr3MhwiBvaury4YZ7FiFAINythTTwYygl5/fPhw9rs
-         /PwPfKamx55t/3o9nnMYmteEaiq5vzPD+dLDK84b9W2GDisNLEoUcVCifVxN3VhLgeyO
-         JdNNKGVHdWWDfXeRuWKqiNmZnEfgVOIMxxAXw3Vvdz1l4ay+2xGpbd0f5EJWqudYoFv1
-         n/ug==
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=qHlmTunQ49C1Dpyk77Z4C3k4Cau4j+Xb//Hx9WL7A8k=;
+        b=FcVVUD0R+CepEE82KTwR5p856vdMWJsT8H3faHwVqVudmDdIF4Lcfrg/SHWvuzVpWF
+         KA1kLRC9qaFiYMLpexmhNHDdgVJLefzkTqzrfB096e/Nh7scJpPIASgZfXzCCsgbBObo
+         BTqxf3peJlRY1R6MhO6OJbfFx0Fc5aAcwVL0v0vA9EkBPvf6OfaJbVZgOVqaqXDtAmd+
+         bLwYoW1Us2QDe+hiDLMCAN7ceajba131vdEy/eZtQwB7bSeqLgQdh+6Q6+S2vwIvhii5
+         yyOMBLagGZW37aZdWToQMqAEtPdoBK0EhksXhUNvoEWT6160ijCRlx0xf8Wmnr7UcnYZ
+         WzAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oMxWKmQ/i8aPoVTgMwXRe3wWNfCPGmN2wVMhtok6GV8=;
-        b=rVcmBqGsUj5ZE4auGEUQigWu6ZLd386Owwvpq606WjAjKasegKEDnpJ7QcddkBJaJ/
-         M3BcN9xMHin0x0aa67rPxRQlzTZW1pLt/Vo4zGZiYIX044SvflSX/kWBP7sCVSNTpHPk
-         1nbMrhlXuVNr7AiR4n9xcuW3fuCwk8cqIoKuheQKgCWRXnMNfWX9gIGBDG8J+ohlOTfp
-         z7ZUrjicDwznd1Dt4x5ox3BzB94LALKFA7PN7LhYoCytIZij9c87utDCl/WpSi8bvT4I
-         wdSVehxD2Bf43ZsjBpzvH2KcQHc+NKkgaf0BOzkLmGpGZ4ALvmpgKdHSpQ8a+8WAJz6F
-         zqDg==
-X-Gm-Message-State: AFqh2kohLyK5JpRi9M9nzMvxXdgxDoKLFSaTLcq9Klq+IHUpxwk7EHpZ
-        5LRn3f+j1cBfjdZ4CtrzCOg=
-X-Google-Smtp-Source: AMrXdXudJs57Um0+hBQicGbSHydtc4iyZCxTRc+llt+r/QHdqJJsQ23iQgyrBL4oC9Gl+Sq2ZMbOAw==
-X-Received: by 2002:a17:90a:4a95:b0:225:c3ab:3137 with SMTP id f21-20020a17090a4a9500b00225c3ab3137mr38702914pjh.44.1674751313958;
-        Thu, 26 Jan 2023 08:41:53 -0800 (PST)
-Received: from carrot.. (i223-217-149-217.s42.a014.ap.plala.or.jp. [223.217.149.217])
-        by smtp.gmail.com with ESMTPSA id p12-20020a17090a348c00b002192db1f8e8sm1271267pjb.23.2023.01.26.08.41.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Jan 2023 08:41:52 -0800 (PST)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        syzbot <syzbot+5d5d25f90f195a3cfcb4@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] nilfs2: replace WARN_ONs for invalid DAT metadata block requests
-Date:   Fri, 27 Jan 2023 01:41:14 +0900
-Message-Id: <20230126164114.6911-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <0000000000005cc3d205ea23ddcf@google.com>
-References: <0000000000005cc3d205ea23ddcf@google.com>
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qHlmTunQ49C1Dpyk77Z4C3k4Cau4j+Xb//Hx9WL7A8k=;
+        b=pf8Yytdpg6y1JgNYatU9+FAF8UQgIsELYqqJAfDhyGdep36vFt7yHttlDBvBTo9Ib7
+         g7h1jtRZnX0y7IYwAyP2qaQEHt9EO5hVZeKG6cpi6f7MtcRqOUXHZGFoZ5UGsVBAEYMF
+         AK7mXe8XJfeQsWKDR3S548DDEaZSIhNyjcFyLe6h8M5aq4mo/U3atu4crrRmhB8V20GC
+         tzPVOy468ZPvEWVHF8CyI5rlK1QlddW4URHHoXMZGO3gxnwbmNJuStmH+esEG8AUS92P
+         86hqlXz5moURlSJe08Q6rzL8E0UyVPge1iKa7+ZtfzQvbDHc8pnqzWELJP1f3tlPy7qb
+         aSxw==
+X-Gm-Message-State: AFqh2kowFnTA2Vc2KUgHpFELMxQkp6T20yFsXi5WRS4cLp5UZSaiWWoj
+        ME6ZqQd8h7wVLux88lJ7+LaJJ9pKhGaNIpdiWQlbuTXX8kY=
+X-Google-Smtp-Source: AMrXdXstMx4Lc6leAXpj1VV45UXIVItPQZcy2o9t6/kD/JJrrhSQhYl4SzeJqctMxVoXgA7/dxFlIFpz/owb7AnAd4Y=
+X-Received: by 2002:a05:6102:6c2:b0:3ce:bced:178 with SMTP id
+ m2-20020a05610206c200b003cebced0178mr4927618vsg.84.1674753885888; Thu, 26 Jan
+ 2023 09:24:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20230121065755.1140136-1-hch@lst.de> <20230121065755.1140136-8-hch@lst.de>
+In-Reply-To: <20230121065755.1140136-8-hch@lst.de>
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Fri, 27 Jan 2023 02:24:29 +0900
+Message-ID: <CAKFNMonfM+=1vbqKgS3feW7Xyh=P6UdDu0RrnOYQrb+WhN+_Vw@mail.gmail.com>
+Subject: Re: [PATCH 7/7] mm: return an ERR_PTR from __filemap_get_folio
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Hugh Dickins <hughd@google.com>, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        cluster-devel@redhat.com, linux-mm@kvack.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -74,84 +72,29 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-If DAT metadata file block access fails due to corruption of the DAT file
-or abnormal virtual block numbers held by b-trees or inodes, a kernel
-warning is generated.
+On Sat, Jan 21, 2023 at 3:59 PM Christoph Hellwig wrote:
+>
+> Instead of returning NULL for all errors, distinguish between:
+>
+>  - no entry found and not asked to allocated (-ENOENT)
+>  - failed to allocate memory (-ENOMEM)
+>  - would block (-EAGAIN)
+>
+> so that callers don't have to guess the error based on the passed
+> in flags.
+>
+> Also pass through the error through the direct callers:
+> filemap_get_folio, filemap_lock_folio filemap_grab_folio
+> and filemap_get_incore_folio.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
 
-This replaces the WARN_ONs by error output, so that a kernel, booted with
-panic_on_warn, does not panic.  This patch also replaces the detected
-return code -ENOENT with another internal code -EINVAL to notify the bmap
-layer of metadata corruption.  When the bmap layer sees -EINVAL, it
-handles the abnormal situation with nilfs_bmap_convert_error() and
-finally returns code -EIO as it should.
+For
 
-Link: https://lkml.kernel.org/r/0000000000005cc3d205ea23ddcf@google.com
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: syzbot+5d5d25f90f195a3cfcb4@syzkaller.appspotmail.com
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
----
-Hi Andrew, please queue this.  This fixes a few potential WARN_ONs
-for corrupted disk images like the one syzbot produced.
+>  fs/nilfs2/page.c         |  6 +++---
+
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 
 Thanks,
 Ryusuke Konishi
-
-fs/nilfs2/dat.c | 27 +++++++++++++++++----------
- 1 file changed, 17 insertions(+), 10 deletions(-)
-
-diff --git a/fs/nilfs2/dat.c b/fs/nilfs2/dat.c
-index 9930fa901039..1e7f653c1df7 100644
---- a/fs/nilfs2/dat.c
-+++ b/fs/nilfs2/dat.c
-@@ -40,8 +40,21 @@ static inline struct nilfs_dat_info *NILFS_DAT_I(struct inode *dat)
- static int nilfs_dat_prepare_entry(struct inode *dat,
- 				   struct nilfs_palloc_req *req, int create)
- {
--	return nilfs_palloc_get_entry_block(dat, req->pr_entry_nr,
--					    create, &req->pr_entry_bh);
-+	int ret;
-+
-+	ret = nilfs_palloc_get_entry_block(dat, req->pr_entry_nr,
-+					   create, &req->pr_entry_bh);
-+	if (unlikely(ret == -ENOENT)) {
-+		nilfs_err(dat->i_sb,
-+			  "DAT doesn't have a block to manage vblocknr = %llu",
-+			  (unsigned long long)req->pr_entry_nr);
-+		/*
-+		 * Return internal code -EINVAL to notify bmap layer of
-+		 * metadata corruption.
-+		 */
-+		ret = -EINVAL;
-+	}
-+	return ret;
- }
- 
- static void nilfs_dat_commit_entry(struct inode *dat,
-@@ -123,11 +136,7 @@ static void nilfs_dat_commit_free(struct inode *dat,
- 
- int nilfs_dat_prepare_start(struct inode *dat, struct nilfs_palloc_req *req)
- {
--	int ret;
--
--	ret = nilfs_dat_prepare_entry(dat, req, 0);
--	WARN_ON(ret == -ENOENT);
--	return ret;
-+	return nilfs_dat_prepare_entry(dat, req, 0);
- }
- 
- void nilfs_dat_commit_start(struct inode *dat, struct nilfs_palloc_req *req,
-@@ -154,10 +163,8 @@ int nilfs_dat_prepare_end(struct inode *dat, struct nilfs_palloc_req *req)
- 	int ret;
- 
- 	ret = nilfs_dat_prepare_entry(dat, req, 0);
--	if (ret < 0) {
--		WARN_ON(ret == -ENOENT);
-+	if (ret < 0)
- 		return ret;
--	}
- 
- 	kaddr = kmap_atomic(req->pr_entry_bh->b_page);
- 	entry = nilfs_palloc_block_get_entry(dat, req->pr_entry_nr,
--- 
-2.34.1
-
