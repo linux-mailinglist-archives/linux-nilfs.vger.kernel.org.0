@@ -2,66 +2,68 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 838B767D2F8
-	for <lists+linux-nilfs@lfdr.de>; Thu, 26 Jan 2023 18:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3416B67E683
+	for <lists+linux-nilfs@lfdr.de>; Fri, 27 Jan 2023 14:23:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230520AbjAZRYs (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 26 Jan 2023 12:24:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58622 "EHLO
+        id S234575AbjA0NXY (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 27 Jan 2023 08:23:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41158 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229437AbjAZRYr (ORCPT
+        with ESMTP id S234149AbjA0NXW (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 26 Jan 2023 12:24:47 -0500
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF2FEF9F;
-        Thu, 26 Jan 2023 09:24:46 -0800 (PST)
-Received: by mail-vs1-xe2d.google.com with SMTP id 3so2629967vsq.7;
-        Thu, 26 Jan 2023 09:24:46 -0800 (PST)
+        Fri, 27 Jan 2023 08:23:22 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D017D80148;
+        Fri, 27 Jan 2023 05:23:20 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id x5so1444694plr.2;
+        Fri, 27 Jan 2023 05:23:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=qHlmTunQ49C1Dpyk77Z4C3k4Cau4j+Xb//Hx9WL7A8k=;
-        b=FcVVUD0R+CepEE82KTwR5p856vdMWJsT8H3faHwVqVudmDdIF4Lcfrg/SHWvuzVpWF
-         KA1kLRC9qaFiYMLpexmhNHDdgVJLefzkTqzrfB096e/Nh7scJpPIASgZfXzCCsgbBObo
-         BTqxf3peJlRY1R6MhO6OJbfFx0Fc5aAcwVL0v0vA9EkBPvf6OfaJbVZgOVqaqXDtAmd+
-         bLwYoW1Us2QDe+hiDLMCAN7ceajba131vdEy/eZtQwB7bSeqLgQdh+6Q6+S2vwIvhii5
-         yyOMBLagGZW37aZdWToQMqAEtPdoBK0EhksXhUNvoEWT6160ijCRlx0xf8Wmnr7UcnYZ
-         WzAQ==
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5j29kml6zIepJZzNZLhnsejuRvqVcZnRr54YcbRqQ4s=;
+        b=NAD/8CLetbneQ3aGVzaDGDWFro/8aJ2Y/tSZS1ISbz5SE2Vikv/Ho49ojlXLmKtdt4
+         yBBvYT2ZX5Pd8ja+Rct0Bifa6avxL3n8l4/5QvNAMOf+xX97YR0r41ZkDNiNRkNzUyfH
+         FhXGHiQtte0nX6akxLxU6+B5YPEn8RKHEGNEy5AEgoRBCcssc2g/MD5MRpy+KmHWX4Yq
+         BvxYgn6w3GisTfZnmzPjJ22aLGJ4ra8gB4uHNGxsuPhxSQArlQTNt/4JGJdR8+EiMbST
+         8S+LSK+RUpgHtN2rDI9Wdew1YbpTyTO/MmA6hAqIfT/lQUchyv/vO42sj0RSx7WWIkVq
+         BWmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qHlmTunQ49C1Dpyk77Z4C3k4Cau4j+Xb//Hx9WL7A8k=;
-        b=pf8Yytdpg6y1JgNYatU9+FAF8UQgIsELYqqJAfDhyGdep36vFt7yHttlDBvBTo9Ib7
-         g7h1jtRZnX0y7IYwAyP2qaQEHt9EO5hVZeKG6cpi6f7MtcRqOUXHZGFoZ5UGsVBAEYMF
-         AK7mXe8XJfeQsWKDR3S548DDEaZSIhNyjcFyLe6h8M5aq4mo/U3atu4crrRmhB8V20GC
-         tzPVOy468ZPvEWVHF8CyI5rlK1QlddW4URHHoXMZGO3gxnwbmNJuStmH+esEG8AUS92P
-         86hqlXz5moURlSJe08Q6rzL8E0UyVPge1iKa7+ZtfzQvbDHc8pnqzWELJP1f3tlPy7qb
-         aSxw==
-X-Gm-Message-State: AFqh2kowFnTA2Vc2KUgHpFELMxQkp6T20yFsXi5WRS4cLp5UZSaiWWoj
-        ME6ZqQd8h7wVLux88lJ7+LaJJ9pKhGaNIpdiWQlbuTXX8kY=
-X-Google-Smtp-Source: AMrXdXstMx4Lc6leAXpj1VV45UXIVItPQZcy2o9t6/kD/JJrrhSQhYl4SzeJqctMxVoXgA7/dxFlIFpz/owb7AnAd4Y=
-X-Received: by 2002:a05:6102:6c2:b0:3ce:bced:178 with SMTP id
- m2-20020a05610206c200b003cebced0178mr4927618vsg.84.1674753885888; Thu, 26 Jan
- 2023 09:24:45 -0800 (PST)
-MIME-Version: 1.0
-References: <20230121065755.1140136-1-hch@lst.de> <20230121065755.1140136-8-hch@lst.de>
-In-Reply-To: <20230121065755.1140136-8-hch@lst.de>
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5j29kml6zIepJZzNZLhnsejuRvqVcZnRr54YcbRqQ4s=;
+        b=lYQkXEm+jPVs2aedQ7VZh9BCsRuK0p/jCejZJXXUfgh4LaEsI3vWVnyptgBWtP43MK
+         rMGNZTL91uPqrHmo6MN/gmNHZ2aGC51KMv2JTHr2ZSNhHT8smv2qrxLIFIuQ+trVI1cI
+         Ayr/FO7ElbGyzioSnMJGag40LrXQtbDOgVT06569bNGu+z0+e52ac6xAzL3ExsBxeiNn
+         ZcedVBc/d6vpXS2JAOEyzKsYr7B9bZY5jvwT2o8Un7qH6IehLS2kjrdLnFFy1UC7UcnV
+         9tcULD2GYngdgPvbYy2CpGShfZOe8uLopsjZEdSzHwI3qLpU3r2njO/M8L+8cJB0FyIm
+         cqQA==
+X-Gm-Message-State: AFqh2komGW7YL1M/rMDWDCaqGURoicjRovqXFpC4vhLgl7VGGLfnnH7p
+        xY4LANFAQBsoKy6MxKzYp90=
+X-Google-Smtp-Source: AMrXdXuwtBcwHIiFOeCERQG29bFr3M05M6JE3cAavhFEjLgrLSiHkxus/YImOBt8A4NHElncU9aujw==
+X-Received: by 2002:a17:902:7089:b0:194:6414:12db with SMTP id z9-20020a170902708900b00194641412dbmr37789473plk.56.1674825799976;
+        Fri, 27 Jan 2023 05:23:19 -0800 (PST)
+Received: from carrot.. (i223-217-149-217.s42.a014.ap.plala.or.jp. [223.217.149.217])
+        by smtp.gmail.com with ESMTPSA id jo8-20020a170903054800b001946a3f4d9csm2870264plb.38.2023.01.27.05.23.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Jan 2023 05:23:19 -0800 (PST)
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 27 Jan 2023 02:24:29 +0900
-Message-ID: <CAKFNMonfM+=1vbqKgS3feW7Xyh=P6UdDu0RrnOYQrb+WhN+_Vw@mail.gmail.com>
-Subject: Re: [PATCH 7/7] mm: return an ERR_PTR from __filemap_get_folio
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Hugh Dickins <hughd@google.com>, linux-afs@lists.infradead.org,
-        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        cluster-devel@redhat.com, linux-mm@kvack.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        syzbot <syzbot+cbff7a52b6f99059e67f@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] nilfs2: prevent WARNING in nilfs_dat_commit_end()
+Date:   Fri, 27 Jan 2023 22:22:02 +0900
+Message-Id: <20230127132202.6083-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <000000000000154d2c05e9ec7df6@google.com>
+References: <000000000000154d2c05e9ec7df6@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
         RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
@@ -72,29 +74,72 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sat, Jan 21, 2023 at 3:59 PM Christoph Hellwig wrote:
->
-> Instead of returning NULL for all errors, distinguish between:
->
->  - no entry found and not asked to allocated (-ENOENT)
->  - failed to allocate memory (-ENOMEM)
->  - would block (-EAGAIN)
->
-> so that callers don't have to guess the error based on the passed
-> in flags.
->
-> Also pass through the error through the direct callers:
-> filemap_get_folio, filemap_lock_folio filemap_grab_folio
-> and filemap_get_incore_folio.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
+If nilfs2 reads a corrupted disk image and its DAT metadata file contains
+invalid lifetime data for a virtual block number, a kernel warning can be
+generated by the WARN_ON check in nilfs_dat_commit_end() and can panic
+if the kernel is booted with panic_on_warn.
 
-For
+This patch avoids the issue with a sanity check that treats it as an
+error.
 
->  fs/nilfs2/page.c         |  6 +++---
+Since error return is not allowed in the execution phase of
+nilfs_dat_commit_end(), this inserts that sanity check in
+nilfs_dat_prepare_end(), which prepares for nilfs_dat_commit_end().
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+As the error code, -EINVAL is returned to notify bmap layer of the
+metadata corruption.  When the bmap layer sees this code, it handles the
+abnormal situation and replaces the return code with -EIO as it should.
+
+Link: https://lkml.kernel.org/r/000000000000154d2c05e9ec7df6@google.com
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+cbff7a52b6f99059e67f@syzkaller.appspotmail.com
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+Andrew, please add this patch to the queue.  This fixes another
+WARN_ON hit in fs/nilfs2/dat.c for a corrupted disk image pattern.
 
 Thanks,
 Ryusuke Konishi
+
+fs/nilfs2/dat.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/fs/nilfs2/dat.c b/fs/nilfs2/dat.c
+index 1e7f653c1df7..9cf6ba58f585 100644
+--- a/fs/nilfs2/dat.c
++++ b/fs/nilfs2/dat.c
+@@ -158,6 +158,7 @@ void nilfs_dat_commit_start(struct inode *dat, struct nilfs_palloc_req *req,
+ int nilfs_dat_prepare_end(struct inode *dat, struct nilfs_palloc_req *req)
+ {
+ 	struct nilfs_dat_entry *entry;
++	__u64 start;
+ 	sector_t blocknr;
+ 	void *kaddr;
+ 	int ret;
+@@ -169,6 +170,7 @@ int nilfs_dat_prepare_end(struct inode *dat, struct nilfs_palloc_req *req)
+ 	kaddr = kmap_atomic(req->pr_entry_bh->b_page);
+ 	entry = nilfs_palloc_block_get_entry(dat, req->pr_entry_nr,
+ 					     req->pr_entry_bh, kaddr);
++	start = le64_to_cpu(entry->de_start);
+ 	blocknr = le64_to_cpu(entry->de_blocknr);
+ 	kunmap_atomic(kaddr);
+ 
+@@ -179,6 +181,15 @@ int nilfs_dat_prepare_end(struct inode *dat, struct nilfs_palloc_req *req)
+ 			return ret;
+ 		}
+ 	}
++	if (unlikely(start > nilfs_mdt_cno(dat))) {
++		nilfs_err(dat->i_sb,
++			  "vblocknr = %llu has abnormal lifetime: start cno (= %llu) > current cno (= %llu)",
++			  (unsigned long long)req->pr_entry_nr,
++			  (unsigned long long)start,
++			  (unsigned long long)nilfs_mdt_cno(dat));
++		nilfs_dat_abort_entry(dat, req);
++		return -EINVAL;
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
+
