@@ -2,59 +2,62 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56A9C698AE8
-	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Feb 2023 04:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A67A16999AB
+	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Feb 2023 17:17:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229545AbjBPDEs (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 15 Feb 2023 22:04:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58428 "EHLO
+        id S229487AbjBPQRN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 16 Feb 2023 11:17:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229505AbjBPDEs (ORCPT
+        with ESMTP id S229482AbjBPQRN (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 15 Feb 2023 22:04:48 -0500
-Received: from mail-oa1-x30.google.com (mail-oa1-x30.google.com [IPv6:2001:4860:4864:20::30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11EFE2684
-        for <linux-nilfs@vger.kernel.org>; Wed, 15 Feb 2023 19:04:47 -0800 (PST)
-Received: by mail-oa1-x30.google.com with SMTP id 586e51a60fabf-16dcb07b805so1216822fac.0
-        for <linux-nilfs@vger.kernel.org>; Wed, 15 Feb 2023 19:04:47 -0800 (PST)
+        Thu, 16 Feb 2023 11:17:13 -0500
+Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A69E5264;
+        Thu, 16 Feb 2023 08:17:12 -0800 (PST)
+Received: by mail-vs1-xe2e.google.com with SMTP id h10so2397439vsu.11;
+        Thu, 16 Feb 2023 08:17:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
+        d=gmail.com; s=20210112; t=1676564231;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=f3Wjhm4RPWvkAIoti+3MMiCzf2Q2MiltcHtrp7wN3Vs=;
-        b=AKsDdulgWNEtYmivZQ/g+yujbksF29oXeK2dGqGOsT70eZb4W3R9APR0q2W//Sqrob
-         m2k21hF4D3TlapTU3y9xzLSfZZXCF6pu5XqoFSbtLEFCWR/inDn0jhB6+rbvI5SQlaa0
-         JfZ8LN3kZtCiWhIlLqKgpP5b4FvCLYiEBGD1qoAup+8NTcvNABk20dvANhfDUfrsZwNZ
-         JgOIa66WkQJAkosh2JvLWsEPRtP2SH64WNVPnVxLtfGtvypr8KGZj02y644AOfYa8kp/
-         FGnHLgkzodYdcXqZsfv4GLoLyndLpJyINrHrg4lAUGgKF3pI4/0uJqplbB96Z9U1X3FM
-         GVMA==
+        bh=/nRuukX08ooHaD9kcBdoVIqsSqGmd8gj/NaEMnVWHCM=;
+        b=SSrBKFK7rrcMzE2pEHvb6IRq25yF8ha+gqrQL65qEBNAt1aqKpT74vnv7jBHiMbSxe
+         PNsOMYoXiD9sXeVVjP5MnLs9yXlf9eA92Mhtk12KWYNfFY9F/zUTI2Zoy1cC3K6IC1CD
+         Z6qhcxtcYjOQbgz7P6Qz5XAzemR6WbM9rw0cWkGBhyQOQ1gvh+89Vaby8DIPIjTKQLXf
+         +QeyYLMwmWp8/5wU71pKZdTCMdwTgEqMXZal2AfpoRhmoM2JH6flzS9tI+AoYUuEA/1r
+         tSctQcYxiW3x+5iXs+Doim6i7cat48DkMgtLyZHIEjUcToWa6UFJBr5g0BNNJcciCDSH
+         Wp/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
+        d=1e100.net; s=20210112; t=1676564231;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=f3Wjhm4RPWvkAIoti+3MMiCzf2Q2MiltcHtrp7wN3Vs=;
-        b=EmTTDeUuLmqQSxOuhwMoIyd1Pr/4ZdktXoHGKLR2rtUuP6m0IWh7jBD8O55ZUpfO7+
-         2k44zf3+/YKWlhFLjAn+1PFdkazAZLHPqviI+1xoQHhB9Y6p9pT+IOPP2UqvId/7myqI
-         D+w5clnCYPaxo1qTrg6Kkti5ZW4LMaYn5P4xUbtz+9GFJc+Npfn8B/sl0A9LoF5j49zE
-         NWwmFwR2Zc+xHio/abjJ+A1HMb8FCrSwCbbpW9bxFjmkC2PE91/+2HVkiL0ppvAUmXw9
-         HO37p4C04gAw9y63iyLo3VyQRuAPrtV2/NemgmO5/fUyiyMElL1OKh5oIy0Q44toUUEG
-         9lrw==
-X-Gm-Message-State: AO0yUKVDiIss+NaPhF4ObB3GtYqlm9cfW0SJ1o0Hp0lDBF0EuDrRwVsF
-        tWxZ6x0kPGApNDjwIs0Z8fIK7OvixjSEy09Q+tsuUDrwvuI=
-X-Google-Smtp-Source: AK7set+d/XWESSK1dik4dzNb4s62L1yQ3Tjp7LFRD3/ll7+VJFTbMZQuF9IBOYq97SWYL+D8srFsA4Sh3KVEix+XhIs=
-X-Received: by 2002:a05:6870:218a:b0:163:83b6:d9e2 with SMTP id
- l10-20020a056870218a00b0016383b6d9e2mr84712oae.90.1676516686172; Wed, 15 Feb
- 2023 19:04:46 -0800 (PST)
+        bh=/nRuukX08ooHaD9kcBdoVIqsSqGmd8gj/NaEMnVWHCM=;
+        b=vh0ALGjX64X1N2cQ23NbOMdb2OIL445Px1rJEFAjsk9fXDNZXm+CRRKKFsg4vQieqJ
+         zPm8OIExFufwp/ywLQo9Mj0oUm79fUsjxBjCQVw4+cdmhbS3Vuhkdf81ewUWh6tdAKOd
+         XtZI0/Y+8+vlh6ZhUzkqyMIwxPlqAhjBDQ/FkCf1mTTLGisnNE/wp67rFKwjyZFTqDK8
+         Ln0lVzjwEbFbCjNS0W4wS7/xmZ7jJ/pjBSgQYzspESqL0KUypeAClNq1G9/zwjEjaLz7
+         0U49dFLhgt3L/ZcJn0oaPqezlNX4rskXojrb4LzK9hgMOXvBrxJycnS4Cz9VRe1zj57R
+         bkPw==
+X-Gm-Message-State: AO0yUKX8hECw1lCUpSAQ+jHyy+VSIUdxbSMQ/hRtGWvyAeV0FQekUVyv
+        /qIeJF9zqcssU8TvKDqhbz0dHBRuyWpcjwMd83UVdIfooyprQg==
+X-Google-Smtp-Source: AK7set/m6HIKDMsoZQboYSYh6iIzJfNBNNYf7yax7DQLG844+UjpeTPZkYsGZQp1TGdgt69QEDyrUrJJM8EdRZ1qS8U=
+X-Received: by 2002:a67:b845:0:b0:404:8967:82d0 with SMTP id
+ o5-20020a67b845000000b00404896782d0mr1020790vsh.61.1676564231081; Thu, 16 Feb
+ 2023 08:17:11 -0800 (PST)
 MIME-Version: 1.0
 References: <CANX2M5bVbzRi6zH3PTcNE_31TzerstOXUa9Bay4E6y6dX23_pg@mail.gmail.com>
 In-Reply-To: <CANX2M5bVbzRi6zH3PTcNE_31TzerstOXUa9Bay4E6y6dX23_pg@mail.gmail.com>
-From:   Dipanjan Das <mail.dipanjan.das@gmail.com>
-Date:   Wed, 15 Feb 2023 19:04:35 -0800
-Message-ID: <CANX2M5bQ5EOfC+oYXS5Ni8CrSW65zUfLaz_yfAPiLezvVmR1FA@mail.gmail.com>
-Subject: KMSAN: uninit-value in nilfs_add_checksums_on_logs
-To:     linux-nilfs@vger.kernel.org
-Cc:     Marius Fleischer <fleischermarius@googlemail.com>,
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date:   Fri, 17 Feb 2023 01:16:54 +0900
+Message-ID: <CAKFNMon+3JGp9MZ6gugkkDFUqbWgXKEO9JecjEhuUMoeXYQnqw@mail.gmail.com>
+Subject: Re: KMSAN: uninit-value in nilfs_add_checksums_on_logs
+To:     Dipanjan Das <mail.dipanjan.das@gmail.com>
+Cc:     linux-nilfs@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        syzkaller <syzkaller@googlegroups.com>,
+        Marius Fleischer <fleischermarius@googlemail.com>,
         Priyanka Bose <its.priyanka.bose@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -67,12 +70,7 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Reporting this bug without the reproducer attached as it hits the
-character limit and the report bounces. The reproducer is available on
-request.
-
-On Wed, Feb 15, 2023 at 6:43 PM Dipanjan Das
-<mail.dipanjan.das@gmail.com> wrote:
+On Thu, Feb 16, 2023 at 11:43 AM Dipanjan Das wrote:
 >
 > Hi,
 >
@@ -142,9 +140,12 @@ On Wed, Feb 15, 2023 at 6:43 PM Dipanjan Das
 >
 > Dipanjan
 
+Thank you for reporting.
 
+I haven't been able to reproduce this yet, but was able to get the reproducer.
+According to the log, it looks like the memory for the segment header
+buffer passed to crc32_le() is not initialized.
+I'll take a closer look using the reproducer.
 
--- 
-Thanks and Regards,
-
-Dipanjan
+Thanks,
+Ryusuke Konishi
