@@ -2,150 +2,130 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A67A16999AB
-	for <lists+linux-nilfs@lfdr.de>; Thu, 16 Feb 2023 17:17:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B86E6A5079
+	for <lists+linux-nilfs@lfdr.de>; Tue, 28 Feb 2023 02:02:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229487AbjBPQRN (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 16 Feb 2023 11:17:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45666 "EHLO
+        id S229837AbjB1BCU (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 27 Feb 2023 20:02:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjBPQRN (ORCPT
+        with ESMTP id S229719AbjB1BCK (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 16 Feb 2023 11:17:13 -0500
-Received: from mail-vs1-xe2e.google.com (mail-vs1-xe2e.google.com [IPv6:2607:f8b0:4864:20::e2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A69E5264;
-        Thu, 16 Feb 2023 08:17:12 -0800 (PST)
-Received: by mail-vs1-xe2e.google.com with SMTP id h10so2397439vsu.11;
-        Thu, 16 Feb 2023 08:17:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1676564231;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/nRuukX08ooHaD9kcBdoVIqsSqGmd8gj/NaEMnVWHCM=;
-        b=SSrBKFK7rrcMzE2pEHvb6IRq25yF8ha+gqrQL65qEBNAt1aqKpT74vnv7jBHiMbSxe
-         PNsOMYoXiD9sXeVVjP5MnLs9yXlf9eA92Mhtk12KWYNfFY9F/zUTI2Zoy1cC3K6IC1CD
-         Z6qhcxtcYjOQbgz7P6Qz5XAzemR6WbM9rw0cWkGBhyQOQ1gvh+89Vaby8DIPIjTKQLXf
-         +QeyYLMwmWp8/5wU71pKZdTCMdwTgEqMXZal2AfpoRhmoM2JH6flzS9tI+AoYUuEA/1r
-         tSctQcYxiW3x+5iXs+Doim6i7cat48DkMgtLyZHIEjUcToWa6UFJBr5g0BNNJcciCDSH
-         Wp/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1676564231;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/nRuukX08ooHaD9kcBdoVIqsSqGmd8gj/NaEMnVWHCM=;
-        b=vh0ALGjX64X1N2cQ23NbOMdb2OIL445Px1rJEFAjsk9fXDNZXm+CRRKKFsg4vQieqJ
-         zPm8OIExFufwp/ywLQo9Mj0oUm79fUsjxBjCQVw4+cdmhbS3Vuhkdf81ewUWh6tdAKOd
-         XtZI0/Y+8+vlh6ZhUzkqyMIwxPlqAhjBDQ/FkCf1mTTLGisnNE/wp67rFKwjyZFTqDK8
-         Ln0lVzjwEbFbCjNS0W4wS7/xmZ7jJ/pjBSgQYzspESqL0KUypeAClNq1G9/zwjEjaLz7
-         0U49dFLhgt3L/ZcJn0oaPqezlNX4rskXojrb4LzK9hgMOXvBrxJycnS4Cz9VRe1zj57R
-         bkPw==
-X-Gm-Message-State: AO0yUKX8hECw1lCUpSAQ+jHyy+VSIUdxbSMQ/hRtGWvyAeV0FQekUVyv
-        /qIeJF9zqcssU8TvKDqhbz0dHBRuyWpcjwMd83UVdIfooyprQg==
-X-Google-Smtp-Source: AK7set/m6HIKDMsoZQboYSYh6iIzJfNBNNYf7yax7DQLG844+UjpeTPZkYsGZQp1TGdgt69QEDyrUrJJM8EdRZ1qS8U=
-X-Received: by 2002:a67:b845:0:b0:404:8967:82d0 with SMTP id
- o5-20020a67b845000000b00404896782d0mr1020790vsh.61.1676564231081; Thu, 16 Feb
- 2023 08:17:11 -0800 (PST)
+        Mon, 27 Feb 2023 20:02:10 -0500
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF5ED29E2A;
+        Mon, 27 Feb 2023 17:01:57 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 7587CB80DD4;
+        Tue, 28 Feb 2023 01:01:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2A490C4339B;
+        Tue, 28 Feb 2023 01:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1677546115;
+        bh=0MyrhP8zxv6k33rgc7qfdjiKkOYxKugd6Y5yIm+G+iw=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=TrpxKXLHDJRZmtxPellg2R2e0LwhTmG2M11tD4m4F8F5sKa+ry/nGM6/NDBChHoSD
+         j+YaN0hFzU38PKpe17cqCZbGiwewOAiZERVYOj+LVc+zb+jt+6wDtD4bw9ZY6ZPna5
+         065r5y/ntPdrttGXnI3ygAbmSEG2s9nsuyYdZPPvc3oEf0eJPU9GIxZ27JxeQH239M
+         eIP+6uHS95fWDDm7rwjzBKHQryPRBHRS4JkIq4xsHici3XYcI9wSHemkzlMeag11Ao
+         CyNrHEzQkd0ZOa/GCfBP9ibpQQKBD4VlH0bx1VPvcM/70InEGg8VvhrbOZQC5RFlmL
+         wAFn4/77eBcag==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id ED819C41676;
+        Tue, 28 Feb 2023 01:01:54 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-References: <CANX2M5bVbzRi6zH3PTcNE_31TzerstOXUa9Bay4E6y6dX23_pg@mail.gmail.com>
-In-Reply-To: <CANX2M5bVbzRi6zH3PTcNE_31TzerstOXUa9Bay4E6y6dX23_pg@mail.gmail.com>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 17 Feb 2023 01:16:54 +0900
-Message-ID: <CAKFNMon+3JGp9MZ6gugkkDFUqbWgXKEO9JecjEhuUMoeXYQnqw@mail.gmail.com>
-Subject: Re: KMSAN: uninit-value in nilfs_add_checksums_on_logs
-To:     Dipanjan Das <mail.dipanjan.das@gmail.com>
-Cc:     linux-nilfs@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        syzkaller <syzkaller@googlegroups.com>,
-        Marius Fleischer <fleischermarius@googlemail.com>,
-        Priyanka Bose <its.priyanka.bose@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [PATCH v5 00/23] Convert to filemap_get_folios_tag()
+From:   patchwork-bot+f2fs@kernel.org
+Message-Id: <167754611496.27916.17463541946406622753.git-patchwork-notify@kernel.org>
+Date:   Tue, 28 Feb 2023 01:01:54 +0000
+References: <20230104211448.4804-1-vishal.moola@gmail.com>
+In-Reply-To: <20230104211448.4804-1-vishal.moola@gmail.com>
+To:     Vishal Moola (Oracle) <vishal.moola@gmail.com>
+Cc:     linux-fsdevel@vger.kernel.org, linux-cifs@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
+        linux-mm@kvack.org, ceph-devel@vger.kernel.org,
+        linux-ext4@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, Feb 16, 2023 at 11:43 AM Dipanjan Das wrote:
->
-> Hi,
->
-> We would like to report the following bug which has been found by our
-> modified version of syzkaller.
->
-> ======================================================
-> description: KMSAN: uninit-value in nilfs_add_checksums_on_logs
-> affected file: fs/nilfs2/segbuf.c
-> kernel version: 6.2.0-rc5
-> kernel commit: 41c66f47061608dc1fd493eebce198f0e74cc2d7
-> git tree: kmsan
-> kernel config: https://syzkaller.appspot.com/text?tag=KernelConfig&x=a9a22da1efde3af6
-> crash reproducer: attached
-> ======================================================
-> Crash log:
-> ======================================================
-> NILFS (loop4): segctord starting. Construction interval = 5 seconds,
-> CP frequency < 30 seconds
-> =====================================================
-> BUG: KMSAN: uninit-value in crc32_body lib/crc32.c:112 [inline]
-> BUG: KMSAN: uninit-value in crc32_le_generic lib/crc32.c:179 [inline]
-> BUG: KMSAN: uninit-value in crc32_le_base+0x3b7/0xc30 lib/crc32.c:197
->  crc32_body lib/crc32.c:112 [inline]
->  crc32_le_generic lib/crc32.c:179 [inline]
->  crc32_le_base+0x3b7/0xc30 lib/crc32.c:197
->  nilfs_segbuf_fill_in_data_crc fs/nilfs2/segbuf.c:208 [inline]
->  nilfs_add_checksums_on_logs+0x6ec/0xea0 fs/nilfs2/segbuf.c:321
->  nilfs_segctor_do_construct+0xa636/0xe870 fs/nilfs2/segment.c:2076
->  nilfs_segctor_construct+0x222/0xe10 fs/nilfs2/segment.c:2379
->  nilfs_segctor_thread_construct fs/nilfs2/segment.c:2487 [inline]
->  nilfs_segctor_thread+0xc19/0x11c0 fs/nilfs2/segment.c:2570
->  kthread+0x30b/0x420 kernel/kthread.c:376
->  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
->
-> Uninit was created at:
->  __alloc_pages+0x767/0xee0 mm/page_alloc.c:5572
->  alloc_pages+0xa9a/0xd90 mm/mempolicy.c:2286
->  folio_alloc+0x41/0x100 mm/mempolicy.c:2296
->  filemap_alloc_folio+0xa5/0x450 mm/filemap.c:972
->  __filemap_get_folio+0xe7c/0x1960 mm/filemap.c:1966
->  pagecache_get_page+0x46/0x270 mm/folio-compat.c:98
->  find_or_create_page include/linux/pagemap.h:612 [inline]
->  grow_dev_page fs/buffer.c:946 [inline]
->  grow_buffers fs/buffer.c:1011 [inline]
->  __getblk_slow fs/buffer.c:1038 [inline]
->  __getblk_gfp+0x365/0x1750 fs/buffer.c:1333
->  sb_getblk include/linux/buffer_head.h:356 [inline]
->  nilfs_segbuf_extend_segsum fs/nilfs2/segbuf.c:99 [inline]
->  nilfs_segbuf_reset+0xfd/0x520 fs/nilfs2/segbuf.c:129
->  nilfs_segctor_reset_segment_buffer fs/nilfs2/segment.c:421 [inline]
->  nilfs_segctor_collect fs/nilfs2/segment.c:1499 [inline]
->  nilfs_segctor_do_construct+0x20c6/0xe870 fs/nilfs2/segment.c:2045
->  nilfs_segctor_construct+0x222/0xe10 fs/nilfs2/segment.c:2379
->  nilfs_segctor_thread_construct fs/nilfs2/segment.c:2487 [inline]
->  nilfs_segctor_thread+0xc19/0x11c0 fs/nilfs2/segment.c:2570
->  kthread+0x30b/0x420 kernel/kthread.c:376
->  ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
->
-> CPU: 1 PID: 11600 Comm: segctord Not tainted 6.2.0-rc5-00010-g41c66f470616 #8
-> Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS
-> 1.13.0-1ubuntu1.1 04/01/2014
-> =====================================================
->
-> --
-> Thanks and Regards,
->
-> Dipanjan
+Hello:
 
-Thank you for reporting.
+This series was applied to jaegeuk/f2fs.git (dev)
+by Andrew Morton <akpm@linux-foundation.org>:
 
-I haven't been able to reproduce this yet, but was able to get the reproducer.
-According to the log, it looks like the memory for the segment header
-buffer passed to crc32_le() is not initialized.
-I'll take a closer look using the reproducer.
+On Wed,  4 Jan 2023 13:14:25 -0800 you wrote:
+> This patch series replaces find_get_pages_range_tag() with
+> filemap_get_folios_tag(). This also allows the removal of multiple
+> calls to compound_head() throughout.
+> It also makes a good chunk of the straightforward conversions to folios,
+> and takes the opportunity to introduce a function that grabs a folio
+> from the pagecache.
+> 
+> [...]
 
-Thanks,
-Ryusuke Konishi
+Here is the summary with links:
+  - [f2fs-dev,v5,01/23] pagemap: Add filemap_grab_folio()
+    https://git.kernel.org/jaegeuk/f2fs/c/ee7a5906ff08
+  - [f2fs-dev,v5,02/23] filemap: Added filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/247f9e1feef4
+  - [f2fs-dev,v5,03/23] filemap: Convert __filemap_fdatawait_range() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/6817ef514e1a
+  - [f2fs-dev,v5,04/23] page-writeback: Convert write_cache_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/0fff435f060c
+  - [f2fs-dev,v5,05/23] afs: Convert afs_writepages_region() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/acc8d8588cb7
+  - [f2fs-dev,v5,06/23] btrfs: Convert btree_write_cache_pages() to use filemap_get_folio_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/51c5cd3bafe5
+  - [f2fs-dev,v5,07/23] btrfs: Convert extent_write_cache_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/9f50fd2e92e3
+  - [f2fs-dev,v5,08/23] ceph: Convert ceph_writepages_start() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/590a2b5f0a9b
+  - [f2fs-dev,v5,09/23] cifs: Convert wdata_alloc_and_fillpages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/4cda80f3a7a5
+  - [f2fs-dev,v5,10/23] ext4: Convert mpage_prepare_extent_to_map() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/50ead2537441
+  - [f2fs-dev,v5,11/23] f2fs: Convert f2fs_fsync_node_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/e6e46e1eb7ce
+  - [f2fs-dev,v5,12/23] f2fs: Convert f2fs_flush_inline_data() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/a40a4ad1186a
+  - [f2fs-dev,v5,13/23] f2fs: Convert f2fs_sync_node_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/7525486affa5
+  - [f2fs-dev,v5,14/23] f2fs: Convert f2fs_write_cache_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/1cd98ee747cf
+  - [f2fs-dev,v5,15/23] f2fs: Convert last_fsync_dnode() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/4f4a4f0febe6
+  - [f2fs-dev,v5,16/23] f2fs: Convert f2fs_sync_meta_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/580e7a492608
+  - [f2fs-dev,v5,17/23] gfs2: Convert gfs2_write_cache_jdata() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/87ed37e66dfd
+  - [f2fs-dev,v5,18/23] nilfs2: Convert nilfs_lookup_dirty_data_buffers() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/5ee4b25cb730
+  - [f2fs-dev,v5,19/23] nilfs2: Convert nilfs_lookup_dirty_node_buffers() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/a24586583169
+  - [f2fs-dev,v5,20/23] nilfs2: Convert nilfs_btree_lookup_dirty_buffers() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/41f3f3b5373e
+  - [f2fs-dev,v5,21/23] nilfs2: Convert nilfs_copy_dirty_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/d4a16d31334e
+  - [f2fs-dev,v5,22/23] nilfs2: Convert nilfs_clear_dirty_pages() to use filemap_get_folios_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/243c5ea4f783
+  - [f2fs-dev,v5,23/23] filemap: Remove find_get_pages_range_tag()
+    https://git.kernel.org/jaegeuk/f2fs/c/c5792d938411
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
