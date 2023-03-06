@@ -2,136 +2,75 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B81466A93D7
-	for <lists+linux-nilfs@lfdr.de>; Fri,  3 Mar 2023 10:24:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B4796ABC72
+	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Mar 2023 11:27:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230469AbjCCJYg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 3 Mar 2023 04:24:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51798 "EHLO
+        id S229783AbjCFK1I (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 6 Mar 2023 05:27:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57930 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230514AbjCCJYU (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 3 Mar 2023 04:24:20 -0500
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CFCA5C106
-        for <linux-nilfs@vger.kernel.org>; Fri,  3 Mar 2023 01:23:57 -0800 (PST)
-Received: by mail-io1-f69.google.com with SMTP id v4-20020a6b5b04000000b0074cb180c5e2so1014523ioh.6
-        for <linux-nilfs@vger.kernel.org>; Fri, 03 Mar 2023 01:23:57 -0800 (PST)
+        with ESMTP id S229691AbjCFK0p (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 6 Mar 2023 05:26:45 -0500
+Received: from mail-oa1-x31.google.com (mail-oa1-x31.google.com [IPv6:2001:4860:4864:20::31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E49D22A32
+        for <linux-nilfs@vger.kernel.org>; Mon,  6 Mar 2023 02:26:11 -0800 (PST)
+Received: by mail-oa1-x31.google.com with SMTP id 586e51a60fabf-176d93cd0daso1413115fac.4
+        for <linux-nilfs@vger.kernel.org>; Mon, 06 Mar 2023 02:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1678098351;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=EDbhPO1WKzSJy97Cp1KR4Ue1wIcLFSscoH9L1E67CyPoJvstONJwP7RxKCqsDiuar/
+         4XZc6UhnyOFrEHlIQ3KmGU6oX8xWOyZpiVA4bD6F27cjopM5KQeiwoXnQq1r2hu/0hkW
+         LgiQ9FGonNq8AsMsEKBqZEvtwgOfW2lv3iUKapY2ocqE+LRWfsVifUNA3eNbIcULbvPT
+         nBBU0ns0xWwmvS7ETCAh5Z5lhdCiLVSRis+m63aq8CObwyUrMLAjGQpDeSf4OVAOQav5
+         5TuEH4NOUnTGCqcHGRIE0/tBavRRplzW4HaWY1DRs+pas+nyfL/37adPjYmqfexbl/Di
+         PS3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yKaUM4DL4aUCt53wSY6+xVX2c75cHIXVKHSTMsgM6us=;
-        b=jphzQaB8MccwTeBBsDaCoKml8X/M319ys51VonjBEr2DIkpWdq38Yk90+VHgINAWnZ
-         2ENg9G24D8mLfTx6GvMJiRKUvRGmRTvO25WiIFfSCSeQyRN+DkGBYODbaSJQb1313r0K
-         J1FBfJz9T7C3/HdZ4rLNq/9vTRegxwhdz0nm3FjMtCQaH2mnMVl+hKk5x+R5Tn1qZXbq
-         qgvFNFL2aEG115rphCObk9GtUCAwiJwG3CmadkxiCGJaRqptBd9gf0aszUuVjKriurwC
-         0+7QeyIv3AxPfMj3w6HIWtKfAZJnipvibOqfdq6cmImX93DDgDo+xHZCqLs7Hq+G8C9C
-         tkjQ==
-X-Gm-Message-State: AO0yUKUka6r/3eoeVox8a/5V86/8v+kIE9O2sfoynGnmRGOj1qvv7y5P
-        BKmigHkmeRrYc7HEHpWrPpenEQS7UMwdyJr4rH0OPYhi5Rl3
-X-Google-Smtp-Source: AK7set8ebZa0cBmUtVB0Uoaurhg8Ab9d8vC2YCWQc8CTIWYtHVI5HCvIjsAdQEmhoWDn0zsWqkr1a4ZUFyksplDc17jDeQJLPyal
+        d=1e100.net; s=20210112; t=1678098351;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
+        b=exXFtkkEtXkAfst4HpReU00UzVQ0J75PXgyM0XpPibbVifYgx0jXgOP4zF2MTX38uK
+         egaFNXVprA1g5pneGS4fQd1Vaf1g+OM3/9i05eA05gPCdPQ5E0rNFJ/nxhzGzbiCEBQ/
+         tzE2rH99WH2R5uAEFTVJ/1HfxfCKsxGgSuvmwCcpojQXmZs1a0fJfiglwzqiDa4qR3Tk
+         V+Th9XbGB57Qbo0KXB2RDspj5tvmiVzrxgHumyKd6/cWOim35Yx3BlDxpe+yED5pwkc1
+         xPN2drP+Rju/KjgsbomoA3WDjdwjTPVuG35AesouJPFG9EgNcGNLnAZ87HK0/Kov7CDf
+         AQGg==
+X-Gm-Message-State: AO0yUKUCpomvKpE7VBoxrUuKjo7H9gqVyBzRJCVWB2jGUW3zFTaRtPCc
+        RY4JrdLt9t0tF0143KDljIIJGNX7LRcQSduSM8c6a87gyig=
+X-Google-Smtp-Source: AK7set9YqazPiOkBuGm+YrFZOLe51O90+qKBrIr6WBjXtnVrmZ9RIOYyWRLBWcHI+/rsVoNhMQhwnCpcR6G8n2Z6mzE=
+X-Received: by 2002:a05:6102:e44:b0:402:999f:44d3 with SMTP id
+ p4-20020a0561020e4400b00402999f44d3mr6975472vst.1.1678098330725; Mon, 06 Mar
+ 2023 02:25:30 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1110:b0:315:9a9a:2d3 with SMTP id
- u16-20020a056e02111000b003159a9a02d3mr681660ilk.5.1677835424500; Fri, 03 Mar
- 2023 01:23:44 -0800 (PST)
-Date:   Fri, 03 Mar 2023 01:23:44 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000078153305f5fb8030@google.com>
-Subject: [syzbot] [nilfs?] WARNING in nilfs_btree_propagate
-From:   syzbot <syzbot+527641d191abe35993c1@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
+Received: by 2002:a59:ce6f:0:b0:3ae:930b:3e70 with HTTP; Mon, 6 Mar 2023
+ 02:25:30 -0800 (PST)
+Reply-To: madis.scarl@terlera.it
+From:   "Ms Eve from U.N" <denisagotou@gmail.com>
+Date:   Mon, 6 Mar 2023 11:25:30 +0100
+Message-ID: <CAD6bNBi6bPCYboaF4-xBgmeUTFn6JMXqU6TNepQig=NRMqhdUg@mail.gmail.com>
+Subject: Re: Claim of Fund:
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_SCAM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Hello Good Morning,
+This is to bring to your notice that all our efforts to contact you
+through this your email ID failed Please Kindly contact Barrister.
+Steven Mike { mbarrsteven@gmail.com } on his private email for the
+claim of your compensation entitlement
 
-syzbot found the following issue on:
-
-HEAD commit:    f3a2439f20d9 Merge tag 'rproc-v6.3' of git://git.kernel.or..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=17228a74c80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dd442ddf29eaca0c
-dashboard link: https://syzkaller.appspot.com/bug?extid=527641d191abe35993c1
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9dbed9360199/disk-f3a2439f.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d9708601442a/vmlinux-f3a2439f.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/177fdbdbd4ea/bzImage-f3a2439f.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+527641d191abe35993c1@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 6839 at fs/nilfs2/btree.c:2071 nilfs_btree_propagate+0xc72/0xde0
-Modules linked in:
-CPU: 1 PID: 6839 Comm: syz-executor.4 Not tainted 6.2.0-syzkaller-12485-gf3a2439f20d9 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/16/2023
-RIP: 0010:nilfs_btree_propagate+0xc72/0xde0 fs/nilfs2/btree.c:2071
-Code: 00 48 8b 44 24 08 49 8d 74 05 58 e8 c8 64 ff ff 48 8b 6c 24 10 43 80 3c 27 00 0f 85 1a fe ff ff e9 1d fe ff ff e8 3e 6c 39 fe <0f> 0b e9 f2 f3 ff ff e8 32 6c 39 fe 48 8b 1c 24 48 81 c3 d0 00 00
-RSP: 0018:ffffc90006196ea0 EFLAGS: 00010283
-RAX: ffffffff83537a82 RBX: 0000000000000000 RCX: 0000000000040000
-RDX: ffffc90005929000 RSI: 000000000001e5d4 RDI: 000000000001e5d5
-RBP: ffffffff8b4581a8 R08: ffffffff83536e6c R09: ffffed100e936523
-R10: 0000000000000000 R11: dffffc0000000001 R12: dffffc0000000000
-R13: 1ffff1100e93652b R14: 1ffff1100e936522 R15: ffff8880749b2910
-FS:  00007f851cc6a700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b31f2b000 CR3: 0000000028470000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- nilfs_bmap_propagate+0x71/0x120 fs/nilfs2/bmap.c:337
- nilfs_collect_file_data+0x4d/0xc0 fs/nilfs2/segment.c:568
- nilfs_segctor_apply_buffers+0x180/0x330 fs/nilfs2/segment.c:1020
- nilfs_segctor_scan_file_dsync fs/nilfs2/segment.c:1109 [inline]
- nilfs_segctor_collect_blocks fs/nilfs2/segment.c:1263 [inline]
- nilfs_segctor_collect fs/nilfs2/segment.c:1505 [inline]
- nilfs_segctor_do_construct+0x175e/0x6f70 fs/nilfs2/segment.c:2047
- nilfs_construct_dsync_segment+0x5c4/0x6c0 fs/nilfs2/segment.c:2312
- nilfs_sync_file+0xbc/0x260 fs/nilfs2/file.c:32
- generic_write_sync include/linux/fs.h:2452 [inline]
- generic_file_write_iter+0x2a1/0x310 mm/filemap.c:4090
- do_iter_write+0x6ea/0xc50 fs/read_write.c:861
- iter_file_splice_write+0x843/0xfe0 fs/splice.c:778
- do_splice_from fs/splice.c:856 [inline]
- direct_splice_actor+0xe7/0x1c0 fs/splice.c:1023
- splice_direct_to_actor+0x4c4/0xbd0 fs/splice.c:978
- do_splice_direct+0x283/0x3d0 fs/splice.c:1066
- do_sendfile+0x620/0xff0 fs/read_write.c:1255
- __do_sys_sendfile64 fs/read_write.c:1323 [inline]
- __se_sys_sendfile64+0x17c/0x1e0 fs/read_write.c:1309
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f851be8c0f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 f1 19 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f851cc6a168 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007f851bfac050 RCX: 00007f851be8c0f9
-RDX: 0000000000000000 RSI: 0000000000000007 RDI: 0000000000000006
-RBP: 00007f851bee7ae9 R08: 0000000000000000 R09: 0000000000000000
-R10: 00000000f03b2400 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007ffdf954162f R14: 00007f851cc6a300 R15: 0000000000022000
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Note: You have to pay for the delivery fee.
+Yours Sincerely
+Mrs EVE LEWIS
