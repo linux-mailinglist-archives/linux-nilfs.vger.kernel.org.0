@@ -2,77 +2,144 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 63C856B0220
-	for <lists+linux-nilfs@lfdr.de>; Wed,  8 Mar 2023 09:55:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 353176B35AC
+	for <lists+linux-nilfs@lfdr.de>; Fri, 10 Mar 2023 05:40:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229813AbjCHIzv (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 8 Mar 2023 03:55:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
+        id S229599AbjCJEk0 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 9 Mar 2023 23:40:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48052 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230019AbjCHIzr (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 8 Mar 2023 03:55:47 -0500
-Received: from mail.amblevebiz.com (mail.amblevebiz.com [80.211.239.97])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 072E2AA249
-        for <linux-nilfs@vger.kernel.org>; Wed,  8 Mar 2023 00:55:47 -0800 (PST)
-Received: by mail.amblevebiz.com (Postfix, from userid 1002)
-        id 97E2982FF8; Wed,  8 Mar 2023 09:55:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=amblevebiz.com;
-        s=mail; t=1678265745;
-        bh=mG5KF9rXIT2hCcIXZaMY449X9Ndwb1czFhgZLlqDg7A=;
-        h=Date:From:To:Subject:From;
-        b=yMERf0bfcG6dm+dpTKxGcUcsUDi+WWyiH7DVUnHE8kXiVYBbgeu72HItxiP0N5R0S
-         6AXJvQQ1lv2VtA/ThdFXQLYptz32MvsQMF9XY1KDvFpRdj2LqwkHXGSVRzOISvqlzk
-         MuvJbf1H6BDihxinKBtEQmqoc3n3ks6vyfo4gyWxH5u6UErk+JpXlNGBsK68Y2RgsI
-         a6t3sWo7QYqIKOIIyRUIPoL3Lq//W2uvlahvfdQ77FV0CbYWGBoyPNlC9dbM9KSK1F
-         ts1TRulLCv9wvYGduVIFTaMxlNMyJ6+BkxeOvjQa9IAlCBIW1+mxQ91jLarUqk2o1a
-         ibxNHmfziY7/A==
-Received: by mail.amblevebiz.com for <linux-nilfs@vger.kernel.org>; Wed,  8 Mar 2023 08:55:39 GMT
-Message-ID: <20230308084500-0.1.k.13rn.0.hfe83hh4lc@amblevebiz.com>
-Date:   Wed,  8 Mar 2023 08:55:39 GMT
-From:   =?UTF-8?Q? "Luk=C3=A1=C5=A1_Horv=C3=A1th" ?= 
-        <lukas.horvath@amblevebiz.com>
-To:     <linux-nilfs@vger.kernel.org>
-Subject: =?UTF-8?Q?Technick=C3=BD_audit_podlah?=
-X-Mailer: mail.amblevebiz.com
+        with ESMTP id S229621AbjCJEkX (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Thu, 9 Mar 2023 23:40:23 -0500
+X-Greylist: delayed 510 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Mar 2023 20:40:20 PST
+Received: from out-52.mta0.migadu.com (out-52.mta0.migadu.com [91.218.175.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11D5C101F28
+        for <linux-nilfs@vger.kernel.org>; Thu,  9 Mar 2023 20:40:19 -0800 (PST)
+Date:   Fri, 10 Mar 2023 13:31:37 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1678422707;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=G2zysOwE/XmHnnQEWgReghgqR+PBhnvLsAHfZMM+Qa4=;
+        b=tXFG+Jg9Cc+ASjSJb5f85Sn4QAmHr6OdtNasQoTS54YtoTxYQ1Z22ditujRLuWd2l4u5lZ
+        hhEIISbpKiqFnvfInaEB3IpkHkOukm7qn3P/hUDGs6JVWgnuT6Qmhh+Ns7l2owcwEv1bx9
+        NJYxympOP5WD50/Duuq+OnQ5JhmDAsw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   Naoya Horiguchi <naoya.horiguchi@linux.dev>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Hugh Dickins <hughd@google.com>, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        cluster-devel@redhat.com, linux-mm@kvack.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, naoya.horiguchi@nec.com
+Subject: Re: [PATCH 7/7] mm: return an ERR_PTR from __filemap_get_folio
+Message-ID: <20230310043137.GA1624890@u2004>
+References: <20230121065755.1140136-1-hch@lst.de>
+ <20230121065755.1140136-8-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,URIBL_CSS_A,
-        URIBL_DBL_SPAM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20230121065755.1140136-8-hch@lst.de>
+X-Migadu-Flow: FLOW_OUT
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Sat, Jan 21, 2023 at 07:57:55AM +0100, Christoph Hellwig wrote:
+> Instead of returning NULL for all errors, distinguish between:
+> 
+>  - no entry found and not asked to allocated (-ENOENT)
+>  - failed to allocate memory (-ENOMEM)
+>  - would block (-EAGAIN)
+> 
+> so that callers don't have to guess the error based on the passed
+> in flags.
+> 
+> Also pass through the error through the direct callers:
+> filemap_get_folio, filemap_lock_folio filemap_grab_folio
+> and filemap_get_incore_folio.
+> 
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
 
-uva=C5=BEujete o bezesp=C3=A1rov=C3=A9 podlaze pro v=C3=BDrobn=C3=AD prov=
-oz?
+Hello,
 
-Jako sv=C4=9Btov=C3=BD l=C3=ADdr ve v=C3=BDrob=C4=9B a pokl=C3=A1dce podl=
-ah =C5=99e=C5=A1=C3=ADme probl=C3=A9my vypl=C3=BDvaj=C3=ADc=C3=AD z vlivu=
- chemick=C3=BDch slou=C4=8Denin, ot=C4=9Bru, n=C3=A1raz=C5=AF, vlhkosti n=
-ebo n=C3=A1hl=C3=BDch zm=C4=9Bn teplot - na=C5=A1e podlahov=C3=A9 syst=C3=
-=A9my jsou p=C5=99izp=C5=AFsobeny nejt=C4=9B=C5=BE=C5=A1=C3=ADm podm=C3=AD=
-nk=C3=A1m prost=C5=99ed=C3=AD.
+I found a NULL pointer dereference issue related to this patch,
+so let me share it.
 
-Garantujeme v=C3=A1m =C5=99e=C5=A1en=C3=AD, kter=C3=A1 jsou =C5=A1etrn=C3=
-=A1 k =C5=BEivotn=C3=ADmu prost=C5=99ed=C3=AD, odoln=C3=A1 a snadno se =C4=
-=8Dist=C3=AD, hygienick=C3=A1, protiskluzov=C3=A1 a bezpe=C4=8Dn=C3=A1 pr=
-o zam=C4=9Bstnance.
+Here is the bug message (I used akpm/mm-unstable on Mar 9):
 
-Poskytujeme kr=C3=A1tkou dobu instalace a nep=C5=99etr=C5=BEit=C3=BD prov=
-oz i o v=C3=ADkendech a sv=C3=A1tc=C3=ADch, =C4=8D=C3=ADm=C5=BE eliminuje=
-me riziko prostoj=C5=AF.
+[ 2871.648659] BUG: kernel NULL pointer dereference, address: 0000000000000000
+[ 2871.651286] #PF: supervisor read access in kernel mode
+[ 2871.653231] #PF: error_code(0x0000) - not-present page
+[ 2871.655170] PGD 80000001517dd067 P4D 80000001517dd067 PUD 1491d1067 PMD 0
+[ 2871.657739] Oops: 0000 [#1] PREEMPT SMP PTI
+[ 2871.659329] CPU: 4 PID: 1599 Comm: page-types Tainted: G            E    N 6.3.0-rc1-v6.3-rc1-230309-1629-189-ga71a7+ #36
+[ 2871.663362] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
+[ 2871.666507] RIP: 0010:mincore_page+0x19/0x90
+[ 2871.668086] Code: cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 41 54 55 53 e8 92 2b 03 00 48 3d 00 f0 ff ff 77 54 48 89 c3 <48> 8b 00 48 c1 e8 02 89 c5 83 e5 01 75 21 8b 43 34 85 c0 74 47 f0
+[ 2871.678313] RSP: 0018:ffffbe57c203fd00 EFLAGS: 00010207
+[ 2871.681422] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+[ 2871.685609] RDX: 0000000000000000 RSI: ffff9f59ca1506d8 RDI: ffff9f59ce7c2880
+[ 2871.689599] RBP: 0000000000000000 R08: 00007f9f14200000 R09: ffff9f59c9078508
+[ 2871.693295] R10: 00007f9ed4400000 R11: 0000000000000000 R12: 0000000000000200
+[ 2871.695969] R13: 0000000000000001 R14: ffff9f59c9ef4450 R15: ffff9f59c4ac9000
+[ 2871.699927] FS:  00007f9ed47ee740(0000) GS:ffff9f5abbc00000(0000) knlGS:0000000000000000
+[ 2871.703969] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[ 2871.706689] CR2: 0000000000000000 CR3: 0000000149ffe006 CR4: 0000000000170ee0
+[ 2871.709923] DR0: ffffffff91531760 DR1: ffffffff91531761 DR2: ffffffff91531762
+[ 2871.713424] DR3: ffffffff91531763 DR6: 00000000ffff0ff0 DR7: 0000000000000600
+[ 2871.716758] Call Trace:
+[ 2871.717998]  <TASK>
+[ 2871.719008]  __mincore_unmapped_range+0x6e/0xd0
+[ 2871.721220]  mincore_unmapped_range+0x16/0x30
+[ 2871.723288]  walk_pgd_range+0x485/0x9e0
+[ 2871.725128]  __walk_page_range+0x195/0x1b0
+[ 2871.727224]  walk_page_range+0x151/0x180
+[ 2871.728883]  __do_sys_mincore+0xec/0x2b0
+[ 2871.730707]  do_syscall_64+0x3a/0x90
+[ 2871.732179]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
+[ 2871.734148] RIP: 0033:0x7f9ed443f4ab
+[ 2871.735548] Code: 73 01 c3 48 8b 0d 75 99 1b 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 1b 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 45 99 1b 00 f7 d8 64 89 01 48
+[ 2871.742194] RSP: 002b:00007ffe924d72b8 EFLAGS: 00000206 ORIG_RAX: 000000000000001b
+[ 2871.744787] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f9ed443f4ab
+[ 2871.747186] RDX: 00007ffe92557300 RSI: 0000000000200000 RDI: 00007f9ed4200000
+[ 2871.749404] RBP: 00007ffe92567330 R08: 0000000000000005 R09: 0000000000000000
+[ 2871.751683] R10: 00007f9ed4405d68 R11: 0000000000000206 R12: 00007ffe925674b8
+[ 2871.753925] R13: 0000000000404af1 R14: 000000000040ad78 R15: 00007f9ed4833000
+[ 2871.756493]  </TASK>
 
-Mohu V=C3=A1m zdarma nab=C3=ADdnout technick=C3=BD audit podlah s komplex=
-n=C3=ADm rozborem podkladu.
+The precedure to reproduce this is (1) punch hole some page in a shmem
+file, then (2) call mincore() over the punch-holed address range. 
 
-M=C5=AF=C5=BEeme pro v=C3=A1s mluvit o =C5=99e=C5=A1en=C3=ADch?
+I confirmed that filemap_get_incore_folio() (actually filemap_get_entry()
+inside it) returns NULL in that case, so we unexpectedly enter the following
+if-block for the "not found" case.
 
+> diff --git a/mm/mincore.c b/mm/mincore.c
+> index cd69b9db008126..5437e584b208bf 100644
+> --- a/mm/mincore.c
+> +++ b/mm/mincore.c
+> @@ -61,7 +61,7 @@ static unsigned char mincore_page(struct address_space *mapping, pgoff_t index)
+>  	 * tmpfs's .fault). So swapped out tmpfs mappings are tested here.
+>  	 */
+>  	folio = filemap_get_incore_folio(mapping, index);
+> -	if (folio) {
+> +	if (!IS_ERR(folio)) {
+>  		present = folio_test_uptodate(folio);
+>  		folio_put(folio);
+>  	}
 
-Luk=C3=A1=C5=A1 Horv=C3=A1th
+I guess that this patch intends to make filemap_get_incore_folio() return
+non-NULL error code, so replacing the check with "if (!IS_ERR_OR_NULL(folio))"
+cannot be a solution. But I have no idea about the fix, so could you help me?
+
+Thanks,
+Naoya Horiguchi
