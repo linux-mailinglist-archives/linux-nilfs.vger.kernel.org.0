@@ -2,148 +2,128 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4766B37F5
-	for <lists+linux-nilfs@lfdr.de>; Fri, 10 Mar 2023 09:02:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD8CC6B884B
+	for <lists+linux-nilfs@lfdr.de>; Tue, 14 Mar 2023 03:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230144AbjCJICh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 10 Mar 2023 03:02:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44270 "EHLO
+        id S229996AbjCNCTg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 13 Mar 2023 22:19:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230111AbjCJICf (ORCPT
+        with ESMTP id S229755AbjCNCTf (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 10 Mar 2023 03:02:35 -0500
-X-Greylist: delayed 12642 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Fri, 10 Mar 2023 00:02:33 PST
-Received: from out-49.mta0.migadu.com (out-49.mta0.migadu.com [IPv6:2001:41d0:1004:224b::31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 794FFEBACE
-        for <linux-nilfs@vger.kernel.org>; Fri, 10 Mar 2023 00:02:33 -0800 (PST)
-Date:   Fri, 10 Mar 2023 17:02:22 +0900
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1678435350;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=xp9xWG2NFzHRjHc+BoxHoDF//7nBHv8YZ/vDhrkzT3k=;
-        b=gnuNkIfwv5KCUPFp3S4GvQnGUzgD/Q0gbKJl7O/oEP7X9OOGsjwy09oogkcynWjzL9kIkt
-        eCnsByz9QC1zPQ/K+cuDRKxq2r1yUZLqCgR6nAn0RBmDQ4FgFAzDKXLENqZ6PKA28Ib6J5
-        9dcgtjrsHhjBzKoNqambYF7gtRvrZ+Q=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Naoya Horiguchi <naoya.horiguchi@linux.dev>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Hugh Dickins <hughd@google.com>, linux-afs@lists.infradead.org,
-        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
-        cluster-devel@redhat.com, linux-mm@kvack.org,
-        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, naoya.horiguchi@nec.com
-Subject: Re: [PATCH 7/7] mm: return an ERR_PTR from __filemap_get_folio
-Message-ID: <20230310080222.GA1659148@u2004>
-References: <20230121065755.1140136-1-hch@lst.de>
- <20230121065755.1140136-8-hch@lst.de>
- <20230310043137.GA1624890@u2004>
- <20230310070023.GA13563@lst.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230310070023.GA13563@lst.de>
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+        Mon, 13 Mar 2023 22:19:35 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC131B541;
+        Mon, 13 Mar 2023 19:19:33 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 88C8B61572;
+        Tue, 14 Mar 2023 02:19:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DFDAC4339C;
+        Tue, 14 Mar 2023 02:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1678760373;
+        bh=jQhD/M7Ani+bWf3eE9KwDDKZgpO+n2YjiyMZ49M+DVU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=TEy2LQY75YaxuMZ9i9d0txb/bAPwVksXWhiZdQy+Gp0ocrEuwRrFo+5Wh7rqlFeNe
+         1LlrirqETNh2b1bMxwBWU+ClRS3UtSm156sFelxG38ph5FucwHNDR7Wyqo4Eq0iphr
+         BLQ4sFlz8R2QZTg6FkeByENg0z1522RLRjMbOHgw=
+Date:   Mon, 13 Mar 2023 19:19:31 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     kernel test robot <yujie.liu@intel.com>
+Cc:     Christoph Hellwig <hch@lst.de>, <oe-lkp@lists.linux.dev>,
+        <lkp@intel.com>, Linux Memory Management List <linux-mm@kvack.org>,
+        "Andreas Gruenbacher" <agruenba@redhat.com>,
+        Hugh Dickins <hughd@google.com>,
+        "Matthew Wilcox" <willy@infradead.org>,
+        <linux-afs@lists.infradead.org>, <linux-ext4@vger.kernel.org>,
+        <linux-xfs@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+        <linux-nfs@vger.kernel.org>, <linux-nilfs@vger.kernel.org>,
+        <cgroups@vger.kernel.org>
+Subject: Re: [linux-next:master] [mm] 480c454ff6:
+ BUG:kernel_NULL_pointer_dereference
+Message-Id: <20230313191931.f84776cb09dc8c4b50673a76@linux-foundation.org>
+In-Reply-To: <202303140916.5e8e96b2-yujie.liu@intel.com>
+References: <202303140916.5e8e96b2-yujie.liu@intel.com>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri, Mar 10, 2023 at 08:00:23AM +0100, Christoph Hellwig wrote:
-> On Fri, Mar 10, 2023 at 01:31:37PM +0900, Naoya Horiguchi wrote:
-> > On Sat, Jan 21, 2023 at 07:57:55AM +0100, Christoph Hellwig wrote:
-> > > Instead of returning NULL for all errors, distinguish between:
-> > > 
-> > >  - no entry found and not asked to allocated (-ENOENT)
-> > >  - failed to allocate memory (-ENOMEM)
-> > >  - would block (-EAGAIN)
-> > > 
-> > > so that callers don't have to guess the error based on the passed
-> > > in flags.
-> > > 
-> > > Also pass through the error through the direct callers:
-> > > filemap_get_folio, filemap_lock_folio filemap_grab_folio
-> > > and filemap_get_incore_folio.
-> > > 
-> > > Signed-off-by: Christoph Hellwig <hch@lst.de>
-> > 
-> > Hello,
-> > 
-> > I found a NULL pointer dereference issue related to this patch,
-> > so let me share it.
-> > 
-> > Here is the bug message (I used akpm/mm-unstable on Mar 9):
-> > 
-> > [ 2871.648659] BUG: kernel NULL pointer dereference, address: 0000000000000000
-> > [ 2871.651286] #PF: supervisor read access in kernel mode
-> > [ 2871.653231] #PF: error_code(0x0000) - not-present page
-> > [ 2871.655170] PGD 80000001517dd067 P4D 80000001517dd067 PUD 1491d1067 PMD 0
-> > [ 2871.657739] Oops: 0000 [#1] PREEMPT SMP PTI
-> > [ 2871.659329] CPU: 4 PID: 1599 Comm: page-types Tainted: G            E    N 6.3.0-rc1-v6.3-rc1-230309-1629-189-ga71a7+ #36
-> > [ 2871.663362] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS 1.16.1-2.fc37 04/01/2014
-> > [ 2871.666507] RIP: 0010:mincore_page+0x19/0x90
-> > [ 2871.668086] Code: cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 0f 1f 44 00 00 41 54 55 53 e8 92 2b 03 00 48 3d 00 f0 ff ff 77 54 48 89 c3 <48> 8b 00 48 c1 e8 02 89 c5 83 e5 01 75 21 8b 43 34 85 c0 74 47 f0
-> > [ 2871.678313] RSP: 0018:ffffbe57c203fd00 EFLAGS: 00010207
-> > [ 2871.681422] RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
-> > [ 2871.685609] RDX: 0000000000000000 RSI: ffff9f59ca1506d8 RDI: ffff9f59ce7c2880
-> > [ 2871.689599] RBP: 0000000000000000 R08: 00007f9f14200000 R09: ffff9f59c9078508
-> > [ 2871.693295] R10: 00007f9ed4400000 R11: 0000000000000000 R12: 0000000000000200
-> > [ 2871.695969] R13: 0000000000000001 R14: ffff9f59c9ef4450 R15: ffff9f59c4ac9000
-> > [ 2871.699927] FS:  00007f9ed47ee740(0000) GS:ffff9f5abbc00000(0000) knlGS:0000000000000000
-> > [ 2871.703969] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [ 2871.706689] CR2: 0000000000000000 CR3: 0000000149ffe006 CR4: 0000000000170ee0
-> > [ 2871.709923] DR0: ffffffff91531760 DR1: ffffffff91531761 DR2: ffffffff91531762
-> > [ 2871.713424] DR3: ffffffff91531763 DR6: 00000000ffff0ff0 DR7: 0000000000000600
-> > [ 2871.716758] Call Trace:
-> > [ 2871.717998]  <TASK>
-> > [ 2871.719008]  __mincore_unmapped_range+0x6e/0xd0
-> > [ 2871.721220]  mincore_unmapped_range+0x16/0x30
-> > [ 2871.723288]  walk_pgd_range+0x485/0x9e0
-> > [ 2871.725128]  __walk_page_range+0x195/0x1b0
-> > [ 2871.727224]  walk_page_range+0x151/0x180
-> > [ 2871.728883]  __do_sys_mincore+0xec/0x2b0
-> > [ 2871.730707]  do_syscall_64+0x3a/0x90
-> > [ 2871.732179]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> > [ 2871.734148] RIP: 0033:0x7f9ed443f4ab
-> > [ 2871.735548] Code: 73 01 c3 48 8b 0d 75 99 1b 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 1b 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 45 99 1b 00 f7 d8 64 89 01 48
-> > [ 2871.742194] RSP: 002b:00007ffe924d72b8 EFLAGS: 00000206 ORIG_RAX: 000000000000001b
-> > [ 2871.744787] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f9ed443f4ab
-> > [ 2871.747186] RDX: 00007ffe92557300 RSI: 0000000000200000 RDI: 00007f9ed4200000
-> > [ 2871.749404] RBP: 00007ffe92567330 R08: 0000000000000005 R09: 0000000000000000
-> > [ 2871.751683] R10: 00007f9ed4405d68 R11: 0000000000000206 R12: 00007ffe925674b8
-> > [ 2871.753925] R13: 0000000000404af1 R14: 000000000040ad78 R15: 00007f9ed4833000
-> > [ 2871.756493]  </TASK>
-> > 
-> > The precedure to reproduce this is (1) punch hole some page in a shmem
-> > file, then (2) call mincore() over the punch-holed address range. 
-> > 
-> > I confirmed that filemap_get_incore_folio() (actually filemap_get_entry()
-> > inside it) returns NULL in that case, so we unexpectedly enter the following
-> > if-block for the "not found" case.
-> 
-> Yes.  Please try this fix:
-> 
-> diff --git a/mm/swap_state.c b/mm/swap_state.c
-> index c7160070b9daa9..b76a65ac28b319 100644
-> --- a/mm/swap_state.c
-> +++ b/mm/swap_state.c
-> @@ -390,6 +390,8 @@ struct folio *filemap_get_incore_folio(struct address_space *mapping,
->  	struct swap_info_struct *si;
->  	struct folio *folio = filemap_get_entry(mapping, index);
->  
-> +	if (!folio)
-> +		return ERR_PTR(-ENOENT);
->  	if (!xa_is_value(folio))
->  		return folio;
->  	if (!shmem_mapping(mapping))
+On Tue, 14 Mar 2023 10:10:42 +0800 kernel test robot <yujie.liu@intel.com> wrote:
 
-Confirmed the fix, thank you very much!
+> Greeting,
+> 
+> Previous report:
+> https://lore.kernel.org/oe-lkp/202303100947.9b421b1c-yujie.liu@intel.com
+> 
+> FYI, we noticed BUG:kernel_NULL_pointer_dereference,address due to commit (built with gcc-11):
+> 
+> commit: 480c454ff64b734a35677ee4b239e32143a4235c ("mm: return an ERR_PTR from __filemap_get_folio")
+> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git master
+> 
+> [test failed on linux-next/master 24469a0e5052ba01a35a15f104717a82b7a4798b]
+> 
+> in testcase: trinity
+> version: trinity-x86_64-e63e4843-1_20220913
+> with following parameters:
+> 
+> 	runtime: 300s
+> 	group: group-04
+> 
+> test-description: Trinity is a linux system call fuzz tester.
+> test-url: http://codemonkey.org.uk/projects/trinity/
+> 
+> on test machine: qemu-system-x86_64 -enable-kvm -cpu SandyBridge -smp 2 -m 16G
+> 
+> caused below changes (please refer to attached dmesg/kmsg for entire log/backtrace):
+> 
+> 
+> [   29.300153][ T6430] BUG: kernel NULL pointer dereference, address: 0000000000000000
 
-- Naoya Horiguchi
+Thanks, I expect this is fixed by
+
+commit 151dff099e8e6d9c8efcc75ad0ad3b8eead58704
+Author: Christoph Hellwig <hch@lst.de>
+Date:   Fri Mar 10 08:00:23 2023 +0100
+
+    mm-return-an-err_ptr-from-__filemap_get_folio-fix
+    
+    fix null-pointer deref
+    
+    Link: https://lkml.kernel.org/r/20230310070023.GA13563@lst.de
+    Signed-off-by: Christoph Hellwig <hch@lst.de>
+    Reported-by: Naoya Horiguchi <naoya.horiguchi@linux.dev>
+      Link: https://lkml.kernel.org/r/20230310043137.GA1624890@u2004
+    Cc: Andreas Gruenbacher <agruenba@redhat.com>
+    Cc: Hugh Dickins <hughd@google.com>
+    Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
+    Cc: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+    Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
+
+diff --git a/mm/swap_state.c b/mm/swap_state.c
+index c7160070b9da..b76a65ac28b3 100644
+--- a/mm/swap_state.c
++++ b/mm/swap_state.c
+@@ -390,6 +390,8 @@ struct folio *filemap_get_incore_folio(struct address_space *mapping,
+ 	struct swap_info_struct *si;
+ 	struct folio *folio = filemap_get_entry(mapping, index);
+ 
++	if (!folio)
++		return ERR_PTR(-ENOENT);
+ 	if (!xa_is_value(folio))
+ 		return folio;
+ 	if (!shmem_mapping(mapping))
+
+
+
