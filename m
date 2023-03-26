@@ -2,66 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CFD086C9459
-	for <lists+linux-nilfs@lfdr.de>; Sun, 26 Mar 2023 14:52:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA9AC6C961D
+	for <lists+linux-nilfs@lfdr.de>; Sun, 26 Mar 2023 17:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230162AbjCZMwQ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 26 Mar 2023 08:52:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41914 "EHLO
+        id S230495AbjCZPVu (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 26 Mar 2023 11:21:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjCZMwQ (ORCPT
+        with ESMTP id S229621AbjCZPVt (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 26 Mar 2023 08:52:16 -0400
-Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D102D1BD0
-        for <linux-nilfs@vger.kernel.org>; Sun, 26 Mar 2023 05:52:14 -0700 (PDT)
-Received: by mail-vs1-xe2d.google.com with SMTP id g17so5210322vst.10
-        for <linux-nilfs@vger.kernel.org>; Sun, 26 Mar 2023 05:52:14 -0700 (PDT)
+        Sun, 26 Mar 2023 11:21:49 -0400
+Received: from mail-pj1-x1035.google.com (mail-pj1-x1035.google.com [IPv6:2607:f8b0:4864:20::1035])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87FA27284;
+        Sun, 26 Mar 2023 08:21:44 -0700 (PDT)
+Received: by mail-pj1-x1035.google.com with SMTP id h12-20020a17090aea8c00b0023d1311fab3so6181080pjz.1;
+        Sun, 26 Mar 2023 08:21:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679835134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20210112; t=1679844104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=82K7b4UZGSbufNasMeAJ1MlSiuU4N9WB+LwOslC2/tg=;
-        b=Olpmyt0wegSXXCZ7UsovSYO868k8YS187MZSZfH/CeuhcGyebTgAURtNJejzL07eb+
-         2tAXPlN1ZcpwVblWK7XxM1I8l9rZX34C2frHeQ3DRz1Gh1lScteUhu+jii1eQklpUR8A
-         EnaDW52JZ3iGBbBDyOxCHQjhOWmvtxNAlMhcXuZPBTAfmRwZ0AJmuCRjCERS2aPqNhwo
-         9QRs6fHm+Iq3il4yXmZnwCBdu5eNBbs9aqx5Vu40FcbE57g8+YICgxSJSLzOBTZ/6Z+I
-         LFgsH4gBMOf8sXKet/atQ55kVxp9NcH8M9x1JoSfCfFxvkMdLmkTdQ8tH85HefRd2bb8
-         ekZg==
+        bh=nSW0yZ/8PqCmJ515Nk2Q6ClqvBnG6F3s+Yexzns2FiY=;
+        b=NcAEOnWfyfOYB53pnelUpofAE53NS/W77HtJB+tEii830WjdSQgP2t6NIKXtSdW0/X
+         RmE5+6l2PMRnn3bymt+uaA+QUclipcmcsMEPqUfmPzTnLwuBxeQ3OOdzWwlV2CpJL6wi
+         5ULtS+4bM/Ct58SDIg0HA/XadZu4qPGIod7T1+i9xDruhhdJQNXvJOkyeiloo3IcVMAT
+         S/b+IAOzvwqYCWS1d1WdSKmR8tn7cSGxAJewlmIjWjOmvnreoHTMfFzkJv/ybluvRlqj
+         w1ggqTxTqniXXFdYAS+h5Kkd+XxIa+fgQTZhGXPyPXnYu4/tw3vTzeykcO2opNTMQ4Hz
+         BJdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679835134;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20210112; t=1679844104;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=82K7b4UZGSbufNasMeAJ1MlSiuU4N9WB+LwOslC2/tg=;
-        b=JkVuBsqadb0P+m2nf/frAnqUkLYYmLpEH6mrBz7csSUzVzmJxDA30y+6QkR2w3MHns
-         pYblZLqvfkgJLCO9Weft2DVRGN9yl0wXxZp3HTc46POIIyzvCblTbRSHBETn16Lx7T9r
-         jPzEjYttVWPd+Wg2zFOYsrtDe6hZf7VBM2UVkgpGnkB8JAgopvWCmKn+q4huQk99En+B
-         nJ1hW9jlGFmUWqfWjKjeg1L6grG/0hmhFbdbejF0bFMcSVIfkk+eL3o8juxMrG74pPf0
-         7WyVzCba0QgF2zHdcgg8Z0snH8Z0yuADTiEGqYD38a0UmX+F7JvSlQWI2C3QwI6CBiv8
-         jNWg==
-X-Gm-Message-State: AAQBX9dH0MVtJgLYwEg8g8fCL/nCVNSosKNcqyOq8y8/l63eBRZ0sye8
-        //dRSdubBN833eyBqu7RKFoGH6zQrsHDt/QdT70=
-X-Google-Smtp-Source: AKy350Yq91wMLhv/3p0WARMdwwg9a8106IcuxKDuBC6a+awbz1drHUORhQFdWrNf9xysid/8Ww0790W9Z8YblT9jJAM=
-X-Received: by 2002:a67:c089:0:b0:426:7bc6:4cb2 with SMTP id
- x9-20020a67c089000000b004267bc64cb2mr3505442vsi.7.1679835133785; Sun, 26 Mar
- 2023 05:52:13 -0700 (PDT)
-MIME-Version: 1.0
-References: <0000000000000d710705f63f014c@google.com> <6c1d39bc-b19b-becf-821e-8cc9db8b4167@I-love.SAKURA.ne.jp>
- <CAKFNMokJ0_n6y3Wrc87WfhKA02ay4dqP7R_4XnonqDCj_Tuqcg@mail.gmail.com>
- <1103c7b0-0e46-4a92-74ee-920bf9599a80@I-love.SAKURA.ne.jp> <85f48e7e-a1dc-69ac-4e28-7449036cc8b3@I-love.SAKURA.ne.jp>
-In-Reply-To: <85f48e7e-a1dc-69ac-4e28-7449036cc8b3@I-love.SAKURA.ne.jp>
+        bh=nSW0yZ/8PqCmJ515Nk2Q6ClqvBnG6F3s+Yexzns2FiY=;
+        b=wQ9bmaz6FowGDPBjvjVQ5y45SViRe6a3xk6IH1H1mityCOHDMv6T8RO81VWCpKpGij
+         TCvE+ljQzhMtAoc9gds6TCicwmlKAVbB/rk++z40TJ1IM6Urol5qYuPtuFkUC1gZP9Qj
+         XHQF9zkcKWfp4zlci3mV1RZtBMjMJ6NqhUk52OnfGS3x7b/dJy/UMMOo7wQkTRf6Ii3j
+         14qUGF35BUJiDoHqbtOAz8Yxcxu+3u3tgOIV9OvGlTzZfC37SOqAqCkpZ1MpmR2YTate
+         jbmDavUGct6y2u4Vm5JFdixPXaK4jsg/2+buN5XYPZGmIYKYERgMjC/UPhLlZsaJ0eqY
+         FcmQ==
+X-Gm-Message-State: AO0yUKW/o3AJgfCrSsauFmap2XXPNh0gjyD4ER3dTtkHnP2y+S5bpZ4M
+        FifMS7zfsUdIhbvT0GiiQpU=
+X-Google-Smtp-Source: AK7set/DT/n1mOzyzwvLsMxr1LvnQHIG2G6jdc6yPe8aQzO63eo+7x7dumwJUFc+OanIwMPLvG3bog==
+X-Received: by 2002:a05:6a20:bca6:b0:da:949:f074 with SMTP id fx38-20020a056a20bca600b000da0949f074mr8033210pzb.43.1679844103695;
+        Sun, 26 Mar 2023 08:21:43 -0700 (PDT)
+Received: from carrot.. (i223-217-34-84.s42.a014.ap.plala.or.jp. [223.217.34.84])
+        by smtp.gmail.com with ESMTPSA id y22-20020aa78556000000b00627eac32b11sm14459450pfn.192.2023.03.26.08.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Mar 2023 08:21:42 -0700 (PDT)
 From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Sun, 26 Mar 2023 21:51:57 +0900
-Message-ID: <CAKFNMokp_mRP2mWTKBZZZ=QuiWWwVb+tDfhD6XrE4xcucSBq0A@mail.gmail.com>
-Subject: Re: [PATCH v3] nilfs2: initialize "struct nilfs_binfo_dat"->bi_pad field
-To:     Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
-Cc:     syzbot <syzbot+048585f3f4227bb2b49b@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, glider@google.com,
-        linux-nilfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+048585f3f4227bb2b49b@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+        glider@google.com,
+        Tetsuo Handa <penguin-kernel@i-love.sakura.ne.jp>
+Subject: [PATCH] nilfs2: initialize "struct nilfs_binfo_dat"->bi_pad field
+Date:   Mon, 27 Mar 2023 00:21:46 +0900
+Message-Id: <20230326152146.15872-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0000000000000d710705f63f014c@google.com>
+References: <0000000000000d710705f63f014c@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
         DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
@@ -72,59 +75,51 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sun, Mar 26, 2023 at 7:27=E2=80=AFPM Tetsuo Handa wrote:
->
-> nilfs_btree_assign_p() and nilfs_direct_assign_p() are not initializing
-> "struct nilfs_binfo_dat"->bi_pad field, causing uninit-value reports
-> when being passed to CRC function.
->
-> Reported-by: syzbot <syzbot+048585f3f4227bb2b49b@syzkaller.appspotmail.co=
-m>
-> Link: https://syzkaller.appspot.com/bug?extid=3D048585f3f4227bb2b49b
-> Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
-> ---
-> Changes in v3:
->   Also fix nilfs_btree_assign_p().
->
-> Changes in v2:
->   Use memset() for initialization, suggested by Ryusuke Konishi.
->
->  fs/nilfs2/btree.c  | 1 +
->  fs/nilfs2/direct.c | 1 +
->  2 files changed, 2 insertions(+)
->
-> diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
-> index 2681a449edc1..13592e82eaf6 100644
-> --- a/fs/nilfs2/btree.c
-> +++ b/fs/nilfs2/btree.c
-> @@ -2219,6 +2219,7 @@ static int nilfs_btree_assign_p(struct nilfs_bmap *=
-btree,
->         /* on-disk format */
->         binfo->bi_dat.bi_blkoff =3D cpu_to_le64(key);
->         binfo->bi_dat.bi_level =3D level;
-> +       memset(binfo->bi_dat.bi_pad, 0, sizeof(binfo->bi_dat.bi_pad));
->
->         return 0;
->  }
-> diff --git a/fs/nilfs2/direct.c b/fs/nilfs2/direct.c
-> index a35f2795b242..4c85914f2abc 100644
-> --- a/fs/nilfs2/direct.c
-> +++ b/fs/nilfs2/direct.c
-> @@ -314,6 +314,7 @@ static int nilfs_direct_assign_p(struct nilfs_bmap *d=
-irect,
->
->         binfo->bi_dat.bi_blkoff =3D cpu_to_le64(key);
->         binfo->bi_dat.bi_level =3D 0;
-> +       memset(binfo->bi_dat.bi_pad, 0, sizeof(binfo->bi_dat.bi_pad));
->
->         return 0;
->  }
-> --
-> 2.34.1
+From: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
 
-Thank you for your cooperation, Handa-san.
+nilfs_btree_assign_p() and nilfs_direct_assign_p() are not initializing
+"struct nilfs_binfo_dat"->bi_pad field, causing uninit-value reports
+when being passed to CRC function.
 
-I'll send this upstream, adding a Reported-by tag of the preceding report.
+Reported-by: syzbot <syzbot+048585f3f4227bb2b49b@syzkaller.appspotmail.com>
+Link: https://syzkaller.appspot.com/bug?extid=048585f3f4227bb2b49b
+Reported-by: Dipanjan Das <mail.dipanjan.das@gmail.com>
+Link: https://lkml.kernel.org/r/CANX2M5bVbzRi6zH3PTcNE_31TzerstOXUa9Bay4E6y6dX23_pg@mail.gmail.com
+Signed-off-by: Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+Andrew, please pick this up, a fix for the KMSAN report.
 
-Thanks,
 Ryusuke Konishi
+
+fs/nilfs2/btree.c  | 1 +
+ fs/nilfs2/direct.c | 1 +
+ 2 files changed, 2 insertions(+)
+
+diff --git a/fs/nilfs2/btree.c b/fs/nilfs2/btree.c
+index 2681a449edc1..13592e82eaf6 100644
+--- a/fs/nilfs2/btree.c
++++ b/fs/nilfs2/btree.c
+@@ -2219,6 +2219,7 @@ static int nilfs_btree_assign_p(struct nilfs_bmap *btree,
+ 	/* on-disk format */
+ 	binfo->bi_dat.bi_blkoff = cpu_to_le64(key);
+ 	binfo->bi_dat.bi_level = level;
++	memset(binfo->bi_dat.bi_pad, 0, sizeof(binfo->bi_dat.bi_pad));
+ 
+ 	return 0;
+ }
+diff --git a/fs/nilfs2/direct.c b/fs/nilfs2/direct.c
+index a35f2795b242..4c85914f2abc 100644
+--- a/fs/nilfs2/direct.c
++++ b/fs/nilfs2/direct.c
+@@ -314,6 +314,7 @@ static int nilfs_direct_assign_p(struct nilfs_bmap *direct,
+ 
+ 	binfo->bi_dat.bi_blkoff = cpu_to_le64(key);
+ 	binfo->bi_dat.bi_level = 0;
++	memset(binfo->bi_dat.bi_pad, 0, sizeof(binfo->bi_dat.bi_pad));
+ 
+ 	return 0;
+ }
+-- 
+2.34.1
+
