@@ -2,90 +2,122 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E8A86CA1FD
-	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Mar 2023 13:03:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 914116CAC77
+	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Mar 2023 19:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232255AbjC0LDq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 27 Mar 2023 07:03:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46750 "EHLO
+        id S231896AbjC0R4i (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 27 Mar 2023 13:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232144AbjC0LDp (ORCPT
+        with ESMTP id S232716AbjC0R4Z (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 27 Mar 2023 07:03:45 -0400
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF4A64207
-        for <linux-nilfs@vger.kernel.org>; Mon, 27 Mar 2023 04:03:43 -0700 (PDT)
-Received: by mail-io1-f71.google.com with SMTP id w4-20020a5d9604000000b0074d326b26bcso5310897iol.9
-        for <linux-nilfs@vger.kernel.org>; Mon, 27 Mar 2023 04:03:43 -0700 (PDT)
+        Mon, 27 Mar 2023 13:56:25 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDB34481;
+        Mon, 27 Mar 2023 10:55:46 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id y19so5662714pgk.5;
+        Mon, 27 Mar 2023 10:55:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112; t=1679939742;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hTZpI//Tzxb69PVqP+6KSGMc/N99I4Rh6kzXUg6Qf3c=;
+        b=KzJQ4Zoyh25lshRcEk9Mk4u3QKPhuPrEVuIW6/OcqBI/6jeJ6kxr+KuXjsy6ElQBo0
+         sMReFt0dNEHFIOMCmqK27UbaRXW327gZ2dar1/V1mFTk8BzQU9RHt1bRCt2KKcJW1gK7
+         qVmN28OHzRK2QsEL31t13tsKl0B11hgz8ioqV/f527m9KQMVd6EOsiCWtH3UTrGzqHRA
+         YwsSsBZ7PeW+SWilcpZ/7A+nXAQHU0DZzBQe6LxcD7+fO+sgL0D75D0gbHeAqCwJUX51
+         T0tHdj9igY/VgQP2ikyA5+uGafrY1Op2gxA6rP0rD+XA34AoHj+EVI8E0+KMeGgP/tJ8
+         nZ9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679915023;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YyhK+BtLiyEB31FwYNSc62BTerEF/wzBlZyPMAiY0dA=;
-        b=Gq+LX57RcrQAIewtyUPwwkJ1/B5ypqDhUYyo0EaEy+FuL5TMR5XSaGC1Pnesf4KoHI
-         dWQZTyUSkyMKWIiprDmvvDrviyArUaC0p82L2p7XrQVYxPEkvPb71zrQlKEj3fQrAsEJ
-         JZUGrvJHxr7BsszDEGms8iKfyyH4Nq1TCaiNf+gT5/ivCYBaUhWNgXtbPK5/erHUKWpF
-         kwZBSpEhSXtWha4jGCvgeHzEWXz4MWa3bVR2ZMDHOsr4XCsYC3zQ6Igzt7QMwH1dppeq
-         DfzSOY8b65VvVIvi6+rO52IC8uOBejQoRiwg8a31tdoFylcbVQMGvwAVaeoPxpqY/+wC
-         3IQQ==
-X-Gm-Message-State: AAQBX9eHvlpphHBpEjhf+zAFhsj7Rfo3+zfbOUg5nJME3NPAwXw8Ay/T
-        HVLjyx6z8VBxqfdG0q3SvHJeT72grIN0pfu7NE5f2nUrXbEt
-X-Google-Smtp-Source: AKy350ZEOEJnwF7hjKeyDYaOKx9n4l8S/2r788Ijl00bYfSf9WaAr8s9czGNCRjI7x9Ctl9lyBrYHZN9j11ULRJsSVA9fNV/nwj4
+        d=1e100.net; s=20210112; t=1679939742;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hTZpI//Tzxb69PVqP+6KSGMc/N99I4Rh6kzXUg6Qf3c=;
+        b=EheoQudfzb2EYbdgKyfXt4LqIfqmhRDPApAv5btf0LqVN6wq3vrfBgRA2+l7kcnGNx
+         rqcBoN7liwPFKs8hy49eMKab37Vp1r2QJQZtzDlEx/rOykfoL1jx/v5h5mfjFwBHhZ+F
+         baDJZKAmyHvrvwSLhpWMNIOPMBx2f4dfas5hwHzu5qAmmNnw+B27WzGo/ahcC/3E67ck
+         p8BrZZycreLE3MDnbqVObX6VlbnH5/f7pPM78t0w8doKxEwfh/SkgelmQXvNKv0YOe5y
+         yapMCqzZpqpua4NVC6SP3jvcFmDcbDn9/iIuhdI7uGfIfRX/pvv3PQYsklDDM8mZPMFz
+         5wQg==
+X-Gm-Message-State: AAQBX9cbpsKfKwlwE+IkP3yx1g6wz+iDS2RkNaS27z2s12duwNiDR9ux
+        0jSYoPNEbvbfEfOmeYSj8jQ=
+X-Google-Smtp-Source: AKy350aeueLyYZm0lpV8z+wxw14Zvaw/JyArvQbpSEtpyZYeq4g9vBC4XC7PIRQkwQuMfQZOY8/lbg==
+X-Received: by 2002:a62:7b10:0:b0:625:c048:2f81 with SMTP id w16-20020a627b10000000b00625c0482f81mr11838977pfc.32.1679939741671;
+        Mon, 27 Mar 2023 10:55:41 -0700 (PDT)
+Received: from carrot.. (i223-217-34-84.s42.a014.ap.plala.or.jp. [223.217.34.84])
+        by smtp.gmail.com with ESMTPSA id x8-20020aa79188000000b0062622ae3648sm19214784pfa.78.2023.03.27.10.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Mar 2023 10:55:40 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+b08ebcc22f8f3e6be43a@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] nilfs2: fix potential UAF of struct nilfs_sc_info in nilfs_segctor_thread()
+Date:   Tue, 28 Mar 2023 02:53:18 +0900
+Message-Id: <20230327175318.8060-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <00000000000000660d05f7dfa877@google.com>
+References: <00000000000000660d05f7dfa877@google.com>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:b46:b0:316:fa49:3705 with SMTP id
- f6-20020a056e020b4600b00316fa493705mr5941337ilu.1.1679915023298; Mon, 27 Mar
- 2023 04:03:43 -0700 (PDT)
-Date:   Mon, 27 Mar 2023 04:03:43 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000037783a05f7dfb2c8@google.com>
-Subject: [syzbot] Monthly nilfs report
-From:   syzbot <syzbot+list91fd19ac4f0e1b0d9d06@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.6 required=5.0 tests=FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello nilfs maintainers/developers,
+The finalization of nilfs_segctor_thread() can race with
+nilfs_segctor_kill_thread() which terminates that thread, potentially
+causing a use-after-free BUG as KASAN detected.
 
-This is a 30-day syzbot report for the nilfs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/nilfs
+At the end of nilfs_segctor_thread(), it assigns NULL to "sc_task" member
+of "struct nilfs_sc_info" to indicate the thread has finished, and then
+notifies nilfs_segctor_kill_thread() of this using waitqueue
+"sc_wait_task" on the struct nilfs_sc_info.
 
-During the period, 6 new issues were detected and 1 were fixed.
-In total, 20 issues are still open and 16 have been fixed so far.
+However, here, immediately after the NULL assignment to "sc_task",
+it is possible that nilfs_segctor_kill_thread() will detect it and return
+to continue the deallocation, freeing the nilfs_sc_info structure before
+the thread does the notification.
 
-Some of the still happening issues:
+This fixes the issue by protecting the NULL assignment to "sc_task" and
+its notification, with spinlock "sc_state_lock" of the struct
+nilfs_sc_info.  Since nilfs_segctor_kill_thread() does a final check to
+see if "sc_task" is NULL with "sc_state_lock" locked, this can eliminate
+the race.
 
-Crashes Repro Title
-1236    Yes   INFO: task hung in lock_mount
-              https://syzkaller.appspot.com/bug?extid=221d75710bde87fa0e97
-901     Yes   WARNING in mark_buffer_dirty (4)
-              https://syzkaller.appspot.com/bug?extid=2af3bc9585be7f23f290
-821     No    KMSAN: uninit-value in nilfs_add_checksums_on_logs
-              https://syzkaller.appspot.com/bug?extid=048585f3f4227bb2b49b
-404     Yes   WARNING in nilfs_btree_assign
-              https://syzkaller.appspot.com/bug?extid=31837fe952932efc8fb9
-316     Yes   WARNING in nilfs_sufile_set_segment_usage
-              https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
-169     No    INFO: task hung in path_openat (7)
-              https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
-44      Yes   INFO: task hung in nilfs_detach_log_writer
-              https://syzkaller.appspot.com/bug?extid=e3973c409251e136fdd0
-13      No    KASAN: slab-out-of-bounds Read in nilfs_iget_test
-              https://syzkaller.appspot.com/bug?extid=cac676135771fc8f1eb2
-5       No    possible deadlock in nilfs_evict_inode
-              https://syzkaller.appspot.com/bug?extid=5b7d542076d9bddc3c6a
-
+Reported-by: syzbot+b08ebcc22f8f3e6be43a@syzkaller.appspotmail.com
+Link: https://lkml.kernel.org/r/00000000000000660d05f7dfa877@google.com
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/nilfs2/segment.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 19446a8243d7..6ad41390fa74 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -2609,11 +2609,10 @@ static int nilfs_segctor_thread(void *arg)
+ 	goto loop;
+ 
+  end_thread:
+-	spin_unlock(&sci->sc_state_lock);
+-
+ 	/* end sync. */
+ 	sci->sc_task = NULL;
+ 	wake_up(&sci->sc_wait_task); /* for nilfs_segctor_kill_thread() */
++	spin_unlock(&sci->sc_state_lock);
+ 	return 0;
+ }
+ 
+-- 
+2.34.1
+
