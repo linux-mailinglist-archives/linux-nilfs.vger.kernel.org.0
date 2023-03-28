@@ -2,70 +2,52 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 914116CAC77
-	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Mar 2023 19:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8776CCDD5
+	for <lists+linux-nilfs@lfdr.de>; Wed, 29 Mar 2023 01:04:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231896AbjC0R4i (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 27 Mar 2023 13:56:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36762 "EHLO
+        id S229725AbjC1XEj (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 28 Mar 2023 19:04:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232716AbjC0R4Z (ORCPT
+        with ESMTP id S229519AbjC1XEi (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 27 Mar 2023 13:56:25 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDDB34481;
-        Mon, 27 Mar 2023 10:55:46 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id y19so5662714pgk.5;
-        Mon, 27 Mar 2023 10:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1679939742;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hTZpI//Tzxb69PVqP+6KSGMc/N99I4Rh6kzXUg6Qf3c=;
-        b=KzJQ4Zoyh25lshRcEk9Mk4u3QKPhuPrEVuIW6/OcqBI/6jeJ6kxr+KuXjsy6ElQBo0
-         sMReFt0dNEHFIOMCmqK27UbaRXW327gZ2dar1/V1mFTk8BzQU9RHt1bRCt2KKcJW1gK7
-         qVmN28OHzRK2QsEL31t13tsKl0B11hgz8ioqV/f527m9KQMVd6EOsiCWtH3UTrGzqHRA
-         YwsSsBZ7PeW+SWilcpZ/7A+nXAQHU0DZzBQe6LxcD7+fO+sgL0D75D0gbHeAqCwJUX51
-         T0tHdj9igY/VgQP2ikyA5+uGafrY1Op2gxA6rP0rD+XA34AoHj+EVI8E0+KMeGgP/tJ8
-         nZ9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679939742;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hTZpI//Tzxb69PVqP+6KSGMc/N99I4Rh6kzXUg6Qf3c=;
-        b=EheoQudfzb2EYbdgKyfXt4LqIfqmhRDPApAv5btf0LqVN6wq3vrfBgRA2+l7kcnGNx
-         rqcBoN7liwPFKs8hy49eMKab37Vp1r2QJQZtzDlEx/rOykfoL1jx/v5h5mfjFwBHhZ+F
-         baDJZKAmyHvrvwSLhpWMNIOPMBx2f4dfas5hwHzu5qAmmNnw+B27WzGo/ahcC/3E67ck
-         p8BrZZycreLE3MDnbqVObX6VlbnH5/f7pPM78t0w8doKxEwfh/SkgelmQXvNKv0YOe5y
-         yapMCqzZpqpua4NVC6SP3jvcFmDcbDn9/iIuhdI7uGfIfRX/pvv3PQYsklDDM8mZPMFz
-         5wQg==
-X-Gm-Message-State: AAQBX9cbpsKfKwlwE+IkP3yx1g6wz+iDS2RkNaS27z2s12duwNiDR9ux
-        0jSYoPNEbvbfEfOmeYSj8jQ=
-X-Google-Smtp-Source: AKy350aeueLyYZm0lpV8z+wxw14Zvaw/JyArvQbpSEtpyZYeq4g9vBC4XC7PIRQkwQuMfQZOY8/lbg==
-X-Received: by 2002:a62:7b10:0:b0:625:c048:2f81 with SMTP id w16-20020a627b10000000b00625c0482f81mr11838977pfc.32.1679939741671;
-        Mon, 27 Mar 2023 10:55:41 -0700 (PDT)
-Received: from carrot.. (i223-217-34-84.s42.a014.ap.plala.or.jp. [223.217.34.84])
-        by smtp.gmail.com with ESMTPSA id x8-20020aa79188000000b0062622ae3648sm19214784pfa.78.2023.03.27.10.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Mar 2023 10:55:40 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs@vger.kernel.org,
-        syzbot <syzbot+b08ebcc22f8f3e6be43a@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org
-Subject: [PATCH] nilfs2: fix potential UAF of struct nilfs_sc_info in nilfs_segctor_thread()
-Date:   Tue, 28 Mar 2023 02:53:18 +0900
-Message-Id: <20230327175318.8060-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <00000000000000660d05f7dfa877@google.com>
-References: <00000000000000660d05f7dfa877@google.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,
+        Tue, 28 Mar 2023 19:04:38 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [IPv6:2604:1380:4601:e00::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EC42698;
+        Tue, 28 Mar 2023 16:04:37 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id CA4F9B81D7A;
+        Tue, 28 Mar 2023 23:04:35 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D1AAC433D2;
+        Tue, 28 Mar 2023 23:04:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+        s=korg; t=1680044674;
+        bh=TwGyF4PkvxDzlLA402hHK1eLtIEBIL4SI/0qxIqDczQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=zfFnOoP5liF9W0eIaPQY3fWY/x2c3YWeGxGG9Z+XtwTt6PdxvwTaVSJPl/wX9oHFa
+         TN2zANmUIncV7Rx4/qsCq0LcMp4Wfg+6vxHO5Wt5VS0mnQryEzrkXU+ZLmL5qTwZbk
+         NlIZmoUl864XszmR/3+xPQzAT+mE9qlCDRlYe16A=
+Date:   Tue, 28 Mar 2023 16:04:33 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Matthew Wilcox <willy@infradead.org>,
+        Hugh Dickins <hughd@google.com>, linux-afs@lists.infradead.org,
+        linux-btrfs@vger.kernel.org, linux-ext4@vger.kernel.org,
+        cluster-devel@redhat.com, linux-mm@kvack.org,
+        linux-xfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org
+Subject: Re: return an ERR_PTR from __filemap_get_folio v2
+Message-Id: <20230328160433.4f3dc32b480239bce9e2f9ef@linux-foundation.org>
+In-Reply-To: <20230121065755.1140136-1-hch@lst.de>
+References: <20230121065755.1140136-1-hch@lst.de>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
+        DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -74,50 +56,21 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-The finalization of nilfs_segctor_thread() can race with
-nilfs_segctor_kill_thread() which terminates that thread, potentially
-causing a use-after-free BUG as KASAN detected.
+On Sat, 21 Jan 2023 07:57:48 +0100 Christoph Hellwig <hch@lst.de> wrote:
 
-At the end of nilfs_segctor_thread(), it assigns NULL to "sc_task" member
-of "struct nilfs_sc_info" to indicate the thread has finished, and then
-notifies nilfs_segctor_kill_thread() of this using waitqueue
-"sc_wait_task" on the struct nilfs_sc_info.
+> __filemap_get_folio and its wrappers can return NULL for three different
+> conditions, which in some cases requires the caller to reverse engineer
+> the decision making.  This is fixed by returning an ERR_PTR instead of
+> NULL and thus transporting the reason for the failure.  But to make
+> that work we first need to ensure that no xa_value special case is
+> returned and thus return the FGP_ENTRY flag.  It turns out that flag
+> is barely used and can usually be deal with in a better way.
+> 
+> Note that the shmem patches in here are non-trivial and need some
+> careful review and testing.
 
-However, here, immediately after the NULL assignment to "sc_task",
-it is possible that nilfs_segctor_kill_thread() will detect it and return
-to continue the deallocation, freeing the nilfs_sc_info structure before
-the thread does the notification.
+How are we going with the review and testing.  I assume that
+we're now OK on the runtime testing front, but do you feel that
+review has been adequate?
 
-This fixes the issue by protecting the NULL assignment to "sc_task" and
-its notification, with spinlock "sc_state_lock" of the struct
-nilfs_sc_info.  Since nilfs_segctor_kill_thread() does a final check to
-see if "sc_task" is NULL with "sc_state_lock" locked, this can eliminate
-the race.
-
-Reported-by: syzbot+b08ebcc22f8f3e6be43a@syzkaller.appspotmail.com
-Link: https://lkml.kernel.org/r/00000000000000660d05f7dfa877@google.com
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
----
- fs/nilfs2/segment.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 19446a8243d7..6ad41390fa74 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -2609,11 +2609,10 @@ static int nilfs_segctor_thread(void *arg)
- 	goto loop;
- 
-  end_thread:
--	spin_unlock(&sci->sc_state_lock);
--
- 	/* end sync. */
- 	sci->sc_task = NULL;
- 	wake_up(&sci->sc_wait_task); /* for nilfs_segctor_kill_thread() */
-+	spin_unlock(&sci->sc_state_lock);
- 	return 0;
- }
- 
--- 
-2.34.1
-
+Thanks.
