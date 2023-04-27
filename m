@@ -2,126 +2,101 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CDE346EFED2
-	for <lists+linux-nilfs@lfdr.de>; Thu, 27 Apr 2023 03:15:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1A3D46F044A
+	for <lists+linux-nilfs@lfdr.de>; Thu, 27 Apr 2023 12:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242697AbjD0BPg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 26 Apr 2023 21:15:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
+        id S243447AbjD0Kjl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 27 Apr 2023 06:39:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242823AbjD0BPe (ORCPT
+        with ESMTP id S243218AbjD0Kjk (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 26 Apr 2023 21:15:34 -0400
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B81240C7;
-        Wed, 26 Apr 2023 18:15:32 -0700 (PDT)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a6670671e3so65766395ad.0;
-        Wed, 26 Apr 2023 18:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1682558131; x=1685150131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zrhaHXbwFsAd0/GaXjow7H0L4+tY0cPhGmnifdoJQXg=;
-        b=UHPmzD/Jv7A/n5d3rtYTtbcJMUMUlwDvrekWM3+ffCgmlYi440mf723O21x1cz+6bJ
-         LMpmg4Nq7ivKgB6odqiW+Rp+s+PQy9DVqNpI0Lq4EHtDlgsyL2HGRyDH6GiF8Cd1xFSQ
-         DuwwoJSBJz9pzwZFv1Oc7IR34uUZqEvT/WD1Y0UErcaAFXc9ojvtvOuxExoxJeB61UIt
-         ySp5r5U2/F26BAQLK1xavfLN23IoEepEuXqxeuMNKXRVWjR2KhKAHmNnqfaJ76dCTCL+
-         10qSEQmxSsvPC7T7dx1ddWXHR/vwVS5Hr++krWyiyDC33myHP+pGCcg/5IDZtzglHt14
-         UXIQ==
+        Thu, 27 Apr 2023 06:39:40 -0400
+Received: from mail-il1-f197.google.com (mail-il1-f197.google.com [209.85.166.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65550FF
+        for <linux-nilfs@vger.kernel.org>; Thu, 27 Apr 2023 03:39:39 -0700 (PDT)
+Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-32f23e2018fso26164365ab.0
+        for <linux-nilfs@vger.kernel.org>; Thu, 27 Apr 2023 03:39:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1682558131; x=1685150131;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zrhaHXbwFsAd0/GaXjow7H0L4+tY0cPhGmnifdoJQXg=;
-        b=TLR60Pau3kElH+gEejiEA490FgFanIroBlOND1u1/CIe6sWRMMlc8vcURogzvgMPv+
-         UaSq71WAJDvUt+8RC/TofVHwVDXzIWaOkomp20U9Hk2OXuQS1g2MZPuXeeMMmwXIznKe
-         lPD//Cez/Rbcuhtw38CtU50NakgXSazB7LqvXxePZlu3buImIelCI/FLo4iBJmr+xK1+
-         KjOEhbr3tZtoICopVRM0h4gwiW3h5GVjNOj/rLQ3982YVSNpbmr4NQ3i1eSmDBzRD/Zx
-         f+WFozp1IWE925wXhvQSrFCZ7Or/Sx2Dv//RsGCCQ+X8Anjwi+1IpCQXrTlAlRhi68Cs
-         RpXA==
-X-Gm-Message-State: AAQBX9dT9eqkNPJz/jqQ/W2hXk9zhEbxNyNwU8aC2f+zVYYbAElfLxZA
-        uvK/jDz4//aZU90hjK3Xyyo=
-X-Google-Smtp-Source: AKy350YJnnwJ8AMq3qjbVGA9UWBD9MF61jok94+AcmNwDHcptxZnjHGng4hbZENAppFJ5LaJe1PNFQ==
-X-Received: by 2002:a17:902:c411:b0:19b:dbf7:f9ca with SMTP id k17-20020a170902c41100b0019bdbf7f9camr27202077plk.0.1682558131253;
-        Wed, 26 Apr 2023 18:15:31 -0700 (PDT)
-Received: from carrot.. (i223-217-187-146.s42.a014.ap.plala.or.jp. [223.217.187.146])
-        by smtp.gmail.com with ESMTPSA id g4-20020a1709026b4400b0019f3cc463absm10565352plt.0.2023.04.26.18.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Apr 2023 18:15:30 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
-        syzbot <syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: [PATCH] nilfs2: do not write dirty data after degenerating to read-only
-Date:   Thu, 27 Apr 2023 10:15:26 +0900
-Message-Id: <20230427011526.13457-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20221208; t=1682591978; x=1685183978;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tW3lXjwwvfoDVqxWAf7Y3WOKVF4KqvvCL69ImettA3o=;
+        b=MLDi2fwVVGdbgilM31A2I7ful9pJ5bGT/wBlwEEIojJofOvbkZoLeQ0eQ85Bsn1H1m
+         EVkxrqYviulq9LMcKPzAOo/M78Nm37GYrWk7gI2cbSxeP3e3JCgoEcOfQFtKlhqTeuNh
+         LzVu2uY+Dt9DC8yW9l15VPdyquanbvIu5QxBnGnnSwm78yShMmuj58BIJLjo+Qk/UCy+
+         PzfLSIPr9vbnrFpsMNJNeGjf8Q87wekI10T1S4fykPEb4MxLYB1zgiQ6n631XQDhrBns
+         3S70Nu4ZE8YOa037GBPX61aMEMmyLtmmjUXnQLtmeyVp2Rzr4zPKSHUvYFEvSV1F2SMB
+         p0MQ==
+X-Gm-Message-State: AC+VfDyF4WLwoW9Qpym4hLzdukSIdIj6+ZVGLZesq3b653QWCgnPDx5r
+        Eur1pe3ot25l03yiQxHkZW3V10rPksAK0iVJwLa8b/tUPotd
+X-Google-Smtp-Source: ACHHUZ7UuotYn7/Qzw/4dXAbuxUIl2RCcVpdBNfl5F7f81acWzI1cipma/pIr/+4zaRJCADT1SoJG+S2vLZkF8iW0eH2CUHi5OEA
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a92:c90e:0:b0:32f:ea0:785e with SMTP id
+ t14-20020a92c90e000000b0032f0ea0785emr1077533ilp.2.1682591978799; Thu, 27 Apr
+ 2023 03:39:38 -0700 (PDT)
+Date:   Thu, 27 Apr 2023 03:39:38 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000032c8c505fa4ef9cc@google.com>
+Subject: [syzbot] Monthly nilfs report (Apr 2023)
+From:   syzbot <syzbot+listf919ad9f1f609cd7cf5d@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-According to syzbot's report, mark_buffer_dirty() called from
-nilfs_segctor_do_construct() outputs a warning with some patterns after
-nilfs2 detects metadata corruption and degrades to read-only mode.
+Hello nilfs maintainers/developers,
 
-After such read-only degeneration, page cache data may be cleared
-through nilfs_clear_dirty_page() which may also clear the uptodate
-flag for their buffer heads.  However, even after the degeneration,
-log writes are still performed by unmount processing etc., which
-causes mark_buffer_dirty() to be called for buffer heads without the
-"uptodate" flag and causes the warning.
+This is a 31-day syzbot report for the nilfs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/nilfs
 
-Since any writes should not be done to a read-only file system in the
-first place, this fixes the warning in mark_buffer_dirty() by letting
-nilfs_segctor_do_construct() abort early if in read-only mode.
+During the period, 1 new issues were detected and 3 were fixed.
+In total, 17 issues are still open and 24 have been fixed so far.
 
-This also changes the retry check of nilfs_segctor_write_out() to
-avoid unnecessary log write retries if it detects -EROFS that
-nilfs_segctor_do_construct() returned.
+Some of the still happening issues:
 
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?extid=2af3bc9585be7f23f290
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: <stable@vger.kernel.org>
+Ref  Crashes Repro Title
+<1>  1238    Yes   INFO: task hung in lock_mount
+                   https://syzkaller.appspot.com/bug?extid=221d75710bde87fa0e97
+<2>  605     Yes   WARNING in nilfs_btree_assign
+                   https://syzkaller.appspot.com/bug?extid=31837fe952932efc8fb9
+<3>  321     Yes   WARNING in nilfs_sufile_set_segment_usage
+                   https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
+<4>  241     Yes   INFO: task hung in sync_inodes_sb (4)
+                   https://syzkaller.appspot.com/bug?extid=7d50f1e54a12ba3aeae2
+<5>  195     No    INFO: task hung in path_openat (7)
+                   https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
+<6>  55      Yes   INFO: task hung in nilfs_detach_log_writer
+                   https://syzkaller.appspot.com/bug?extid=e3973c409251e136fdd0
+<7>  28      Yes   kernel BUG in folio_end_writeback
+                   https://syzkaller.appspot.com/bug?extid=7e5cf1d80677ec185e63
+<8>  21      No    KASAN: slab-out-of-bounds Read in nilfs_iget_test
+                   https://syzkaller.appspot.com/bug?extid=cac676135771fc8f1eb2
+<9>  6       No    BUG: unable to handle kernel NULL pointer dereference in nilfs_segctor_do_construct
+                   https://syzkaller.appspot.com/bug?extid=5afc832d6dbb2fd17538
+<10> 3       No    WARNING in nilfs_btree_propagate
+                   https://syzkaller.appspot.com/bug?extid=527641d191abe35993c1
+
 ---
- fs/nilfs2/segment.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 228659612c0d..ac949fd7603f 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -2041,6 +2041,9 @@ static int nilfs_segctor_do_construct(struct nilfs_sc_info *sci, int mode)
- 	struct the_nilfs *nilfs = sci->sc_super->s_fs_info;
- 	int err;
- 
-+	if (sb_rdonly(sci->sc_super))
-+		return -EROFS;
-+
- 	nilfs_sc_cstage_set(sci, NILFS_ST_INIT);
- 	sci->sc_cno = nilfs->ns_cno;
- 
-@@ -2724,7 +2727,7 @@ static void nilfs_segctor_write_out(struct nilfs_sc_info *sci)
- 
- 		flush_work(&sci->sc_iput_work);
- 
--	} while (ret && retrycount-- > 0);
-+	} while (ret && ret != -EROFS && retrycount-- > 0);
- }
- 
- /**
--- 
-2.34.1
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
