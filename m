@@ -2,75 +2,126 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C75A6E58F4
-	for <lists+linux-nilfs@lfdr.de>; Tue, 18 Apr 2023 07:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDE346EFED2
+	for <lists+linux-nilfs@lfdr.de>; Thu, 27 Apr 2023 03:15:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230391AbjDRF7r (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Tue, 18 Apr 2023 01:59:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43716 "EHLO
+        id S242697AbjD0BPg (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 26 Apr 2023 21:15:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230420AbjDRF7g (ORCPT
+        with ESMTP id S242823AbjD0BPe (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Tue, 18 Apr 2023 01:59:36 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 998CF55A8
-        for <linux-nilfs@vger.kernel.org>; Mon, 17 Apr 2023 22:59:32 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id vc20so15296087ejc.10
-        for <linux-nilfs@vger.kernel.org>; Mon, 17 Apr 2023 22:59:32 -0700 (PDT)
+        Wed, 26 Apr 2023 21:15:34 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B81240C7;
+        Wed, 26 Apr 2023 18:15:32 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a6670671e3so65766395ad.0;
+        Wed, 26 Apr 2023 18:15:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1681797571; x=1684389571;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
-        b=h2u+IvYIbnFxxtQG/ZtOJXOGODtmHZE6DE2kphmV5deUhBtI5SSl5ZpPS81I4DoyvM
-         cL/QsMoq/nZ79QoTUVBpjigDCpbkhNV4ihdOYSWAZCOke9dA/QR1VB/koOlQ9LVEDYMX
-         XtbtlwSc8k7WA+c3R6xpugIUkMv4IcvxiBX5jugHOkE6bIQRd6XIP4bPoYTYUOtLJ8cY
-         jqOSy7VahCSY+50nHqKMLAvtMY0jgSKZG9RLZ0VM4rlX3dlYAIwPmpAZEs5sdE1jKPzt
-         sUSa+Yt3rvdogEL685HX9OzzgKvbxUuLxSFiR0ubii95w3DTWRmDDneYGKBqJn2l6obd
-         7Bag==
+        d=gmail.com; s=20221208; t=1682558131; x=1685150131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zrhaHXbwFsAd0/GaXjow7H0L4+tY0cPhGmnifdoJQXg=;
+        b=UHPmzD/Jv7A/n5d3rtYTtbcJMUMUlwDvrekWM3+ffCgmlYi440mf723O21x1cz+6bJ
+         LMpmg4Nq7ivKgB6odqiW+Rp+s+PQy9DVqNpI0Lq4EHtDlgsyL2HGRyDH6GiF8Cd1xFSQ
+         DuwwoJSBJz9pzwZFv1Oc7IR34uUZqEvT/WD1Y0UErcaAFXc9ojvtvOuxExoxJeB61UIt
+         ySp5r5U2/F26BAQLK1xavfLN23IoEepEuXqxeuMNKXRVWjR2KhKAHmNnqfaJ76dCTCL+
+         10qSEQmxSsvPC7T7dx1ddWXHR/vwVS5Hr++krWyiyDC33myHP+pGCcg/5IDZtzglHt14
+         UXIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1681797571; x=1684389571;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dQlu0Oc2Q0nPMBCNq5iTPUZpwrRZlsMdPt2zjra8+VI=;
-        b=ONGUkSJKV35grj6vyXKMU5F2V8B1mtKU4fDKs25aF7OnyDdH8+aNBCrSYjYRKv6PrA
-         xPHh83ZA7iZD0Jaie0btvwLf9pGP+3YO+L19Ml450i5feI/GWK2QxdzaGdXv9N1IDsoh
-         wXe4LYu7BnarZ4BIsmy6KNRzLjolyZp9b7z0dcI3HSLTBTQ5dmk0cqChqccQ73yX5uBU
-         iU161k7+kHdoHfPrklM1dTJgyhWr6kzHRwuoTD7qzHJTtHF2WcI3F74WPiB08uEfUKsq
-         +DH2OEMhQYnhy+R+o0rA2X/c2yv/oZ8jdWFvQ2jKjX5vjeKbED0M8OQZxTSiCC+5qzT+
-         TQmA==
-X-Gm-Message-State: AAQBX9dR3Tngq/CTTJc+M9Wx3yRGp7ykPDe9FecbUiCrm8+mIxjidZsJ
-        Uyy/A8detWEcEOw6p4hm8MjEzkUohAMB9qHlDtZfte7k5FA7/FQn
-X-Google-Smtp-Source: AKy350YRsUSKQ0+i58Lzun7WtY7IrRwSkm+DWIi2JdfS71rVYYWUT2OQ/a/Q5PRWIBazn3AQLm2dWBYGVxBajLvvRoE=
-X-Received: by 2002:a05:6512:96b:b0:4e8:4b7a:6b73 with SMTP id
- v11-20020a056512096b00b004e84b7a6b73mr2935594lft.4.1681797550844; Mon, 17 Apr
- 2023 22:59:10 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1682558131; x=1685150131;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zrhaHXbwFsAd0/GaXjow7H0L4+tY0cPhGmnifdoJQXg=;
+        b=TLR60Pau3kElH+gEejiEA490FgFanIroBlOND1u1/CIe6sWRMMlc8vcURogzvgMPv+
+         UaSq71WAJDvUt+8RC/TofVHwVDXzIWaOkomp20U9Hk2OXuQS1g2MZPuXeeMMmwXIznKe
+         lPD//Cez/Rbcuhtw38CtU50NakgXSazB7LqvXxePZlu3buImIelCI/FLo4iBJmr+xK1+
+         KjOEhbr3tZtoICopVRM0h4gwiW3h5GVjNOj/rLQ3982YVSNpbmr4NQ3i1eSmDBzRD/Zx
+         f+WFozp1IWE925wXhvQSrFCZ7Or/Sx2Dv//RsGCCQ+X8Anjwi+1IpCQXrTlAlRhi68Cs
+         RpXA==
+X-Gm-Message-State: AAQBX9dT9eqkNPJz/jqQ/W2hXk9zhEbxNyNwU8aC2f+zVYYbAElfLxZA
+        uvK/jDz4//aZU90hjK3Xyyo=
+X-Google-Smtp-Source: AKy350YJnnwJ8AMq3qjbVGA9UWBD9MF61jok94+AcmNwDHcptxZnjHGng4hbZENAppFJ5LaJe1PNFQ==
+X-Received: by 2002:a17:902:c411:b0:19b:dbf7:f9ca with SMTP id k17-20020a170902c41100b0019bdbf7f9camr27202077plk.0.1682558131253;
+        Wed, 26 Apr 2023 18:15:31 -0700 (PDT)
+Received: from carrot.. (i223-217-187-146.s42.a014.ap.plala.or.jp. [223.217.187.146])
+        by smtp.gmail.com with ESMTPSA id g4-20020a1709026b4400b0019f3cc463absm10565352plt.0.2023.04.26.18.15.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Apr 2023 18:15:30 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs <linux-nilfs@vger.kernel.org>,
+        syzbot <syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: [PATCH] nilfs2: do not write dirty data after degenerating to read-only
+Date:   Thu, 27 Apr 2023 10:15:26 +0900
+Message-Id: <20230427011526.13457-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:ab2:2681:0:b0:1b6:840f:9075 with HTTP; Mon, 17 Apr 2023
- 22:59:10 -0700 (PDT)
-Reply-To: mariamkouame.info@myself.com
-From:   Mariam Kouame <mariamkouame1992@gmail.com>
-Date:   Mon, 17 Apr 2023 22:59:10 -0700
-Message-ID: <CADUz=agNY633M0qMXMnAP3Ms7-3rKuWtAZGCOQZKeYpCdBxT_w@mail.gmail.com>
-Subject: from mariam kouame
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Dear,
+According to syzbot's report, mark_buffer_dirty() called from
+nilfs_segctor_do_construct() outputs a warning with some patterns after
+nilfs2 detects metadata corruption and degrades to read-only mode.
 
-Please grant me permission to share a very crucial discussion with
-you. I am looking forward to hearing from you at your earliest
-convenience.
+After such read-only degeneration, page cache data may be cleared
+through nilfs_clear_dirty_page() which may also clear the uptodate
+flag for their buffer heads.  However, even after the degeneration,
+log writes are still performed by unmount processing etc., which
+causes mark_buffer_dirty() to be called for buffer heads without the
+"uptodate" flag and causes the warning.
 
-Mrs. Mariam Kouame
+Since any writes should not be done to a read-only file system in the
+first place, this fixes the warning in mark_buffer_dirty() by letting
+nilfs_segctor_do_construct() abort early if in read-only mode.
+
+This also changes the retry check of nilfs_segctor_write_out() to
+avoid unnecessary log write retries if it detects -EROFS that
+nilfs_segctor_do_construct() returned.
+
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+2af3bc9585be7f23f290@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=2af3bc9585be7f23f290
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: <stable@vger.kernel.org>
+---
+ fs/nilfs2/segment.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 228659612c0d..ac949fd7603f 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -2041,6 +2041,9 @@ static int nilfs_segctor_do_construct(struct nilfs_sc_info *sci, int mode)
+ 	struct the_nilfs *nilfs = sci->sc_super->s_fs_info;
+ 	int err;
+ 
++	if (sb_rdonly(sci->sc_super))
++		return -EROFS;
++
+ 	nilfs_sc_cstage_set(sci, NILFS_ST_INIT);
+ 	sci->sc_cno = nilfs->ns_cno;
+ 
+@@ -2724,7 +2727,7 @@ static void nilfs_segctor_write_out(struct nilfs_sc_info *sci)
+ 
+ 		flush_work(&sci->sc_iput_work);
+ 
+-	} while (ret && retrycount-- > 0);
++	} while (ret && ret != -EROFS && retrycount-- > 0);
+ }
+ 
+ /**
+-- 
+2.34.1
+
