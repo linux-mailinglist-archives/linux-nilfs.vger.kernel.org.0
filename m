@@ -2,120 +2,136 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CE35701622
-	for <lists+linux-nilfs@lfdr.de>; Sat, 13 May 2023 12:24:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12E09702D3F
+	for <lists+linux-nilfs@lfdr.de>; Mon, 15 May 2023 14:58:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230490AbjEMKYR (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 13 May 2023 06:24:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60548 "EHLO
+        id S241696AbjEOM5e (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 15 May 2023 08:57:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229653AbjEMKYQ (ORCPT
+        with ESMTP id S242049AbjEOM5K (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 13 May 2023 06:24:16 -0400
-Received: from mail-pl1-x62d.google.com (mail-pl1-x62d.google.com [IPv6:2607:f8b0:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCD6A1BF3;
-        Sat, 13 May 2023 03:24:15 -0700 (PDT)
-Received: by mail-pl1-x62d.google.com with SMTP id d9443c01a7336-1aaf706768cso83531185ad.0;
-        Sat, 13 May 2023 03:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1683973455; x=1686565455;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tdWliSyw9Vs0a4+Mx5Ea0mS03ZFAZO0XAn6m7qo+Pro=;
-        b=TYUf0yciahwHAoINMlmasYHsNIj0mB0vwA8sRRG+HcY+oJopfvY6iqibdm5kAMp8xZ
-         VAOmON3bpEOSXqaTShgAQEZ1330E/h/aJbAWTNo6qwReBwPbhMIBPBJp6hxxVm413onX
-         zeQoRP6rUV7uzyU53vXr2GkhozaGfQ3aqBMfCwdfCubhDJis+A0ZiNjN8+Iv1gc7BabQ
-         wSE1o0qu9P96h1khnyfGgq2sa2EWxfHlmm9sru/jczengeor+hZXj0Ddtl5kjiPYxNVa
-         UMpgGBpOTi7S3UDhk7DLOm40xPPECl2+QAfOisqQ4tSTyAKRU0aeles6EApESs/xhbW+
-         S5Pw==
+        Mon, 15 May 2023 08:57:10 -0400
+Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0A101BD7
+        for <linux-nilfs@vger.kernel.org>; Mon, 15 May 2023 05:56:56 -0700 (PDT)
+Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-331514f5626so83311365ab.0
+        for <linux-nilfs@vger.kernel.org>; Mon, 15 May 2023 05:56:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1683973455; x=1686565455;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tdWliSyw9Vs0a4+Mx5Ea0mS03ZFAZO0XAn6m7qo+Pro=;
-        b=Nj0/2epLWOruUlJCkI6QUsEg6d4iLG9W4xXMnH+yXZEZHwd9LYmJ5d7u4ZGxiwliae
-         DsrH+VpGIm2KuAYmQM8bZIE13ihEebjWGbS+dq9TqymWtAqNNI/gA15YgSnY6yFkNz71
-         66GeClJNalZv4dEOzdp5+3yIRCH0LcjM9Wze+BRqTZs4V7CTDD52W7F9Yu/UJCIbo+Gr
-         GGnUOuXaaBgMKya8VG2FI7LqfTN13G1pl9CPOPUXj6cMuT0zqRrwIQBEgk3uQMW+1NJD
-         Ly1W7bK7KE+Qn9y+CptOkISbbD00D8ZOvrSSuTRy9VNGEzefsIm+90IPV9apqcdC6yOL
-         0AAw==
-X-Gm-Message-State: AC+VfDxAcaSBhnagE5f4neREiOvj/DVo0rTdLBd7arP3aXAGvMlMvPpv
-        onwZ+P8OGoAIi6ozcKPTPoneLvloLEksAg==
-X-Google-Smtp-Source: ACHHUZ6CKpZVrfFk2enNb1auS49jWWNhoz1qdWWdg6ZQCSE1DokGvNh4FzhvGDqns37AbeddA6CKXg==
-X-Received: by 2002:a17:903:2448:b0:1ac:3642:bff3 with SMTP id l8-20020a170903244800b001ac3642bff3mr35575521pls.38.1683973455158;
-        Sat, 13 May 2023 03:24:15 -0700 (PDT)
-Received: from carrot.. (i220-108-176-245.s42.a014.ap.plala.or.jp. [220.108.176.245])
-        by smtp.gmail.com with ESMTPSA id d15-20020a170902cecf00b001a94a497b50sm9494784plg.20.2023.05.13.03.24.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 May 2023 03:24:13 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs@vger.kernel.org,
-        syzbot <syzbot+b0a35a5c1f7e846d3b09@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: fix incomplete buffer cleanup in nilfs_btnode_abort_change_key()
-Date:   Sat, 13 May 2023 19:24:28 +0900
-Message-Id: <20230513102428.10223-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <000000000000d1d6c205ebc4d512@google.com>
-References: <000000000000d1d6c205ebc4d512@google.com>
+        d=1e100.net; s=20221208; t=1684155416; x=1686747416;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lBrVM5vmUfrnVSMRAOraV9dR/Tsb1O86cQHaXY5501A=;
+        b=MasMxJ9XhPuoPSgFYKMOfe5Uk2S3xssvf5+fDjvWYmh572gnwQu4cTDwuXa2yILdkp
+         PEjLFHaPGScrBg1EO4duS35sFSmux4bxapkbDZQdMRRO+ITXLwMgesFbghVDJCE6wWmC
+         Vg5ydGZJlesCXZn8DzSe/ylbb5QrT848pcp36vFKwmuftYgkEnGOdSDipGHZLIoab+zv
+         BQlLSofb9PXH5+f/bS1TJ+Hc1oLcABYDSg5Y5cKb1IXuVpOs2T61/UC7Jhqrap4LW853
+         yRr+SR8LDcQZASiedrFxZTcVJCbyDfENYifz4VnsiG4RScR1mkDwvUg+lwiIvHD85kEc
+         vokA==
+X-Gm-Message-State: AC+VfDxZKBil7lAKEWoY/a9rC9fHQ/gOzr3dWLD/JaajdBiGwAJTQxM6
+        tepYuKN+xCTMrU4VqnVyGRiJRcCGRPRIh4AKKVSZQ4NLdbjz
+X-Google-Smtp-Source: ACHHUZ5m8IV6avZoGqCM2loZguQq890l0hao/iR49SVkW2gi4/0ebSMPMvV0n4FFcSr4odiz7um92fLYH0NITCXVyBHk61eeXhPn
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Received: by 2002:a92:d5cb:0:b0:337:41d3:4d9e with SMTP id
+ d11-20020a92d5cb000000b0033741d34d9emr3477815ilq.6.1684155416194; Mon, 15 May
+ 2023 05:56:56 -0700 (PDT)
+Date:   Mon, 15 May 2023 05:56:56 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000005434c405fbbafdc5@google.com>
+Subject: [syzbot] [nilfs?] WARNING in nilfs_segctor_do_construct (2)
+From:   syzbot <syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-A syzbot fault injection test reported that nilfs_btnode_create_block,
-a helper function that allocates a new node block for b-trees, causes a
-kernel BUG for disk images where the file system block size is smaller
-than the page size.
+Hello,
 
-This was due to unexpected flags on the newly allocated buffer head, and
-it turned out to be because the buffer flags were not cleared by
-nilfs_btnode_abort_change_key() after an error occurred during a b-tree
-update operation and the buffer was later reused in that state.
+syzbot found the following issue on:
 
-Fix this issue by using nilfs_btnode_delete() to abandon the unused
-preallocated buffer in nilfs_btnode_abort_change_key().
+HEAD commit:    9a48d6046722 x86/retbleed: Fix return thunk alignment
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=121a54ba280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=38526bf24c8d961b
+dashboard link: https://syzkaller.appspot.com/bug?extid=33494cd0df2ec2931851
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1438dcc6280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=124666a2280000
 
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: syzbot+b0a35a5c1f7e846d3b09@syzkaller.appspotmail.com
-Closes: https://lkml.kernel.org/r/000000000000d1d6c205ebc4d512@google.com
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: stable@vger.kernel.org
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/9151d600da35/disk-9a48d604.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/895748ad0a36/vmlinux-9a48d604.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/826ceb18c361/bzImage-9a48d604.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/32bae60be5eb/mount_0.gz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com
+
+NILFS (loop1): nilfs_sufile_update: invalid segment number: 52
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 5017 at fs/nilfs2/segment.c:1503 nilfs_segctor_collect fs/nilfs2/segment.c:1556 [inline]
+WARNING: CPU: 0 PID: 5017 at fs/nilfs2/segment.c:1503 nilfs_segctor_do_construct+0x31e7/0x6d30 fs/nilfs2/segment.c:2070
+Modules linked in:
+
+CPU: 0 PID: 5017 Comm: segctord Not tainted 6.4.0-rc1-syzkaller-00133-g9a48d6046722 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/28/2023
+RIP: 0010:nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1503 [inline]
+RIP: 0010:nilfs_segctor_collect fs/nilfs2/segment.c:1556 [inline]
+RIP: 0010:nilfs_segctor_do_construct+0x31e7/0x6d30 fs/nilfs2/segment.c:2070
+Code: ff df 80 3c 08 00 74 08 4c 89 ef e8 03 fb 93 fe 4d 8b 6d 00 4c 3b 6c 24 50 74 31 e8 13 2d 3c fe e9 39 ff ff ff e8 09 2d 3c fe <0f> 0b eb c3 44 89 e1 80 e1 07 80 c1 03 38 c1 0f 8c 44 ff ff ff 4c
+RSP: 0018:ffffc90003b7f700 EFLAGS: 00010293
+
+RAX: ffffffff834f3a37 RBX: 00000000ffffffea RCX: ffff888027728000
+RDX: 0000000000000000 RSI: 00000000ffffffea RDI: 0000000000000000
+RBP: ffffc90003b7fc30 R08: ffffffff834f39f5 R09: fffff5200076fe51
+R10: 0000000000000000 R11: dffffc0000000001 R12: 0000000000000010
+R13: ffff888076756dc8 R14: dffffc0000000000 R15: ffff8880765d4e38
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000020074000 CR3: 0000000029d7c000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ nilfs_segctor_construct+0x145/0x8c0 fs/nilfs2/segment.c:2404
+ nilfs_segctor_thread_construct fs/nilfs2/segment.c:2512 [inline]
+ nilfs_segctor_thread+0x53a/0x1140 fs/nilfs2/segment.c:2595
+ kthread+0x2b8/0x350 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+
+
 ---
- fs/nilfs2/btnode.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/fs/nilfs2/btnode.c b/fs/nilfs2/btnode.c
-index e956f886a1a1..5710833ac1cc 100644
---- a/fs/nilfs2/btnode.c
-+++ b/fs/nilfs2/btnode.c
-@@ -285,6 +285,14 @@ void nilfs_btnode_abort_change_key(struct address_space *btnc,
- 	if (nbh == NULL) {	/* blocksize == pagesize */
- 		xa_erase_irq(&btnc->i_pages, newkey);
- 		unlock_page(ctxt->bh->b_page);
--	} else
--		brelse(nbh);
-+	} else {
-+		/*
-+		 * When canceling a buffer that a prepare operation has
-+		 * allocated to copy a node block to another location, use
-+		 * nilfs_btnode_delete() to initialize and release the buffer
-+		 * so that the buffer flags will not be in an inconsistent
-+		 * state when it is reallocated.
-+		 */
-+		nilfs_btnode_delete(nbh);
-+	}
- }
--- 
-2.34.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
