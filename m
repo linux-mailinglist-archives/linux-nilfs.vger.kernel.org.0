@@ -2,136 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 12E09702D3F
-	for <lists+linux-nilfs@lfdr.de>; Mon, 15 May 2023 14:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B78C707BA7
+	for <lists+linux-nilfs@lfdr.de>; Thu, 18 May 2023 10:11:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241696AbjEOM5e (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 15 May 2023 08:57:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45234 "EHLO
+        id S229810AbjERILq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 18 May 2023 04:11:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242049AbjEOM5K (ORCPT
+        with ESMTP id S229901AbjERILp (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 15 May 2023 08:57:10 -0400
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0A101BD7
-        for <linux-nilfs@vger.kernel.org>; Mon, 15 May 2023 05:56:56 -0700 (PDT)
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-331514f5626so83311365ab.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 15 May 2023 05:56:56 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684155416; x=1686747416;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lBrVM5vmUfrnVSMRAOraV9dR/Tsb1O86cQHaXY5501A=;
-        b=MasMxJ9XhPuoPSgFYKMOfe5Uk2S3xssvf5+fDjvWYmh572gnwQu4cTDwuXa2yILdkp
-         PEjLFHaPGScrBg1EO4duS35sFSmux4bxapkbDZQdMRRO+ITXLwMgesFbghVDJCE6wWmC
-         Vg5ydGZJlesCXZn8DzSe/ylbb5QrT848pcp36vFKwmuftYgkEnGOdSDipGHZLIoab+zv
-         BQlLSofb9PXH5+f/bS1TJ+Hc1oLcABYDSg5Y5cKb1IXuVpOs2T61/UC7Jhqrap4LW853
-         yRr+SR8LDcQZASiedrFxZTcVJCbyDfENYifz4VnsiG4RScR1mkDwvUg+lwiIvHD85kEc
-         vokA==
-X-Gm-Message-State: AC+VfDxZKBil7lAKEWoY/a9rC9fHQ/gOzr3dWLD/JaajdBiGwAJTQxM6
-        tepYuKN+xCTMrU4VqnVyGRiJRcCGRPRIh4AKKVSZQ4NLdbjz
-X-Google-Smtp-Source: ACHHUZ5m8IV6avZoGqCM2loZguQq890l0hao/iR49SVkW2gi4/0ebSMPMvV0n4FFcSr4odiz7um92fLYH0NITCXVyBHk61eeXhPn
+        Thu, 18 May 2023 04:11:45 -0400
+X-Greylist: delayed 319 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 18 May 2023 01:11:42 PDT
+Received: from mail.tipvortexbiz.com (mail.tipvortexbiz.com [51.254.102.79])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC56610E2
+        for <linux-nilfs@vger.kernel.org>; Thu, 18 May 2023 01:11:42 -0700 (PDT)
+Received: by mail.tipvortexbiz.com (Postfix, from userid 1002)
+        id DB5B94681B; Thu, 18 May 2023 08:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tipvortexbiz.com;
+        s=mail; t=1684397180;
+        bh=P1Han34balTJAB06sltOuaQxWoVYtmotA0/1aw855g4=;
+        h=Date:From:To:Subject:From;
+        b=Ok0xHc5NP4SJFP17bkYqxUssU0O7SgTuLCkq7DOwpNSAPARJgO5uwjtdLVokpVhat
+         jVLBkUmbTrb6Kyj26o1epy4UK2kVI707mI27scI7blmG+lGCDoHPZvpuZrCedctJof
+         pOwkH12nRkueZBCZKJidR53JLRnjmzRKIe19lE6e6yE1T+oVzk0tQYDAxG4MEKukYj
+         jQZwgSysYWJVnbehW0nO6IMES/Idt85Gqvi6h64mbeZUXqOEGjioU+uLnUzMe59sWh
+         +EjvoIt43l53Irtf+yjHxmvr8GxH1484vcoeeNn16UbqfLVEQ15HODC/wlaf+YpP3Q
+         ITbMuZJr/q/oQ==
+Received: by mail.tipvortexbiz.com for <linux-nilfs@vger.kernel.org>; Thu, 18 May 2023 08:06:02 GMT
+Message-ID: <20230518064500-0.1.1s.3not.0.vieh9pcjh4@tipvortexbiz.com>
+Date:   Thu, 18 May 2023 08:06:02 GMT
+From:   "Victor Pollard" <victor.pollard@tipvortexbiz.com>
+To:     <linux-nilfs@vger.kernel.org>
+Subject: Wake up - Audit time
+X-Mailer: mail.tipvortexbiz.com
 MIME-Version: 1.0
-X-Received: by 2002:a92:d5cb:0:b0:337:41d3:4d9e with SMTP id
- d11-20020a92d5cb000000b0033741d34d9emr3477815ilq.6.1684155416194; Mon, 15 May
- 2023 05:56:56 -0700 (PDT)
-Date:   Mon, 15 May 2023 05:56:56 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000005434c405fbbafdc5@google.com>
-Subject: [syzbot] [nilfs?] WARNING in nilfs_segctor_do_construct (2)
-From:   syzbot <syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Good morning,
 
-syzbot found the following issue on:
+we provide a solution that significantly shortens the audit time, enables=
+ standards control and non-compliance reporting:
 
-HEAD commit:    9a48d6046722 x86/retbleed: Fix return thunk alignment
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=121a54ba280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=38526bf24c8d961b
-dashboard link: https://syzkaller.appspot.com/bug?extid=33494cd0df2ec2931851
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1438dcc6280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=124666a2280000
+=E2=97=8F Audits - to check quality or process standards (ISO, 5S, LPA)
+=E2=97=8F Scheduler - all work can be scheduled and linked to the notific=
+ation system
+=E2=97=8F Checklists - for carrying out work "point by point" with a desc=
+ription illustrated with a photo or video
+=E2=97=8F Non-conformances - immediately report non-conformances and send=
+ them to responsible persons
+=E2=97=8F Tests - to check knowledge after training or (customer's) expec=
+tations
+=E2=97=8F Summary of Results and Reports - presented on dashboards
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/9151d600da35/disk-9a48d604.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/895748ad0a36/vmlinux-9a48d604.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/826ceb18c361/bzImage-9a48d604.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/32bae60be5eb/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com
-
-NILFS (loop1): nilfs_sufile_update: invalid segment number: 52
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5017 at fs/nilfs2/segment.c:1503 nilfs_segctor_collect fs/nilfs2/segment.c:1556 [inline]
-WARNING: CPU: 0 PID: 5017 at fs/nilfs2/segment.c:1503 nilfs_segctor_do_construct+0x31e7/0x6d30 fs/nilfs2/segment.c:2070
-Modules linked in:
-
-CPU: 0 PID: 5017 Comm: segctord Not tainted 6.4.0-rc1-syzkaller-00133-g9a48d6046722 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/28/2023
-RIP: 0010:nilfs_segctor_truncate_segments fs/nilfs2/segment.c:1503 [inline]
-RIP: 0010:nilfs_segctor_collect fs/nilfs2/segment.c:1556 [inline]
-RIP: 0010:nilfs_segctor_do_construct+0x31e7/0x6d30 fs/nilfs2/segment.c:2070
-Code: ff df 80 3c 08 00 74 08 4c 89 ef e8 03 fb 93 fe 4d 8b 6d 00 4c 3b 6c 24 50 74 31 e8 13 2d 3c fe e9 39 ff ff ff e8 09 2d 3c fe <0f> 0b eb c3 44 89 e1 80 e1 07 80 c1 03 38 c1 0f 8c 44 ff ff ff 4c
-RSP: 0018:ffffc90003b7f700 EFLAGS: 00010293
-
-RAX: ffffffff834f3a37 RBX: 00000000ffffffea RCX: ffff888027728000
-RDX: 0000000000000000 RSI: 00000000ffffffea RDI: 0000000000000000
-RBP: ffffc90003b7fc30 R08: ffffffff834f39f5 R09: fffff5200076fe51
-R10: 0000000000000000 R11: dffffc0000000001 R12: 0000000000000010
-R13: ffff888076756dc8 R14: dffffc0000000000 R15: ffff8880765d4e38
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000020074000 CR3: 0000000029d7c000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- nilfs_segctor_construct+0x145/0x8c0 fs/nilfs2/segment.c:2404
- nilfs_segctor_thread_construct fs/nilfs2/segment.c:2512 [inline]
- nilfs_segctor_thread+0x53a/0x1140 fs/nilfs2/segment.c:2595
- kthread+0x2b8/0x350 kernel/kthread.c:379
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
+Are you open to a conversation about using such a tool in your company?
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Regards
+Victor Pollard
