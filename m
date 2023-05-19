@@ -2,69 +2,75 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B78C707BA7
-	for <lists+linux-nilfs@lfdr.de>; Thu, 18 May 2023 10:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31613709636
+	for <lists+linux-nilfs@lfdr.de>; Fri, 19 May 2023 13:18:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229810AbjERILq (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 18 May 2023 04:11:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48982 "EHLO
+        id S231846AbjESLSM (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 19 May 2023 07:18:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54334 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229901AbjERILp (ORCPT
+        with ESMTP id S230195AbjESLSI (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 18 May 2023 04:11:45 -0400
-X-Greylist: delayed 319 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 18 May 2023 01:11:42 PDT
-Received: from mail.tipvortexbiz.com (mail.tipvortexbiz.com [51.254.102.79])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC56610E2
-        for <linux-nilfs@vger.kernel.org>; Thu, 18 May 2023 01:11:42 -0700 (PDT)
-Received: by mail.tipvortexbiz.com (Postfix, from userid 1002)
-        id DB5B94681B; Thu, 18 May 2023 08:06:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=tipvortexbiz.com;
-        s=mail; t=1684397180;
-        bh=P1Han34balTJAB06sltOuaQxWoVYtmotA0/1aw855g4=;
-        h=Date:From:To:Subject:From;
-        b=Ok0xHc5NP4SJFP17bkYqxUssU0O7SgTuLCkq7DOwpNSAPARJgO5uwjtdLVokpVhat
-         jVLBkUmbTrb6Kyj26o1epy4UK2kVI707mI27scI7blmG+lGCDoHPZvpuZrCedctJof
-         pOwkH12nRkueZBCZKJidR53JLRnjmzRKIe19lE6e6yE1T+oVzk0tQYDAxG4MEKukYj
-         jQZwgSysYWJVnbehW0nO6IMES/Idt85Gqvi6h64mbeZUXqOEGjioU+uLnUzMe59sWh
-         +EjvoIt43l53Irtf+yjHxmvr8GxH1484vcoeeNn16UbqfLVEQ15HODC/wlaf+YpP3Q
-         ITbMuZJr/q/oQ==
-Received: by mail.tipvortexbiz.com for <linux-nilfs@vger.kernel.org>; Thu, 18 May 2023 08:06:02 GMT
-Message-ID: <20230518064500-0.1.1s.3not.0.vieh9pcjh4@tipvortexbiz.com>
-Date:   Thu, 18 May 2023 08:06:02 GMT
-From:   "Victor Pollard" <victor.pollard@tipvortexbiz.com>
-To:     <linux-nilfs@vger.kernel.org>
-Subject: Wake up - Audit time
-X-Mailer: mail.tipvortexbiz.com
+        Fri, 19 May 2023 07:18:08 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 536DE10F0
+        for <linux-nilfs@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-965ddb2093bso502607566b.2
+        for <linux-nilfs@vger.kernel.org>; Fri, 19 May 2023 04:18:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684495083; x=1687087083;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=Wt/WzQmS095ww6zzUgoSSAlrCDxwL2gSoVBMsVxHRKn23YcliDiJyBLjqweTRoToj1
+         ufUOgV4j5pHE/9SR+dsRPr9gpju7XpaMYkUmYe1T6vrhoZIvsQDtFJjwfPWr0ZA8MwEK
+         A8xkN8RoXHrnV8mxXNMusUB3EToMcUvt2JPOXJbMgVYPwdz45S3ERx+Nyqo+cmGrrOa8
+         vd+RSV3BkQDybrevFx7U7UuvnFt+9sOfqdHCxo6t6nUsXpAQmNebiCtg7JMDFdLkqxgM
+         8PXBgbynXWRxC6QXqoh8bbtvc/aqA5Z2+Ycz9m8q7U5s8LdUBFb9kcl7MTOhQK2ZKsRi
+         q6Tg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1684495083; x=1687087083;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YmxaI1amCfTksu6ynk2557PwK0HJxrBQmYIx/Pz5hBs=;
+        b=OqdEXF81TPfzWQV3qsi2v/DhN6eG7N2PQe4Gzy0y0CsY+ZYv9/A9+58q4pgqRdGeFc
+         AoyFkHi0mm3pCNhGgzgABfOLo+3HwVX/8VzNwtWeNrOywrcxc6NwAG3ngoAEgJssuS+Y
+         v+yOZPQLSHV7Ul3fcgK4lwRFGDTrG71RbrDP2uxIkro7EaaLiVPOuw3UVAFW4VEKW2nU
+         8WqYmvPc/N+KTjr7rSjTasFdChgCWefRCHQpBeGtgKAbv49NmDEepkJJejZ4IP8YJqmU
+         BptffpMYy3j0CI42seIbjAzd/BF+UfnoTZ4pEV7kgA4fn3aFvLKFSH3FNUwFbzBEYUcn
+         ePPg==
+X-Gm-Message-State: AC+VfDyx66mU+YnNuozSd+jUaeB7cAU/bDhiqYgPqBRT2OOfuLzD6zSn
+        PYG841H8TSGsBHPu/KE+NzlzAZDLun5aJvxG94s=
+X-Google-Smtp-Source: ACHHUZ4u0RD9o3Kl8FtNeecPkKIUUkqQP5EKCQy8Odb3BCVRQ/plvct7PNXp53hldLkfZ7jyXh0W2roGP4wdAWIFYf4=
+X-Received: by 2002:a17:906:af64:b0:966:5730:c3fe with SMTP id
+ os4-20020a170906af6400b009665730c3femr1223003ejb.52.1684495082502; Fri, 19
+ May 2023 04:18:02 -0700 (PDT)
 MIME-Version: 1.0
+Received: by 2002:a17:907:7dab:b0:94f:7d03:8e8b with HTTP; Fri, 19 May 2023
+ 04:18:02 -0700 (PDT)
+Reply-To: ninacoulibaly03@myself.com
+From:   nina coulibaly <ninacoulibaly199@gmail.com>
+Date:   Fri, 19 May 2023 04:18:02 -0700
+Message-ID: <CAM7Z2JAs+q6RsD5Hw352ZDFruUVR5ngjAamir+4ZCakNdZyceg@mail.gmail.com>
+Subject: from nina coulibaly
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=4.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Good morning,
+Dear,
 
-we provide a solution that significantly shortens the audit time, enables=
- standards control and non-compliance reporting:
+Please grant me permission to share a very crucial discussion with
+you. I am looking forward to hearing from you at your earliest
+convenience.
 
-=E2=97=8F Audits - to check quality or process standards (ISO, 5S, LPA)
-=E2=97=8F Scheduler - all work can be scheduled and linked to the notific=
-ation system
-=E2=97=8F Checklists - for carrying out work "point by point" with a desc=
-ription illustrated with a photo or video
-=E2=97=8F Non-conformances - immediately report non-conformances and send=
- them to responsible persons
-=E2=97=8F Tests - to check knowledge after training or (customer's) expec=
-tations
-=E2=97=8F Summary of Results and Reports - presented on dashboards
-
-Are you open to a conversation about using such a tool in your company?
-
-
-Regards
-Victor Pollard
+Mrs. Nina Coulibal
