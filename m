@@ -2,169 +2,129 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D73470ADB9
-	for <lists+linux-nilfs@lfdr.de>; Sun, 21 May 2023 13:47:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 771DD70F342
+	for <lists+linux-nilfs@lfdr.de>; Wed, 24 May 2023 11:44:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230510AbjEULrL (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 21 May 2023 07:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44416 "EHLO
+        id S229509AbjEXJoQ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 24 May 2023 05:44:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231775AbjEULqu (ORCPT
+        with ESMTP id S229605AbjEXJoL (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 21 May 2023 07:46:50 -0400
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD85210E7
-        for <linux-nilfs@vger.kernel.org>; Sun, 21 May 2023 04:45:51 -0700 (PDT)
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-33765ca2c69so34543695ab.0
-        for <linux-nilfs@vger.kernel.org>; Sun, 21 May 2023 04:45:51 -0700 (PDT)
+        Wed, 24 May 2023 05:44:11 -0400
+Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A26FA1;
+        Wed, 24 May 2023 02:44:10 -0700 (PDT)
+Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2536e522e47so31006a91.1;
+        Wed, 24 May 2023 02:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1684921450; x=1687513450;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CwdYQx8FcXFV0J8oDNY/gZUVBoAXgW87pt+1+NvkXAw=;
+        b=b1/obuKfWcYZskj6Rc4AdZaTyvTCf9MxLyeApNb1hkqVz1FePSBrjH7ZWnp+6ETncM
+         gWthai388O2oeNLLGPc2kK/XDvK078yjSnjFOuS+A8sVsa5doAIWhdJrZoOAW0KfrAo9
+         bD4GxQSWNVUBZRTdoUJgmkkY/pNh2tRWyEJfmK9f4DzkUtf0ZjRJDqqPzAy/xvvCyed7
+         rmRPS9bNZQQZUVrZiz8N2KoxHQAhYXySH4hykWsaNdgFHKnC0TL9sm2wg+d6WCMpMEzE
+         QWTDr7Udwh+QaNMkXeGh9QTo7E5IYh23CMf10Y8fm0ofyf5qWXOeIxI7o6vlMXUpl8cv
+         q+pQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684669551; x=1687261551;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ciCej22Li57RuBEc5bXi3KWiKyrm/4CVswzAFj2Mx84=;
-        b=H2V5AMlKLfyBHA2zTB0vhxvFo2GkT3Nuy+x/bn9oguUJff9dN93DvgdI5/XtzXMxyO
-         nqwFS2p17SZ47Uz/J8u5SrWz2bre9tiZBK8ONiD90Meljru6layspNe79sLGpMQb4CUq
-         ZuWSLdxJiS6eOxmZKyUF2nYAYuRXQtR8IeszV/UDEkroanNyLqAePuH9dGl9n6xDYhjc
-         jGfWIPbOCalei1OZloZ5mx9Po7MV3+5ItfjJnnxd2hp1uybA1rNUQA+YelwMcE65dkpl
-         ZRVyE5aaCTj96m9FlE31ZGIBYe+TEnaEmGykTgpcg69ZJLRy2AIpVoG7Rz4hIiKR/Kgk
-         xF7w==
-X-Gm-Message-State: AC+VfDwil4x2ue2TrmIkWlzCzYIJCbCnI/9/6+W6GF7/WP53IadzVFtt
-        37/DrGWkCJDMh3MtVibZpvlqlRhujXzqv0xKWsVxcZpHFI4v
-X-Google-Smtp-Source: ACHHUZ5ELVJS5WU5X56hf7kUNQ34I9eGMIEl5P/B4NQQTcEV3N4bcMRW4lpVi80V6NH+InGbDMG/vxZ3ViGm5CVHw7Fn/f1YCRkZ
+        d=1e100.net; s=20221208; t=1684921450; x=1687513450;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CwdYQx8FcXFV0J8oDNY/gZUVBoAXgW87pt+1+NvkXAw=;
+        b=CnKEJ9ibfMV5xvzGuc4XiGNCFnXDdU1Eg77V8KIcqrtJy+uGxUOWa8ctdncbz1MkJX
+         r0Z1h8MfcyufIrgCFGKNfvldq56GzKxAXM1PFZmjAXv7xBAuDeySCflSpEF6OgiRkyED
+         BnrSf2wkpzXVq9TeSqmqtKvOH6gZFf3YjukLFj32aILxqB3G1luC11D0GybtJdY+bQpF
+         HdXwmkA6/JCmmFBBjWpUbq2S4dG27lh2JIGe0uHsMoo3FjLzVqMKHwqzTd9g8HJHiO0N
+         ym+FSW3pymfOYgzV6ttsqh7GvZ6y42XGbbEnjd/nzwwSjijab2UIC0xJiRZmTHteOLzL
+         MACg==
+X-Gm-Message-State: AC+VfDyIBn9v6TK/RhfoARjBwfI7bRbKTYQG2VKAsDwwtRRe0BaSjtkY
+        KH0xxQkZVPV/QInFs2C15Vo=
+X-Google-Smtp-Source: ACHHUZ7KNQCu2AQqm8Xww/7w33hsJlA82n6crTdvm4G3aWoOMjWMdJ5xMADYe7wgXWqZto7PgrfW2g==
+X-Received: by 2002:a17:90a:fa01:b0:255:63ae:f943 with SMTP id cm1-20020a17090afa0100b0025563aef943mr7632498pjb.35.1684921449506;
+        Wed, 24 May 2023 02:44:09 -0700 (PDT)
+Received: from carrot.. (i220-108-176-104.s42.a014.ap.plala.or.jp. [220.108.176.104])
+        by smtp.gmail.com with ESMTPSA id 17-20020a17090a19d100b0024bcad691d4sm1031326pjj.14.2023.05.24.02.44.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 May 2023 02:44:08 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] nilfs2: fix possible out-of-bounds segment allocation in resize ioctl
+Date:   Wed, 24 May 2023 18:43:48 +0900
+Message-Id: <20230524094348.3784-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0000000000005434c405fbbafdc5@google.com>
+References: <0000000000005434c405fbbafdc5@google.com>
 MIME-Version: 1.0
-X-Received: by 2002:a02:298e:0:b0:40f:7de9:c379 with SMTP id
- p136-20020a02298e000000b0040f7de9c379mr3283916jap.5.1684669551159; Sun, 21
- May 2023 04:45:51 -0700 (PDT)
-Date:   Sun, 21 May 2023 04:45:51 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002930a705fc32b231@google.com>
-Subject: [syzbot] [nilfs?] general protection fault in folio_create_empty_buffers
-From:   syzbot <syzbot+0ad741797f4565e7e2d2@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Syzbot reports that in its stress test for resize ioctl, the log writing
+function nilfs_segctor_do_construct hits a WARN_ON in
+nilfs_segctor_truncate_segments().
 
-syzbot found the following issue on:
+It turned out that there is a problem with the current implementation of
+the resize ioctl, which changes the writable range on the device
+(the range of allocatable segments) at the end of the resize process.
 
-HEAD commit:    0dd2a6fb1e34 Merge tag 'tty-6.4-rc3' of git://git.kernel.o..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14343765280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9afc9b1b9107cdcd
-dashboard link: https://syzkaller.appspot.com/bug?extid=0ad741797f4565e7e2d2
-compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1746d572280000
+This order is necessary for file system expansion to avoid corrupting
+the superblock at trailing edge.  However, in the case of a file system
+shrink, if log writes occur after truncating out-of-bounds trailing
+segments and before the resize is complete, segments may be allocated
+from the truncated space.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/df4d9c4d67a3/disk-0dd2a6fb.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/76f164dda927/vmlinux-0dd2a6fb.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/3f4f63ee8d7e/bzImage-0dd2a6fb.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/420107162e49/mount_0.gz
+The userspace resize tool was fine as it limits the range of allocatable
+segments before performing the resize, but it can run into this issue if
+the resize ioctl is called alone.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0ad741797f4565e7e2d2@syzkaller.appspotmail.com
+Fix this issue by changing nilfs_sufile_resize() to update the range of
+allocatable segments immediately after successful truncation of segment
+space in case of file system shrink.
 
-NILFS (loop1): segctord starting. Construction interval = 5 seconds, CP frequency < 30 seconds
-general protection fault, probably for non-canonical address 0xdffffc000000003d: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x00000000000001e8-0x00000000000001ef]
-CPU: 0 PID: 5383 Comm: segctord Not tainted 6.4.0-rc2-syzkaller-00330-g0dd2a6fb1e34 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 04/28/2023
-RIP: 0010:__lock_acquire+0xdce/0x5df0 kernel/locking/lockdep.c:4942
-Code: 00 00 3b 05 04 82 59 0f 0f 87 42 0a 00 00 41 be 01 00 00 00 e9 83 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 da 48 c1 ea 03 <80> 3c 02 00 0f 85 19 32 00 00 48 81 3b 20 08 16 90 0f 84 06 f3 ff
-RSP: 0018:ffffc9000549f618 EFLAGS: 00010012
-RAX: dffffc0000000000 RBX: 00000000000001e8 RCX: 0000000000000000
-RDX: 000000000000003d RSI: 0000000000000000 RDI: 00000000000001e8
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: ffff88802009bb80 R14: 0000000000000000 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 0000000016b15000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- lock_acquire kernel/locking/lockdep.c:5691 [inline]
- lock_acquire+0x1b1/0x520 kernel/locking/lockdep.c:5656
- __raw_spin_lock include/linux/spinlock_api_smp.h:133 [inline]
- _raw_spin_lock+0x2e/0x40 kernel/locking/spinlock.c:154
- spin_lock include/linux/spinlock.h:350 [inline]
- folio_create_empty_buffers+0xb0/0x470 fs/buffer.c:1615
- nilfs_lookup_dirty_data_buffers+0x580/0x6f0 fs/nilfs2/segment.c:730
- nilfs_segctor_scan_file+0x1b1/0x6f0 fs/nilfs2/segment.c:1075
- nilfs_segctor_collect_blocks fs/nilfs2/segment.c:1197 [inline]
- nilfs_segctor_collect fs/nilfs2/segment.c:1524 [inline]
- nilfs_segctor_do_construct+0x267f/0x7200 fs/nilfs2/segment.c:2070
- nilfs_segctor_construct+0x8e3/0xb30 fs/nilfs2/segment.c:2404
- nilfs_segctor_thread_construct fs/nilfs2/segment.c:2512 [inline]
- nilfs_segctor_thread+0x3c7/0xf30 fs/nilfs2/segment.c:2595
- kthread+0x344/0x440 kernel/kthread.c:379
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__lock_acquire+0xdce/0x5df0 kernel/locking/lockdep.c:4942
-Code: 00 00 3b 05 04 82 59 0f 0f 87 42 0a 00 00 41 be 01 00 00 00 e9 83 00 00 00 48 b8 00 00 00 00 00 fc ff df 48 89 da 48 c1 ea 03 <80> 3c 02 00 0f 85 19 32 00 00 48 81 3b 20 08 16 90 0f 84 06 f3 ff
-RSP: 0018:ffffc9000549f618 EFLAGS: 00010012
-RAX: dffffc0000000000 RBX: 00000000000001e8 RCX: 0000000000000000
-RDX: 000000000000003d RSI: 0000000000000000 RDI: 00000000000001e8
-RBP: 0000000000000000 R08: 0000000000000001 R09: 0000000000000001
-R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000000
-R13: ffff88802009bb80 R14: 0000000000000000 R15: 0000000000000000
-FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 0000000016b15000 CR4: 0000000000350ef0
-----------------
-Code disassembly (best guess):
-   0:	00 00                	add    %al,(%rax)
-   2:	3b 05 04 82 59 0f    	cmp    0xf598204(%rip),%eax        # 0xf59820c
-   8:	0f 87 42 0a 00 00    	ja     0xa50
-   e:	41 be 01 00 00 00    	mov    $0x1,%r14d
-  14:	e9 83 00 00 00       	jmpq   0x9c
-  19:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  20:	fc ff df
-  23:	48 89 da             	mov    %rbx,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 19 32 00 00    	jne    0x324d
-  34:	48 81 3b 20 08 16 90 	cmpq   $0xffffffff90160820,(%rbx)
-  3b:	0f                   	.byte 0xf
-  3c:	84 06                	test   %al,(%rsi)
-  3e:	f3                   	repz
-  3f:	ff                   	.byte 0xff
-
-
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com
+Closes: https://lkml.kernel.org/r/0000000000005434c405fbbafdc5@google.com
+Fixes: 4e33f9eab07e ("nilfs2: implement resize ioctl")
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: stable@vger.kernel.org
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ fs/nilfs2/sufile.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/fs/nilfs2/sufile.c b/fs/nilfs2/sufile.c
+index dc359b56fdfa..2c6078a6b8ec 100644
+--- a/fs/nilfs2/sufile.c
++++ b/fs/nilfs2/sufile.c
+@@ -779,6 +779,15 @@ int nilfs_sufile_resize(struct inode *sufile, __u64 newnsegs)
+ 			goto out_header;
+ 
+ 		sui->ncleansegs -= nsegs - newnsegs;
++
++		/*
++		 * If the sufile is successfully truncated, immediately adjust
++		 * the segment allocation space while locking the semaphore
++		 * "mi_sem" so that nilfs_sufile_alloc() never allocates
++		 * segments in the truncated space.
++		 */
++		sui->allocmax = newnsegs - 1;
++		sui->allocmin = 0;
+ 	}
+ 
+ 	kaddr = kmap_atomic(header_bh->b_page);
+-- 
+2.34.1
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
