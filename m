@@ -2,129 +2,85 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 771DD70F342
-	for <lists+linux-nilfs@lfdr.de>; Wed, 24 May 2023 11:44:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D802710FBC
+	for <lists+linux-nilfs@lfdr.de>; Thu, 25 May 2023 17:36:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229509AbjEXJoQ (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 24 May 2023 05:44:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58880 "EHLO
+        id S234225AbjEYPgs (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 25 May 2023 11:36:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjEXJoL (ORCPT
+        with ESMTP id S241531AbjEYPgr (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 24 May 2023 05:44:11 -0400
-Received: from mail-pj1-x102e.google.com (mail-pj1-x102e.google.com [IPv6:2607:f8b0:4864:20::102e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A26FA1;
-        Wed, 24 May 2023 02:44:10 -0700 (PDT)
-Received: by mail-pj1-x102e.google.com with SMTP id 98e67ed59e1d1-2536e522e47so31006a91.1;
-        Wed, 24 May 2023 02:44:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684921450; x=1687513450;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CwdYQx8FcXFV0J8oDNY/gZUVBoAXgW87pt+1+NvkXAw=;
-        b=b1/obuKfWcYZskj6Rc4AdZaTyvTCf9MxLyeApNb1hkqVz1FePSBrjH7ZWnp+6ETncM
-         gWthai388O2oeNLLGPc2kK/XDvK078yjSnjFOuS+A8sVsa5doAIWhdJrZoOAW0KfrAo9
-         bD4GxQSWNVUBZRTdoUJgmkkY/pNh2tRWyEJfmK9f4DzkUtf0ZjRJDqqPzAy/xvvCyed7
-         rmRPS9bNZQQZUVrZiz8N2KoxHQAhYXySH4hykWsaNdgFHKnC0TL9sm2wg+d6WCMpMEzE
-         QWTDr7Udwh+QaNMkXeGh9QTo7E5IYh23CMf10Y8fm0ofyf5qWXOeIxI7o6vlMXUpl8cv
-         q+pQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684921450; x=1687513450;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CwdYQx8FcXFV0J8oDNY/gZUVBoAXgW87pt+1+NvkXAw=;
-        b=CnKEJ9ibfMV5xvzGuc4XiGNCFnXDdU1Eg77V8KIcqrtJy+uGxUOWa8ctdncbz1MkJX
-         r0Z1h8MfcyufIrgCFGKNfvldq56GzKxAXM1PFZmjAXv7xBAuDeySCflSpEF6OgiRkyED
-         BnrSf2wkpzXVq9TeSqmqtKvOH6gZFf3YjukLFj32aILxqB3G1luC11D0GybtJdY+bQpF
-         HdXwmkA6/JCmmFBBjWpUbq2S4dG27lh2JIGe0uHsMoo3FjLzVqMKHwqzTd9g8HJHiO0N
-         ym+FSW3pymfOYgzV6ttsqh7GvZ6y42XGbbEnjd/nzwwSjijab2UIC0xJiRZmTHteOLzL
-         MACg==
-X-Gm-Message-State: AC+VfDyIBn9v6TK/RhfoARjBwfI7bRbKTYQG2VKAsDwwtRRe0BaSjtkY
-        KH0xxQkZVPV/QInFs2C15Vo=
-X-Google-Smtp-Source: ACHHUZ7KNQCu2AQqm8Xww/7w33hsJlA82n6crTdvm4G3aWoOMjWMdJ5xMADYe7wgXWqZto7PgrfW2g==
-X-Received: by 2002:a17:90a:fa01:b0:255:63ae:f943 with SMTP id cm1-20020a17090afa0100b0025563aef943mr7632498pjb.35.1684921449506;
-        Wed, 24 May 2023 02:44:09 -0700 (PDT)
-Received: from carrot.. (i220-108-176-104.s42.a014.ap.plala.or.jp. [220.108.176.104])
-        by smtp.gmail.com with ESMTPSA id 17-20020a17090a19d100b0024bcad691d4sm1031326pjj.14.2023.05.24.02.44.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 May 2023 02:44:08 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs@vger.kernel.org,
-        syzbot <syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com>,
-        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: fix possible out-of-bounds segment allocation in resize ioctl
-Date:   Wed, 24 May 2023 18:43:48 +0900
-Message-Id: <20230524094348.3784-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <0000000000005434c405fbbafdc5@google.com>
-References: <0000000000005434c405fbbafdc5@google.com>
+        Thu, 25 May 2023 11:36:47 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8482699
+        for <linux-nilfs@vger.kernel.org>; Thu, 25 May 2023 08:36:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=s31663417; t=1685029003; x=1685633803; i=schwidom@gmx.net;
+ bh=l1HpxwgYBwJMik7MEg3PiDhT6iVJvQDPw/OFM6Zsphk=;
+ h=X-UI-Sender-Class:Date:From:To:Subject;
+ b=WC/Ek5VQJh2NjxYpiOn2m/lGnN795oTU16lG0POh2oeCpJf5WQZ04YQJIozuQ5AQxWKCeLX
+ hFl5hhBKZexR6SpIZCZASiewq9ytZwfwPfSAOkgf11gNwRfh4REqEu9E5uby7gAyAGsnPrC+h
+ MHrDgFVp43whi1foB0KY0FT2jyqvJZsovm26V66jwRj4+4s9WVRaLVG146qETVbO/mNWsAjcs
+ Fd2+XaYtDo+BBAbLyzQGKLwJ4Y0tZXjle0zEPm3l8ahpp8jsxdesik06C4knFsA9iXp7vBU7+
+ Qwzj8nld2lOYsK1f9gHzhoRXC6BdJYp5fqp/8kzYXzLA+mjciolA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from debian64 ([46.114.178.189]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MatVb-1qYFua1uJP-00cRal for
+ <linux-nilfs@vger.kernel.org>; Thu, 25 May 2023 17:36:43 +0200
+Received: from ox by debian64 with local (Exim 4.92)
+        (envelope-from <schwidom@gmx.net>)
+        id 1q2Cje-0003qf-Jp
+        for linux-nilfs@vger.kernel.org; Thu, 25 May 2023 17:18:38 +0200
+Date:   Thu, 25 May 2023 17:18:38 +0200
+From:   Frank Schwidom <schwidom@gmx.net>
+To:     linux-nilfs@vger.kernel.org
+Subject: Is it possible to restore the state of a nilfs2 partition after
+ deleting files?
+Message-ID: <20230525151838.GA5174@debian64>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+X-Provags-ID: V03:K1:g1mw5aLChO2mtJKNwcbF3Hwqq41+RjzXZIiME+PBPheqwq1tICe
+ Ft2PYC8iOSVRGyO55r70/qyXz0BgLruXVwL0ijlrtzm/KgRSZPIkNfKng/CflhOnHZ+r2t2
+ 1BaZJe5EqSc+I2z15vR+PO1kd4vnTkcI79R3eVZKjRRO6xPtmWJlOfy1CJv39J+oSN9d/Px
+ 2bJqCRSGXVD2+/1MxMq+w==
+UI-OutboundReport: notjunk:1;M01:P0:cGlf33+hblk=;IVzUXS1mSEvJzlz9F0XTFSCidkR
+ vhJUwcYXMmi/xi9ddW5cJSME1sy15Qwk/utRa+qQEEqBEAJ3LH7Nlwkqn+2pUsWz1pznT/KJ7
+ tM180/uHtvOozt4bClSRWrwTQX6y2D1JxHYvv0mNC5Ma+tRRWzv5YV98XqX1v/gDuFtxYH2BS
+ BrOFaDkzuJWIt5I429itG5QJ86Ay+qhyi09f8MJz7uXd7k7P20jTfesK7ug7txX4224OuLcur
+ 70LN/0c/osqP1g95yRwu01J1Dka3p0puxoBy+e6sSyyRU6eKe+neMnpFOmL+11PY9XznES8qV
+ kSIpvEkJ6X47GDJdkYyXu/Mj/XVgUb1w4D7Tcdq9dy43LTNRTZEM64bxQssjhJDVP/V/HxcOY
+ 9h68BAyDWElgy9GZIO88zse+CbeeYrlmSD9cuD5y5gFjJu1Tl69m6TIqWs4BXL6KaLtbHw7e+
+ 8b0/mHddqjt5dDdVhnV1dnoRBy8o3C+dDE/vlwSKrrkFe/Arv/PR2EfVOdOSG6WaBVwE8bpXL
+ fi12z9KqpCKPFu3O5HhxiLOCKaanBO/yUGSuYtgVXJrwZTs9CX5NrImjAzL92L5zSeHMO+WAQ
+ w4/byK1UW5uxWx32uluT353u+p7jeg8SuMrav3lEFTtzYEWgTdfQTWBVhN0Js3+SLgL3ieNnF
+ EdzyoUp1OizfZst7GM53Mn+1B9znfNQSLFr093/BqdWgZNqs/4L4pJmnV9PnQlQzAHru84Z36
+ M7DcZWimD4s54rutC5/8QWzXsOSS5Izmj1V/YOnz2im2x/I24P4PgcViU4SezSbT54YcOTzfn
+ FWBjpKUhxyM/kK/+TfV2DqE7VvFqmIeEt4uqJg86wG/UHUvbx5EJuDOe5Es1G33462hQEXzQ6
+ A/Zh2fM0H5oo4d9hqzYxUxrX71uVEw8/FGJVJCBeDFxqFQhKB2VDOGkSuUEkinhhwbhU3iJoG
+ N/AuDAYKH5Yo7L2MEiQZkWsW3KI=
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Syzbot reports that in its stress test for resize ioctl, the log writing
-function nilfs_segctor_do_construct hits a WARN_ON in
-nilfs_segctor_truncate_segments().
+Hi,
 
-It turned out that there is a problem with the current implementation of
-the resize ioctl, which changes the writable range on the device
-(the range of allocatable segments) at the end of the resize process.
+is it anyhow possible to set the state of a nilfs2 partition to the latest
+checkpoint or snapshot?
 
-This order is necessary for file system expansion to avoid corrupting
-the superblock at trailing edge.  However, in the case of a file system
-shrink, if log writes occur after truncating out-of-bounds trailing
-segments and before the resize is complete, segments may be allocated
-from the truncated space.
+(I am using nilfs-tools 2.2.7-1 on
+Linux debian64 5.10.0-0.deb10.16-amd64 #1 SMP Debian 5.10.127-2~bpo10+1 (2=
+022-07-28) x86_64 GNU/Linux)
 
-The userspace resize tool was fine as it limits the range of allocatable
-segments before performing the resize, but it can run into this issue if
-the resize ioctl is called alone.
-
-Fix this issue by changing nilfs_sufile_resize() to update the range of
-allocatable segments immediately after successful truncation of segment
-space in case of file system shrink.
-
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Reported-by: syzbot+33494cd0df2ec2931851@syzkaller.appspotmail.com
-Closes: https://lkml.kernel.org/r/0000000000005434c405fbbafdc5@google.com
-Fixes: 4e33f9eab07e ("nilfs2: implement resize ioctl")
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: stable@vger.kernel.org
----
- fs/nilfs2/sufile.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/fs/nilfs2/sufile.c b/fs/nilfs2/sufile.c
-index dc359b56fdfa..2c6078a6b8ec 100644
---- a/fs/nilfs2/sufile.c
-+++ b/fs/nilfs2/sufile.c
-@@ -779,6 +779,15 @@ int nilfs_sufile_resize(struct inode *sufile, __u64 newnsegs)
- 			goto out_header;
- 
- 		sui->ncleansegs -= nsegs - newnsegs;
-+
-+		/*
-+		 * If the sufile is successfully truncated, immediately adjust
-+		 * the segment allocation space while locking the semaphore
-+		 * "mi_sem" so that nilfs_sufile_alloc() never allocates
-+		 * segments in the truncated space.
-+		 */
-+		sui->allocmax = newnsegs - 1;
-+		sui->allocmin = 0;
- 	}
- 
- 	kaddr = kmap_atomic(header_bh->b_page);
--- 
-2.34.1
-
+Thanks in advance,
+Frank
