@@ -2,85 +2,168 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D802710FBC
-	for <lists+linux-nilfs@lfdr.de>; Thu, 25 May 2023 17:36:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A265A711D8F
+	for <lists+linux-nilfs@lfdr.de>; Fri, 26 May 2023 04:13:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234225AbjEYPgs (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 25 May 2023 11:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35330 "EHLO
+        id S229981AbjEZCNk (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 25 May 2023 22:13:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48254 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S241531AbjEYPgr (ORCPT
+        with ESMTP id S229689AbjEZCNj (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 25 May 2023 11:36:47 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8482699
-        for <linux-nilfs@vger.kernel.org>; Thu, 25 May 2023 08:36:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=s31663417; t=1685029003; x=1685633803; i=schwidom@gmx.net;
- bh=l1HpxwgYBwJMik7MEg3PiDhT6iVJvQDPw/OFM6Zsphk=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=WC/Ek5VQJh2NjxYpiOn2m/lGnN795oTU16lG0POh2oeCpJf5WQZ04YQJIozuQ5AQxWKCeLX
- hFl5hhBKZexR6SpIZCZASiewq9ytZwfwPfSAOkgf11gNwRfh4REqEu9E5uby7gAyAGsnPrC+h
- MHrDgFVp43whi1foB0KY0FT2jyqvJZsovm26V66jwRj4+4s9WVRaLVG146qETVbO/mNWsAjcs
- Fd2+XaYtDo+BBAbLyzQGKLwJ4Y0tZXjle0zEPm3l8ahpp8jsxdesik06C4knFsA9iXp7vBU7+
- Qwzj8nld2lOYsK1f9gHzhoRXC6BdJYp5fqp/8kzYXzLA+mjciolA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from debian64 ([46.114.178.189]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MatVb-1qYFua1uJP-00cRal for
- <linux-nilfs@vger.kernel.org>; Thu, 25 May 2023 17:36:43 +0200
-Received: from ox by debian64 with local (Exim 4.92)
-        (envelope-from <schwidom@gmx.net>)
-        id 1q2Cje-0003qf-Jp
-        for linux-nilfs@vger.kernel.org; Thu, 25 May 2023 17:18:38 +0200
-Date:   Thu, 25 May 2023 17:18:38 +0200
-From:   Frank Schwidom <schwidom@gmx.net>
-To:     linux-nilfs@vger.kernel.org
-Subject: Is it possible to restore the state of a nilfs2 partition after
- deleting files?
-Message-ID: <20230525151838.GA5174@debian64>
+        Thu, 25 May 2023 22:13:39 -0400
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25F3F135;
+        Thu, 25 May 2023 19:13:38 -0700 (PDT)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-64d2a613ec4so329377b3a.1;
+        Thu, 25 May 2023 19:13:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685067217; x=1687659217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QSOPIG+RVxNo5vuZ8u1mK3wQtN0fLH9sHRFk/xhggWM=;
+        b=fWeyP/8nk9xU/iNM5QXfW7bydffNvcJsXC8JYMMKylO6va0zhO/DV8A9umLRlFKojx
+         2k3zjZsFNoKCV7q7n7iQ1ebl8rnbr84jaEhJR4dnOvdBt/ohZyiCfwf3OuqyDyA1d0Se
+         dBaIeofXNexP2+vnK1kI6iXZhBpeChTfcemI7Olc01psaRbP7yFGhhI6t3o2CJHAFOJo
+         5/g4jVO12rpPfKlA3F/vQUMn2v1idL50K1gi/Ew/mDIXZXtbBEUou1787rxHODaJClNF
+         jjQFH7vllLxmWEMSXRqKzXSs+QnRJprMOMz4GwxqpFdf0nUEd9QDWEK5pZVwK8YVrqOL
+         ykKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685067217; x=1687659217;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QSOPIG+RVxNo5vuZ8u1mK3wQtN0fLH9sHRFk/xhggWM=;
+        b=VI6qC9vTsXd54I4fAy70ovlPlUmYNFEi49uz16cwga4EKSMMXui/MvtxGNanMSzbe1
+         JlkAGPdrQnN1ouJTpSHac7O7tCjoPvmM/WdGaUpE9OtoCeVNefzwj9yY9UW1sHsaem0g
+         VjXLTPppHuMKyLklMsXvbBYBQdjIFgxfE+mXcfZK4WDxJav402ze59SMrYKa4OVGYnea
+         UEeAu+V0e7n3ZAST2QT+Rt52esrkj8Pmf42c9XJr4Q12vYzyFOzQqPcMQACDE4pvYQY6
+         HGPDQz1Ov54sUxuOgo7ACtbYcRLgy2EY5iphcVVGVNGzlwIj+veYyZE7hAWaYe0WyQyq
+         l3zQ==
+X-Gm-Message-State: AC+VfDyBsducReub7nTLpCThbhDbKah7Tyzvl+kh2UD3/WSGijKOevyi
+        IsckkjjErtYzgf+FSG3/7KM=
+X-Google-Smtp-Source: ACHHUZ7MXGfaWQfVHJ/bCrsXckzCKDWz/PXc0fmyH9C5/ZlxGG3jQ5g5BRSXfFj9L8rOTxVWwgJQ7A==
+X-Received: by 2002:a05:6a00:21d3:b0:63b:5496:7afa with SMTP id t19-20020a056a0021d300b0063b54967afamr1209354pfj.11.1685067217318;
+        Thu, 25 May 2023 19:13:37 -0700 (PDT)
+Received: from carrot.. (i220-108-176-104.s42.a014.ap.plala.or.jp. [220.108.176.104])
+        by smtp.gmail.com with ESMTPSA id n2-20020a62e502000000b0064ccfb73cb8sm1740620pff.46.2023.05.25.19.13.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 May 2023 19:13:36 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+7d50f1e54a12ba3aeae2@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org
+Subject: [PATCH] nilfs2: reject devices with insufficient block count
+Date:   Fri, 26 May 2023 11:13:32 +0900
+Message-Id: <20230526021332.3431-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
-X-Provags-ID: V03:K1:g1mw5aLChO2mtJKNwcbF3Hwqq41+RjzXZIiME+PBPheqwq1tICe
- Ft2PYC8iOSVRGyO55r70/qyXz0BgLruXVwL0ijlrtzm/KgRSZPIkNfKng/CflhOnHZ+r2t2
- 1BaZJe5EqSc+I2z15vR+PO1kd4vnTkcI79R3eVZKjRRO6xPtmWJlOfy1CJv39J+oSN9d/Px
- 2bJqCRSGXVD2+/1MxMq+w==
-UI-OutboundReport: notjunk:1;M01:P0:cGlf33+hblk=;IVzUXS1mSEvJzlz9F0XTFSCidkR
- vhJUwcYXMmi/xi9ddW5cJSME1sy15Qwk/utRa+qQEEqBEAJ3LH7Nlwkqn+2pUsWz1pznT/KJ7
- tM180/uHtvOozt4bClSRWrwTQX6y2D1JxHYvv0mNC5Ma+tRRWzv5YV98XqX1v/gDuFtxYH2BS
- BrOFaDkzuJWIt5I429itG5QJ86Ay+qhyi09f8MJz7uXd7k7P20jTfesK7ug7txX4224OuLcur
- 70LN/0c/osqP1g95yRwu01J1Dka3p0puxoBy+e6sSyyRU6eKe+neMnpFOmL+11PY9XznES8qV
- kSIpvEkJ6X47GDJdkYyXu/Mj/XVgUb1w4D7Tcdq9dy43LTNRTZEM64bxQssjhJDVP/V/HxcOY
- 9h68BAyDWElgy9GZIO88zse+CbeeYrlmSD9cuD5y5gFjJu1Tl69m6TIqWs4BXL6KaLtbHw7e+
- 8b0/mHddqjt5dDdVhnV1dnoRBy8o3C+dDE/vlwSKrrkFe/Arv/PR2EfVOdOSG6WaBVwE8bpXL
- fi12z9KqpCKPFu3O5HhxiLOCKaanBO/yUGSuYtgVXJrwZTs9CX5NrImjAzL92L5zSeHMO+WAQ
- w4/byK1UW5uxWx32uluT353u+p7jeg8SuMrav3lEFTtzYEWgTdfQTWBVhN0Js3+SLgL3ieNnF
- EdzyoUp1OizfZst7GM53Mn+1B9znfNQSLFr093/BqdWgZNqs/4L4pJmnV9PnQlQzAHru84Z36
- M7DcZWimD4s54rutC5/8QWzXsOSS5Izmj1V/YOnz2im2x/I24P4PgcViU4SezSbT54YcOTzfn
- FWBjpKUhxyM/kK/+TfV2DqE7VvFqmIeEt4uqJg86wG/UHUvbx5EJuDOe5Es1G33462hQEXzQ6
- A/Zh2fM0H5oo4d9hqzYxUxrX71uVEw8/FGJVJCBeDFxqFQhKB2VDOGkSuUEkinhhwbhU3iJoG
- N/AuDAYKH5Yo7L2MEiQZkWsW3KI=
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_MUA_MOZILLA,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hi,
+The current sanity check for nilfs2 geometry information lacks checks for
+the number of segments stored in superblocks, so even for device images
+that have been destructively truncated or have an unusually high number
+of segments, the mount operation may succeed.
 
-is it anyhow possible to set the state of a nilfs2 partition to the latest
-checkpoint or snapshot?
+This causes out-of-bounds block I/O on file system block reads or log
+writes to the segments, the latter in particular causing
+"a_ops->writepages" to repeatedly fail, resulting in sync_inodes_sb()
+to hang.
 
-(I am using nilfs-tools 2.2.7-1 on
-Linux debian64 5.10.0-0.deb10.16-amd64 #1 SMP Debian 5.10.127-2~bpo10+1 (2=
-022-07-28) x86_64 GNU/Linux)
+Fix this issue by checking the number of segments stored in the
+superblock and avoiding mounting devices that can cause out-of-bounds
+accesses.  To eliminate the possibility of overflow when calculating the
+number of blocks required for the device from the number of segments,
+this also adds a helper function to calculate the upper bound on the
+number of segments and inserts a check using it.
 
-Thanks in advance,
-Frank
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+7d50f1e54a12ba3aeae2@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=7d50f1e54a12ba3aeae2
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ fs/nilfs2/the_nilfs.c | 43 ++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 42 insertions(+), 1 deletion(-)
+
+diff --git a/fs/nilfs2/the_nilfs.c b/fs/nilfs2/the_nilfs.c
+index 2894152a6b25..0f0667957c81 100644
+--- a/fs/nilfs2/the_nilfs.c
++++ b/fs/nilfs2/the_nilfs.c
+@@ -405,6 +405,18 @@ unsigned long nilfs_nrsvsegs(struct the_nilfs *nilfs, unsigned long nsegs)
+ 				  100));
+ }
+ 
++/**
++ * nilfs_max_segment_count - calculate the maximum number of segments
++ * @nilfs: nilfs object
++ */
++static u64 nilfs_max_segment_count(struct the_nilfs *nilfs)
++{
++	u64 max_count = U64_MAX;
++
++	do_div(max_count, nilfs->ns_blocks_per_segment);
++	return min_t(u64, max_count, ULONG_MAX);
++}
++
+ void nilfs_set_nsegments(struct the_nilfs *nilfs, unsigned long nsegs)
+ {
+ 	nilfs->ns_nsegments = nsegs;
+@@ -414,6 +426,8 @@ void nilfs_set_nsegments(struct the_nilfs *nilfs, unsigned long nsegs)
+ static int nilfs_store_disk_layout(struct the_nilfs *nilfs,
+ 				   struct nilfs_super_block *sbp)
+ {
++	u64 nsegments, nblocks;
++
+ 	if (le32_to_cpu(sbp->s_rev_level) < NILFS_MIN_SUPP_REV) {
+ 		nilfs_err(nilfs->ns_sb,
+ 			  "unsupported revision (superblock rev.=%d.%d, current rev.=%d.%d). Please check the version of mkfs.nilfs(2).",
+@@ -457,7 +471,34 @@ static int nilfs_store_disk_layout(struct the_nilfs *nilfs,
+ 		return -EINVAL;
+ 	}
+ 
+-	nilfs_set_nsegments(nilfs, le64_to_cpu(sbp->s_nsegments));
++	nsegments = le64_to_cpu(sbp->s_nsegments);
++	if (nsegments > nilfs_max_segment_count(nilfs)) {
++		nilfs_err(nilfs->ns_sb,
++			  "segment count %llu exceeds upper limit (%llu segments)",
++			  (unsigned long long)nsegments,
++			  (unsigned long long)nilfs_max_segment_count(nilfs));
++		return -EINVAL;
++	}
++
++	nblocks = sb_bdev_nr_blocks(nilfs->ns_sb);
++	if (nblocks) {
++		u64 min_block_count = nsegments * nilfs->ns_blocks_per_segment;
++		/*
++		 * To avoid failing to mount early device images without a
++		 * second superblock, exclude that block count from the
++		 * "min_block_count" calculation.
++		 */
++
++		if (nblocks < min_block_count) {
++			nilfs_err(nilfs->ns_sb,
++				  "total number of segment blocks %llu exceeds device size (%llu blocks)",
++				  (unsigned long long)min_block_count,
++				  (unsigned long long)nblocks);
++			return -EINVAL;
++		}
++	}
++
++	nilfs_set_nsegments(nilfs, nsegments);
+ 	nilfs->ns_crc_seed = le32_to_cpu(sbp->s_crc_seed);
+ 	return 0;
+ }
+-- 
+2.34.1
+
