@@ -2,98 +2,93 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E75E1712B15
-	for <lists+linux-nilfs@lfdr.de>; Fri, 26 May 2023 18:53:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 133AC714698
+	for <lists+linux-nilfs@lfdr.de>; Mon, 29 May 2023 10:50:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229928AbjEZQxA (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 26 May 2023 12:53:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50272 "EHLO
+        id S231724AbjE2Iu5 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 29 May 2023 04:50:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229816AbjEZQw7 (ORCPT
+        with ESMTP id S231676AbjE2Iuu (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 26 May 2023 12:52:59 -0400
-Received: from mail-vs1-xe2b.google.com (mail-vs1-xe2b.google.com [IPv6:2607:f8b0:4864:20::e2b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A146194
-        for <linux-nilfs@vger.kernel.org>; Fri, 26 May 2023 09:52:57 -0700 (PDT)
-Received: by mail-vs1-xe2b.google.com with SMTP id ada2fe7eead31-4394217a8cbso277035137.1
-        for <linux-nilfs@vger.kernel.org>; Fri, 26 May 2023 09:52:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1685119976; x=1687711976;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fzVX/dRsBr5sMa8u/NKVlw4EJ4PLR20vgYyRYRJxLiY=;
-        b=q4MBFpATEPmly2PzO/jnwWBqvdtvMH0m3x4+NPSh0Te+PcGcswVLwChsupBVDJx6Ee
-         HsIiVoLhpfb7CjSc23aobzZ1p5G0TR62JLokUv0bTuGUhFfjaClwpYv3MBhSPYWTmVw9
-         9GKpnjmwxeUvTD2spTjR9c+CeYd0dwiUixy4NCC73EDl3mXjFBZ8WBGrf0lGWlxolO3U
-         PhAXNzs/6Xa/FA2Ou1RRfsQSLm3TxNnPKhIJIDzhAclDdwFDr6cEJB9XMHrS4d+8IrFP
-         Hq3WDy2dSRf2Z73yY5A7X6uVGbEKq9ttJnpCVMrdqnOSplk/w2j7RSsqBMmFoCQ8Qp/1
-         kJxg==
+        Mon, 29 May 2023 04:50:50 -0400
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CAAFC2
+        for <linux-nilfs@vger.kernel.org>; Mon, 29 May 2023 01:50:47 -0700 (PDT)
+Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-76998d984b0so489341739f.2
+        for <linux-nilfs@vger.kernel.org>; Mon, 29 May 2023 01:50:47 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685119976; x=1687711976;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fzVX/dRsBr5sMa8u/NKVlw4EJ4PLR20vgYyRYRJxLiY=;
-        b=f0Zs3w86D/W6oXbJ0oypSa8PFFuM1rxTP0+npIaBph2nv0/oouzCKrDaOiVGGJhtkD
-         pLeNeTDU8zxbD/UGiinllpzsaEA/xQiMLsQ7279ps5pqI5VqSq5KEWCtaG21JflvtBGS
-         TE7U/vKVu7X36Ti7yX6PzZYeguQCjo+2KqCTVOnyeUGqA0E/xA6Hvt/k8wWxSo7cIEyG
-         ac0wG6bCfdNqZGmwGOvjX10QdDz7cvBo57UeqtVEYTnKFe2b1DAwul/+vQITMZGKQEek
-         mSAzAEBcArxOYVKnFZCumiKPIBk7pTiB1nU6zqnUnp3vS6fGcBB+XcGsbqLBSBE3JXFZ
-         FE3A==
-X-Gm-Message-State: AC+VfDz1PpS5JLV64OR7h5lBTHOqXO+Sj/YP4+yQ4JEArf3eVkhRA8JI
-        Xl8ln9+F0+tFJuIE3ZW88SvvL/kye+py+GiN3fvy81qVfd8kMA==
-X-Google-Smtp-Source: ACHHUZ5MjhEwzrklnUkfQzJ7lcj5mvbT8rMjxVSFS+1bsHBj5wvn9f2JJh3x6Wvx7rErKhVO7ClW3rSQdE/CanD+Xrg=
-X-Received: by 2002:a67:e2c7:0:b0:439:558f:4cd2 with SMTP id
- i7-20020a67e2c7000000b00439558f4cd2mr727756vsm.11.1685119976363; Fri, 26 May
- 2023 09:52:56 -0700 (PDT)
+        d=1e100.net; s=20221208; t=1685350246; x=1687942246;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+Pzz//WLGisQRMA9EGKGwqNxwnucK0kg6ldl5wEv+QQ=;
+        b=F1SD/id7/7nIosC+9/9Ky8ykU//g1nz/mLbv8OputZ+6/ozurF8ypdSxnEJM4uzfxY
+         yeL42E9LKPGGFrd3na9j2EIKFLXbNHsM523WqCdwoE4lcQwc+tzcBphUXyqT4QkB+oPr
+         a4o9Upldd3kw291S5DSAbuBdXgjD3lCS4+0KpNt0GK8OLSP1+oLE3lMJ/nMWPX/JtHyX
+         ys1pmMCrLSHWATZ0tP2qnwt4vH6hsYVNTe3jCA9HiW+C2OeQmVEz83O3T8DdBskT9uFR
+         +OO35zXfdJlRNOqA0Jufe5FSTcNLs0M8XTxhXOhxKBNp37LI5dDakIHzXTVdo/BcXMvz
+         OPyg==
+X-Gm-Message-State: AC+VfDwDBPogezsMakKQGLLGfg2y8dHPBn8F2hZVsvwLu8EG6mysIXkN
+        OJ6KuZgXJan9Cbi9/Ij5Thm38CvCCRyjHUb4nZbqPfXIV8Fs
+X-Google-Smtp-Source: ACHHUZ7R5D27DvtOZs60rj3g1XmpdKg+EQ2CMLp/eBrrsJw7DjzN7Fl57zdlWtSWfEmPXaHomr6+OpG9TeWidPoXMdrpuQsEnZ7f
 MIME-Version: 1.0
-References: <20230525151838.GA5174@debian64>
-In-Reply-To: <20230525151838.GA5174@debian64>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Sat, 27 May 2023 01:52:39 +0900
-Message-ID: <CAKFNMok+C43Y1jCzyP-iUXB3rV_X60aui7J4aaa1rK6-ZtCcnw@mail.gmail.com>
-Subject: Re: Is it possible to restore the state of a nilfs2 partition after
- deleting files?
-To:     Frank Schwidom <schwidom@gmx.net>
-Cc:     linux-nilfs@vger.kernel.org
+X-Received: by 2002:a6b:f20d:0:b0:759:25eb:210d with SMTP id
+ q13-20020a6bf20d000000b0075925eb210dmr3456023ioh.0.1685350246468; Mon, 29 May
+ 2023 01:50:46 -0700 (PDT)
+Date:   Mon, 29 May 2023 01:50:46 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c358c205fcd12e02@google.com>
+Subject: [syzbot] Monthly nilfs report (May 2023)
+From:   syzbot <syzbot+list49de8182d696bb4d450d@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri, May 26, 2023 at 12:37=E2=80=AFAM Frank Schwidom wrote:
->
-> Hi,
->
-> is it anyhow possible to set the state of a nilfs2 partition to the lates=
-t
-> checkpoint or snapshot?
+Hello nilfs maintainers/developers,
 
-Unfortunately there is no special command to do that easily.
+This is a 31-day syzbot report for the nilfs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/nilfs
 
-Instead, since NILFS can mount the current tree at the same time as
-the snapshot, it is common to mount them on two directories at the
-same time and write back part or all of the snapshot to the current
-tree using rsync or so.
+During the period, 1 new issues were detected and 3 were fixed.
+In total, 14 issues are still open and 29 have been fixed so far.
 
-If you're expecting native filesystem functionality, sorry for the
-inconvenience, but the answer is no.
+Some of the still happening issues:
 
-Regards,
-Ryusuke Konishi
+Ref Crashes Repro Title
+<1> 718     Yes   WARNING in nilfs_btree_assign
+                  https://syzkaller.appspot.com/bug?extid=31837fe952932efc8fb9
+<2> 324     Yes   WARNING in nilfs_sufile_set_segment_usage
+                  https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
+<3> 203     No    INFO: task hung in path_openat (7)
+                  https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
+<4> 60      Yes   INFO: task hung in nilfs_detach_log_writer
+                  https://syzkaller.appspot.com/bug?extid=e3973c409251e136fdd0
+<5> 31      Yes   kernel BUG in folio_end_writeback
+                  https://syzkaller.appspot.com/bug?extid=7e5cf1d80677ec185e63
+<6> 3       Yes   general protection fault in folio_create_empty_buffers
+                  https://syzkaller.appspot.com/bug?extid=0ad741797f4565e7e2d2
 
->
-> (I am using nilfs-tools 2.2.7-1 on
-> Linux debian64 5.10.0-0.deb10.16-amd64 #1 SMP Debian 5.10.127-2~bpo10+1 (=
-2022-07-28) x86_64 GNU/Linux)
->
-> Thanks in advance,
-> Frank
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
