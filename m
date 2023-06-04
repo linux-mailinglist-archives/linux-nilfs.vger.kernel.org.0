@@ -2,52 +2,52 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 133AC714698
-	for <lists+linux-nilfs@lfdr.de>; Mon, 29 May 2023 10:50:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6B57213E6
+	for <lists+linux-nilfs@lfdr.de>; Sun,  4 Jun 2023 02:36:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231724AbjE2Iu5 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 29 May 2023 04:50:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52490 "EHLO
+        id S229719AbjFDAf6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 3 Jun 2023 20:35:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231676AbjE2Iuu (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 29 May 2023 04:50:50 -0400
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CAAFC2
-        for <linux-nilfs@vger.kernel.org>; Mon, 29 May 2023 01:50:47 -0700 (PDT)
-Received: by mail-io1-f71.google.com with SMTP id ca18e2360f4ac-76998d984b0so489341739f.2
-        for <linux-nilfs@vger.kernel.org>; Mon, 29 May 2023 01:50:47 -0700 (PDT)
+        with ESMTP id S229546AbjFDAf5 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 3 Jun 2023 20:35:57 -0400
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 516E719A
+        for <linux-nilfs@vger.kernel.org>; Sat,  3 Jun 2023 17:35:56 -0700 (PDT)
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-770222340cfso235967039f.3
+        for <linux-nilfs@vger.kernel.org>; Sat, 03 Jun 2023 17:35:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1685350246; x=1687942246;
+        d=1e100.net; s=20221208; t=1685838955; x=1688430955;
         h=to:from:subject:message-id:date:mime-version:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+Pzz//WLGisQRMA9EGKGwqNxwnucK0kg6ldl5wEv+QQ=;
-        b=F1SD/id7/7nIosC+9/9Ky8ykU//g1nz/mLbv8OputZ+6/ozurF8ypdSxnEJM4uzfxY
-         yeL42E9LKPGGFrd3na9j2EIKFLXbNHsM523WqCdwoE4lcQwc+tzcBphUXyqT4QkB+oPr
-         a4o9Upldd3kw291S5DSAbuBdXgjD3lCS4+0KpNt0GK8OLSP1+oLE3lMJ/nMWPX/JtHyX
-         ys1pmMCrLSHWATZ0tP2qnwt4vH6hsYVNTe3jCA9HiW+C2OeQmVEz83O3T8DdBskT9uFR
-         +OO35zXfdJlRNOqA0Jufe5FSTcNLs0M8XTxhXOhxKBNp37LI5dDakIHzXTVdo/BcXMvz
-         OPyg==
-X-Gm-Message-State: AC+VfDwDBPogezsMakKQGLLGfg2y8dHPBn8F2hZVsvwLu8EG6mysIXkN
-        OJ6KuZgXJan9Cbi9/Ij5Thm38CvCCRyjHUb4nZbqPfXIV8Fs
-X-Google-Smtp-Source: ACHHUZ7R5D27DvtOZs60rj3g1XmpdKg+EQ2CMLp/eBrrsJw7DjzN7Fl57zdlWtSWfEmPXaHomr6+OpG9TeWidPoXMdrpuQsEnZ7f
+        bh=1+Fa1Sb0xRcOOP/IGgofEUyl/eChZL4ZfhofxtA5tw8=;
+        b=icPO6Xfgccew+J4y+q8U8N43v7+Jv5pIhzpMED7CgR0QulW/IH7toyTbiFzUqbTxIt
+         3XgF1moyMTUqeWZeOZ4ROnBBtFSAjWZmJlNY5AZpRW8547/1s+9SVab3RcE/eWGDR4Zo
+         ZVIG8dpnei4vRKTFY0iqlpt5QfPakSahpb+XWHmfi78T9SmRYiiIb530kwjYeI/nz2+6
+         NfSjY90/7h/fbdTrZY45GvBn3PEp3cjkGQMgwi1aZ7tkG3hGISkV8uvbCvo1/SXFZ715
+         APDPCmUdpi12gQe400+7c3n9JlebdWgQOsQdWSDfPrNbo3Zomrt3kxxzvNmjRdazP6/D
+         15Sw==
+X-Gm-Message-State: AC+VfDwLBK21k3T+Z5fcY3kxrRAtqn2AXz5TX8fhXoJzYKhHyiGmr2/N
+        VCRgPOfcbYJo8S63et5RP6stzne1aHgkWWT54TRwvc3mcUQV
+X-Google-Smtp-Source: ACHHUZ78vzo3Rjc2DmT9M5pPpJ7gIXkQ9GfaWQgicZ9pV2vu8oZhESAYQC3ATZIBM5OZietck5Y0Xx5Vjq3qaQ32aYKeQX9aqA8y
 MIME-Version: 1.0
-X-Received: by 2002:a6b:f20d:0:b0:759:25eb:210d with SMTP id
- q13-20020a6bf20d000000b0075925eb210dmr3456023ioh.0.1685350246468; Mon, 29 May
- 2023 01:50:46 -0700 (PDT)
-Date:   Mon, 29 May 2023 01:50:46 -0700
+X-Received: by 2002:a92:d405:0:b0:331:ac80:cca0 with SMTP id
+ q5-20020a92d405000000b00331ac80cca0mr5642267ilm.6.1685838955651; Sat, 03 Jun
+ 2023 17:35:55 -0700 (PDT)
+Date:   Sat, 03 Jun 2023 17:35:55 -0700
 X-Google-Appengine-App-Id: s~syzkaller
 X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c358c205fcd12e02@google.com>
-Subject: [syzbot] Monthly nilfs report (May 2023)
-From:   syzbot <syzbot+list49de8182d696bb4d450d@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
+Message-ID: <00000000000019a97c05fd42f8c8@google.com>
+Subject: [syzbot] [nilfs?] kernel BUG in end_buffer_async_write
+From:   syzbot <syzbot+5c04210f7c7f897c1e7f@syzkaller.appspotmail.com>
+To:     brauner@kernel.org, konishi.ryusuke@gmail.com,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        viro@zeniv.linux.org.uk
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
         HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -55,40 +55,97 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello nilfs maintainers/developers,
+Hello,
 
-This is a 31-day syzbot report for the nilfs subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/nilfs
+syzbot found the following issue on:
 
-During the period, 1 new issues were detected and 3 were fixed.
-In total, 14 issues are still open and 29 have been fixed so far.
+HEAD commit:    51f269a6ecc7 Merge tag 'probes-fixes-6.4-rc4' of git://git..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=15ed0e7d280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3da6c5d3e0a6c932
+dashboard link: https://syzkaller.appspot.com/bug?extid=5c04210f7c7f897c1e7f
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1336c6b5280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12c0a5a5280000
 
-Some of the still happening issues:
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/8a8c8e41a6b0/disk-51f269a6.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/ffc3737b4233/vmlinux-51f269a6.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/d49888e5beb1/bzImage-51f269a6.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/99d35f050c12/mount_0.gz
 
-Ref Crashes Repro Title
-<1> 718     Yes   WARNING in nilfs_btree_assign
-                  https://syzkaller.appspot.com/bug?extid=31837fe952932efc8fb9
-<2> 324     Yes   WARNING in nilfs_sufile_set_segment_usage
-                  https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
-<3> 203     No    INFO: task hung in path_openat (7)
-                  https://syzkaller.appspot.com/bug?extid=950a0cdaa2fdd14f5bdc
-<4> 60      Yes   INFO: task hung in nilfs_detach_log_writer
-                  https://syzkaller.appspot.com/bug?extid=e3973c409251e136fdd0
-<5> 31      Yes   kernel BUG in folio_end_writeback
-                  https://syzkaller.appspot.com/bug?extid=7e5cf1d80677ec185e63
-<6> 3       Yes   general protection fault in folio_create_empty_buffers
-                  https://syzkaller.appspot.com/bug?extid=0ad741797f4565e7e2d2
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+5c04210f7c7f897c1e7f@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+kernel BUG at fs/buffer.c:391!
+invalid opcode: 0000 [#1] PREEMPT SMP KASAN
+CPU: 0 PID: 15 Comm: ksoftirqd/0 Not tainted 6.4.0-rc4-syzkaller-00268-g51f269a6ecc7 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
+RIP: 0010:end_buffer_async_write+0x2db/0x340 fs/buffer.c:391
+Code: 65 00 fe 4c 89 ff e8 d4 a3 ff ff be 08 00 00 00 48 89 c7 48 89 c3 e8 b4 31 e0 ff f0 80 4b 01 01 e9 07 fe ff ff e8 45 62 8d ff <0f> 0b e8 3e 62 8d ff 0f 0b 48 89 df e8 34 2b e0 ff e9 d9 fe ff ff
+RSP: 0018:ffffc90000147c98 EFLAGS: 00010246
+
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000100
+RDX: ffff88801664bb80 RSI: ffffffff81f6e3fb RDI: 0000000000000001
+RBP: ffff88806fbde570 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: ffffffff81f6e120 R14: ffff88801e24ee00 R15: ffff88802a45a788
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f42b45b0000 CR3: 000000007b04a000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ end_bio_bh_io_sync+0xde/0x130 fs/buffer.c:2730
+ bio_endio+0x5af/0x6c0 block/bio.c:1608
+ req_bio_endio block/blk-mq.c:761 [inline]
+ blk_update_request+0x5c5/0x1620 block/blk-mq.c:906
+ blk_mq_end_request+0x59/0x4c0 block/blk-mq.c:1023
+ lo_complete_rq+0x1c6/0x280 drivers/block/loop.c:370
+ blk_complete_reqs+0xad/0xe0 block/blk-mq.c:1101
+ __do_softirq+0x1d4/0x905 kernel/softirq.c:571
+ run_ksoftirqd kernel/softirq.c:939 [inline]
+ run_ksoftirqd+0x31/0x60 kernel/softirq.c:931
+ smpboot_thread_fn+0x659/0x9e0 kernel/smpboot.c:164
+ kthread+0x344/0x440 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:end_buffer_async_write+0x2db/0x340 fs/buffer.c:391
+Code: 65 00 fe 4c 89 ff e8 d4 a3 ff ff be 08 00 00 00 48 89 c7 48 89 c3 e8 b4 31 e0 ff f0 80 4b 01 01 e9 07 fe ff ff e8 45 62 8d ff <0f> 0b e8 3e 62 8d ff 0f 0b 48 89 df e8 34 2b e0 ff e9 d9 fe ff ff
+RSP: 0018:ffffc90000147c98 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000100
+RDX: ffff88801664bb80 RSI: ffffffff81f6e3fb RDI: 0000000000000001
+RBP: ffff88806fbde570 R08: 0000000000000001 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000000 R12: 0000000000000001
+R13: ffffffff81f6e120 R14: ffff88801e24ee00 R15: ffff88802a45a788
+FS:  0000000000000000(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f42b45b0000 CR3: 000000007b04a000 CR4: 0000000000350ef0
+
 
 ---
 This report is generated by a bot. It may contain errors.
 See https://goo.gl/tpsmEJ for more information about syzbot.
 syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-You may send multiple commands in a single email message.
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
