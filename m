@@ -2,57 +2,57 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F96D725AE0
-	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:43:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 02F1B725AE6
+	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237902AbjFGJm6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 7 Jun 2023 05:42:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58002 "EHLO
+        id S239922AbjFGJnt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 7 Jun 2023 05:43:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239068AbjFGJmz (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:42:55 -0400
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD223E49
-        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:42:52 -0700 (PDT)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5149e65c218so1169516a12.2
-        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:42:52 -0700 (PDT)
+        with ESMTP id S235674AbjFGJns (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:43:48 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DB5B1BD3
+        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:43:41 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5149e65c244so929320a12.3
+        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1686130971; x=1688722971;
+        d=ionos.com; s=google; t=1686131019; x=1688723019;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iTSJC08M16dk7ac+qC1NLiFtaB9M/5yyS+Z15P92ssA=;
-        b=T8ER5TNAg8z1wij3zxfOUWFCDItlghCiuUXhsaqzc4ZwLofamB8RtpTyQLSVJ9h2UJ
-         K5p37hopSMXQsov3IbM/+pXTCPYzGIBfMzkaAwZATA27zGzqc2RsatdEeeSYzb8OJe7S
-         EtKjbCR7ypq1BPl33V5iDYjnSNzEbZ8SSmlT2bsu8chvDUII0Eyuhqg1weJGkPNF54UA
-         at62NLYWJFIfELcet832L35oN/vTBLLRmhbv4E6euKkZT5GIkiCfz/SvQVjjr0TSQFn4
-         eMDgRORV7ULS7YCAm2XXby1mXqhN+JgUeFWJ6iq0dvTYt+w3IowjHJDt6ezXaXQ0V0f7
-         BdPw==
+        bh=h7De2dV56C4HlWldqRhiqrthNBSi3YmqE+PsGIwemH4=;
+        b=Fxs73X18plukFoRmWCEATURAToiPof++AhV2rd1/T2MKXGmjDCPWn+q8ZXibWIJoCl
+         fHfu9DBj0R01NVvwasXQiY0lKT1FhoYR2X+c5jE2FnzXFR9NQ6iXute09sA4dYi5/gck
+         psOWHas6uKWqFB5zNcQ7IrWLWew12mqmJwAS2YNr2ADMxS+LziF4JcFGcR/G6Q7NeZ7C
+         gnc9umHxHhpwxSNb/FTgvTAZTX6T0jxAAcpIFEs4lHfCZdM6nb4VJD4c8dc11CL9vYmB
+         PP/GUtutiKFcuL2dMJlAWegEn3D5UBxmkW546B+kzx0X64ETqnOp9+wz6iaKHcNDX6z+
+         mItQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686130971; x=1688722971;
+        d=1e100.net; s=20221208; t=1686131019; x=1688723019;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iTSJC08M16dk7ac+qC1NLiFtaB9M/5yyS+Z15P92ssA=;
-        b=AmZdgLWCXJcX2cKcumpUSi92wslJEeQvv40f2oh/pQQVFeQGjsofNwCzxAsUZOkD9/
-         VOBZ2jgVAlBkrtXKR6I3Ea0ZkBd4rjLgwD30WujbWmINkZadgcDn0dxnSqo2rbL+T3Pc
-         DS7xLhBzm9Z76CJ13gct+E4nsK92h5sAwnM3NsfOSG/u7tOb/Z063dzNjv8nrmdB5S5m
-         298ji2iMkM90caLqrcXRM9OJBDJ67str3I7GDWVqSIFR8TiEAx4tEwB3BSSQ206vphTz
-         ZPIt3TtyEABwYPjZrEO8Mg9gRue2f01vbo1ivGPyJOdH/dTn3Jbc9wbBkpSfdeShjZ+i
-         7YDQ==
-X-Gm-Message-State: AC+VfDxLfcGGPfg+jUnITcNTkRXtz9kmYEpxypyYh8D+pHsgeokoKDPQ
-        37XXU5B6VBha0v161+5ZwF0IEVZJ/lDJfF2/zIr4gQ==
-X-Google-Smtp-Source: ACHHUZ5i8f5AUVXLioiA4Msh4foVuVuox1MKnFKi4fucw3rKEDDzkk1m6bVkvWRpki6Lz1RgGXGnv70bM2LGvyL4BxY=
-X-Received: by 2002:aa7:cd55:0:b0:514:8e6f:7113 with SMTP id
- v21-20020aa7cd55000000b005148e6f7113mr3506396edw.22.1686130971195; Wed, 07
- Jun 2023 02:42:51 -0700 (PDT)
+        bh=h7De2dV56C4HlWldqRhiqrthNBSi3YmqE+PsGIwemH4=;
+        b=IPCU/3PpWsjlLBQITNs56WKIUjo2t/zHsOjvgXLqQLqAOXTv7QB+17FfkV4RphR0fM
+         yMeV8l38Gs3X7VAESsJ9eFH+HRm7qvCwRo/20Y3qRXiXdhuu/jJNSYzl0hpG8uS0x9nc
+         C5BxxAW5mvijeoqdW/q6orYUeqs8Fu8ySpDvUvNNq3FSMTKuINr6L5HdxO7oBBu4gU44
+         uKSN9npQ2c5tNG6wOUUiV3YeW3j7DaX4I+GA9r6I7Om2gi9Oqi40vSMdumyrWbxslXNv
+         BHFa3JNnvn4YX1JHqX9/mK4daPAZGuhwROVOffGpbblERnm1H4mIuM7FGh55TjmBU6gO
+         THGA==
+X-Gm-Message-State: AC+VfDx8VMBkImuAMcOtx+DlMt4GuheGsodNh5E3p7ajV9ydzlV8jkBu
+        Vjiak1Uc8TqQEbrqvcFPl9q+IpOCWVCom2/R+j4pcw==
+X-Google-Smtp-Source: ACHHUZ5Zsd3dLhUTQg2QCup0RdocqPkCkN0n7M2rugZo5XtKl4/VHXYLtkyrTBeTzA0h2H5Q3Eo78GSAj7z6EomEI0Y=
+X-Received: by 2002:aa7:c6c8:0:b0:514:7f39:aa82 with SMTP id
+ b8-20020aa7c6c8000000b005147f39aa82mr3567915eds.27.1686131019731; Wed, 07 Jun
+ 2023 02:43:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-10-hch@lst.de>
-In-Reply-To: <20230606073950.225178-10-hch@lst.de>
+References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-25-hch@lst.de>
+In-Reply-To: <20230606073950.225178-25-hch@lst.de>
 From:   Jinpu Wang <jinpu.wang@ionos.com>
-Date:   Wed, 7 Jun 2023 11:42:40 +0200
-Message-ID: <CAMGffEkKpHzatfeJhKtJQMTNckJGc7sJQ_LWFg-KvazvOD4DWw@mail.gmail.com>
-Subject: Re: [PATCH 09/31] block: pass a gendisk to ->open
+Date:   Wed, 7 Jun 2023 11:43:28 +0200
+Message-ID: <CAMGffEnM-XmQWjBu8EmXxFPouH9uQX45gL2PFW5vQJu5OaaYjA@mail.gmail.com>
+Subject: Re: [PATCH 24/31] rnbd-srv: replace sess->open_flags with a "bool readonly"
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
         Josef Bacik <josef@toxicpanda.com>,
@@ -86,24 +86,120 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Jun 6, 2023 at 9:40=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
+On Tue, Jun 6, 2023 at 9:41=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
 :
 >
-> ->open is only called on the whole device.  Make that explicit by
-> passing a gendisk instead of the block_device.
+> Stop passing the fmode_t around and just use a simple bool to track if
+> an export is read-only.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
+Acked-by: Jack Wang <jinpu.wang@ionos.com>
 > ---
->  arch/um/drivers/ubd_kern.c          |  5 ++---
->  arch/xtensa/platforms/iss/simdisk.c |  4 ++--
->  block/bdev.c                        |  2 +-
->  drivers/block/amiflop.c             |  8 ++++----
->  drivers/block/aoe/aoeblk.c          |  4 ++--
->  drivers/block/ataflop.c             | 16 +++++++--------
->  drivers/block/drbd/drbd_main.c      |  6 +++---
->  drivers/block/floppy.c              | 30 +++++++++++++++--------------
->  drivers/block/nbd.c                 |  8 ++++----
->  drivers/block/pktcdvd.c             |  6 +++---
->  drivers/block/rbd.c                 |  4 ++--
->  drivers/block/rnbd/rnbd-clt.c       |  4 ++--
-Acked-by: Jack Wang <jinpu.wang@ionos.com> # for rnbd
+>  drivers/block/rnbd/rnbd-srv-sysfs.c |  3 +--
+>  drivers/block/rnbd/rnbd-srv.c       | 15 +++++++--------
+>  drivers/block/rnbd/rnbd-srv.h       |  2 +-
+>  3 files changed, 9 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/block/rnbd/rnbd-srv-sysfs.c b/drivers/block/rnbd/rnb=
+d-srv-sysfs.c
+> index d5d9267e1fa5e4..ebd95771c85ec7 100644
+> --- a/drivers/block/rnbd/rnbd-srv-sysfs.c
+> +++ b/drivers/block/rnbd/rnbd-srv-sysfs.c
+> @@ -88,8 +88,7 @@ static ssize_t read_only_show(struct kobject *kobj, str=
+uct kobj_attribute *attr,
+>
+>         sess_dev =3D container_of(kobj, struct rnbd_srv_sess_dev, kobj);
+>
+> -       return sysfs_emit(page, "%d\n",
+> -                         !(sess_dev->open_flags & FMODE_WRITE));
+> +       return sysfs_emit(page, "%d\n", sess_dev->readonly);
+>  }
+>
+>  static struct kobj_attribute rnbd_srv_dev_session_ro_attr =3D
+> diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.=
+c
+> index 29d560472d05ba..b680071342b898 100644
+> --- a/drivers/block/rnbd/rnbd-srv.c
+> +++ b/drivers/block/rnbd/rnbd-srv.c
+> @@ -222,7 +222,7 @@ void rnbd_destroy_sess_dev(struct rnbd_srv_sess_dev *=
+sess_dev, bool keep_id)
+>         blkdev_put(sess_dev->bdev, NULL);
+>         mutex_lock(&sess_dev->dev->lock);
+>         list_del(&sess_dev->dev_list);
+> -       if (sess_dev->open_flags & FMODE_WRITE)
+> +       if (!sess_dev->readonly)
+>                 sess_dev->dev->open_write_cnt--;
+>         mutex_unlock(&sess_dev->dev->lock);
+>
+> @@ -561,7 +561,7 @@ static void rnbd_srv_fill_msg_open_rsp(struct rnbd_ms=
+g_open_rsp *rsp,
+>  static struct rnbd_srv_sess_dev *
+>  rnbd_srv_create_set_sess_dev(struct rnbd_srv_session *srv_sess,
+>                               const struct rnbd_msg_open *open_msg,
+> -                             struct block_device *bdev, fmode_t open_fla=
+gs,
+> +                             struct block_device *bdev, bool readonly,
+>                               struct rnbd_srv_dev *srv_dev)
+>  {
+>         struct rnbd_srv_sess_dev *sdev =3D rnbd_sess_dev_alloc(srv_sess);
+> @@ -576,7 +576,7 @@ rnbd_srv_create_set_sess_dev(struct rnbd_srv_session =
+*srv_sess,
+>         sdev->bdev              =3D bdev;
+>         sdev->sess              =3D srv_sess;
+>         sdev->dev               =3D srv_dev;
+> -       sdev->open_flags        =3D open_flags;
+> +       sdev->readonly          =3D readonly;
+>         sdev->access_mode       =3D open_msg->access_mode;
+>
+>         return sdev;
+> @@ -681,13 +681,12 @@ static int process_msg_open(struct rnbd_srv_session=
+ *srv_sess,
+>         struct rnbd_srv_sess_dev *srv_sess_dev;
+>         const struct rnbd_msg_open *open_msg =3D msg;
+>         struct block_device *bdev;
+> -       fmode_t open_flags;
+> +       fmode_t open_flags =3D FMODE_READ;
+>         char *full_path;
+>         struct rnbd_msg_open_rsp *rsp =3D data;
+>
+>         trace_process_msg_open(srv_sess, open_msg);
+>
+> -       open_flags =3D FMODE_READ;
+>         if (open_msg->access_mode !=3D RNBD_ACCESS_RO)
+>                 open_flags |=3D FMODE_WRITE;
+>
+> @@ -736,9 +735,9 @@ static int process_msg_open(struct rnbd_srv_session *=
+srv_sess,
+>                 goto blkdev_put;
+>         }
+>
+> -       srv_sess_dev =3D rnbd_srv_create_set_sess_dev(srv_sess, open_msg,
+> -                                                    bdev, open_flags,
+> -                                                    srv_dev);
+> +       srv_sess_dev =3D rnbd_srv_create_set_sess_dev(srv_sess, open_msg,=
+ bdev,
+> +                               open_msg->access_mode =3D=3D RNBD_ACCESS_=
+RO,
+> +                               srv_dev);
+>         if (IS_ERR(srv_sess_dev)) {
+>                 pr_err("Opening device '%s' on session %s failed, creatin=
+g sess_dev failed, err: %ld\n",
+>                        full_path, srv_sess->sessname, PTR_ERR(srv_sess_de=
+v));
+> diff --git a/drivers/block/rnbd/rnbd-srv.h b/drivers/block/rnbd/rnbd-srv.=
+h
+> index f5962fd31d62e4..76077a9db3dd55 100644
+> --- a/drivers/block/rnbd/rnbd-srv.h
+> +++ b/drivers/block/rnbd/rnbd-srv.h
+> @@ -52,7 +52,7 @@ struct rnbd_srv_sess_dev {
+>         struct kobject                  kobj;
+>         u32                             device_id;
+>         bool                            keep_id;
+> -       fmode_t                         open_flags;
+> +       bool                            readonly;
+>         struct kref                     kref;
+>         struct completion               *destroy_comp;
+>         char                            pathname[NAME_MAX];
+> --
+> 2.39.2
+>
