@@ -2,57 +2,57 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B8B6725ACE
-	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:41:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F96D725AE0
+	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:43:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234914AbjFGJl2 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 7 Jun 2023 05:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57190 "EHLO
+        id S237902AbjFGJm6 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 7 Jun 2023 05:42:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58002 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239230AbjFGJl1 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:41:27 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43F351731
-        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:41:25 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-510d6b939bfso1160300a12.0
-        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:41:25 -0700 (PDT)
+        with ESMTP id S239068AbjFGJmz (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:42:55 -0400
+Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD223E49
+        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:42:52 -0700 (PDT)
+Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5149e65c218so1169516a12.2
+        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1686130883; x=1688722883;
+        d=ionos.com; s=google; t=1686130971; x=1688722971;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=/hFPeu/3BJQ1XAEBfX/WbvMEVzeUhOBPi58IZ/Esj6w=;
-        b=DQ2W7u0kTQ72LzKcRWTgSG5Ic2en/sUZGdoBco91l0Mccvv0oAQBf/skoCqaEe9seE
-         +dzp3Di1fk566WbDYFELqWJPFl5MunPBPZMeITsSShGZc7BDokFlIiDQLZFB4ZrSewGv
-         3oX0GYhrvTDmISog+YzCJR1YtaZTCauUpfCjvwOk/JH+2E22rzqjqm0VAxXGE6uAZmC+
-         EGD5OJ0fSz21kp9IqsqErfAtnLdYe5oeRENAmZus9bszHTyvCXJZvWktYhQnQZuZ89iJ
-         k32HqmMpJwKqRO7v+RyJDkZmScyggr+L8hspyToZJsfDu3VkwGwgCJBAnl1PESLHhwEf
-         au/Q==
+        bh=iTSJC08M16dk7ac+qC1NLiFtaB9M/5yyS+Z15P92ssA=;
+        b=T8ER5TNAg8z1wij3zxfOUWFCDItlghCiuUXhsaqzc4ZwLofamB8RtpTyQLSVJ9h2UJ
+         K5p37hopSMXQsov3IbM/+pXTCPYzGIBfMzkaAwZATA27zGzqc2RsatdEeeSYzb8OJe7S
+         EtKjbCR7ypq1BPl33V5iDYjnSNzEbZ8SSmlT2bsu8chvDUII0Eyuhqg1weJGkPNF54UA
+         at62NLYWJFIfELcet832L35oN/vTBLLRmhbv4E6euKkZT5GIkiCfz/SvQVjjr0TSQFn4
+         eMDgRORV7ULS7YCAm2XXby1mXqhN+JgUeFWJ6iq0dvTYt+w3IowjHJDt6ezXaXQ0V0f7
+         BdPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686130883; x=1688722883;
+        d=1e100.net; s=20221208; t=1686130971; x=1688722971;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/hFPeu/3BJQ1XAEBfX/WbvMEVzeUhOBPi58IZ/Esj6w=;
-        b=BuKToICcs5cFKhhstGrY7eBvCkHW8sSXGNAeTbrcq5g7nriub4KaXh5CT5U6/lqURS
-         kpZjlUIyWe+NqYx/vZYbP66qFHS4WSX2r8yOgU3hcyL9rn3MMidxWS2CefLg1t4FqeFP
-         R6VVBXTMs1Le4QuikEG0tx7k2iyiHSA2ycNbfwupzu/LL1LHFVh3O65AIeWEVx2QQrTs
-         xa06UJzcoA9yntjWtlS+0rE4OfKZ9XRlKHTiBFY+0n64vMCyDNWN1hwaxB4gHMnegg0w
-         zgITyY5A9ExEnUw2eFvjQvPm9GiBLrmsHZbNgxLQPPIrpdKKEsFVgFjy4w85wyT7thW0
-         boJw==
-X-Gm-Message-State: AC+VfDyMMBLemQBoXEYY46JZfLP8SJpVfu4j4JDiqHuJt+G21PKvwGfv
-        jokIY2iCm4nW3s7xlAQkRH7U9E56lXmYcr/lk+d1tQ==
-X-Google-Smtp-Source: ACHHUZ78LLb5/9Eve9DZQqNC/TRa3vxkXV4pVMAtKfHjnQnscHPEcmWv/7uCCN4Q8kcsT8KuG+XDWcwCZO/ggZjCnJk=
-X-Received: by 2002:a17:907:2d8c:b0:94e:e97b:c65 with SMTP id
- gt12-20020a1709072d8c00b0094ee97b0c65mr5404803ejc.60.1686130883637; Wed, 07
- Jun 2023 02:41:23 -0700 (PDT)
+        bh=iTSJC08M16dk7ac+qC1NLiFtaB9M/5yyS+Z15P92ssA=;
+        b=AmZdgLWCXJcX2cKcumpUSi92wslJEeQvv40f2oh/pQQVFeQGjsofNwCzxAsUZOkD9/
+         VOBZ2jgVAlBkrtXKR6I3Ea0ZkBd4rjLgwD30WujbWmINkZadgcDn0dxnSqo2rbL+T3Pc
+         DS7xLhBzm9Z76CJ13gct+E4nsK92h5sAwnM3NsfOSG/u7tOb/Z063dzNjv8nrmdB5S5m
+         298ji2iMkM90caLqrcXRM9OJBDJ67str3I7GDWVqSIFR8TiEAx4tEwB3BSSQ206vphTz
+         ZPIt3TtyEABwYPjZrEO8Mg9gRue2f01vbo1ivGPyJOdH/dTn3Jbc9wbBkpSfdeShjZ+i
+         7YDQ==
+X-Gm-Message-State: AC+VfDxLfcGGPfg+jUnITcNTkRXtz9kmYEpxypyYh8D+pHsgeokoKDPQ
+        37XXU5B6VBha0v161+5ZwF0IEVZJ/lDJfF2/zIr4gQ==
+X-Google-Smtp-Source: ACHHUZ5i8f5AUVXLioiA4Msh4foVuVuox1MKnFKi4fucw3rKEDDzkk1m6bVkvWRpki6Lz1RgGXGnv70bM2LGvyL4BxY=
+X-Received: by 2002:aa7:cd55:0:b0:514:8e6f:7113 with SMTP id
+ v21-20020aa7cd55000000b005148e6f7113mr3506396edw.22.1686130971195; Wed, 07
+ Jun 2023 02:42:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-11-hch@lst.de>
-In-Reply-To: <20230606073950.225178-11-hch@lst.de>
+References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-10-hch@lst.de>
+In-Reply-To: <20230606073950.225178-10-hch@lst.de>
 From:   Jinpu Wang <jinpu.wang@ionos.com>
-Date:   Wed, 7 Jun 2023 11:41:12 +0200
-Message-ID: <CAMGffEkqXCkxpA+qqDVfx0echCPvNpWgK3hZWbb11F6cv2EQ-A@mail.gmail.com>
-Subject: Re: [PATCH 10/31] block: remove the unused mode argument to ->release
+Date:   Wed, 7 Jun 2023 11:42:40 +0200
+Message-ID: <CAMGffEkKpHzatfeJhKtJQMTNckJGc7sJQ_LWFg-KvazvOD4DWw@mail.gmail.com>
+Subject: Re: [PATCH 09/31] block: pass a gendisk to ->open
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
         Josef Bacik <josef@toxicpanda.com>,
@@ -89,22 +89,21 @@ X-Mailing-List: linux-nilfs@vger.kernel.org
 On Tue, Jun 6, 2023 at 9:40=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
 :
 >
-> The mode argument to the ->release block_device_operation is never used,
-> so remove it.
+> ->open is only called on the whole device.  Make that explicit by
+> passing a gendisk instead of the block_device.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
 > ---
->  arch/um/drivers/ubd_kern.c          |  4 ++--
->  arch/xtensa/platforms/iss/simdisk.c |  2 +-
->  block/bdev.c                        | 14 +++++++-------
->  drivers/block/amiflop.c             |  2 +-
->  drivers/block/aoe/aoeblk.c          |  2 +-
->  drivers/block/ataflop.c             |  4 ++--
->  drivers/block/drbd/drbd_main.c      |  4 ++--
->  drivers/block/floppy.c              |  2 +-
->  drivers/block/loop.c                |  2 +-
->  drivers/block/nbd.c                 |  2 +-
->  drivers/block/pktcdvd.c             |  4 ++--
->  drivers/block/rbd.c                 |  2 +-
->  drivers/block/rnbd/rnbd-clt.c       |  2 +-
+>  arch/um/drivers/ubd_kern.c          |  5 ++---
+>  arch/xtensa/platforms/iss/simdisk.c |  4 ++--
+>  block/bdev.c                        |  2 +-
+>  drivers/block/amiflop.c             |  8 ++++----
+>  drivers/block/aoe/aoeblk.c          |  4 ++--
+>  drivers/block/ataflop.c             | 16 +++++++--------
+>  drivers/block/drbd/drbd_main.c      |  6 +++---
+>  drivers/block/floppy.c              | 30 +++++++++++++++--------------
+>  drivers/block/nbd.c                 |  8 ++++----
+>  drivers/block/pktcdvd.c             |  6 +++---
+>  drivers/block/rbd.c                 |  4 ++--
+>  drivers/block/rnbd/rnbd-clt.c       |  4 ++--
 Acked-by: Jack Wang <jinpu.wang@ionos.com> # for rnbd
