@@ -2,57 +2,57 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BE483725ABA
-	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:38:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAEF1725AC9
+	for <lists+linux-nilfs@lfdr.de>; Wed,  7 Jun 2023 11:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239742AbjFGJio (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 7 Jun 2023 05:38:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55940 "EHLO
+        id S239324AbjFGJkU (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 7 Jun 2023 05:40:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239245AbjFGJim (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:38:42 -0400
-Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 552E91982
-        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:38:40 -0700 (PDT)
-Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-970056276acso1068180866b.2
-        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:38:40 -0700 (PDT)
+        with ESMTP id S239356AbjFGJkR (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 7 Jun 2023 05:40:17 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C55B1984
+        for <linux-nilfs@vger.kernel.org>; Wed,  7 Jun 2023 02:40:13 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-51640b9ed95so1130612a12.2
+        for <linux-nilfs@vger.kernel.org>; Wed, 07 Jun 2023 02:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ionos.com; s=google; t=1686130719; x=1688722719;
+        d=ionos.com; s=google; t=1686130812; x=1688722812;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=gjKWGYzTLmxl6ndmaqY1vhf0MYCxKeiBaM5D6TZOn9k=;
-        b=YXuPeKYHXY8x573VqT+WBt2/3c0ykgaHJuCFCznCBd9Wetpo4vgup6yqqURCu0byaA
-         Z/WQU4wI1a6QCL47tLiZRI6KTt32VZU/qDKhKKJKLQFyY7AmMCGDwrGB1pizVTFQERU7
-         t/x6PD6wstNl8G+Np+qAroVsRlq5DhK6VHOceLAS64dGk9Gj3fcvwZo0Y8lemLlMRb9N
-         lmkimh7iJEnOSo+NJeMchGTnQhFoj8noYEGMLBj46T+S0Fm4jsdixCjB8sRTniHot4zo
-         HY10z3v3++4U48Fj0kZDnrEgImtyRX0sgkHyTWWoWMiMmGGRFIMZm1Lm0qh585DtYYsI
-         wCGA==
+        bh=OKacAnva3Yv49FZ4mmigtapivvs6Pz0X+m8VvMKeakc=;
+        b=dCfiHbfC3g2G8d/J9z4HWJRn+4ZM/R3bpLuFPxQw29U/BxQqfJsF3/Pcs7fI41A4gX
+         QmjGzJZ4A2vjupZlP6QlquJwygr1R+FDDkAU1dI8tFxGxMQBNhKyKD/kPuOGtcHtWHsN
+         KTwy+1yD0l655Rbq6xnYm39sKjIDdP4MTsPmGu5Qrnj6S7RG+MOe/U9goLkbKdoPlXty
+         JKXk/P/K/Z5i1goc4SEzvnQut6+E/y0p5im5y9dCvVaH0pV3VQijuFqDyfn3GCXb695U
+         7ow15qjqM2IYWuhG0bdltyHA6aebtUZOak/1yjhnxavTWTfQy9rV8KO6L8zOuHlEdvBX
+         31YQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686130719; x=1688722719;
+        d=1e100.net; s=20221208; t=1686130812; x=1688722812;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gjKWGYzTLmxl6ndmaqY1vhf0MYCxKeiBaM5D6TZOn9k=;
-        b=fwzvCUgL187X8aykNmDB98q/SLMw2xBaU05XuvW+H4ePh7ETTE+0K6tUYUwAOba+Fn
-         +ambVac9ebjFac4dNhflU6AZFAPRZp1FpwAABsQhfsnDm+FAGe++8BJDsnule6bHob2F
-         zN2JB9Zquochc2Fo3IuhgZGKuHc+KZomtuWdrYAn6Cgtqgp9UieFRWwRJ2ya44JLt+au
-         JyDLvHwuy1dTzNM6e0Lrvt/UH1y6N6unT451pK5NYscs4MpbdI3LUFzjo20xwxp6T4ea
-         yr0ewy66mVRRWtawLN6zG5Jf0mQwonvISBFUd3LsIac+t/y/DKNMvW83kjVRyxoiFTzb
-         8gFQ==
-X-Gm-Message-State: AC+VfDwSO+GcDRr6kdKYWTKM44RwnB3/pxZ++J0NMi0iQ9U/CE3zFkrt
-        ONHzRx0OOp5p/ZE5CysHRF7fpNxcOMdrwEmcryF6vA==
-X-Google-Smtp-Source: ACHHUZ4JO4oLBtR+CLz1tcyt1M0aK5Az38dx3TKZ26TI2779MlmTOIaNGaUTpmyncHvDOVtnmf3szZ6EUx+OtsgHRJ4=
-X-Received: by 2002:a17:907:3f22:b0:96b:1608:3563 with SMTP id
- hq34-20020a1709073f2200b0096b16083563mr5475281ejc.58.1686130718689; Wed, 07
- Jun 2023 02:38:38 -0700 (PDT)
+        bh=OKacAnva3Yv49FZ4mmigtapivvs6Pz0X+m8VvMKeakc=;
+        b=A8G0q8tS4GasV4IZ7RP8/Q2AWHFmXusxlv/X1hs3pyGzm/FAuwD3Aeiv5vf3SFkN0Q
+         EKdxb6LL/dNDnPGCQ4rovjBoc0pkInJR5DRt8G05OCQpQt0Xvd4B8JsaZ/q7L783oEcO
+         tqBh9bYy3R9rUKILUX4SdpRjtpwa9/18eAdvx9lAA9Mcddf9lx4M8I34eEUI2EtpFcy/
+         bTWE2xA94fBmX49pAgAUUz/lJB/pikly6zcAF2NaCQwcegrdXMuHLt9VBaIFVtONVgOp
+         KKoznB2SL159rcaqEsQ8PaNA7P8Tyni9xHP1WpJXyd3xL98ahnHI8XOpVozo0szECPgc
+         Vcng==
+X-Gm-Message-State: AC+VfDwW6LMmpooqG7Pzr9Ch8MUP5M8SvtOiuBN3QnyhbLZFKTDHfLas
+        xTaq6lCyrvk8ZjRrwP87QLofQPET/00YspFz6poFbw==
+X-Google-Smtp-Source: ACHHUZ6qGErDhBYRK2EQNWjsiTZgthNZdqE08xgi5M9Zl1p8ZDd17beUaKBrj0/jBLtUwBleXb1y7OCzWAlQzI4iqec=
+X-Received: by 2002:aa7:c3c3:0:b0:516:3261:17d with SMTP id
+ l3-20020aa7c3c3000000b005163261017dmr3772815edr.20.1686130811848; Wed, 07 Jun
+ 2023 02:40:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-15-hch@lst.de>
-In-Reply-To: <20230606073950.225178-15-hch@lst.de>
+References: <20230606073950.225178-1-hch@lst.de> <20230606073950.225178-17-hch@lst.de>
+In-Reply-To: <20230606073950.225178-17-hch@lst.de>
 From:   Jinpu Wang <jinpu.wang@ionos.com>
-Date:   Wed, 7 Jun 2023 11:38:27 +0200
-Message-ID: <CAMGffEk8Zex5+u69YW9AXGQh-ch79mw7=Gn3L1M=qwvZCVa5VA@mail.gmail.com>
-Subject: Re: [PATCH 14/31] rnbd-srv: don't pass a holder for non-exclusive blkdev_get_by_path
+Date:   Wed, 7 Jun 2023 11:40:01 +0200
+Message-ID: <CAMGffEkXqRMD3yeyjXzTn1ZyHnszmPhqRdP8eN12KXcTdz=9Xw@mail.gmail.com>
+Subject: Re: [PATCH 16/31] block: use the holder as indication for exclusive opens
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Jens Axboe <axboe@kernel.dk>, Richard Weinberger <richard@nod.at>,
         Josef Bacik <josef@toxicpanda.com>,
@@ -79,7 +79,7 @@ Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -89,32 +89,21 @@ X-Mailing-List: linux-nilfs@vger.kernel.org
 On Tue, Jun 6, 2023 at 9:40=E2=80=AFAM Christoph Hellwig <hch@lst.de> wrote=
 :
 >
-> Passing a holder to blkdev_get_by_path when FMODE_EXCL isn't set doesn't
-> make sense, so pass NULL instead.
+> The current interface for exclusive opens is rather confusing as it
+> requires both the FMODE_EXCL flag and a holder.  Remove the need to pass
+> FMODE_EXCL and just key off the exclusive open off a non-NULL holder.
+>
+> For blkdev_put this requires adding the holder argument, which provides
+> better debug checking that only the holder actually releases the hold,
+> but at the same time allows removing the now superfluous mode argument.
 >
 > Signed-off-by: Christoph Hellwig <hch@lst.de>
-Acked-by: Jack Wang <jinpu.wang@ionos.com>
 > ---
->  drivers/block/rnbd/rnbd-srv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/block/rnbd/rnbd-srv.c b/drivers/block/rnbd/rnbd-srv.=
-c
-> index cec22bbae2f9a5..ce505e552f4d50 100644
-> --- a/drivers/block/rnbd/rnbd-srv.c
-> +++ b/drivers/block/rnbd/rnbd-srv.c
-> @@ -719,7 +719,7 @@ static int process_msg_open(struct rnbd_srv_session *=
-srv_sess,
->                 goto reject;
->         }
->
-> -       bdev =3D blkdev_get_by_path(full_path, open_flags, THIS_MODULE, N=
-ULL);
-> +       bdev =3D blkdev_get_by_path(full_path, open_flags, NULL, NULL);
->         if (IS_ERR(bdev)) {
->                 ret =3D PTR_ERR(bdev);
->                 pr_err("Opening device '%s' on session %s failed, failed =
-to open the block device, err: %d\n",
-> --
-> 2.39.2
->
+>  block/bdev.c                        | 37 ++++++++++++++++------------
+>  block/fops.c                        |  6 +++--
+>  block/genhd.c                       |  5 ++--
+>  block/ioctl.c                       |  5 ++--
+>  drivers/block/drbd/drbd_nl.c        | 23 ++++++++++-------
+>  drivers/block/pktcdvd.c             | 13 +++++-----
+>  drivers/block/rnbd/rnbd-srv.c       |  4 +--
+Acked-by: Jack Wang <jinpu.wang@ionos.com> # for rnbd
