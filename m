@@ -2,164 +2,98 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A02972B02A
-	for <lists+linux-nilfs@lfdr.de>; Sun, 11 Jun 2023 05:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7783872B852
+	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 08:53:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232827AbjFKD4I (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 10 Jun 2023 23:56:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41192 "EHLO
+        id S234630AbjFLGx3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 12 Jun 2023 02:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232730AbjFKD4G (ORCPT
+        with ESMTP id S234600AbjFLGx1 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sat, 10 Jun 2023 23:56:06 -0400
-Received: from mail-io1-f80.google.com (mail-io1-f80.google.com [209.85.166.80])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA9230F4
-        for <linux-nilfs@vger.kernel.org>; Sat, 10 Jun 2023 20:56:01 -0700 (PDT)
-Received: by mail-io1-f80.google.com with SMTP id ca18e2360f4ac-77760439873so392465039f.0
-        for <linux-nilfs@vger.kernel.org>; Sat, 10 Jun 2023 20:56:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686455761; x=1689047761;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=cU4x9DhYorffWC0i+QsBM5FEZiBkueCJZ67W6vkSBZs=;
-        b=iBCPpu3NRg2tM4mfe+G49eYPFMKNSOjUZSW5B+IVjCN+JTSJnOECWb5QyESnv+MZ+8
-         qMqUGikNi/T6jQN6zink2Xtcuhdtt+cYyedoKCpAJT/82GfbEW/akI5yWDFoJnUEprbF
-         6wTOM5TUDvdHib0wM3qqzVs8GA0KSudGfWGJYaRJloWxrkq+3Dh8h8f0sTYN7l+yKXrJ
-         wmaEHU8EsWfgfGNZqJtE33QrfOoy4P275A/ENcWf8rw4VC1bXMtkZvbAJ7j618m1fgJ3
-         EgSTZBDAHUMMfoyuSJJTObD0hYYenEJyZRxqP9ME9ASmAj+s7XSY1EQ0BmRU7m2Lny7I
-         /ymA==
-X-Gm-Message-State: AC+VfDwdoYRuzKUfCamEgV3N/3TcSjP9qu69SM6sNoV3PaPsv5bYOVPD
-        QWtK9jxOvqUTsLRLKqyD7fls0BhF+HyvHjiYf6tjLhOtFoUE
-X-Google-Smtp-Source: ACHHUZ4sdgHPPL8tjt0y8aQiWptKTX2zdtRXffylGQnJFnmhM9qn0/9pr8EfftbmhVy3zqj8U+UAaGufDqmUOjrzhUHtnRO/Vy+5
+        Mon, 12 Jun 2023 02:53:27 -0400
+X-Greylist: delayed 9006 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 11 Jun 2023 23:48:22 PDT
+Received: from mail1.ceniai.inf.cu (mail1.ceniai.inf.cu [169.158.128.150])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B615A10C2;
+        Sun, 11 Jun 2023 23:48:22 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 57EC14E8137;
+        Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
+X-Virus-Scanned: amavisd-new at mail1.ceniai.inf.cu
+Received: from mail1.ceniai.inf.cu ([127.0.0.1])
+        by localhost (mail1.ceniai.inf.cu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id WSVsOis4rone; Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
+Received: from mail.vega.inf.cu (mail.vega.inf.cu [169.158.143.34])
+        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 9A3994E8D46;
+        Mon, 12 Jun 2023 00:00:28 -0400 (EDT)
+Received: from mx1.ecovida.cu (unknown [169.158.179.26])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
+        (No client certificate requested)
+        by mail.vega.inf.cu (Postfix) with ESMTPS id D54B5565B0A;
+        Sun, 11 Jun 2023 11:40:11 -0400 (CDT)
+Received: from mx1.ecovida.cu (localhost [127.0.0.1])
+        by mx1.ecovida.cu (Proxmox) with ESMTP id 6A2B9240CE7;
+        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ecovida.cu; h=cc
+        :content-description:content-transfer-encoding:content-type
+        :content-type:date:from:from:message-id:mime-version:reply-to
+        :reply-to:subject:subject:to:to; s=ecovida20; bh=eJCLj5LjLfltOUH
+        QwbhnEIM71NnOqC+k0uTJlyqNYA0=; b=DcRsVnh8PwZgs7y+XuOKXZsVaQBR/H6
+        XoACm7D3Yogbb1byEspwmAO2qEbTBHMBRjokBnHhowQEK0u5DCx6Q+DJuM4aPAGQ
+        m1IUL3Jrxhpnx1mha+204x7zV997W+a7qgttKpEZNEYo1zNd4bwr6JrPxUXBrvVV
+        rNjSKjASF1PcwDaH5VBWrFOfNBj+nT7kFyp1MNWVPoL6pgZtGf5rPwhdx6IMsT4C
+        /ezCQy3gmtNplW3691klQbMXXvf9m8f2STt41mJQnysXmxFaUi6AC3GMnQMOII6B
+        u4191nZxATn9FePP1IhGYMxqmuczU0qatcarBodAiiGfygRm1/JQUFA==
+Received: from correoweb.ecovida.cu (correoweb.ecovida.cu [192.168.100.7])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by mx1.ecovida.cu (Proxmox) with ESMTPS id 5C4AE240A32;
+        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correoweb.ecovida.cu (Postfix) with ESMTP id 8253F50575F;
+        Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
+Received: from correoweb.ecovida.cu ([127.0.0.1])
+        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 4y-7DLKV7ivg; Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
+Received: from localhost (localhost [127.0.0.1])
+        by correoweb.ecovida.cu (Postfix) with ESMTP id 091644AD4E2;
+        Sun, 11 Jun 2023 12:35:34 -0400 (CDT)
+X-Virus-Scanned: amavisd-new at ecovida.cu
+Received: from correoweb.ecovida.cu ([127.0.0.1])
+        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 4IrgkPfrbOHY; Sun, 11 Jun 2023 12:35:33 -0400 (CDT)
+Received: from [192.168.100.9] (unknown [45.88.97.218])
+        by correoweb.ecovida.cu (Postfix) with ESMTPSA id 5E2674B2B1D;
+        Sun, 11 Jun 2023 10:29:39 -0400 (CDT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-X-Received: by 2002:a02:a1db:0:b0:40b:d54d:e5bf with SMTP id
- o27-20020a02a1db000000b0040bd54de5bfmr2178215jah.1.1686455760977; Sat, 10 Jun
- 2023 20:56:00 -0700 (PDT)
-Date:   Sat, 10 Jun 2023 20:56:00 -0700
-In-Reply-To: <000000000000da4f6b05eb9bf593@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000009005ad05fdd2948c@google.com>
-Subject: Re: [syzbot] [nilfs?] general protection fault in nilfs_clear_dirty_page
-From:   syzbot <syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: RE:
+To:     Recipients <lazaroluis@ecovida.cu>
+From:   Aldi Albrecht <lazaroluis@ecovida.cu>
+Date:   Sun, 11 Jun 2023 15:33:46 +0100
+Reply-To: aldiheister@gmail.com
+X-Antivirus: Avast (VPS 230611-4, 6/11/2023), Outbound message
+X-Antivirus-Status: Clean
+Message-Id: <20230611142940.5E2674B2B1D@correoweb.ecovida.cu>
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+Hallo gesch=E4tzter Beg=FCnstigter, Sie wurden f=FCr eine gro=DFe Geldsumme=
+ f=FCr humanit=E4re und Investitionszwecke jeglicher Art ausgew=E4hlt. F=FC=
+r weitere Details antworten Sie bitte.
 
-HEAD commit:    022ce8862dff Merge tag 'i2c-for-6.4-rc6' of git://git.kern..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=118151dd280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7474de833c217bf4
-dashboard link: https://syzkaller.appspot.com/bug?extid=53369d11851d8f26735c
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e9d48b280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12d7fa63280000
+Gr=FC=DFe
+ 
+Beate Heister
+Eigent=FCmer
+Aldi Albrecht-TRUST
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/cb6ca005422c/disk-022ce886.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/172bf908a89e/vmlinux-022ce886.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/4a00b7ed8430/bzImage-022ce886.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/edff56b4a75d/mount_0.gz
+-- 
+This email has been checked for viruses by Avast antivirus software.
+www.avast.com
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com
-
-general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] PREEMPT SMP KASAN
-KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
-CPU: 0 PID: 5040 Comm: syz-executor116 Not tainted 6.4.0-rc5-syzkaller-00305-g022ce8862dff #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
-RIP: 0010:nilfs_clear_dirty_page+0xa9/0x1130 fs/nilfs2/page.c:388
-Code: 48 89 d8 48 c1 e8 03 42 80 3c 30 00 74 08 48 89 df e8 1b 38 97 fe 48 8b 1b 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 f9 37 97 fe 4c 8b 2b 49 8d 5d 28 48
-RSP: 0018:ffffc90003d2f2e0 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffea0001cb1900
-RBP: ffffc90003d2f3b0 R08: ffffffff834bef29 R09: fffff94000396321
-R10: 0000000000000000 R11: dffffc0000000001 R12: ffffea0001cb1900
-R13: 0000000000000000 R14: dffffc0000000000 R15: dffffc0000000000
-FS:  00007f996874e700(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055fe30356e00 CR3: 000000002995d000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- nilfs_clear_dirty_pages+0x1e0/0x370 fs/nilfs2/page.c:373
- nilfs_writepages+0x11c/0x160 fs/nilfs2/inode.c:165
- do_writepages+0x3a6/0x670 mm/page-writeback.c:2551
- filemap_fdatawrite_wbc+0x125/0x180 mm/filemap.c:390
- __filemap_fdatawrite_range mm/filemap.c:423 [inline]
- filemap_write_and_wait_range+0x1d4/0x2c0 mm/filemap.c:678
- generic_file_read_iter+0x19e/0x540 mm/filemap.c:2805
- call_read_iter include/linux/fs.h:1862 [inline]
- generic_file_splice_read+0x240/0x640 fs/splice.c:419
- do_splice_to fs/splice.c:902 [inline]
- splice_direct_to_actor+0x40c/0xbd0 fs/splice.c:973
- do_splice_direct+0x283/0x3d0 fs/splice.c:1082
- do_sendfile+0x620/0xff0 fs/read_write.c:1254
- __do_sys_sendfile64 fs/read_write.c:1322 [inline]
- __se_sys_sendfile64+0x17c/0x1e0 fs/read_write.c:1308
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f9970ac36f9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 71 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f996874e2f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000028
-RAX: ffffffffffffffda RBX: 00007f9970b497b0 RCX: 00007f9970ac36f9
-RDX: 0000000000000000 RSI: 0000000000000008 RDI: 0000000000000007
-RBP: 00007f9970b15b1c R08: 0000000000000000 R09: 0000000000000000
-R10: 0001000000201005 R11: 0000000000000246 R12: 00007f9970b150c0
-R13: 00000000200026c0 R14: 0032656c69662f2e R15: 00007f9970b497b8
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:nilfs_clear_dirty_page+0xa9/0x1130 fs/nilfs2/page.c:388
-Code: 48 89 d8 48 c1 e8 03 42 80 3c 30 00 74 08 48 89 df e8 1b 38 97 fe 48 8b 1b 48 89 d8 48 c1 e8 03 48 b9 00 00 00 00 00 fc ff df <80> 3c 08 00 74 08 48 89 df e8 f9 37 97 fe 4c 8b 2b 49 8d 5d 28 48
-RSP: 0018:ffffc90003d2f2e0 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: dffffc0000000000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: ffffea0001cb1900
-RBP: ffffc90003d2f3b0 R08: ffffffff834bef29 R09: fffff94000396321
-R10: 0000000000000000 R11: dffffc0000000001 R12: ffffea0001cb1900
-R13: 0000000000000000 R14: dffffc0000000000 R15: dffffc0000000000
-FS:  00007f996874e700(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f9970b1500a CR3: 000000002995d000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	48 89 d8             	mov    %rbx,%rax
-   3:	48 c1 e8 03          	shr    $0x3,%rax
-   7:	42 80 3c 30 00       	cmpb   $0x0,(%rax,%r14,1)
-   c:	74 08                	je     0x16
-   e:	48 89 df             	mov    %rbx,%rdi
-  11:	e8 1b 38 97 fe       	callq  0xfe973831
-  16:	48 8b 1b             	mov    (%rbx),%rbx
-  19:	48 89 d8             	mov    %rbx,%rax
-  1c:	48 c1 e8 03          	shr    $0x3,%rax
-  20:	48 b9 00 00 00 00 00 	movabs $0xdffffc0000000000,%rcx
-  27:	fc ff df
-* 2a:	80 3c 08 00          	cmpb   $0x0,(%rax,%rcx,1) <-- trapping instruction
-  2e:	74 08                	je     0x38
-  30:	48 89 df             	mov    %rbx,%rdi
-  33:	e8 f9 37 97 fe       	callq  0xfe973831
-  38:	4c 8b 2b             	mov    (%rbx),%r13
-  3b:	49 8d 5d 28          	lea    0x28(%r13),%rbx
-  3f:	48                   	rex.W
-
-
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
