@@ -2,98 +2,81 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7783872B852
-	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 08:53:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8259E72B41C
+	for <lists+linux-nilfs@lfdr.de>; Sun, 11 Jun 2023 23:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234630AbjFLGx3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 12 Jun 2023 02:53:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
+        id S232700AbjFKVSc (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 11 Jun 2023 17:18:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234600AbjFLGx1 (ORCPT
+        with ESMTP id S229511AbjFKVSc (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 12 Jun 2023 02:53:27 -0400
-X-Greylist: delayed 9006 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 11 Jun 2023 23:48:22 PDT
-Received: from mail1.ceniai.inf.cu (mail1.ceniai.inf.cu [169.158.128.150])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id B615A10C2;
-        Sun, 11 Jun 2023 23:48:22 -0700 (PDT)
-Received: from localhost (localhost [127.0.0.1])
-        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 57EC14E8137;
-        Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
-X-Virus-Scanned: amavisd-new at mail1.ceniai.inf.cu
-Received: from mail1.ceniai.inf.cu ([127.0.0.1])
-        by localhost (mail1.ceniai.inf.cu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id WSVsOis4rone; Mon, 12 Jun 2023 00:09:26 -0400 (EDT)
-Received: from mail.vega.inf.cu (mail.vega.inf.cu [169.158.143.34])
-        by mail1.ceniai.inf.cu (Postfix) with ESMTP id 9A3994E8D46;
-        Mon, 12 Jun 2023 00:00:28 -0400 (EDT)
-Received: from mx1.ecovida.cu (unknown [169.158.179.26])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        by mail.vega.inf.cu (Postfix) with ESMTPS id D54B5565B0A;
-        Sun, 11 Jun 2023 11:40:11 -0400 (CDT)
-Received: from mx1.ecovida.cu (localhost [127.0.0.1])
-        by mx1.ecovida.cu (Proxmox) with ESMTP id 6A2B9240CE7;
-        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ecovida.cu; h=cc
-        :content-description:content-transfer-encoding:content-type
-        :content-type:date:from:from:message-id:mime-version:reply-to
-        :reply-to:subject:subject:to:to; s=ecovida20; bh=eJCLj5LjLfltOUH
-        QwbhnEIM71NnOqC+k0uTJlyqNYA0=; b=DcRsVnh8PwZgs7y+XuOKXZsVaQBR/H6
-        XoACm7D3Yogbb1byEspwmAO2qEbTBHMBRjokBnHhowQEK0u5DCx6Q+DJuM4aPAGQ
-        m1IUL3Jrxhpnx1mha+204x7zV997W+a7qgttKpEZNEYo1zNd4bwr6JrPxUXBrvVV
-        rNjSKjASF1PcwDaH5VBWrFOfNBj+nT7kFyp1MNWVPoL6pgZtGf5rPwhdx6IMsT4C
-        /ezCQy3gmtNplW3691klQbMXXvf9m8f2STt41mJQnysXmxFaUi6AC3GMnQMOII6B
-        u4191nZxATn9FePP1IhGYMxqmuczU0qatcarBodAiiGfygRm1/JQUFA==
-Received: from correoweb.ecovida.cu (correoweb.ecovida.cu [192.168.100.7])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mx1.ecovida.cu (Proxmox) with ESMTPS id 5C4AE240A32;
-        Sun, 11 Jun 2023 15:23:52 -0400 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correoweb.ecovida.cu (Postfix) with ESMTP id 8253F50575F;
-        Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
-Received: from correoweb.ecovida.cu ([127.0.0.1])
-        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id 4y-7DLKV7ivg; Sun, 11 Jun 2023 13:20:22 -0400 (CDT)
-Received: from localhost (localhost [127.0.0.1])
-        by correoweb.ecovida.cu (Postfix) with ESMTP id 091644AD4E2;
-        Sun, 11 Jun 2023 12:35:34 -0400 (CDT)
-X-Virus-Scanned: amavisd-new at ecovida.cu
-Received: from correoweb.ecovida.cu ([127.0.0.1])
-        by localhost (correoweb.ecovida.cu [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 4IrgkPfrbOHY; Sun, 11 Jun 2023 12:35:33 -0400 (CDT)
-Received: from [192.168.100.9] (unknown [45.88.97.218])
-        by correoweb.ecovida.cu (Postfix) with ESMTPSA id 5E2674B2B1D;
-        Sun, 11 Jun 2023 10:29:39 -0400 (CDT)
-Content-Type: text/plain; charset="iso-8859-1"
+        Sun, 11 Jun 2023 17:18:32 -0400
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479691AB
+        for <linux-nilfs@vger.kernel.org>; Sun, 11 Jun 2023 14:18:30 -0700 (PDT)
+Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-77accdaa0e0so367808539f.0
+        for <linux-nilfs@vger.kernel.org>; Sun, 11 Jun 2023 14:18:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1686518309; x=1689110309;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=++zemBX/2RrOYOFOLtSc1QjMmPmCs+Z/n8b0jPh3c7o=;
+        b=fKYa3Zj/+H1wOa5wBS+1pFN5YBDQBU1q2i6zB4wNhaapCneROaAwEtc/Y+pTY920hW
+         dbnhC0WULSov562NX+DZxIRtG+0TE828LmvKfqRrNWdI+h5nYaUzlC0dvfhXe/XgMaEN
+         30rIYRQruN4ZmEiWiF7fCOcWiSd+FOZRMLw27SCjBhrhni9V8EgTMw3MoZRUSuuF03jY
+         ADjR62mPoAM1NTPj3HpWQELDGQh3pTShuETd+akm5qEhRTQDuuTygN7LjpCOe80qR34+
+         DZfpCrEyZ+ZdX4SnBq4WssbEBVrRrvWNxzDxVPl+9ETEI58mAL3c14gXQRP9UIS4klmv
+         E8Fg==
+X-Gm-Message-State: AC+VfDxL31HPH/fm1jQejLam4aVvYugSq3sqn8srj8dpyRMHY4U+FyXl
+        XuTVSNVuKKMx+k2WSMJpx1h7Wi2eBQMZrHqA+wPUObmpOBtd
+X-Google-Smtp-Source: ACHHUZ5uexlpBPtPJccaNdHhmErmovEuc0aJEQv+DulBACxbzELH3wDT/Ehuljo6vWiQkQ7yLj0tlIJ2iLEPDZLXWLeSG1iJZatu
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: RE:
-To:     Recipients <lazaroluis@ecovida.cu>
-From:   Aldi Albrecht <lazaroluis@ecovida.cu>
-Date:   Sun, 11 Jun 2023 15:33:46 +0100
-Reply-To: aldiheister@gmail.com
-X-Antivirus: Avast (VPS 230611-4, 6/11/2023), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20230611142940.5E2674B2B1D@correoweb.ecovida.cu>
+X-Received: by 2002:a6b:fd15:0:b0:777:afc6:8da0 with SMTP id
+ c21-20020a6bfd15000000b00777afc68da0mr2935869ioi.1.1686518309621; Sun, 11 Jun
+ 2023 14:18:29 -0700 (PDT)
+Date:   Sun, 11 Jun 2023 14:18:29 -0700
+In-Reply-To: <000000000000da4f6b05eb9bf593@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c0951105fde12435@google.com>
+Subject: Re: [syzbot] [nilfs?] general protection fault in nilfs_clear_dirty_page
+From:   syzbot <syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com>
+To:     axboe@kernel.dk, dsterba@suse.com, hch@lst.de,
+        konishi.ryusuke@gmail.com, linux-block@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com,
+        wqu@suse.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hallo gesch=E4tzter Beg=FCnstigter, Sie wurden f=FCr eine gro=DFe Geldsumme=
- f=FCr humanit=E4re und Investitionszwecke jeglicher Art ausgew=E4hlt. F=FC=
-r weitere Details antworten Sie bitte.
+syzbot has bisected this issue to:
 
-Gr=FC=DFe
- 
-Beate Heister
-Eigent=FCmer
-Aldi Albrecht-TRUST
+commit 4a445b7b6178d88956192c0202463063f52e8667
+Author: Qu Wenruo <wqu@suse.com>
+Date:   Sat Aug 13 08:06:53 2022 +0000
 
--- 
-This email has been checked for viruses by Avast antivirus software.
-www.avast.com
+    btrfs: don't merge pages into bio if their page offset is not contiguous
 
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17778475280000
+start commit:   022ce8862dff Merge tag 'i2c-for-6.4-rc6' of git://git.kern..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=14f78475280000
+console output: https://syzkaller.appspot.com/x/log.txt?x=10f78475280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7474de833c217bf4
+dashboard link: https://syzkaller.appspot.com/bug?extid=53369d11851d8f26735c
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e9d48b280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12d7fa63280000
+
+Reported-by: syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com
+Fixes: 4a445b7b6178 ("btrfs: don't merge pages into bio if their page offset is not contiguous")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
