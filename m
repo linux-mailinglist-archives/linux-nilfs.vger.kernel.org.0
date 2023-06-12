@@ -2,95 +2,98 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BE7072B642
-	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 06:00:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6446272C402
+	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 14:26:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229464AbjFLD77 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 11 Jun 2023 23:59:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33320 "EHLO
+        id S233213AbjFLM0t (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 12 Jun 2023 08:26:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231603AbjFLD76 (ORCPT
+        with ESMTP id S229541AbjFLM0r (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 11 Jun 2023 23:59:58 -0400
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AEE3318B;
-        Sun, 11 Jun 2023 20:59:57 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id a1e0cc1a2514c-78cd0c63ae2so94294241.1;
-        Sun, 11 Jun 2023 20:59:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1686542396; x=1689134396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h5eFbd9HFD/KRz0+XmRiub04jDxZ5/25uC97kTShMpE=;
-        b=EHyikn5gRvV78mN0YYf4xUPtAFpwRdYAhXIgBhQsen9zlXyZa6YQlQUu4I0VWvmJh+
-         dhWeExCKRXcTldPlqkBujT4S8hYN9S3Jbd0cMP3UHAxhFpCvnWUtHmMlhjd82cWzsGvU
-         Qb7ARehRdVdQqDwwsuvnhXh3B4toJX9+XvVg9hyMHUdMnCY5RWns/MKwcvTSzaHC+A5z
-         LGWo7zNB0SZBqKipj0F/4Pdmq3YHlJiRJAryzsQ/uZsCXKixJBKSxVNWgBYySL2p8hyI
-         XG2M96nT6JkeIkwNK/tgbq9u68or6XC76h7ZdsAV4l8TrLv8iVPvQyw7+G8nKpB+6EsB
-         ZRJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686542396; x=1689134396;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h5eFbd9HFD/KRz0+XmRiub04jDxZ5/25uC97kTShMpE=;
-        b=O29izzM6VWi3MIrt9LuOqD2CTZj8NvvtlC6b/4dkY1fO8JY53wJ3Lm91+oDx9A1muw
-         fdTxacKpCx7giw5aNhJfUVVef68mb9+0EiiW8VIBW//e+DyMPZw8o730gQlAWPUV0BhG
-         sWjXLX2OasTjkUtTAMuTG4hLJ9tiwha0yW35z5AuQTZ7331fe2CUIPXdAMQa3isZgRUs
-         c3MitrJ7FoiFgFQW1CdpwAygMEBB+RDK8Nt/4jX0I/MskH9as4bgcSpt8FauuHViY8jD
-         NjqeBbNeSPOY68zTqQD4HaiyF1e++8P4Qgqg41osxRtTtu6GDTu9R6didb2UsQAV2c10
-         sOQQ==
-X-Gm-Message-State: AC+VfDysFHCOwwuhuOPxZjBQccTrVLIs1TWsMpqlyt7p6K6NIInipxnI
-        3yLZTQj+Qnnq3f6w2Cz20ESqFjArNyr+MW0SN+Y=
-X-Google-Smtp-Source: ACHHUZ6USzvroyFg92cZrS7qO9IxCrPShW1dFdqmI83KF4j0hqeLShP/3gCnfuLWhWbnhcZB+F5Mz/kUXDkjrqKPDPY=
-X-Received: by 2002:a67:f906:0:b0:43b:2630:477 with SMTP id
- t6-20020a67f906000000b0043b26300477mr2660495vsq.5.1686542395803; Sun, 11 Jun
- 2023 20:59:55 -0700 (PDT)
+        Mon, 12 Jun 2023 08:26:47 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7DF5121
+        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 05:26:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1686572761;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=tTMhvLLlxLduku60kqh9t4hhU2KGCMkQO9qTJKYmDvE=;
+        b=R8KYLgos4qvJwdjnlXTsKGUW664IAn57250CaNpFr6uEvwbf2cunOShycwBAh7j7Siiims
+        cv2au+3tq5lIHiqG63ADTRcQd+W1dWLL03HtnHzkDgwi7/50ZOLB2qCPRKG7/7R2SAxAz6
+        nqf0gzVkFdSSa6AN90x1L7SP2EXwEZo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-30-AynBElupPJ6WiOJw2BAedg-1; Mon, 12 Jun 2023 08:25:57 -0400
+X-MC-Unique: AynBElupPJ6WiOJw2BAedg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BDEEC3C11C67;
+        Mon, 12 Jun 2023 12:25:55 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.67])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 023222026833;
+        Mon, 12 Jun 2023 12:25:50 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+        Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+        Kingdom.
+        Registered in England and Wales under Company Registration No. 3798903
+From:   David Howells <dhowells@redhat.com>
+In-Reply-To: <202306121557.2d17019b-oliver.sang@intel.com>
+References: <202306121557.2d17019b-oliver.sang@intel.com>
+To:     kernel test robot <oliver.sang@intel.com>
+Cc:     dhowells@redhat.com, oe-lkp@lists.linux.dev, lkp@intel.com,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+        Christian Brauner <brauner@kernel.org>,
+        Al Viro <viro@zeniv.linux.org.uk>,
+        David Hildenbrand <david@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        linux-block@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-afs@lists.infradead.org, linux-btrfs@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-erofs@lists.ozlabs.org,
+        linux-ext4@vger.kernel.org, cluster-devel@redhat.com,
+        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
+        jfs-discussion@lists.sourceforge.net, linux-nilfs@vger.kernel.org,
+        linux-ntfs-dev@lists.sourceforge.net, ntfs3@lists.linux.dev,
+        ocfs2-devel@oss.oracle.com,
+        linux-karma-devel@lists.sourceforge.net,
+        reiserfs-devel@vger.kernel.org, ying.huang@intel.com,
+        feng.tang@intel.com, fengwei.yin@intel.com
+Subject: Re: [linux-next:master] [splice] 2cb1e08985: stress-ng.sendfile.ops_per_sec 11.6% improvement
 MIME-Version: 1.0
-References: <000000000000da4f6b05eb9bf593@google.com> <000000000000c0951105fde12435@google.com>
- <20230612033023.GA16241@lst.de>
-In-Reply-To: <20230612033023.GA16241@lst.de>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Mon, 12 Jun 2023 12:59:39 +0900
-Message-ID: <CAKFNMomCUnaB3_3chQm4P8devx2NwAp2hMpYfbyaHKyO2WLEkw@mail.gmail.com>
-Subject: Re: [syzbot] [nilfs?] general protection fault in nilfs_clear_dirty_page
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     syzbot <syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com>,
-        axboe@kernel.dk, dsterba@suse.com, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        wqu@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <105868.1686572748.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Date:   Mon, 12 Jun 2023 13:25:48 +0100
+Message-ID: <105869.1686572748@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Mon, Jun 12, 2023 at 12:30=E2=80=AFPM Christoph Hellwig wrote:
->
-> On Sun, Jun 11, 2023 at 02:18:29PM -0700, syzbot wrote:
-> > syzbot has bisected this issue to:
-> >
-> > commit 4a445b7b6178d88956192c0202463063f52e8667
-> > Author: Qu Wenruo <wqu@suse.com>
-> > Date:   Sat Aug 13 08:06:53 2022 +0000
-> >
-> >     btrfs: don't merge pages into bio if their page offset is not conti=
-guous
->
-> I can't see how that btrfs commit would affect nilfs2..
+kernel test robot <oliver.sang@intel.com> wrote:
 
-Yeah, I think this bisection result is wrong.
-I have already posted a bug-fix patch titled "nilfs2: prevent general
-protection fault in nilfs_clear_dirty_page()"
-for this issue.
+> kernel test robot noticed a 11.6% improvement of stress-ng.sendfile.ops_=
+per_sec on:
 
-Thanks,
-Ryusuke Konishi
+If it's sending to a socket, this is entirely feasible.  The
+splice_to_socket() function now sends multiple pages in one go to the netw=
+ork
+protocol's sendmsg() method to process instead of using sendpage to send o=
+ne
+page at a time.
+
+David
+
