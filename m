@@ -2,176 +2,150 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D98A272C711
-	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 16:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7696072C927
+	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 17:01:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S237149AbjFLOLw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 12 Jun 2023 10:11:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53660 "EHLO
+        id S238722AbjFLPBO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 12 Jun 2023 11:01:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237112AbjFLOLv (ORCPT
+        with ESMTP id S238427AbjFLPBN (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 12 Jun 2023 10:11:51 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 952B410D4
-        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 07:11:48 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7748ca56133so36785139f.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 07:11:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20221208.gappssmtp.com; s=20221208; t=1686579108; x=1689171108;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
-        b=sLZGHozVNiyKe7ZdVW/Izn1P7sgaQShCFq8nFxDEUw2HPGtUJB2+ZAyPMlipviAeTp
-         k3uQ8FI/e0eQenGUZnHNrzUL6Ik3G0IXm+GRBayvvLbMzgaY+UXyhfCpD4GOrVPEdTJv
-         IcIkIA09lG9xzyFYUO5JzJkmOBfAprST6Rp9IHrO/jxkuWSRx8pvHMOooqILGwgI/Lo6
-         1VEW0UpTP7V9T32ew0hLYFEC4JqpDUjaCB9j68pNjawpUBhqZ7JS8ocpEabGbvX3LMxh
-         84vjMA0Z3WUKqubPW8wvoXypai5o3n5GNzihnbK3f7nqUGYlTvpK/lKsx4hWnhA+HiQE
-         ZgZQ==
+        Mon, 12 Jun 2023 11:01:13 -0400
+Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE494121
+        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 08:01:11 -0700 (PDT)
+Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-33bdb682a1fso37639615ab.0
+        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 08:01:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686579108; x=1689171108;
-        h=content-transfer-encoding:mime-version:date:message-id:subject
-         :references:in-reply-to:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4muTChvfXbyFleywXuJztp663UoDJyd/b1njxzLhqy8=;
-        b=DsMyLuhQKlMscArA/q6F3HDVT60lx7fa2B2xDvVXzjUHfWQfUp3KkoUVxE0Jd+OE+E
-         9/CiA93p6qndD15i8mgoiAINuRFZxn6yyh4sO0psAueS/e0/yL6m0fNswlZ2z8Ez5iGB
-         nP6A2Pd+qMiOcY5VcXMn7nHL6itkZDyHp6TFQAwDz+pGVdnXTMq72L1KNUZXSKTNTZ6j
-         cQlw8zozMYNoC6m75Vc2VXil/tO8PspTnOiGxaHRJO6+Q3jazernvWKwkvkG6TOBfWyP
-         kkOAYxrNA2Ly9WOVlr5UaiShM1hCAkbHOX+XqTjh64Rgr3SOxzrWNsI6tXY+a8E7sF0+
-         Jwvg==
-X-Gm-Message-State: AC+VfDyLcqAfAE7YMO+sGHcQoEmYKa328J/ZuHXMIFOnJl5RhqmE0Sng
-        GwR0Np7TYQAODSaZDhtmdwPkSw==
-X-Google-Smtp-Source: ACHHUZ7oss5Q4qEAESR1LIaLJkD7ZwONVfsRpFehVo9Ss1V9OTMOTrOh14yI7Krm7Ivy+/EbDcrm4g==
-X-Received: by 2002:a6b:690a:0:b0:77a:ee79:652 with SMTP id e10-20020a6b690a000000b0077aee790652mr4231482ioc.1.1686579107952;
-        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
-Received: from [127.0.0.1] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id i19-20020a02cc53000000b0041408b79f1esm2793007jaq.111.2023.06.12.07.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Jun 2023 07:11:47 -0700 (PDT)
-From:   Jens Axboe <axboe@kernel.dk>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Richard Weinberger <richard@nod.at>,
-        Josef Bacik <josef@toxicpanda.com>,
-        "Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-        Jack Wang <jinpu.wang@ionos.com>,
-        Phillip Potter <phil@philpotter.co.uk>,
-        Coly Li <colyli@suse.de>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        "Martin K. Petersen" <martin.petersen@oracle.com>,
-        Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Pavel Machek <pavel@ucw.cz>, dm-devel@redhat.com,
-        linux-block@vger.kernel.org, linux-um@lists.infradead.org,
-        linux-scsi@vger.kernel.org, linux-bcache@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-nvme@lists.infradead.org,
-        linux-btrfs@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-pm@vger.kernel.org
-In-Reply-To: <20230608110258.189493-1-hch@lst.de>
-References: <20230608110258.189493-1-hch@lst.de>
-Subject: Re: decouple block open flags from fmode_t v2
-Message-Id: <168657910650.933808.4041515037046679285.b4-ty@kernel.dk>
-Date:   Mon, 12 Jun 2023 08:11:46 -0600
+        d=1e100.net; s=20221208; t=1686582071; x=1689174071;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YN3ynu0U4WVKTG1RHVdbuOrP7GA0Qluqiyijqs3pGpk=;
+        b=Wxaxkp1ABbjQxRYsK+Lw1QIz/SqgNqDrB92YGUFEXMLtmThTDBcwRBxUf/QsjUnEAG
+         5breKx4/ClA25Zxymo97EXJ4x7p/QVuR0+g7Mol6SEslJNWGfhsFJ10KYBEo8Hxc3FnI
+         d2ZWpyukLFryzPc4D/UJ2+AmyMO0pO/M9JOnrZBVRHebvEEmR6zyVQjB4Kcdkd3G+IFa
+         H8zZUrPJXvKBOa1GQ376uubdESe8B4q2MS59/egNDjgBm9Rc0mSJxD5L++0hNU/8ut9c
+         6TM9uvQlFYSP1TCOB1wzePuK1bngZ1C7MbQ8CXuxicyEeXX9dsNnmddzWa1QkKoHpbpj
+         Kotw==
+X-Gm-Message-State: AC+VfDx2E3CvKT0xWshF/H+INPVuxvkO0O6uzLkV39zVMWM5+1IHR7fz
+        zmZUfnd/EmUlxltoJe/UZ2Kt3cxzISFMjeJFpws/gifTe53k
+X-Google-Smtp-Source: ACHHUZ77uH/BBpn9hMjUBO8ctk9N9xc3hS5FVZT4MZC55A2PCJ88NDv/QOXwp8RhTeGyyXAVwlZR1jMjo3+QtmjsszC2KRu93OfU
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.13-dev-c6835
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a92:cac2:0:b0:335:b02:f8b4 with SMTP id
+ m2-20020a92cac2000000b003350b02f8b4mr4185406ilq.2.1686582071238; Mon, 12 Jun
+ 2023 08:01:11 -0700 (PDT)
+Date:   Mon, 12 Jun 2023 08:01:11 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000003da75f05fdeffd12@google.com>
+Subject: [syzbot] [nilfs?] WARNING in mark_buffer_dirty (5)
+From:   syzbot <syzbot+cdfcae656bac88ba0e2d@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
+Hello,
 
-On Thu, 08 Jun 2023 13:02:28 +0200, Christoph Hellwig wrote:
-> this series adds a new blk_mode_t for block open flags instead of abusing
-> fmode_t.  The block open flags work very different from the normal use of
-> fmode_t and only share the basic READ/WRITE flags with it.  None of the
-> other normal FMODE_* flags is used, but instead there are three
-> block-specific ones not used by anyone else, which can now be removed.
-> 
-> Note that I've only CCed maintainers and lists for drivers and file systems
-> that have non-trivial changes, as otherwise the series would spam literally
-> everyone in the block and file system world.
-> 
-> [...]
+syzbot found the following issue on:
 
-Applied, thanks!
+HEAD commit:    5f63595ebd82 Merge tag 'input-for-v6.4-rc5' of git://git.k..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1095a51b280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7474de833c217bf4
+dashboard link: https://syzkaller.appspot.com/bug?extid=cdfcae656bac88ba0e2d
+compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17a18595280000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=141c5463280000
 
-[01/30] block: also call ->open for incremental partition opens
-        commit: 9d1c92872e7082f100f629a58b32fa0214aa1aec
-[02/30] cdrom: remove the unused bdev argument to cdrom_open
-        commit: 764b83100b9aff52f950e408539c22a37cdedae8
-[03/30] cdrom: remove the unused mode argument to cdrom_ioctl
-        commit: 473399b50de1fdc12606254351273c71d1786251
-[04/30] cdrom: remove the unused cdrom_close_write release code
-        commit: a4cec8bc14c02e15006a71f02b0e1bbc72b9f796
-[05/30] cdrom: track if a cdrom_device_info was opened for data
-        commit: 8cdf433e2b8e4fc6c7b4393deb93fb258175d537
-[06/30] cdrom: remove the unused mode argument to cdrom_release
-        commit: 7ae24fcee9929f9002b84d8121144b2b3590b58c
-[07/30] block: pass a gendisk on bdev_check_media_change
-        commit: 444aa2c58cb3b6cfe3b7cc7db6c294d73393a894
-[08/30] block: pass a gendisk to ->open
-        commit: d32e2bf83791727a84ad5d3e3d713e82f9adbe30
-[09/30] block: remove the unused mode argument to ->release
-        commit: ae220766d87cd6799dbf918fea10613ae14c0654
-[10/30] block: rename blkdev_close to blkdev_release
-        commit: 7ee34cbc291a28134b60683b246ba58b4b676ec3
-[11/30] swsusp: don't pass a stack address to blkdev_get_by_path
-        commit: c889d0793d9dc07e94a5fddcc05356157fab00b7
-[12/30] bcache: don't pass a stack address to blkdev_get_by_path
-        commit: 29499ab060fec044161be73fb0e448eab97b4813
-[13/30] rnbd-srv: don't pass a holder for non-exclusive blkdev_get_by_path
-        commit: 5ee607675debef509946f8a251d4c30a21493ec2
-[14/30] btrfs: don't pass a holder for non-exclusive blkdev_get_by_path
-        commit: 2ef789288afd365f4245ba97e56189062de5148e
-[15/30] block: use the holder as indication for exclusive opens
-        commit: 2736e8eeb0ccdc71d1f4256c9c9a28f58cc43307
-[16/30] block: add a sb_open_mode helper
-        commit: 3f0b3e785e8b54a40c530fa77b7ab37bec925c57
-[17/30] fs: remove sb->s_mode
-        commit: 81b1fb7d17c0110df839e13468ada9e99bb6e5f4
-[18/30] scsi: replace the fmode_t argument to scsi_cmd_allowed with a simple bool
-        commit: 5f4eb9d5413fdfc779c099fdaf0ff417eb163145
-[19/30] scsi: replace the fmode_t argument to scsi_ioctl with a simple bool
-        commit: 2e80089c18241699c41d0af0669cb93844ff0dc1
-[20/30] scsi: replace the fmode_t argument to ->sg_io_fn with a simple bool
-        commit: 1991299e49fa58c3ba7e91599932f84bf537d592
-[21/30] nvme: replace the fmode_t argument to the nvme ioctl handlers with a simple bool
-        commit: 7d9d7d59d44b7e9236d168472aa222b6543fae25
-[22/30] mtd: block: use a simple bool to track open for write
-        commit: 658afed19ceed54a52b9e9e69c0791c8868ff55d
-[23/30] rnbd-srv: replace sess->open_flags with a "bool readonly"
-        commit: 99b07780814e89f16bec2773c237eb25121f8502
-[24/30] ubd: remove commented out code in ubd_open
-        commit: bd6abfc8e7898ce2163a1ffdbb9ec71a0a081267
-[25/30] block: move a few internal definitions out of blkdev.h
-        commit: cfb425761c79b6056ae5bb73f8d400f03b513959
-[26/30] block: remove unused fmode_t arguments from ioctl handlers
-        commit: 5e4ea834676e3b8965344ca61d36e1ae236249eb
-[27/30] block: replace fmode_t with a block-specific type for block open flags
-        commit: 05bdb9965305bbfdae79b31d22df03d1e2cfcb22
-[28/30] block: always use I_BDEV on file->f_mapping->host to find the bdev
-        commit: 4e762d8623448bb9d32711832ce977a65ff7636a
-[29/30] block: store the holder in file->private_data
-        commit: ee3249a8ce78ef014a71b05157a43fba8dc764e3
-[30/30] fs: remove the now unused FMODE_* flags
-        commit: 0733ad8002916b9dbbbcfe6e92ad44d2657de1c1
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d12b9e46ffe8/disk-5f63595e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c9044ded7edd/vmlinux-5f63595e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/09f0fd3926e8/bzImage-5f63595e.xz
+mounted in repro: https://storage.googleapis.com/syzbot-assets/1f3799cb13b4/mount_0.gz
 
-Best regards,
--- 
-Jens Axboe
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+cdfcae656bac88ba0e2d@syzkaller.appspotmail.com
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 5085 at fs/buffer.c:1130 mark_buffer_dirty+0x2dd/0x500
+Modules linked in:
+CPU: 1 PID: 5085 Comm: syz-executor134 Not tainted 6.4.0-rc5-syzkaller-00024-g5f63595ebd82 #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
+RIP: 0010:mark_buffer_dirty+0x2dd/0x500 fs/buffer.c:1130
+Code: df e8 57 0e e0 ff 48 8b 3b be 04 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 22 69 fc ff e8 3d 39 88 ff e9 71 ff ff ff e8 33 39 88 ff <0f> 0b e9 6d fd ff ff e8 27 39 88 ff 0f 0b e9 96 fd ff ff e8 1b 39
+RSP: 0018:ffffc90003f5f810 EFLAGS: 00010293
+
+RAX: ffffffff820345fd RBX: ffff8880775fbb01 RCX: ffff888015f30000
+RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+RBP: 0000000000000000 R08: ffffffff82034364 R09: ffffed100eeb48af
+R10: 0000000000000000 R11: dffffc0000000001 R12: ffff8880775a4570
+R13: dffffc0000000000 R14: ffffc90003f5f880 R15: 1ffff920007ebf10
+FS:  0000555556a02300(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000000000000000 CR3: 000000002ba98000 CR4: 00000000003506e0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ __nilfs_mark_inode_dirty+0x105/0x280 fs/nilfs2/inode.c:1115
+ nilfs_dirty_inode+0x164/0x200 fs/nilfs2/inode.c:1148
+ __mark_inode_dirty+0x305/0xd90 fs/fs-writeback.c:2424
+ mark_inode_dirty include/linux/fs.h:2144 [inline]
+ generic_write_end+0x184/0x1e0 fs/buffer.c:2257
+ nilfs_write_end+0x85/0xf0 fs/nilfs2/inode.c:280
+ generic_perform_write+0x3ed/0x5e0 mm/filemap.c:3934
+ __generic_file_write_iter+0x29b/0x400 mm/filemap.c:4019
+ generic_file_write_iter+0xaf/0x310 mm/filemap.c:4083
+ call_write_iter include/linux/fs.h:1868 [inline]
+ new_sync_write fs/read_write.c:491 [inline]
+ vfs_write+0x790/0xb20 fs/read_write.c:584
+ ksys_write+0x1a0/0x2c0 fs/read_write.c:637
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f417000db39
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 11 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffd6c282ed8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0032656c69662f2e RCX: 00007f417000db39
+RDX: 0000000000000018 RSI: 00000000200001c0 RDI: 0000000000000004
+RBP: 0000000000000000 R08: 00007ffd6c282f00 R09: 00007ffd6c282f00
+R10: 00007ffd6c282f00 R11: 0000000000000246 R12: 00007ffd6c282efc
+R13: 00007ffd6c282f30 R14: 00007ffd6c282f10 R15: 0000000000000006
+ </TASK>
 
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
