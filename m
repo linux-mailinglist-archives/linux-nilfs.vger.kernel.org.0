@@ -2,81 +2,124 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8259E72B41C
-	for <lists+linux-nilfs@lfdr.de>; Sun, 11 Jun 2023 23:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 494F272B54D
+	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 04:14:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232700AbjFKVSc (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 11 Jun 2023 17:18:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56918 "EHLO
+        id S233234AbjFLCOw (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sun, 11 Jun 2023 22:14:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229511AbjFKVSc (ORCPT
+        with ESMTP id S229754AbjFLCOv (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 11 Jun 2023 17:18:32 -0400
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 479691AB
-        for <linux-nilfs@vger.kernel.org>; Sun, 11 Jun 2023 14:18:30 -0700 (PDT)
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-77accdaa0e0so367808539f.0
-        for <linux-nilfs@vger.kernel.org>; Sun, 11 Jun 2023 14:18:30 -0700 (PDT)
+        Sun, 11 Jun 2023 22:14:51 -0400
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AE079B;
+        Sun, 11 Jun 2023 19:14:50 -0700 (PDT)
+Received: by mail-oi1-x22e.google.com with SMTP id 5614622812f47-39c84863e34so2188001b6e.2;
+        Sun, 11 Jun 2023 19:14:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1686536087; x=1689128087;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RwR+Br//mM4TJi0nAuK5n5aI7xVUDVwbzD2JoLH3tEk=;
+        b=PXDJpBTHA65AcsByKj3qIbsDGTBrzv/cIP0WWsyYTbifSRsMn2EKrGuV6JrC1xx3v0
+         7ysn33KTQuyb1hoSAYtq5bU4rvsKiC3M8ZPITZUG6kYLIjvoEr+FIpyRjGlQOGz2m9N5
+         OGDo0U4P4nJHg6OOOWB75XuUh/2X+GzOFVhIe+X3E0r4mpLOgt4z53KlmDyY80B3oBUq
+         1Sfon+W614AYqd5wRse3I/xCmiUChfG/xJXExqkI7BxWYTa1sdIt+Pg8xYXbLfdyrety
+         9O7khHrt013zGI1GoSDkX+4/Arogi8iezBGs9Wnwcu/2PQuFHK9KTwpVDOhj2Rjdq/v2
+         g/uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686518309; x=1689110309;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=++zemBX/2RrOYOFOLtSc1QjMmPmCs+Z/n8b0jPh3c7o=;
-        b=fKYa3Zj/+H1wOa5wBS+1pFN5YBDQBU1q2i6zB4wNhaapCneROaAwEtc/Y+pTY920hW
-         dbnhC0WULSov562NX+DZxIRtG+0TE828LmvKfqRrNWdI+h5nYaUzlC0dvfhXe/XgMaEN
-         30rIYRQruN4ZmEiWiF7fCOcWiSd+FOZRMLw27SCjBhrhni9V8EgTMw3MoZRUSuuF03jY
-         ADjR62mPoAM1NTPj3HpWQELDGQh3pTShuETd+akm5qEhRTQDuuTygN7LjpCOe80qR34+
-         DZfpCrEyZ+ZdX4SnBq4WssbEBVrRrvWNxzDxVPl+9ETEI58mAL3c14gXQRP9UIS4klmv
-         E8Fg==
-X-Gm-Message-State: AC+VfDxL31HPH/fm1jQejLam4aVvYugSq3sqn8srj8dpyRMHY4U+FyXl
-        XuTVSNVuKKMx+k2WSMJpx1h7Wi2eBQMZrHqA+wPUObmpOBtd
-X-Google-Smtp-Source: ACHHUZ5uexlpBPtPJccaNdHhmErmovEuc0aJEQv+DulBACxbzELH3wDT/Ehuljo6vWiQkQ7yLj0tlIJ2iLEPDZLXWLeSG1iJZatu
-MIME-Version: 1.0
-X-Received: by 2002:a6b:fd15:0:b0:777:afc6:8da0 with SMTP id
- c21-20020a6bfd15000000b00777afc68da0mr2935869ioi.1.1686518309621; Sun, 11 Jun
- 2023 14:18:29 -0700 (PDT)
-Date:   Sun, 11 Jun 2023 14:18:29 -0700
+        d=1e100.net; s=20221208; t=1686536087; x=1689128087;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RwR+Br//mM4TJi0nAuK5n5aI7xVUDVwbzD2JoLH3tEk=;
+        b=Us8jaA/CUZ4UHg/JC1qOaA9bTK+D1IkdBFFa5FjQ7NtgUb090xXHK6/pM8/5+FyzWr
+         dXdIis9ajp6CywE5xrMELLmESSawtUtDf1FgmbLcEuPGSJ4QRZVQOa9MCiK3Hq6S5ZHX
+         6CaVds/O8W6iyJcV5ZpernZOwJamkhamn5rpAXP4EWy9XEDbiBi571gnF/MFsRyc+S1D
+         tBnR2eRS4ZtNJpTFfVibDFaUc3dDo7DyGWVcHShUuqLQ+WaiNTgHAQKox0yQ2AlJRs6I
+         l8RaGo/ZtZ/H/kvRuFc6+ni3mXktoCXKOl9cajdyI1x+q7wifG9ykYeKtv3JxqSxCPj4
+         a4GQ==
+X-Gm-Message-State: AC+VfDzcX0eP/VHm1IwRaexI9OoIJ8his/6B0yP6E49dDLuE3SWpIq6t
+        wnBHLz/Oaempd8ozlM+rIEg=
+X-Google-Smtp-Source: ACHHUZ5PE9wOquTkUtuI0bCcH/TLGYln0KWz10kAgqXWDtg1dnOA4CtvNtkYx/b5z8NkvfZpBLNkew==
+X-Received: by 2002:aca:121a:0:b0:398:5478:b7fa with SMTP id 26-20020aca121a000000b003985478b7famr2676100ois.45.1686536086775;
+        Sun, 11 Jun 2023 19:14:46 -0700 (PDT)
+Received: from carrot.. (i220-108-176-104.s42.a014.ap.plala.or.jp. [220.108.176.104])
+        by smtp.gmail.com with ESMTPSA id az4-20020a170902a58400b001b1c3542f57sm6931347plb.103.2023.06.11.19.14.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Jun 2023 19:14:46 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] nilfs2: prevent general protection fault in nilfs_clear_dirty_page()
+Date:   Mon, 12 Jun 2023 11:14:56 +0900
+Message-Id: <20230612021456.3682-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
 In-Reply-To: <000000000000da4f6b05eb9bf593@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c0951105fde12435@google.com>
-Subject: Re: [syzbot] [nilfs?] general protection fault in nilfs_clear_dirty_page
-From:   syzbot <syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com>
-To:     axboe@kernel.dk, dsterba@suse.com, hch@lst.de,
-        konishi.ryusuke@gmail.com, linux-block@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, syzkaller-bugs@googlegroups.com,
-        wqu@suse.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.8 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+References: <000000000000da4f6b05eb9bf593@google.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-syzbot has bisected this issue to:
+In a syzbot stress test that deliberately causes file system errors on
+nilfs2 with a corrupted disk image, it has been reported that
+nilfs_clear_dirty_page() called from nilfs_clear_dirty_pages() can cause
+a general protection fault.
 
-commit 4a445b7b6178d88956192c0202463063f52e8667
-Author: Qu Wenruo <wqu@suse.com>
-Date:   Sat Aug 13 08:06:53 2022 +0000
+In nilfs_clear_dirty_pages(), when looking up dirty pages from the page
+cache and calling nilfs_clear_dirty_page() for each dirty page/folio
+retrieved, the back reference from the argument page to "mapping" may have
+been changed to NULL (and possibly others).  It is necessary to check
+this after locking the page/folio.
 
-    btrfs: don't merge pages into bio if their page offset is not contiguous
+So, fix this issue by not calling nilfs_clear_dirty_page() on a page/folio
+after locking it in nilfs_clear_dirty_pages() if the back reference
+"mapping" from the page/folio is different from the "mapping" that held
+the page/folio just before.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=17778475280000
-start commit:   022ce8862dff Merge tag 'i2c-for-6.4-rc6' of git://git.kern..
-git tree:       upstream
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=14f78475280000
-console output: https://syzkaller.appspot.com/x/log.txt?x=10f78475280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7474de833c217bf4
-dashboard link: https://syzkaller.appspot.com/bug?extid=53369d11851d8f26735c
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13e9d48b280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12d7fa63280000
-
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 Reported-by: syzbot+53369d11851d8f26735c@syzkaller.appspotmail.com
-Fixes: 4a445b7b6178 ("btrfs: don't merge pages into bio if their page offset is not contiguous")
+Closes: https://lkml.kernel.org/r/000000000000da4f6b05eb9bf593@google.com
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ fs/nilfs2/page.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+diff --git a/fs/nilfs2/page.c b/fs/nilfs2/page.c
+index 5cf30827f244..b4e54d079b7d 100644
+--- a/fs/nilfs2/page.c
++++ b/fs/nilfs2/page.c
+@@ -370,7 +370,15 @@ void nilfs_clear_dirty_pages(struct address_space *mapping, bool silent)
+ 			struct folio *folio = fbatch.folios[i];
+ 
+ 			folio_lock(folio);
+-			nilfs_clear_dirty_page(&folio->page, silent);
++
++			/*
++			 * This folio may have been removed from the address
++			 * space by truncation or invalidation when the lock
++			 * was acquired.  Skip processing in that case.
++			 */
++			if (likely(folio->mapping == mapping))
++				nilfs_clear_dirty_page(&folio->page, silent);
++
+ 			folio_unlock(folio);
+ 		}
+ 		folio_batch_release(&fbatch);
+-- 
+2.34.1
+
