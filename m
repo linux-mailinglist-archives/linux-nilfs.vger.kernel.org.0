@@ -2,150 +2,69 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7696072C927
-	for <lists+linux-nilfs@lfdr.de>; Mon, 12 Jun 2023 17:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 534EC7319D9
+	for <lists+linux-nilfs@lfdr.de>; Thu, 15 Jun 2023 15:25:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238722AbjFLPBO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 12 Jun 2023 11:01:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34952 "EHLO
+        id S1344037AbjFONZM (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 15 Jun 2023 09:25:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238427AbjFLPBN (ORCPT
+        with ESMTP id S240465AbjFONYp (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Mon, 12 Jun 2023 11:01:13 -0400
-Received: from mail-il1-f206.google.com (mail-il1-f206.google.com [209.85.166.206])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE494121
-        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 08:01:11 -0700 (PDT)
-Received: by mail-il1-f206.google.com with SMTP id e9e14a558f8ab-33bdb682a1fso37639615ab.0
-        for <linux-nilfs@vger.kernel.org>; Mon, 12 Jun 2023 08:01:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1686582071; x=1689174071;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YN3ynu0U4WVKTG1RHVdbuOrP7GA0Qluqiyijqs3pGpk=;
-        b=Wxaxkp1ABbjQxRYsK+Lw1QIz/SqgNqDrB92YGUFEXMLtmThTDBcwRBxUf/QsjUnEAG
-         5breKx4/ClA25Zxymo97EXJ4x7p/QVuR0+g7Mol6SEslJNWGfhsFJ10KYBEo8Hxc3FnI
-         d2ZWpyukLFryzPc4D/UJ2+AmyMO0pO/M9JOnrZBVRHebvEEmR6zyVQjB4Kcdkd3G+IFa
-         H8zZUrPJXvKBOa1GQ376uubdESe8B4q2MS59/egNDjgBm9Rc0mSJxD5L++0hNU/8ut9c
-         6TM9uvQlFYSP1TCOB1wzePuK1bngZ1C7MbQ8CXuxicyEeXX9dsNnmddzWa1QkKoHpbpj
-         Kotw==
-X-Gm-Message-State: AC+VfDx2E3CvKT0xWshF/H+INPVuxvkO0O6uzLkV39zVMWM5+1IHR7fz
-        zmZUfnd/EmUlxltoJe/UZ2Kt3cxzISFMjeJFpws/gifTe53k
-X-Google-Smtp-Source: ACHHUZ77uH/BBpn9hMjUBO8ctk9N9xc3hS5FVZT4MZC55A2PCJ88NDv/QOXwp8RhTeGyyXAVwlZR1jMjo3+QtmjsszC2KRu93OfU
+        Thu, 15 Jun 2023 09:24:45 -0400
+Received: from mail.sitirkam.com (mail.aurorateknoglobal.com [103.126.10.58])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A043A270A;
+        Thu, 15 Jun 2023 06:24:44 -0700 (PDT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id E95E84E7BE85;
+        Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id vCWv5wv-e4bs; Thu, 15 Jun 2023 08:32:08 +0700 (WIB)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.sitirkam.com (Postfix) with ESMTP id EBCB74E7B17E;
+        Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.sitirkam.com EBCB74E7B17E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sitirkam.com;
+        s=B8AB377C-ED3B-11EA-8736-9248CAEF674E; t=1686792721;
+        bh=q7vDHy+gLAr4GKZUDI+hjt8I93kvW09nNmGJORUTyfg=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=Tf7FWIxmdKqazaA50P1tzZyaij5Ra09whYpkGOTGYx+leNni4csixyNmnwapzLMY2
+         +SOpRTJcX2lJnWiyFTPPI52jdJFLC3Gxr0naX/qVoa40FXnTKMGLRrGytzuhmkrmVM
+         k02AK/m4j2GD7DBUtHZE2HAZ+7UeAeKuRJ1AWMmjaihfUvhOIW8sdcNMkWbliDVDE7
+         eBGbm0b+95+pUEgOc4ZUN2bi4mz0Wl5JgtWaG6la0EW/TSHLPcdc3Jrt7NdhMutJXj
+         EIdh2qJ3eZonpgVb2xu68Wd7xlr6RojQtmjH+Aqe5kBFTbiCRiRMxjMeXTn+KenIDo
+         Ipp2GuTzEJTPQ==
+X-Virus-Scanned: amavisd-new at mail.sitirkam.com
+Received: from mail.sitirkam.com ([127.0.0.1])
+        by localhost (mail.sitirkam.com [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id eMG2ZXjSIsZl; Thu, 15 Jun 2023 08:32:00 +0700 (WIB)
+Received: from [185.169.4.111] (unknown [185.169.4.111])
+        by mail.sitirkam.com (Postfix) with ESMTPSA id 230F94E7B17F;
+        Thu, 15 Jun 2023 08:31:55 +0700 (WIB)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Received: by 2002:a92:cac2:0:b0:335:b02:f8b4 with SMTP id
- m2-20020a92cac2000000b003350b02f8b4mr4185406ilq.2.1686582071238; Mon, 12 Jun
- 2023 08:01:11 -0700 (PDT)
-Date:   Mon, 12 Jun 2023 08:01:11 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003da75f05fdeffd12@google.com>
-Subject: [syzbot] [nilfs?] WARNING in mark_buffer_dirty (5)
-From:   syzbot <syzbot+cdfcae656bac88ba0e2d@syzkaller.appspotmail.com>
-To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Spende
+To:     Recipients <admin@sitirkam.com>
+From:   "Maria-Elisabeth Schaeffler" <admin@sitirkam.com>
+Date:   Wed, 14 Jun 2023 18:34:03 -0700
+Reply-To: schaefflermariaelisabeth1941@gmail.com
+Message-Id: <20230615013156.230F94E7B17F@mail.sitirkam.com>
+X-Spam-Status: No, score=2.9 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: **
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello,
+Your email account has been selected for a donation of =E2=82=AC1,700,000. =
+Please contact me for more information.
 
-syzbot found the following issue on:
-
-HEAD commit:    5f63595ebd82 Merge tag 'input-for-v6.4-rc5' of git://git.k..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1095a51b280000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7474de833c217bf4
-dashboard link: https://syzkaller.appspot.com/bug?extid=cdfcae656bac88ba0e2d
-compiler:       Debian clang version 15.0.7, GNU ld (GNU Binutils for Debian) 2.35.2
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17a18595280000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=141c5463280000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d12b9e46ffe8/disk-5f63595e.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c9044ded7edd/vmlinux-5f63595e.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/09f0fd3926e8/bzImage-5f63595e.xz
-mounted in repro: https://storage.googleapis.com/syzbot-assets/1f3799cb13b4/mount_0.gz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+cdfcae656bac88ba0e2d@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 5085 at fs/buffer.c:1130 mark_buffer_dirty+0x2dd/0x500
-Modules linked in:
-CPU: 1 PID: 5085 Comm: syz-executor134 Not tainted 6.4.0-rc5-syzkaller-00024-g5f63595ebd82 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 05/25/2023
-RIP: 0010:mark_buffer_dirty+0x2dd/0x500 fs/buffer.c:1130
-Code: df e8 57 0e e0 ff 48 8b 3b be 04 00 00 00 5b 41 5c 41 5e 41 5f 5d e9 22 69 fc ff e8 3d 39 88 ff e9 71 ff ff ff e8 33 39 88 ff <0f> 0b e9 6d fd ff ff e8 27 39 88 ff 0f 0b e9 96 fd ff ff e8 1b 39
-RSP: 0018:ffffc90003f5f810 EFLAGS: 00010293
-
-RAX: ffffffff820345fd RBX: ffff8880775fbb01 RCX: ffff888015f30000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: ffffffff82034364 R09: ffffed100eeb48af
-R10: 0000000000000000 R11: dffffc0000000001 R12: ffff8880775a4570
-R13: dffffc0000000000 R14: ffffc90003f5f880 R15: 1ffff920007ebf10
-FS:  0000555556a02300(0000) GS:ffff8880b9900000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000000000000000 CR3: 000000002ba98000 CR4: 00000000003506e0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- __nilfs_mark_inode_dirty+0x105/0x280 fs/nilfs2/inode.c:1115
- nilfs_dirty_inode+0x164/0x200 fs/nilfs2/inode.c:1148
- __mark_inode_dirty+0x305/0xd90 fs/fs-writeback.c:2424
- mark_inode_dirty include/linux/fs.h:2144 [inline]
- generic_write_end+0x184/0x1e0 fs/buffer.c:2257
- nilfs_write_end+0x85/0xf0 fs/nilfs2/inode.c:280
- generic_perform_write+0x3ed/0x5e0 mm/filemap.c:3934
- __generic_file_write_iter+0x29b/0x400 mm/filemap.c:4019
- generic_file_write_iter+0xaf/0x310 mm/filemap.c:4083
- call_write_iter include/linux/fs.h:1868 [inline]
- new_sync_write fs/read_write.c:491 [inline]
- vfs_write+0x790/0xb20 fs/read_write.c:584
- ksys_write+0x1a0/0x2c0 fs/read_write.c:637
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x41/0xc0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f417000db39
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 11 15 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 c0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd6c282ed8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0032656c69662f2e RCX: 00007f417000db39
-RDX: 0000000000000018 RSI: 00000000200001c0 RDI: 0000000000000004
-RBP: 0000000000000000 R08: 00007ffd6c282f00 R09: 00007ffd6c282f00
-R10: 00007ffd6c282f00 R11: 0000000000000246 R12: 00007ffd6c282efc
-R13: 00007ffd6c282f30 R14: 00007ffd6c282f10 R15: 0000000000000006
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to change bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Mrs Maria Elisabeth Schaeffler
+CEO SCHAEFFLER.
