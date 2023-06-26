@@ -2,234 +2,52 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 40C7B73B7CE
-	for <lists+linux-nilfs@lfdr.de>; Fri, 23 Jun 2023 14:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DBC673E26B
+	for <lists+linux-nilfs@lfdr.de>; Mon, 26 Jun 2023 16:49:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231523AbjFWMnS (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 23 Jun 2023 08:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60946 "EHLO
+        id S229904AbjFZOtH (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 26 Jun 2023 10:49:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54848 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229961AbjFWMnN (ORCPT
+        with ESMTP id S229566AbjFZOtG (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Fri, 23 Jun 2023 08:43:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDE7C2969;
-        Fri, 23 Jun 2023 05:42:28 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 8268861A44;
-        Fri, 23 Jun 2023 12:42:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DB4BC433C8;
-        Fri, 23 Jun 2023 12:41:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687524146;
-        bh=ljQRDIRYG4TydFhjD0LuSn8BREerPmb4Ipkpa2QAq6Q=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=apfm6xvoeO6UvUfxPwNSOl0FaLWJ7ShkzzPeuSOb0bank70626+jFCCnlqxUCd2NX
-         mV+Eb3SlbyeKtShM0cPnGoccCVrProiQPYgaM4HyeW5epsbNbu8US+O9nrIP4r+ghW
-         Y8FmG2CVOdPNZ1eNovI71PsOzsGS/p5EOkEcjtA4zTWfFdhpQkNKBq1hEMuzxsWytK
-         w9zTBeB4xmhiyjllhLtRaoNC8lgBTTH19xNIsLsgb+18yFVUlxxLoSku7XQ5A1i1lR
-         WF4IRekFC21BVGIj1AxyqNGVCxMph3jwY74VjiaGchsSc5v31PlBNGYvRkbk2aFmu+
-         9KQZIm3JpdS0g==
-Date:   Fri, 23 Jun 2023 14:41:42 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Jeff Layton <jlayton@kernel.org>
-Cc:     Steven Rostedt <rostedt@goodmis.org>, Jeremy Kerr <jk@ozlabs.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Arve =?utf-8?B?SGrDuG5uZXbDpWc=?= <arve@android.com>,
-        Todd Kjos <tkjos@android.com>,
-        Martijn Coenen <maco@android.com>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        Carlos Llamas <cmllamas@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Leon Romanovsky <leon@kernel.org>,
-        Brad Warrum <bwarrum@linux.ibm.com>,
-        Ritu Agarwal <rituagar@linux.ibm.com>,
-        Eric Van Hensbergen <ericvh@kernel.org>,
-        Latchesar Ionkov <lucho@ionkov.net>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Schoenebeck <linux_oss@crudebyte.com>,
-        David Sterba <dsterba@suse.com>,
-        David Howells <dhowells@redhat.com>,
-        Marc Dionne <marc.dionne@auristor.com>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Ian Kent <raven@themaw.net>,
-        Luis de Bethencourt <luisbg@kernel.org>,
-        Salah Triki <salah.triki@gmail.com>,
-        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-        Eric Biederman <ebiederm@xmission.com>,
-        Kees Cook <keescook@chromium.org>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        Xiubo Li <xiubli@redhat.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jan Harkes <jaharkes@cs.cmu.edu>, coda@cs.cmu.edu,
-        Joel Becker <jlbec@evilplan.org>,
-        Christoph Hellwig <hch@lst.de>,
-        Nicolas Pitre <nico@fluxnic.net>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Tyler Hicks <code@tyhicks.com>,
-        Ard Biesheuvel <ardb@kernel.org>, Gao Xiang <xiang@kernel.org>,
-        Chao Yu <chao@kernel.org>, Yue Hu <huyue2@coolpad.com>,
-        Jeffle Xu <jefflexu@linux.alibaba.com>,
-        Namjae Jeon <linkinjeon@kernel.org>,
-        Sungjong Seo <sj1557.seo@samsung.com>,
-        Jan Kara <jack@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>,
-        Miklos Szeredi <miklos@szeredi.hu>,
-        Bob Peterson <rpeterso@redhat.com>,
-        Andreas Gruenbacher <agruenba@redhat.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Johannes Berg <johannes@sipsolutions.net>,
-        Mikulas Patocka <mikulas@artax.karlin.mff.cuni.cz>,
-        Mike Kravetz <mike.kravetz@oracle.com>,
-        Muchun Song <muchun.song@linux.dev>,
-        David Woodhouse <dwmw2@infradead.org>,
-        Dave Kleikamp <shaggy@kernel.org>, Tejun Heo <tj@kernel.org>,
-        Trond Myklebust <trond.myklebust@hammerspace.com>,
-        Anna Schumaker <anna@kernel.org>,
-        Chuck Lever <chuck.lever@oracle.com>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Anton Altaparmakov <anton@tuxera.com>,
-        Konstantin Komarov <almaz.alexandrovich@paragon-software.com>,
-        Mark Fasheh <mark@fasheh.com>,
-        Joseph Qi <joseph.qi@linux.alibaba.com>,
-        Bob Copeland <me@bobcopeland.com>,
-        Mike Marshall <hubcap@omnibond.com>,
-        Martin Brandenburg <martin@omnibond.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Iurii Zaikin <yzaikin@google.com>,
-        Tony Luck <tony.luck@intel.com>,
-        "Guilherme G. Piccoli" <gpiccoli@igalia.com>,
-        Anders Larsen <al@alarsen.net>,
-        Steve French <sfrench@samba.org>,
-        Paulo Alcantara <pc@manguebit.com>,
-        Ronnie Sahlberg <lsahlber@redhat.com>,
-        Shyam Prasad N <sprasad@microsoft.com>,
-        Tom Talpey <tom@talpey.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>,
-        Phillip Lougher <phillip@squashfs.org.uk>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Evgeniy Dushistov <dushistov@mail.ru>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "Darrick J. Wong" <djwong@kernel.org>,
-        Damien Le Moal <dlemoal@kernel.org>,
-        Naohiro Aota <naohiro.aota@wdc.com>,
-        Johannes Thumshirn <jth@kernel.org>,
-        Alexei Starovoitov <ast@kernel.org>,
-        Daniel Borkmann <daniel@iogearbox.net>,
-        Andrii Nakryiko <andrii@kernel.org>,
-        Martin KaFai Lau <martin.lau@linux.dev>,
-        Song Liu <song@kernel.org>, Yonghong Song <yhs@fb.com>,
-        John Fastabend <john.fastabend@gmail.com>,
-        KP Singh <kpsingh@kernel.org>,
-        Stanislav Fomichev <sdf@google.com>,
-        Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>,
-        Hugh Dickins <hughd@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        John Johansen <john.johansen@canonical.com>,
-        Paul Moore <paul@paul-moore.com>,
-        James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Stephen Smalley <stephen.smalley.work@gmail.com>,
-        Eric Paris <eparis@parisplace.org>,
-        Juergen Gross <jgross@suse.com>,
-        Ruihan Li <lrh2000@pku.edu.cn>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Udipto Goswami <quic_ugoswami@quicinc.com>,
-        Linyu Yuan <quic_linyyuan@quicinc.com>,
-        John Keeping <john@keeping.me.uk>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Yuta Hayama <hayama@lineo.co.jp>,
-        Jozef Martiniak <jomajm@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Sandeep Dhavale <dhavale@google.com>,
-        Dave Chinner <dchinner@redhat.com>,
-        Johannes Weiner <hannes@cmpxchg.org>,
-        ZhangPeng <zhangpeng362@huawei.com>,
-        Viacheslav Dubeyko <slava@dubeyko.com>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Aditya Garg <gargaditya08@live.com>,
-        Erez Zadok <ezk@cs.stonybrook.edu>,
-        Yifei Liu <yifeliu@cs.stonybrook.edu>,
-        Yu Zhe <yuzhe@nfschina.com>,
-        "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-        Oleg Kanatov <okanatov@gmail.com>,
-        "Dr. David Alan Gilbert" <linux@treblig.org>,
-        Jiangshan Yi <yijiangshan@kylinos.cn>,
-        xu xin <cgel.zte@gmail.com>, Stefan Roesch <shr@devkernel.io>,
-        Zhihao Cheng <chengzhihao1@huawei.com>,
-        "Liam R. Howlett" <Liam.Howlett@Oracle.com>,
-        Alexey Dobriyan <adobriyan@gmail.com>,
-        Minghao Chi <chi.minghao@zte.com.cn>,
-        Seth Forshee <sforshee@digitalocean.com>,
-        Zeng Jingxiang <linuszeng@tencent.com>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Mimi Zohar <zohar@linux.ibm.com>,
-        Roberto Sassu <roberto.sassu@huawei.com>,
-        Zhang Yi <yi.zhang@huawei.com>, Tom Rix <trix@redhat.com>,
-        "Fabio M. De Francesco" <fmdefrancesco@gmail.com>,
-        Chen Zhongjin <chenzhongjin@huawei.com>,
-        Zhengchao Shao <shaozhengchao@huawei.com>,
-        Rik van Riel <riel@surriel.com>,
-        Jingyu Wang <jingyuwang_vip@163.com>,
-        Hangyu Hua <hbh25y@gmail.com>, linuxppc-dev@lists.ozlabs.org,
-        linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-usb@vger.kernel.org,
-        v9fs@lists.linux.dev, linux-fsdevel@vger.kernel.org,
-        linux-afs@lists.infradead.org, autofs@vger.kernel.org,
-        linux-mm@kvack.org, linux-btrfs@vger.kernel.org,
-        ceph-devel@vger.kernel.org, codalist@coda.cs.cmu.edu,
-        ecryptfs@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-        linux-um@lists.infradead.org, linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, ocfs2-devel@oss.oracle.com,
-        linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-        linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: Re: [PATCH 00/79] fs: new accessors for inode->i_ctime
-Message-ID: <20230623-wegelagerei-kanzlei-45cdcf5da157@brauner>
-References: <20230621144507.55591-1-jlayton@kernel.org>
- <20230621152141.5961cf5f@gandalf.local.home>
- <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
+        Mon, 26 Jun 2023 10:49:06 -0400
+Received: from mail-io1-f77.google.com (mail-io1-f77.google.com [209.85.166.77])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92369E7E
+        for <linux-nilfs@vger.kernel.org>; Mon, 26 Jun 2023 07:49:03 -0700 (PDT)
+Received: by mail-io1-f77.google.com with SMTP id ca18e2360f4ac-780addd7382so272763539f.1
+        for <linux-nilfs@vger.kernel.org>; Mon, 26 Jun 2023 07:49:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687790943; x=1690382943;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CTN8eHqEhul73km71ivyoMn8wepYg6lP56Aehd1zurw=;
+        b=WhEsEq6lrzpb2SwNl1LozW7EFy+RNm+O8Pg6GHeBWvWvUwfKv/WMzAAJa1P6v0ipJ7
+         JPk9kno8n4d1+3PcQsoTSm6aSMBm/kAgmst/iokrp4GkC3M4042nJX4ct9LF9LPzrDIH
+         oNi6rj+iZU/O6iRjMPY7rZqhcPKx6Fr/Og/aNPDnoToPvJ/GPUifqEW8D1VQyvx4NBYQ
+         /4dwJMT6EljJoKGAL9VINeBiN6yMlPcHyFJx0Iec5pD+5bZZHw7KtTUC0vnp0XsuZjWX
+         op7iEdjihizq0xSr5bvOdodClA2bcWNGqc6PytReyWvhXmc9rJGAiPvbh8LANsGFlltc
+         2rAw==
+X-Gm-Message-State: AC+VfDzkW2BaofoWCF0Y5giV3hoTrY5T3JzxHCEIprmPkKQH7d5j0T4s
+        RjKo7Gm8TB3/qqR6niBPgKEAxO9inup1lrPoPgUOPGfznyI0
+X-Google-Smtp-Source: ACHHUZ4+hTti2HmsrPZcwfsQg7QEBOd/QgofzbVD+/4rVBXv8S2zC8hQy1eAdXR3PKj0290cJrV312trnSMGQdB9GycUPZebrj5f
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2a5a069572b46b59dd16fe8d54e549a9b5bbb6eb.camel@kernel.org>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+X-Received: by 2002:a02:9505:0:b0:423:ea8:4271 with SMTP id
+ y5-20020a029505000000b004230ea84271mr10127175jah.6.1687790942937; Mon, 26 Jun
+ 2023 07:49:02 -0700 (PDT)
+Date:   Mon, 26 Jun 2023 07:49:02 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000009be70d05ff097338@google.com>
+Subject: [syzbot] [nilfs?] possible deadlock in nilfs_dirty_inode
+From:   syzbot <syzbot+903a7b353239d83ad434@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -237,28 +55,206 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 03:52:27PM -0400, Jeff Layton wrote:
-> On Wed, 2023-06-21 at 15:21 -0400, Steven Rostedt wrote:
-> > On Wed, 21 Jun 2023 10:45:05 -0400
-> > Jeff Layton <jlayton@kernel.org> wrote:
-> > 
-> > > Most of this conversion was done via coccinelle, with a few of the more
-> > > non-standard accesses done by hand. There should be no behavioral
-> > > changes with this set. That will come later, as we convert individual
-> > > filesystems to use multigrain timestamps.
-> > 
-> > BTW, Linus has suggested to me that whenever a conccinelle script is used,
-> > it should be included in the change log.
-> > 
-> 
-> Ok, here's what I have. I note again that my usage of coccinelle is
-> pretty primitive, so I ended up doing a fair bit of by-hand fixing after
-> applying these.
-> 
-> Given the way that this change is broken up into 77 patches by
-> subsystem, to which changelogs should I add it? I could add it to the
-> "infrastructure" patch, but that's the one where I _didn't_ use it. 
-> 
-> Maybe to patch #79 (the one that renames i_ctime)?
+Hello,
 
-That works. I can also put this into a merge commit or pr message.
+syzbot found the following issue on:
+
+HEAD commit:    dad9774deaf1 Merge tag 'timers-urgent-2023-06-21' of git:/..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=106a4b33280000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=2cbd298d0aff1140
+dashboard link: https://syzkaller.appspot.com/bug?extid=903a7b353239d83ad434
+compiler:       gcc (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2
+userspace arch: i386
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/7bc7510fe41f/non_bootable_disk-dad9774d.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/04ba8cb302c4/vmlinux-dad9774d.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/9b26d41c591b/bzImage-dad9774d.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+903a7b353239d83ad434@syzkaller.appspotmail.com
+
+======================================================
+WARNING: possible circular locking dependency detected
+6.4.0-rc7-syzkaller-00072-gdad9774deaf1 #0 Not tainted
+------------------------------------------------------
+kswapd0/111 is trying to acquire lock:
+ffff888050c6e650 (sb_internal#3){.+.+}-{0:0}, at: nilfs_dirty_inode+0x18a/0x260 fs/nilfs2/inode.c:1147
+
+but task is already holding lock:
+ffffffff8c8efae0 (fs_reclaim){+.+.}-{0:0}, at: set_task_reclaim_state mm/vmscan.c:512 [inline]
+ffffffff8c8efae0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x170/0x1ac0 mm/vmscan.c:7349
+
+which lock already depends on the new lock.
+
+
+the existing dependency chain (in reverse order) is:
+
+-> #2 (fs_reclaim){+.+.}-{0:0}:
+       __fs_reclaim_acquire mm/page_alloc.c:3893 [inline]
+       fs_reclaim_acquire+0x11d/0x160 mm/page_alloc.c:3907
+       might_alloc include/linux/sched/mm.h:303 [inline]
+       prepare_alloc_pages+0x159/0x570 mm/page_alloc.c:4539
+       __alloc_pages+0x149/0x4a0 mm/page_alloc.c:4757
+       alloc_pages+0x1aa/0x270 mm/mempolicy.c:2279
+       folio_alloc+0x20/0x70 mm/mempolicy.c:2289
+       filemap_alloc_folio+0x3c1/0x470 mm/filemap.c:976
+       __filemap_get_folio+0x2a6/0x990 mm/filemap.c:1971
+       pagecache_get_page+0x2e/0x270 mm/folio-compat.c:99
+       block_write_begin+0x35/0x4d0 fs/buffer.c:2171
+       nilfs_write_begin+0xa0/0x1a0 fs/nilfs2/inode.c:261
+       page_symlink+0x386/0x480 fs/namei.c:5193
+       nilfs_symlink+0x235/0x3c0 fs/nilfs2/namei.c:153
+       vfs_symlink fs/namei.c:4475 [inline]
+       vfs_symlink+0x10c/0x2c0 fs/namei.c:4459
+       do_symlinkat+0x262/0x2e0 fs/namei.c:4501
+       __do_sys_symlinkat fs/namei.c:4517 [inline]
+       __se_sys_symlinkat fs/namei.c:4514 [inline]
+       __ia32_sys_symlinkat+0x97/0xc0 fs/namei.c:4514
+       do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+       __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+       do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
+       entry_SYSENTER_compat_after_hwframe+0x70/0x82
+
+-> #1 (&nilfs->ns_segctor_sem){++++}-{3:3}:
+       down_read+0x9c/0x480 kernel/locking/rwsem.c:1520
+       nilfs_transaction_begin+0x31a/0xa20 fs/nilfs2/segment.c:223
+       nilfs_create+0x9b/0x300 fs/nilfs2/namei.c:82
+       lookup_open.isra.0+0x105a/0x1400 fs/namei.c:3492
+       open_last_lookups fs/namei.c:3560 [inline]
+       path_openat+0x975/0x2750 fs/namei.c:3788
+       do_filp_open+0x1ba/0x410 fs/namei.c:3818
+       do_sys_openat2+0x16d/0x4c0 fs/open.c:1356
+       do_sys_open fs/open.c:1372 [inline]
+       __do_compat_sys_open fs/open.c:1423 [inline]
+       __se_compat_sys_open fs/open.c:1421 [inline]
+       __ia32_compat_sys_open+0x11d/0x1c0 fs/open.c:1421
+       do_syscall_32_irqs_on arch/x86/entry/common.c:112 [inline]
+       __do_fast_syscall_32+0x65/0xf0 arch/x86/entry/common.c:178
+       do_fast_syscall_32+0x33/0x70 arch/x86/entry/common.c:203
+       entry_SYSENTER_compat_after_hwframe+0x70/0x82
+
+-> #0 (sb_internal#3){.+.+}-{0:0}:
+       check_prev_add kernel/locking/lockdep.c:3113 [inline]
+       check_prevs_add kernel/locking/lockdep.c:3232 [inline]
+       validate_chain kernel/locking/lockdep.c:3847 [inline]
+       __lock_acquire+0x2fcd/0x5f30 kernel/locking/lockdep.c:5088
+       lock_acquire kernel/locking/lockdep.c:5705 [inline]
+       lock_acquire+0x1b1/0x520 kernel/locking/lockdep.c:5670
+       percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
+       __sb_start_write include/linux/fs.h:1494 [inline]
+       sb_start_intwrite include/linux/fs.h:1616 [inline]
+       nilfs_transaction_begin+0x21e/0xa20 fs/nilfs2/segment.c:220
+       nilfs_dirty_inode+0x18a/0x260 fs/nilfs2/inode.c:1147
+       __mark_inode_dirty+0x1e0/0xd60 fs/fs-writeback.c:2424
+       mark_inode_dirty_sync include/linux/fs.h:2149 [inline]
+       iput.part.0+0x57/0x740 fs/inode.c:1770
+       iput+0x5c/0x80 fs/inode.c:1763
+       dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
+       __dentry_kill+0x3c0/0x640 fs/dcache.c:607
+       shrink_dentry_list+0x12c/0x4f0 fs/dcache.c:1201
+       prune_dcache_sb+0xeb/0x150 fs/dcache.c:1282
+       super_cache_scan+0x33a/0x590 fs/super.c:104
+       do_shrink_slab+0x428/0xaa0 mm/vmscan.c:895
+       shrink_slab_memcg mm/vmscan.c:964 [inline]
+       shrink_slab+0x38f/0x6c0 mm/vmscan.c:1043
+       shrink_one+0x4f9/0x710 mm/vmscan.c:5365
+       shrink_many mm/vmscan.c:5415 [inline]
+       lru_gen_shrink_node mm/vmscan.c:5532 [inline]
+       shrink_node+0x1fd5/0x3500 mm/vmscan.c:6473
+       kswapd_shrink_node mm/vmscan.c:7273 [inline]
+       balance_pgdat+0xa02/0x1ac0 mm/vmscan.c:7463
+       kswapd+0x677/0xd60 mm/vmscan.c:7723
+       kthread+0x344/0x440 kernel/kthread.c:379
+       ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+
+other info that might help us debug this:
+
+Chain exists of:
+  sb_internal#3 --> &nilfs->ns_segctor_sem --> fs_reclaim
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(fs_reclaim);
+                               lock(&nilfs->ns_segctor_sem);
+                               lock(fs_reclaim);
+  rlock(sb_internal#3);
+
+ *** DEADLOCK ***
+
+3 locks held by kswapd0/111:
+ #0: ffffffff8c8efae0 (fs_reclaim){+.+.}-{0:0}, at: set_task_reclaim_state mm/vmscan.c:512 [inline]
+ #0: ffffffff8c8efae0 (fs_reclaim){+.+.}-{0:0}, at: balance_pgdat+0x170/0x1ac0 mm/vmscan.c:7349
+ #1: ffffffff8c8a3b10 (shrinker_rwsem){++++}-{3:3}, at: shrink_slab_memcg mm/vmscan.c:937 [inline]
+ #1: ffffffff8c8a3b10 (shrinker_rwsem){++++}-{3:3}, at: shrink_slab+0x2a0/0x6c0 mm/vmscan.c:1043
+ #2: ffff888050c6e0e0 (&type->s_umount_key#61){++++}-{3:3}, at: trylock_super fs/super.c:414 [inline]
+ #2: ffff888050c6e0e0 (&type->s_umount_key#61){++++}-{3:3}, at: super_cache_scan+0x70/0x590 fs/super.c:79
+
+stack backtrace:
+CPU: 0 PID: 111 Comm: kswapd0 Not tainted 6.4.0-rc7-syzkaller-00072-gdad9774deaf1 #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.14.0-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:88 [inline]
+ dump_stack_lvl+0xd9/0x150 lib/dump_stack.c:106
+ check_noncircular+0x25f/0x2e0 kernel/locking/lockdep.c:2188
+ check_prev_add kernel/locking/lockdep.c:3113 [inline]
+ check_prevs_add kernel/locking/lockdep.c:3232 [inline]
+ validate_chain kernel/locking/lockdep.c:3847 [inline]
+ __lock_acquire+0x2fcd/0x5f30 kernel/locking/lockdep.c:5088
+ lock_acquire kernel/locking/lockdep.c:5705 [inline]
+ lock_acquire+0x1b1/0x520 kernel/locking/lockdep.c:5670
+ percpu_down_read include/linux/percpu-rwsem.h:51 [inline]
+ __sb_start_write include/linux/fs.h:1494 [inline]
+ sb_start_intwrite include/linux/fs.h:1616 [inline]
+ nilfs_transaction_begin+0x21e/0xa20 fs/nilfs2/segment.c:220
+ nilfs_dirty_inode+0x18a/0x260 fs/nilfs2/inode.c:1147
+ __mark_inode_dirty+0x1e0/0xd60 fs/fs-writeback.c:2424
+ mark_inode_dirty_sync include/linux/fs.h:2149 [inline]
+ iput.part.0+0x57/0x740 fs/inode.c:1770
+ iput+0x5c/0x80 fs/inode.c:1763
+ dentry_unlink_inode+0x2b1/0x460 fs/dcache.c:401
+ __dentry_kill+0x3c0/0x640 fs/dcache.c:607
+ shrink_dentry_list+0x12c/0x4f0 fs/dcache.c:1201
+ prune_dcache_sb+0xeb/0x150 fs/dcache.c:1282
+ super_cache_scan+0x33a/0x590 fs/super.c:104
+ do_shrink_slab+0x428/0xaa0 mm/vmscan.c:895
+ shrink_slab_memcg mm/vmscan.c:964 [inline]
+ shrink_slab+0x38f/0x6c0 mm/vmscan.c:1043
+ shrink_one+0x4f9/0x710 mm/vmscan.c:5365
+ shrink_many mm/vmscan.c:5415 [inline]
+ lru_gen_shrink_node mm/vmscan.c:5532 [inline]
+ shrink_node+0x1fd5/0x3500 mm/vmscan.c:6473
+ kswapd_shrink_node mm/vmscan.c:7273 [inline]
+ balance_pgdat+0xa02/0x1ac0 mm/vmscan.c:7463
+ kswapd+0x677/0xd60 mm/vmscan.c:7723
+ kthread+0x344/0x440 kernel/kthread.c:379
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:308
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to change bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
