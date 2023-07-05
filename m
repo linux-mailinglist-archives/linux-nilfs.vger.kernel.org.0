@@ -2,133 +2,49 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 838BC748C96
-	for <lists+linux-nilfs@lfdr.de>; Wed,  5 Jul 2023 21:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0677748D35
+	for <lists+linux-nilfs@lfdr.de>; Wed,  5 Jul 2023 21:08:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233412AbjGES7z (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 5 Jul 2023 14:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39406 "EHLO
+        id S233375AbjGETIl (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 5 Jul 2023 15:08:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43646 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232023AbjGES7t (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 5 Jul 2023 14:59:49 -0400
+        with ESMTP id S233990AbjGETIM (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Wed, 5 Jul 2023 15:08:12 -0400
 Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F1E7198D;
-        Wed,  5 Jul 2023 11:59:28 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EBA81FED;
+        Wed,  5 Jul 2023 12:04:51 -0700 (PDT)
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits))
         (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id F33CF616DC;
-        Wed,  5 Jul 2023 18:59:27 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54945C433BC;
-        Wed,  5 Jul 2023 18:59:09 +0000 (UTC)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 4805D616EE;
+        Wed,  5 Jul 2023 19:04:51 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05F91C433C7;
+        Wed,  5 Jul 2023 19:04:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1688583567;
-        bh=upDmKDv+6xjSiy7POdUF+8WFopDSBgqOL9aHcGqhK2Y=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=lcNGsVlnIbVft2o9WVSu7oStzcC7UruKn4c1DTBWmjGO00DNBCt3+ZZxjK6miMMj/
-         GBdLPvZ/RE2acwmtA26p1q8MtPtZ6AFXE1afuhwSlwu52+nzTrcPM9ox138DUXq3pP
-         a+auUEyCQ5+EySj5vT4AGLwnwLHJre6WjBG5uo1Fk/D4NwBI39aiCvuIo2r0b4YzkK
-         eGFkZHIr8aozqfMt+EZCLKVtueQinWQYpN5V9F3hby1Tiu5AXVWEdS37dhPfamlHdD
-         XsiVC3GdeisubCKxKkTGzRJBTmma2JIDfH5g8iF/7cOUhrr8m/tq4qK4hAP5wOyo8R
-         g+tGtW7J9HY7Q==
+        s=k20201202; t=1688583890;
+        bh=E7KAJORRcCNXt1YrJFvd8B4M9LhppUh4YeCIy/iI+nU=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=j3orGEaOx2fRwNShOb7ALICoaGh+vRYkd3YyYRt7eoP1/phRgn7gPW8lq0bK34IWQ
+         LjCnMulH1Vk78laTtJmer3+eZr2neFxAJtIB2Og7ospx32MKqzlJNlkwuazXG5i6kQ
+         6qXMZa6uqAyiNpWvEek3HXKP9RkfWFYDrr53RjNXIWS/VAV1LqOze0oACktBn5KHRV
+         oU7vXqOU6GZL0MstaI8IHe4sLMzVro62nn6NSj56YABIcO+w1rapsUMwgUSKq3HqiD
+         dGUnZ6uKT3bnOsvsN4iVwB+nzMCH2iIuW9w3tr2hgO3fCc6yl4IyGxjlF9VrqxVa3s
+         4sCoaQKe5vZig==
 From:   Jeff Layton <jlayton@kernel.org>
-To:     jk@ozlabs.org, arnd@arndb.de, mpe@ellerman.id.au,
-        npiggin@gmail.com, christophe.leroy@csgroup.eu, hca@linux.ibm.com,
-        gor@linux.ibm.com, agordeev@linux.ibm.com,
-        borntraeger@linux.ibm.com, svens@linux.ibm.com,
-        gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com,
-        maco@android.com, joel@joelfernandes.org, brauner@kernel.org,
-        cmllamas@google.com, surenb@google.com,
-        dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca,
-        leon@kernel.org, bwarrum@linux.ibm.com, rituagar@linux.ibm.com,
-        ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
-        linux_oss@crudebyte.com, dsterba@suse.com, dhowells@redhat.com,
-        marc.dionne@auristor.com, viro@zeniv.linux.org.uk,
-        raven@themaw.net, luisbg@kernel.org, salah.triki@gmail.com,
-        aivazian.tigran@gmail.com, ebiederm@xmission.com,
-        keescook@chromium.org, clm@fb.com, josef@toxicpanda.com,
-        xiubli@redhat.com, idryomov@gmail.com, jlayton@kernel.org,
-        jaharkes@cs.cmu.edu, coda@cs.cmu.edu, jlbec@evilplan.org,
-        hch@lst.de, nico@fluxnic.net, rafael@kernel.org, code@tyhicks.com,
-        ardb@kernel.org, xiang@kernel.org, chao@kernel.org,
-        huyue2@coolpad.com, jefflexu@linux.alibaba.com,
-        linkinjeon@kernel.org, sj1557.seo@samsung.com, jack@suse.com,
-        tytso@mit.edu, adilger.kernel@dilger.ca, jaegeuk@kernel.org,
-        hirofumi@mail.parknet.co.jp, miklos@szeredi.hu,
-        rpeterso@redhat.com, agruenba@redhat.com, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        mikulas@artax.karlin.mff.cuni.cz, mike.kravetz@oracle.com,
-        muchun.song@linux.dev, dwmw2@infradead.org, shaggy@kernel.org,
-        tj@kernel.org, trond.myklebust@hammerspace.com, anna@kernel.org,
-        chuck.lever@oracle.com, neilb@suse.de, kolga@netapp.com,
-        Dai.Ngo@oracle.com, tom@talpey.com, konishi.ryusuke@gmail.com,
-        anton@tuxera.com, almaz.alexandrovich@paragon-software.com,
-        mark@fasheh.com, joseph.qi@linux.alibaba.com, me@bobcopeland.com,
-        hubcap@omnibond.com, martin@omnibond.com, amir73il@gmail.com,
-        mcgrof@kernel.org, yzaikin@google.com, tony.luck@intel.com,
-        gpiccoli@igalia.com, al@alarsen.net, sfrench@samba.org,
-        pc@manguebit.com, lsahlber@redhat.com, sprasad@microsoft.com,
-        senozhatsky@chromium.org, phillip@squashfs.org.uk,
-        rostedt@goodmis.org, mhiramat@kernel.org, dushistov@mail.ru,
-        hdegoede@redhat.com, djwong@kernel.org, dlemoal@kernel.org,
-        naohiro.aota@wdc.com, jth@kernel.org, ast@kernel.org,
-        daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev,
-        song@kernel.org, yhs@fb.com, john.fastabend@gmail.com,
-        kpsingh@kernel.org, sdf@google.com, haoluo@google.com,
-        jolsa@kernel.org, hughd@google.com, akpm@linux-foundation.org,
-        davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-        pabeni@redhat.com, john.johansen@canonical.com,
-        paul@paul-moore.com, jmorris@namei.org, serge@hallyn.com,
-        stephen.smalley.work@gmail.com, eparis@parisplace.org,
-        jgross@suse.com, stern@rowland.harvard.edu, lrh2000@pku.edu.cn,
-        sebastian.reichel@collabora.com, wsa+renesas@sang-engineering.com,
-        quic_ugoswami@quicinc.com, quic_linyyuan@quicinc.com,
-        john@keeping.me.uk, error27@gmail.com, quic_uaggarwa@quicinc.com,
-        hayama@lineo.co.jp, jomajm@gmail.com, axboe@kernel.dk,
-        dhavale@google.com, dchinner@redhat.com, hannes@cmpxchg.org,
-        zhangpeng362@huawei.com, slava@dubeyko.com, gargaditya08@live.com,
-        penguin-kernel@I-love.SAKURA.ne.jp, yifeliu@cs.stonybrook.edu,
-        madkar@cs.stonybrook.edu, ezk@cs.stonybrook.edu,
-        yuzhe@nfschina.com, willy@infradead.org, okanatov@gmail.com,
-        jeffxu@chromium.org, linux@treblig.org, mirimmad17@gmail.com,
-        yijiangshan@kylinos.cn, yang.yang29@zte.com.cn,
-        xu.xin16@zte.com.cn, chengzhihao1@huawei.com, shr@devkernel.io,
-        Liam.Howlett@Oracle.com, adobriyan@gmail.com,
-        chi.minghao@zte.com.cn, roberto.sassu@huawei.com,
-        linuszeng@tencent.com, bvanassche@acm.org, zohar@linux.ibm.com,
-        yi.zhang@huawei.com, trix@redhat.com, fmdefrancesco@gmail.com,
-        ebiggers@google.com, princekumarmaurya06@gmail.com,
-        chenzhongjin@huawei.com, riel@surriel.com,
-        shaozhengchao@huawei.com, jingyuwang_vip@163.com,
-        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
-        linux-s390@vger.kernel.org, linux-rdma@vger.kernel.org,
-        linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-        linux-fsdevel@vger.kernel.org, linux-afs@lists.infradead.org,
-        autofs@vger.kernel.org, linux-mm@kvack.org,
-        linux-btrfs@vger.kernel.org, ceph-devel@vger.kernel.org,
-        codalist@coda.cs.cmu.edu, ecryptfs@vger.kernel.org,
-        linux-efi@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        cluster-devel@redhat.com, linux-um@lists.infradead.org,
-        linux-mtd@lists.infradead.org,
-        jfs-discussion@lists.sourceforge.net, linux-nfs@vger.kernel.org,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-        linux-karma-devel@lists.sourceforge.net, devel@lists.orangefs.org,
-        linux-unionfs@vger.kernel.org, linux-hardening@vger.kernel.org,
-        reiserfs-devel@vger.kernel.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org,
-        linux-trace-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        bpf@vger.kernel.org, netdev@vger.kernel.org,
-        apparmor@lists.ubuntu.com, linux-security-module@vger.kernel.org,
-        selinux@vger.kernel.org
-Subject: [PATCH v2 92/92] fs: rename i_ctime field to __i_ctime
-Date:   Wed,  5 Jul 2023 14:58:12 -0400
-Message-ID: <20230705185812.579118-4-jlayton@kernel.org>
+To:     Christian Brauner <brauner@kernel.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
+        linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-nilfs@vger.kernel.org
+Subject: [PATCH v2 59/92] nilfs2: convert to ctime accessor functions
+Date:   Wed,  5 Jul 2023 15:01:24 -0400
+Message-ID: <20230705190309.579783-57-jlayton@kernel.org>
 X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20230705185812.579118-1-jlayton@kernel.org>
-References: <20230705185812.579118-1-jlayton@kernel.org>
+In-Reply-To: <20230705190309.579783-1-jlayton@kernel.org>
+References: <20230705185755.579053-1-jlayton@kernel.org>
+ <20230705190309.579783-1-jlayton@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -141,44 +57,149 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Now that everything in-tree is converted to use the accessor functions,
-rename the i_ctime field in the inode to discourage direct access.
+In later patches, we're going to change how the inode's ctime field is
+used. Switch to using accessor functions instead of raw accesses of
+inode->i_ctime.
 
+Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
 Signed-off-by: Jeff Layton <jlayton@kernel.org>
 ---
- include/linux/fs.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ fs/nilfs2/dir.c   |  6 +++---
+ fs/nilfs2/inode.c | 12 ++++++------
+ fs/nilfs2/ioctl.c |  2 +-
+ fs/nilfs2/namei.c |  8 ++++----
+ 4 files changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/include/linux/fs.h b/include/linux/fs.h
-index 14e38bd900f1..b66442f91835 100644
---- a/include/linux/fs.h
-+++ b/include/linux/fs.h
-@@ -642,7 +642,7 @@ struct inode {
- 	loff_t			i_size;
- 	struct timespec64	i_atime;
- 	struct timespec64	i_mtime;
--	struct timespec64	i_ctime;
-+	struct timespec64	__i_ctime; /* use inode_*_ctime accessors! */
- 	spinlock_t		i_lock;	/* i_blocks, i_bytes, maybe i_size */
- 	unsigned short          i_bytes;
- 	u8			i_blkbits;
-@@ -1485,7 +1485,7 @@ struct timespec64 inode_set_ctime_current(struct inode *inode);
-  */
- static inline struct timespec64 inode_get_ctime(const struct inode *inode)
- {
--	return inode->i_ctime;
-+	return inode->__i_ctime;
+diff --git a/fs/nilfs2/dir.c b/fs/nilfs2/dir.c
+index decd6471300b..bce734b68f08 100644
+--- a/fs/nilfs2/dir.c
++++ b/fs/nilfs2/dir.c
+@@ -429,7 +429,7 @@ void nilfs_set_link(struct inode *dir, struct nilfs_dir_entry *de,
+ 	nilfs_set_de_type(de, inode);
+ 	nilfs_commit_chunk(page, mapping, from, to);
+ 	nilfs_put_page(page);
+-	dir->i_mtime = dir->i_ctime = current_time(dir);
++	dir->i_mtime = inode_set_ctime_current(dir);
  }
  
- /**
-@@ -1498,7 +1498,7 @@ static inline struct timespec64 inode_get_ctime(const struct inode *inode)
- static inline struct timespec64 inode_set_ctime_to_ts(struct inode *inode,
- 						      struct timespec64 ts)
- {
--	inode->i_ctime = ts;
-+	inode->__i_ctime = ts;
- 	return ts;
- }
+ /*
+@@ -519,7 +519,7 @@ int nilfs_add_link(struct dentry *dentry, struct inode *inode)
+ 	de->inode = cpu_to_le64(inode->i_ino);
+ 	nilfs_set_de_type(de, inode);
+ 	nilfs_commit_chunk(page, page->mapping, from, to);
+-	dir->i_mtime = dir->i_ctime = current_time(dir);
++	dir->i_mtime = inode_set_ctime_current(dir);
+ 	nilfs_mark_inode_dirty(dir);
+ 	/* OFFSET_CACHE */
+ out_put:
+@@ -567,7 +567,7 @@ int nilfs_delete_entry(struct nilfs_dir_entry *dir, struct page *page)
+ 		pde->rec_len = nilfs_rec_len_to_disk(to - from);
+ 	dir->inode = 0;
+ 	nilfs_commit_chunk(page, mapping, from, to);
+-	inode->i_ctime = inode->i_mtime = current_time(inode);
++	inode->i_mtime = inode_set_ctime_current(inode);
+ out:
+ 	nilfs_put_page(page);
+ 	return err;
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index a8ce522ac747..5259b94ca1dc 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -366,7 +366,7 @@ struct inode *nilfs_new_inode(struct inode *dir, umode_t mode)
+ 	atomic64_inc(&root->inodes_count);
+ 	inode_init_owner(&nop_mnt_idmap, inode, dir, mode);
+ 	inode->i_ino = ino;
+-	inode->i_mtime = inode->i_atime = inode->i_ctime = current_time(inode);
++	inode->i_mtime = inode->i_atime = inode_set_ctime_current(inode);
+ 
+ 	if (S_ISREG(mode) || S_ISDIR(mode) || S_ISLNK(mode)) {
+ 		err = nilfs_bmap_read(ii->i_bmap, NULL);
+@@ -450,10 +450,10 @@ int nilfs_read_inode_common(struct inode *inode,
+ 	set_nlink(inode, le16_to_cpu(raw_inode->i_links_count));
+ 	inode->i_size = le64_to_cpu(raw_inode->i_size);
+ 	inode->i_atime.tv_sec = le64_to_cpu(raw_inode->i_mtime);
+-	inode->i_ctime.tv_sec = le64_to_cpu(raw_inode->i_ctime);
++	inode_set_ctime(inode, le64_to_cpu(raw_inode->i_ctime),
++			le32_to_cpu(raw_inode->i_ctime_nsec));
+ 	inode->i_mtime.tv_sec = le64_to_cpu(raw_inode->i_mtime);
+ 	inode->i_atime.tv_nsec = le32_to_cpu(raw_inode->i_mtime_nsec);
+-	inode->i_ctime.tv_nsec = le32_to_cpu(raw_inode->i_ctime_nsec);
+ 	inode->i_mtime.tv_nsec = le32_to_cpu(raw_inode->i_mtime_nsec);
+ 	if (nilfs_is_metadata_file_inode(inode) && !S_ISREG(inode->i_mode))
+ 		return -EIO; /* this inode is for metadata and corrupted */
+@@ -768,9 +768,9 @@ void nilfs_write_inode_common(struct inode *inode,
+ 	raw_inode->i_gid = cpu_to_le32(i_gid_read(inode));
+ 	raw_inode->i_links_count = cpu_to_le16(inode->i_nlink);
+ 	raw_inode->i_size = cpu_to_le64(inode->i_size);
+-	raw_inode->i_ctime = cpu_to_le64(inode->i_ctime.tv_sec);
++	raw_inode->i_ctime = cpu_to_le64(inode_get_ctime(inode).tv_sec);
+ 	raw_inode->i_mtime = cpu_to_le64(inode->i_mtime.tv_sec);
+-	raw_inode->i_ctime_nsec = cpu_to_le32(inode->i_ctime.tv_nsec);
++	raw_inode->i_ctime_nsec = cpu_to_le32(inode_get_ctime(inode).tv_nsec);
+ 	raw_inode->i_mtime_nsec = cpu_to_le32(inode->i_mtime.tv_nsec);
+ 	raw_inode->i_blocks = cpu_to_le64(inode->i_blocks);
+ 
+@@ -875,7 +875,7 @@ void nilfs_truncate(struct inode *inode)
+ 
+ 	nilfs_truncate_bmap(ii, blkoff);
+ 
+-	inode->i_mtime = inode->i_ctime = current_time(inode);
++	inode->i_mtime = inode_set_ctime_current(inode);
+ 	if (IS_SYNC(inode))
+ 		nilfs_set_transaction_flag(NILFS_TI_SYNC);
+ 
+diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
+index 1dfbc0c34513..40ffade49f38 100644
+--- a/fs/nilfs2/ioctl.c
++++ b/fs/nilfs2/ioctl.c
+@@ -149,7 +149,7 @@ int nilfs_fileattr_set(struct mnt_idmap *idmap,
+ 	NILFS_I(inode)->i_flags = oldflags | (flags & FS_FL_USER_MODIFIABLE);
+ 
+ 	nilfs_set_inode_flags(inode);
+-	inode->i_ctime = current_time(inode);
++	inode_set_ctime_current(inode);
+ 	if (IS_SYNC(inode))
+ 		nilfs_set_transaction_flag(NILFS_TI_SYNC);
+ 
+diff --git a/fs/nilfs2/namei.c b/fs/nilfs2/namei.c
+index c7024da8f1e2..2a4e7f4a8102 100644
+--- a/fs/nilfs2/namei.c
++++ b/fs/nilfs2/namei.c
+@@ -185,7 +185,7 @@ static int nilfs_link(struct dentry *old_dentry, struct inode *dir,
+ 	if (err)
+ 		return err;
+ 
+-	inode->i_ctime = current_time(inode);
++	inode_set_ctime_current(inode);
+ 	inode_inc_link_count(inode);
+ 	ihold(inode);
+ 
+@@ -283,7 +283,7 @@ static int nilfs_do_unlink(struct inode *dir, struct dentry *dentry)
+ 	if (err)
+ 		goto out;
+ 
+-	inode->i_ctime = dir->i_ctime;
++	inode_set_ctime_to_ts(inode, inode_get_ctime(dir));
+ 	drop_nlink(inode);
+ 	err = 0;
+ out:
+@@ -387,7 +387,7 @@ static int nilfs_rename(struct mnt_idmap *idmap,
+ 			goto out_dir;
+ 		nilfs_set_link(new_dir, new_de, new_page, old_inode);
+ 		nilfs_mark_inode_dirty(new_dir);
+-		new_inode->i_ctime = current_time(new_inode);
++		inode_set_ctime_current(new_inode);
+ 		if (dir_de)
+ 			drop_nlink(new_inode);
+ 		drop_nlink(new_inode);
+@@ -406,7 +406,7 @@ static int nilfs_rename(struct mnt_idmap *idmap,
+ 	 * Like most other Unix systems, set the ctime for inodes on a
+ 	 * rename.
+ 	 */
+-	old_inode->i_ctime = current_time(old_inode);
++	inode_set_ctime_current(old_inode);
+ 
+ 	nilfs_delete_entry(old_de, old_page);
  
 -- 
 2.41.0
