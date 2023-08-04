@@ -2,100 +2,129 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F1B876F94D
-	for <lists+linux-nilfs@lfdr.de>; Fri,  4 Aug 2023 07:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49F4B7704FB
+	for <lists+linux-nilfs@lfdr.de>; Fri,  4 Aug 2023 17:39:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233508AbjHDFJS (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Fri, 4 Aug 2023 01:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41972 "EHLO
+        id S231592AbjHDPjp (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Fri, 4 Aug 2023 11:39:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233797AbjHDFHp (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 4 Aug 2023 01:07:45 -0400
-Received: from mail-ua1-x92e.google.com (mail-ua1-x92e.google.com [IPv6:2607:f8b0:4864:20::92e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0EC949F9;
-        Thu,  3 Aug 2023 22:04:38 -0700 (PDT)
-Received: by mail-ua1-x92e.google.com with SMTP id a1e0cc1a2514c-79a0b4c6314so1790145241.1;
-        Thu, 03 Aug 2023 22:04:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1691125478; x=1691730278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gvHhQK58HED/Jid4BEU/8KSn5E/19+2WUDX2YX8J0Ko=;
-        b=o9IkCnlJqf9fY5gy5fVwkiUJZ8iZ9Aas2C2/zh0DiHTx4LpNqcMZlkdMxITlOzTPD8
-         2aRncGgbqPq91v/0LtcDvDi9gSK5UqbQjqaSIuz68NJB/TywdgsRaiusrFpo5ZDNJvM3
-         5Q2bxAOzGs+xNKN49s1hCYbX+xnxEd8ZbVc1Jez05IsR8AxvQmPIBU6pIgVMqeIS/Olq
-         ejkIH4vD76wZSX62Gg4NUPpx7pu+YIgWaArL5J1SZywhq143O42TygZ+nNZqRNUpyLEu
-         qJ2IGSXe3NrAMJVgKZOHexBd+lqWhCoMuA0va/s2sFUTqGuRkjyQQthZd2zAjAwqTyny
-         EDLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1691125478; x=1691730278;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gvHhQK58HED/Jid4BEU/8KSn5E/19+2WUDX2YX8J0Ko=;
-        b=dZQnb8jfICl06X6wauK2Ihc9Fj5H3T/RbnjsXoPdQPPNzVDwLt26uWYKiXZrpSktCo
-         +l5fvDZhsxDSC5LYd7c5pzjmqq7SzQEl9CCzecCA7bbIDZuJPK1Ftw8vWgSs2m/Bfr/7
-         ab1sa4t3vRJaMoXZgGQOvYB9o/QGFx+fijVvjwSN4GMm0aWk7FslsFRX41U3ZiwWDHZ4
-         NQmMoukLcNCIvoihG8pEI7+0Ydfs9V6FHrpjWFLMykCy6o3m485w++9R3ZU3p1E+cDEz
-         4iFx7JkRGMeKG+hMBDmVle9P8E9dy7MXIjfq583wlVjqGjNj4POlmo9RJTkK8Vv2ya+q
-         S1zg==
-X-Gm-Message-State: AOJu0YzbPK8vyTvEuFf1uPo0ApLHW9mRdP1005EKbChxDF0bhGt8uBfu
-        o+X7YZ7g1f5MD82nqzo8tdOTapgrojvBEFNxQ5k=
-X-Google-Smtp-Source: AGHT+IHNlmuDpCynSERah/vCquBxetRq9r7u42oTgr/VU7wlUccU2TExBBmj/xqkyTsCXU4NxoOZF0G4gs/bioVSm0c=
-X-Received: by 2002:a05:6102:3d08:b0:43f:619a:f05e with SMTP id
- i8-20020a0561023d0800b0043f619af05emr265046vsv.0.1691125477868; Thu, 03 Aug
- 2023 22:04:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20230802154131.2221419-1-hch@lst.de> <20230802154131.2221419-3-hch@lst.de>
-In-Reply-To: <20230802154131.2221419-3-hch@lst.de>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Fri, 4 Aug 2023 14:04:21 +0900
-Message-ID: <CAKFNMok5+MeOWcRg6o8W0tKjW=dTupXdwyqivou+RydZP423fw@mail.gmail.com>
-Subject: Re: [PATCH 02/12] nilfs2: use setup_bdev_super to de-duplicate the
- mount code
+        with ESMTP id S231263AbjHDPjn (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Fri, 4 Aug 2023 11:39:43 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F82249C1;
+        Fri,  4 Aug 2023 08:39:32 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 061246202B;
+        Fri,  4 Aug 2023 15:39:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31522C433C9;
+        Fri,  4 Aug 2023 15:39:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1691163570;
+        bh=WBKOiXxNnEcmIAXLd9bFnF2KFmCPgIBMmS+a6ZOzWKY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=guM3dTEfPj9gzW4hZVBn+/1D3e6V0oGJa3WQkuaCaRJm+YEkO/j0g28vpLcq+8KPx
+         00I5JDimR9O6GRpM1sCbRoDBeqI3dA0US5iDcvRFH1wRzLZGMG/AKi+37CHK3OiKfl
+         Pd3WUGjQp78CvSWurtOz9TKUp2R8T9+xWekamZzkpVJreEREn7gcZJVUpwDMtQgJPa
+         oNlJ1Fd+Wv/UAECk8iLUJUaVzEv4k+34Xo4z1QJAK3CSDmvC6vv3w+O4TwoqgSUVxv
+         yOZLQQe40+3upkBEjN2TRg8dq8CL62TzVM9oUzcd7edWypJQ/9r8RDeBu3CtctpdP3
+         S7Paz1gf4bygw==
+From:   Christian Brauner <brauner@kernel.org>
 To:     Christoph Hellwig <hch@lst.de>
-Cc:     Al Viro <viro@zeniv.linux.org.uk>,
-        Christian Brauner <brauner@kernel.org>,
-        Jan Kara <jack@suse.cz>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        "Theodore Ts'o" <tytso@mit.edu>,
+Cc:     Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
         Andreas Dilger <adilger.kernel@dilger.ca>,
         Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
         "Darrick J. Wong" <djwong@kernel.org>,
         Jens Axboe <axboe@kernel.dk>, linux-btrfs@vger.kernel.org,
         linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
         linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-block@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        linux-xfs@vger.kernel.org, linux-block@vger.kernel.org,
+        Al Viro <viro@zeniv.linux.org.uk>
+Subject: Re: more blkdev_get and holder work
+Date:   Fri,  4 Aug 2023 17:39:20 +0200
+Message-Id: <20230804-wegelagerei-nagel-e5ba7e7cedd5@brauner>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230802154131.2221419-1-hch@lst.de>
+References: <20230802154131.2221419-1-hch@lst.de>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3062; i=brauner@kernel.org; h=from:subject:message-id; bh=7FNUYW+x5CSjf6yCNgXxulkGn+cMsTW366YHSfu1h4A=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaSclU4X5tucveB9lDl37gJ9jlmvFGN+KNg9TprAwbY/er8W 31PtjlIWBjEuBlkxRRaHdpNwueU8FZuNMjVg5rAygQxh4OIUgIncNWf4K3Hkgdv/npvLfSQ798adms 9ScvSZ2rptQtc471tqdUeIZzMyHOPQmly1SzxZ11D73stJc0XjnmfPNpO6vb5+SlL6wynWPAA=
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Thu, Aug 3, 2023 at 12:41=E2=80=AFAM Christoph Hellwig wrote:
->
-> Use the generic setup_bdev_super helper to open the main block device
-> and do various bits of superblock setup instead of duplicating the
-> logic.  This includes moving to the new scheme implemented in common
-> code that only opens the block device after the superblock has allocated.
->
-> It does not yet convert nilfs2 to the new mount API, but doing so will
-> become a bit simpler after this first step.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+On Wed, 02 Aug 2023 17:41:19 +0200, Christoph Hellwig wrote:
+> this series sits on top of the vfs.super branch in the VFS tree and does a
+> few closely related things:
+> 
+>   1) it also converts nilfs2 and btrfs to the new scheme where the file system
+>      only opens the block devices after we know that a new super_block was
+>      allocated.
+>   2) it then makes sure that for all file system openers the super_block is
+>      stored in bd_holder, and makes use of that fact in the mark_dead method
+>      so that it doesn't have to fall get_super and thus can also work on
+>      block devices that sb->s_bdev doesn't point to
+>   3) it then drops the fs-specific holder ops in ext4 and xfs and uses the
+>      generic fs_holder_ops there
+> 
+> [...]
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Let's pick this up now so it still has ample time in -next even though
+we're still missing a nod from the btrfs people. The nilfs to
+mount_bdev() conversion is probably not super urgent but if wanted a
+follow-up patch won't be frowned upon.
 
-This patch itself looks to properly convert nilfs_mount etc.  Thank you so =
-much.
+---
 
-Regards,
-Ryusuke Konishi
+Applied to the vfs.super branch of the vfs/vfs.git tree.
+Patches in the vfs.super branch should appear in linux-next soon.
+
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs.super
+
+[01/12] fs: export setup_bdev_super
+        https://git.kernel.org/vfs/vfs/c/71c00ec51d83
+[02/12] nilfs2: use setup_bdev_super to de-duplicate the mount code
+        https://git.kernel.org/vfs/vfs/c/c820df38784a
+[03/12] btrfs: always open the device read-only in btrfs_scan_one_device
+        https://git.kernel.org/vfs/vfs/c/75029e14cea6
+[04/12] btrfs: open block devices after superblock creation
+        https://git.kernel.org/vfs/vfs/c/364820697dbb
+[05/12] ext4: make the IS_EXT2_SB/IS_EXT3_SB checks more robust
+        https://git.kernel.org/vfs/vfs/c/4cf66c030db1
+[06/12] fs: use the super_block as holder when mounting file systems
+        https://git.kernel.org/vfs/vfs/c/c0188baf8f7e
+[07/12] fs: stop using get_super in fs_mark_dead
+        https://git.kernel.org/vfs/vfs/c/2a8402f9db25
+[08/12] fs: export fs_holder_ops
+        https://git.kernel.org/vfs/vfs/c/ee62b0ec9ff8
+[09/12] ext4: drop s_umount over opening the log device
+        https://git.kernel.org/vfs/vfs/c/644ab8c64a12
+[10/12] ext4: use fs_holder_ops for the log device
+        https://git.kernel.org/vfs/vfs/c/fba3de1aad77
+[11/12] xfs: drop s_umount over opening the log and RT devices
+        https://git.kernel.org/vfs/vfs/c/9470514a171c
+[12/12] xfs use fs_holder_ops for the log and RT devices
+        https://git.kernel.org/vfs/vfs/c/c6fb2ed736e3
