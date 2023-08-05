@@ -2,64 +2,70 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE36E770F4C
-	for <lists+linux-nilfs@lfdr.de>; Sat,  5 Aug 2023 12:39:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09D4C770FE5
+	for <lists+linux-nilfs@lfdr.de>; Sat,  5 Aug 2023 15:20:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229557AbjHEKj1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sat, 5 Aug 2023 06:39:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48584 "EHLO
+        id S229509AbjHENUp (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Sat, 5 Aug 2023 09:20:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41780 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229450AbjHEKj0 (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 5 Aug 2023 06:39:26 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF2A10C4;
-        Sat,  5 Aug 2023 03:39:25 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 7A6B060C63;
-        Sat,  5 Aug 2023 10:39:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9DD0C433C7;
-        Sat,  5 Aug 2023 10:39:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1691231964;
-        bh=uXGWtXBnq0nfa/jBhSY841c7zuCmhgyQEv0tqvbShRw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gcYazOn/niIWgO8RAq86Wd0rf6mY5HFyG8HgKYgI+uBhiJcOa1iN7eHEwWVbAcqFb
-         5XIJBVbVVoMXgQkQiYsI582grCtIP5eESCBkMFP2HJtSXo84sAac2RzSv75h991bTw
-         DlhvR7swkECQCUNJ0aVzgU1Y6/CLhGJcMtH+agnVqKKciIHJRKsst4uRWzNWqfcH/S
-         4Z5gPIEd6TmqOwMkNTU2g/kveG9q6Rla8oYlgbxLN/F6Ht72xR0/n8EjkY0FHeNts+
-         T/IgH7Tx7FR6m1gG2NYvDi0EBc0UAhmoFZi7m3tQ+5R3RXve3Uu+iNx/GDcEcrNUGm
-         nFhvs+f54VGWQ==
-Date:   Sat, 5 Aug 2023 12:39:12 +0200
-From:   Christian Brauner <brauner@kernel.org>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     "Darrick J. Wong" <djwong@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
-        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>, Theodore Ts'o <tytso@mit.edu>,
-        Andreas Dilger <adilger.kernel@dilger.ca>,
-        Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
-        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-        Jens Axboe <axboe@kernel.dk>, linux-btrfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
-        linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        linux-xfs@vger.kernel.org, linux-block@vger.kernel.org
-Subject: Re: [PATCH 11/12] xfs: drop s_umount over opening the log and RT
- devices
-Message-ID: <20230805-galaabend-diskreditieren-27943ea3c10e@brauner>
-References: <20230802154131.2221419-1-hch@lst.de>
- <20230802154131.2221419-12-hch@lst.de>
- <20230802163219.GW11352@frogsfrogsfrogs>
- <20230805083239.GA29780@lst.de>
+        with ESMTP id S229504AbjHENUp (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Sat, 5 Aug 2023 09:20:45 -0400
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EF8810DC;
+        Sat,  5 Aug 2023 06:20:44 -0700 (PDT)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-687087d8ddaso2834044b3a.1;
+        Sat, 05 Aug 2023 06:20:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1691241644; x=1691846444;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7KV92l3VXPcz++LN5c2ebdhb5o5BZtos4ufCZ4CtDds=;
+        b=WzzZvM9gTNfDEIujV/M/qP23gW84ZJ2QwT3vGcElbafal6B4GJAWzGfq65IuYQspFd
+         gB/lcTu47O6lvi9g0BWOSx/FY4tV+cUrrStbyc9VWja/K7OPaz/vKSPiFYpX8tv71em2
+         ZS4pm+lTsHMveKT9TIgENcQ2wGyN3rONNR69dkHYE0cZx1G4soMxUQvwgFDfu13B2wft
+         il08WTfFQKpjUoUI5+qGJuaa+cpH8Nt1DwEP48SfsRWHtiFsWR0L/ZkCLMU+itBLdOsx
+         9w7VGk2JXE4TIJ0Bqn0sLDwsukKsPtiXjH87i3+s+f5qg2vk1NgnG/PgOpgtUQa1npQM
+         uMqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1691241644; x=1691846444;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7KV92l3VXPcz++LN5c2ebdhb5o5BZtos4ufCZ4CtDds=;
+        b=EJTiI00mt+EqwLVcLV74oG4Rb4MGRKVAMIO/E61CAE6CUg+/GGBG/ZkuxGZaethKUD
+         PHqyzb91NOz7ce8UkjMu9lpw6hzAn/eBcgw5QcpMRPtnXzlyqkXVbYaRa8teI0ck8SD4
+         uUCH4WLMJ14Ddbp/Yscg9fbgPb9Nq5q0KD7uqkKxoB8jQw80+BwecJcl4hf6iadYfVgI
+         DQaxe/as+Pa2sZ2OJ2TrZdBaQbzwndMTNZcW4vasznACvIZqzljcyFbrSo29s5v6SnV8
+         JmBKcV8A4RKv8ztMVv1VMJ6LOATX3SjqhIhMgVCP29sy21EE0mr852wQOsxio+rvkccU
+         qe0g==
+X-Gm-Message-State: AOJu0YxH/91WHEc5M6eb1XnOiKZej7qQfiM7An4GQb87xZeX2S6GJv24
+        dIwh63es6kbzujLxHtaBEvmM0rN9BOk=
+X-Google-Smtp-Source: AGHT+IE+ZWnyUHwvDnWEAGxCE26FCu7oRJ5qmrLUehsrXDKwj3D8WdeAhfokpYuhH+xWhRRtA+51Ww==
+X-Received: by 2002:a05:6a00:1583:b0:687:40d8:8869 with SMTP id u3-20020a056a00158300b0068740d88869mr6407940pfk.8.1691241643722;
+        Sat, 05 Aug 2023 06:20:43 -0700 (PDT)
+Received: from carrot.. (i60-34-120-249.s42.a014.ap.plala.or.jp. [60.34.120.249])
+        by smtp.gmail.com with ESMTPSA id d17-20020aa78151000000b0068675835e10sm3166507pfn.44.2023.08.05.06.20.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Aug 2023 06:20:42 -0700 (PDT)
+From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-nilfs@vger.kernel.org,
+        syzbot <syzbot+0ad741797f4565e7e2d2@syzkaller.appspotmail.com>,
+        syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
+        linux-fsdevel@vger.kernel.org
+Subject: [PATCH] nilfs2: fix general protection fault in nilfs_lookup_dirty_data_buffers()
+Date:   Sat,  5 Aug 2023 22:20:38 +0900
+Message-Id: <20230805132038.6435-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0000000000002930a705fc32b231@google.com>
+References: <0000000000002930a705fc32b231@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230805083239.GA29780@lst.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -67,41 +73,43 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Sat, Aug 05, 2023 at 10:32:39AM +0200, Christoph Hellwig wrote:
-> On Wed, Aug 02, 2023 at 09:32:19AM -0700, Darrick J. Wong wrote:
-> > > +	/* see get_tree_bdev why this is needed and safe */
-> > 
-> > Which part of get_tree_bdev?  Is it this?
-> > 
-> > 		/*
-> > 		 * s_umount nests inside open_mutex during
-> > 		 * __invalidate_device().  blkdev_put() acquires
-> > 		 * open_mutex and can't be called under s_umount.  Drop
-> > 		 * s_umount temporarily.  This is safe as we're
-> > 		 * holding an active reference.
-> > 		 */
-> > 		up_write(&s->s_umount);
-> > 		blkdev_put(bdev, fc->fs_type);
-> > 		down_write(&s->s_umount);
-> 
-> Yes.  With the refactoring earlier in the series get_tree_bdev should
-> be trivial enough to not need a more specific reference.  If you
-> think there's a better way to refer to it I can update the comment,
-> though.
-> 
-> > >  		mp->m_logdev_targp = mp->m_ddev_targp;
-> > >  	}
-> > >  
-> > > -	return 0;
-> > > +	error = 0;
-> > > +out_unlock:
-> > > +	down_write(&sb->s_umount);
-> > 
-> > Isn't down_write taking s_umount?  I think the label should be
-> > out_relock or something less misleading.
-> 
-> Agreed.  Christian, can you just change this in your branch, or should
-> I send an incremental patch?
+A syzbot stress test reported that create_empty_buffers() called from
+nilfs_lookup_dirty_data_buffers() can cause a general protection fault.
 
-No need to send an incremental patch. I just s/out_unlock/out_relock/g
-in-tree. Thanks!
+Analysis using its reproducer revealed that the back reference "mapping"
+from a page/folio has been changed to NULL after dirty page/folio gang
+lookup in nilfs_lookup_dirty_data_buffers().
+
+Fix this issue by excluding pages/folios from being collected if, after
+acquiring a lock on each page/folio, its back reference "mapping"
+differs from the pointer to the address space struct that held the
+page/folio.
+
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Reported-by: syzbot+0ad741797f4565e7e2d2@syzkaller.appspotmail.com
+Closes: https://lkml.kernel.org/r/0000000000002930a705fc32b231@google.com
+Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: <stable@vger.kernel.org>
+---
+ fs/nilfs2/segment.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 581691e4be49..7ec16879756e 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -725,6 +725,11 @@ static size_t nilfs_lookup_dirty_data_buffers(struct inode *inode,
+ 		struct folio *folio = fbatch.folios[i];
+ 
+ 		folio_lock(folio);
++		if (unlikely(folio->mapping != mapping)) {
++			/* Exclude folios removed from the address space */
++			folio_unlock(folio);
++			continue;
++		}
+ 		head = folio_buffers(folio);
+ 		if (!head) {
+ 			create_empty_buffers(&folio->page, i_blocksize(inode), 0);
+-- 
+2.34.1
+
