@@ -2,114 +2,89 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8781678D345
-	for <lists+linux-nilfs@lfdr.de>; Wed, 30 Aug 2023 08:18:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 863C278DD09
+	for <lists+linux-nilfs@lfdr.de>; Wed, 30 Aug 2023 20:53:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236306AbjH3GSC (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 30 Aug 2023 02:18:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42750 "EHLO
+        id S242590AbjH3Sr3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 30 Aug 2023 14:47:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240283AbjH3GRh (ORCPT
+        with ESMTP id S242871AbjH3Jyx (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 30 Aug 2023 02:17:37 -0400
-X-Greylist: delayed 328 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 29 Aug 2023 23:17:32 PDT
-Received: from out-243.mta0.migadu.com (out-243.mta0.migadu.com [91.218.175.243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94D72CEB
-        for <linux-nilfs@vger.kernel.org>; Tue, 29 Aug 2023 23:17:32 -0700 (PDT)
-Message-ID: <642de4e6-801d-fcad-a7ce-bfc6dec3b6e5@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-        t=1693375918;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=JMzOvVHk770qYz+7D4bRM3eiaC0WBb12Z/fuZleaQ2g=;
-        b=n8qZNKHDJ8ZkQN8s6YCFhUc5vlrIehXvAzssrfT4lOFAEgM70y7j9ccF+kTN544/il9mhv
-        /Qwyv0zoAHdwAPeCdmanHqcxV7A/7XcL4G5u9c/o5+tWUqR2xZIKUSlHotdEAwwwHhjWvg
-        KLK2CGyPGmGk32bcLUct3rbhOUMJhk8=
-Date:   Wed, 30 Aug 2023 14:11:31 +0800
+        Wed, 30 Aug 2023 05:54:53 -0400
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F820CCF
+        for <linux-nilfs@vger.kernel.org>; Wed, 30 Aug 2023 02:54:50 -0700 (PDT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-267f666104aso975619a91.0
+        for <linux-nilfs@vger.kernel.org>; Wed, 30 Aug 2023 02:54:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693389290; x=1693994090;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=J83eKid9nmgPa1YDakr2Vd524ULWmo0X9/PpiX7o1Kg=;
+        b=NfeSqb1p5NL4heQt0kZaTXvCEkEFk+DIpSSw0MUj+rfd4KDtosrpJdtRN2HYVMTUHr
+         KUY0kk238oXzCM+U1O8keSSmZfqR354nMDjv2FzsbSu3q5D5t68VNX3w//ukP9scqeA5
+         hEylg8soitHpuLUtBz9B30VL1dxyLZ8WgXcfTVFXaMiY1ryqQukTCDU6Dpr/DTeWY77f
+         Ar2Nhi16mvfBgYk0o7UVAuiQJufzxZDb7z6ZYzthxKaY+HVuc44RFOcnURYJ51Y0n+Sj
+         SbUNBBedO9L+UWkwT814axRd9eTH5C1PXqm3wRBquFdcTUyPVox8Kxk7HlJ+RQ3HaYwE
+         3KDw==
+X-Gm-Message-State: AOJu0YxaIA4WeBt6qL4UXW4TL2JwEj/TzT3jsCxvXAqGqycGvCyFH3W9
+        hDDqA0eibQWLs/qAeu+bGL/YO89Z1DzTUgMZhad6fU7pZwYh
+X-Google-Smtp-Source: AGHT+IEwWkrUsM+4csaZ+BZi3D8VHhIbBsJgTQIP7JAPtrTMQP8X2VVSfw3w+BnDK9PJRmlAts3ch4cf7T74+gGX1q60tE8T0yUw
 MIME-Version: 1.0
-Subject: Re: [PATCH 07/11] vfs: add nowait parameter for file_accessed()
-Content-Language: en-US
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Pavel Begunkov <asml.silence@gmail.com>,
-        Christian Brauner <brauner@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stefan Roesch <shr@fb.com>, Clay Harris <bugs@claycon.org>,
-        Dave Chinner <david@fromorbit.com>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-cachefs@redhat.com,
-        ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, codalist@coda.cs.cmu.edu,
-        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
-        Wanpeng Li <wanpengli@tencent.com>
-References: <20230827132835.1373581-1-hao.xu@linux.dev>
- <20230827132835.1373581-8-hao.xu@linux.dev>
- <ZOvA5DJDZN0FRymp@casper.infradead.org>
- <c728bf3f-d9db-4865-8473-058b26c11c06@linux.dev>
- <ZO3cI+DkotHQo3md@casper.infradead.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From:   Hao Xu <hao.xu@linux.dev>
-In-Reply-To: <ZO3cI+DkotHQo3md@casper.infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+X-Received: by 2002:a17:90a:609:b0:26b:4273:6a35 with SMTP id
+ j9-20020a17090a060900b0026b42736a35mr1373677pjj.0.1693389290013; Wed, 30 Aug
+ 2023 02:54:50 -0700 (PDT)
+Date:   Wed, 30 Aug 2023 02:54:49 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000190a5e060420ebae@google.com>
+Subject: [syzbot] Monthly nilfs report (Aug 2023)
+From:   syzbot <syzbot+listdd6f872a94cc2a668504@syzkaller.appspotmail.com>
+To:     konishi.ryusuke@gmail.com, linux-fsdevel@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-nilfs@vger.kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,
+        RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On 8/29/23 19:53, Matthew Wilcox wrote:
-> On Tue, Aug 29, 2023 at 03:46:13PM +0800, Hao Xu wrote:
->> On 8/28/23 05:32, Matthew Wilcox wrote:
->>> On Sun, Aug 27, 2023 at 09:28:31PM +0800, Hao Xu wrote:
->>>> From: Hao Xu <howeyxu@tencent.com>
->>>>
->>>> Add a boolean parameter for file_accessed() to support nowait semantics.
->>>> Currently it is true only with io_uring as its initial caller.
->>>
->>> So why do we need to do this as part of this series?  Apparently it
->>> hasn't caused any problems for filemap_read().
->>>
->>
->> We need this parameter to indicate if nowait semantics should be enforced in
->> touch_atime(), There are locks and maybe IOs in it.
-> 
-> That's not my point.  We currently call file_accessed() and
-> touch_atime() for nowait reads and nowait writes.  You haven't done
-> anything to fix those.
-> 
-> I suspect you can trim this patchset down significantly by avoiding
-> fixing the file_accessed() problem.  And then come back with a later
-> patchset that fixes it for all nowait i/o.  Or do a separate prep series
+Hello nilfs maintainers/developers,
 
-I'm ok to do that.
+This is a 31-day syzbot report for the nilfs subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/nilfs
 
-> first that fixes it for the existing nowait users, and then a second
-> series to do all the directory stuff.
-> 
-> I'd do the first thing.  Just ignore the problem.  Directory atime
-> updates cause I/O so rarely that you can afford to ignore it.  Almost
-> everyone uses relatime or nodiratime.
+During the period, 0 new issues were detected and 2 were fixed.
+In total, 9 issues are still open and 36 have been fixed so far.
 
-Hi Matthew,
-The previous discussion shows this does cause issues in real
-producations: 
-https://lore.kernel.org/io-uring/2785f009-2ebb-028d-8250-d5f3a30510f0@gmail.com/#:~:text=fwiw%2C%20we%27ve%20just%20recently%20had%20similar%20problems%20with%20io_uring%20read/write
+Some of the still happening issues:
 
+Ref Crashes Repro Title
+<1> 332     Yes   WARNING in nilfs_sufile_set_segment_usage
+                  https://syzkaller.appspot.com/bug?extid=14e9f834f6ddecece094
+<2> 304     Yes   kernel BUG at fs/buffer.c:LINE!
+                  https://syzkaller.appspot.com/bug?extid=cfed5b56649bddf80d6e
+<3> 89      Yes   INFO: task hung in nilfs_detach_log_writer
+                  https://syzkaller.appspot.com/bug?extid=e3973c409251e136fdd0
+<4> 6       Yes   kernel BUG in end_buffer_async_write
+                  https://syzkaller.appspot.com/bug?extid=5c04210f7c7f897c1e7f
 
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
