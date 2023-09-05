@@ -2,109 +2,114 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1C36791C8E
-	for <lists+linux-nilfs@lfdr.de>; Mon,  4 Sep 2023 20:11:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0F93792A04
+	for <lists+linux-nilfs@lfdr.de>; Tue,  5 Sep 2023 18:58:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353412AbjIDSLO (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 4 Sep 2023 14:11:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41146 "EHLO
+        id S245114AbjIEQdH (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 5 Sep 2023 12:33:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50678 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236221AbjIDSLN (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 4 Sep 2023 14:11:13 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0C55199;
-        Mon,  4 Sep 2023 11:11:10 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 5E283616E4;
-        Mon,  4 Sep 2023 18:11:10 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 33EE4C433BC;
-        Mon,  4 Sep 2023 18:11:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1693851069;
-        bh=IbVZF2DzXUAo2USMUCstH3jPxauU/LW0IcO2K6LFI4c=;
-        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-        b=ia58bjh4p1fO0/CGw8J5Rs1Vo1j5XfRVWItHIwgeFn8rfWurveiBV3yEbnmuuMJ6P
-         0dX1mVg7Y6gTEzMa5Whxk59KrCLCTfB/PrZ0B0WolmEq4yaon1/tV+WLLLtJWG/xY0
-         dy6lOtzzaLf+Z8WVNjmVninPcHYRo12hw6zL2O/c4cmCpp6u16HlD9D5vcqdrB2v+e
-         G6QjlvbFoe94sLMMbEFQYkCueLzwZr9JAP+5uBddOS46Vz5NEj71bugNLgoSMI1ZvJ
-         oNh6Ld267EMxOtUHbtgOPq4KvFjwoTafZWVGD0Gm74c6TV4c+RltqlDafHZDDmUn00
-         hWR7BwYjNDGYg==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 1461BC04E26;
-        Mon,  4 Sep 2023 18:11:09 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S1353829AbjIEIT3 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Tue, 5 Sep 2023 04:19:29 -0400
+Received: from mail-oi1-x232.google.com (mail-oi1-x232.google.com [IPv6:2607:f8b0:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D3C9CE0
+        for <linux-nilfs@vger.kernel.org>; Tue,  5 Sep 2023 01:19:25 -0700 (PDT)
+Received: by mail-oi1-x232.google.com with SMTP id 5614622812f47-3a751d2e6ecso1782290b6e.0
+        for <linux-nilfs@vger.kernel.org>; Tue, 05 Sep 2023 01:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1693901964; x=1694506764; darn=vger.kernel.org;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
+        b=Rsh1U5LWkGLD60egT4xH0OkFTYAdhZ9PEm8UjiAWZ2Ip5vQRRw1xGx18MGa89HvYT6
+         DHnioG41PeB3MkB8Ft4Wrqqp2kjHic/Vkr/qunTIeMzVwVxM8xASTQz27lIUkjehlemV
+         8hhlmR9WWRNLvf+5DEaOSg8zVsJ6dc1e3o0hPmiekrNR95zn5u2OlTodDzhAW5FoXvst
+         vtI6oie/Go2kADRNvERCwQ/tj5WyItWCvOqaItC7RUWSKHX1Jy68bxHNnuEfs4fh7/gu
+         3DkWJuriwsFIhQtQN+dSHz9r/brcNOoN1uxEnXTsFI93qPjm9f/GoLz132bzGfSth5g7
+         +kXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1693901964; x=1694506764;
+        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
+        b=b6YykTq52Iu8Nl+1SCiivP8CTb2nru2BSL8uZgrb7yPXVz+geu7E6RZZHAe4el525Z
+         arxFOakTkKaf4cdYLSZAy3CxUiJcPq3PofVnoK0nE8vqaY7i9ZZZf1cEWuNXgx3L1bzu
+         j8H2SJzMO3YZOZwXD6IFI7/eHZfMwKJuoZLaH+EcbpJksqTgO+UPtUXS7s5Ib4ZJrAGO
+         8k6FSE8OPxsLOa9I238aHLB1B3PoVRTOBa8QyjLYoUn9YnDdJj+fE+QHuogabW9qnYiL
+         +lgNCP1RSpvLQlCjRnQNElSB7tw9oRzRsKWsea9MlCVrXPucXkqAZJRRSnsl3osaeefb
+         CbNg==
+X-Gm-Message-State: AOJu0Yw+BZ06l8BHUUJm9qhQw5ucQ5oYt3rvywTV4uhTv0wLb4z6It4K
+        Gd/DmKMDd9vCj+lWscQ2jCyhgmVeJ/hJVnVhGLreUJNOJvmpTw==
+X-Google-Smtp-Source: AGHT+IERAX8PQb3+O/VRt2IpdT+B8+AIRhc7TR9qfBXEywqtD/tUeMqNmseulSPs3fS452xIhVN8tbhQYqX1LXl34po=
+X-Received: by 2002:a0c:aa1b:0:b0:653:5736:c0b4 with SMTP id
+ d27-20020a0caa1b000000b006535736c0b4mr10412089qvb.54.1693901943569; Tue, 05
+ Sep 2023 01:19:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [f2fs-dev] [PATCH 01/12] fs: export setup_bdev_super
-From:   patchwork-bot+f2fs@kernel.org
-Message-Id: <169385106908.19669.10487789391922478483.git-patchwork-notify@kernel.org>
-Date:   Mon, 04 Sep 2023 18:11:09 +0000
-References: <20230802154131.2221419-2-hch@lst.de>
-In-Reply-To: <20230802154131.2221419-2-hch@lst.de>
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     viro@zeniv.linux.org.uk, brauner@kernel.org, axboe@kernel.dk,
-        linux-block@vger.kernel.org, linux-nilfs@vger.kernel.org,
-        jack@suse.cz, linux-fsdevel@vger.kernel.org, djwong@kernel.org,
-        josef@toxicpanda.com, linux-f2fs-devel@lists.sourceforge.net,
-        linux-xfs@vger.kernel.org, clm@fb.com, adilger.kernel@dilger.ca,
-        jaegeuk@kernel.org, dsterba@suse.com, tytso@mit.edu,
-        linux-ext4@vger.kernel.org, konishi.ryusuke@gmail.com,
-        linux-btrfs@vger.kernel.org
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Received: by 2002:a0c:de0e:0:b0:634:8588:8dcb with HTTP; Tue, 5 Sep 2023
+ 01:19:02 -0700 (PDT)
+Reply-To: wuwumoneytransfer5000@hotmail.com
+From:   "(IMF) SCAM VICTIMS" <smmab4668@gmail.com>
+Date:   Tue, 5 Sep 2023 01:19:02 -0700
+Message-ID: <CAPvhgiGb_xchv+cBfjtNXZbs3T38s2BJRqmONSNBDUeOvUkr=Q@mail.gmail.com>
+Subject: Betrugsopfer
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Hello:
-
-This series was applied to jaegeuk/f2fs.git (dev)
-by Christian Brauner <brauner@kernel.org>:
-
-On Wed,  2 Aug 2023 17:41:20 +0200 you wrote:
-> We'll want to use setup_bdev_super instead of duplicating it in nilfs2.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> ---
->  fs/super.c                 | 3 ++-
->  include/linux/fs_context.h | 2 ++
->  2 files changed, 4 insertions(+), 1 deletion(-)
-
-Here is the summary with links:
-  - [f2fs-dev,01/12] fs: export setup_bdev_super
-    https://git.kernel.org/jaegeuk/f2fs/c/cf6da236c27a
-  - [f2fs-dev,02/12] nilfs2: use setup_bdev_super to de-duplicate the mount code
-    https://git.kernel.org/jaegeuk/f2fs/c/c1e012ea9e83
-  - [f2fs-dev,03/12] btrfs: always open the device read-only in btrfs_scan_one_device
-    (no matching commit)
-  - [f2fs-dev,04/12] btrfs: open block devices after superblock creation
-    (no matching commit)
-  - [f2fs-dev,05/12] ext4: make the IS_EXT2_SB/IS_EXT3_SB checks more robust
-    https://git.kernel.org/jaegeuk/f2fs/c/4b41828be268
-  - [f2fs-dev,06/12] fs: use the super_block as holder when mounting file systems
-    (no matching commit)
-  - [f2fs-dev,07/12] fs: stop using get_super in fs_mark_dead
-    https://git.kernel.org/jaegeuk/f2fs/c/9c09a7cf6220
-  - [f2fs-dev,08/12] fs: export fs_holder_ops
-    https://git.kernel.org/jaegeuk/f2fs/c/7ecd0b6f5100
-  - [f2fs-dev,09/12] ext4: drop s_umount over opening the log device
-    https://git.kernel.org/jaegeuk/f2fs/c/6f5fc7de9885
-  - [f2fs-dev,10/12] ext4: use fs_holder_ops for the log device
-    https://git.kernel.org/jaegeuk/f2fs/c/8bed1783751f
-  - [f2fs-dev,11/12] xfs: drop s_umount over opening the log and RT devices
-    (no matching commit)
-  - [f2fs-dev,12/12] xfs use fs_holder_ops for the log and RT devices
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Sehr geehrter E-Mail-Besitzer,
 
 
+
+Der Internationale W=C3=A4hrungsfonds (IWF) entsch=C3=A4digt alle Betrugsop=
+fer
+und Ihre E-Mail-Adresse wurde auf der Liste der Betrugsopfer gefunden.
+
+Dieses Western Union-B=C3=BCro wurde vom IWF beauftragt Ihnen Ihre
+Verg=C3=BCtung per Western Union Money Transfer zu =C3=BCberweisen.
+
+Wir haben uns jedoch entschieden Ihre eigene Zahlung =C3=BCber Geldtransfer
+der Westunion in H=C3=B6he von =E2=82=AC5,000, pro Tag vorzunehmen bis die
+Gesamtsumme von =E2=82=AC1,500.000.00, vollst=C3=A4ndig an Sie =C3=BCberwie=
+sen wurde.
+
+Wir k=C3=B6nnen die Zahlung m=C3=B6glicherweise nicht nur mit Ihrer
+E-Mail-Adresse senden daher ben=C3=B6tigen wir Ihre Informationen dar=C3=BC=
+ber
+wohin wir das Geld an Sie senden wie z. B.:
+
+
+Name des Adressaten ________________
+
+Adresse________________
+
+Land__________________
+
+Telefonnummer________________
+
+Angeh=C3=A4ngte Kopie Ihres Ausweises______________
+
+Das Alter ________________________
+
+
+Wir beginnen mit der =C3=9Cbertragung sobald wir Ihre Informationen
+erhalten haben: Kontakt E-Mail: ( wuwumoneytransfer5000@hotmail.com)
+
+
+Getreu,
+
+
+Herr Anthony Duru,
+
+Direktor von Geldtransfer der Westunion
