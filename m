@@ -2,165 +2,120 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0840879A079
-	for <lists+linux-nilfs@lfdr.de>; Mon, 11 Sep 2023 00:01:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C1147A58A8
+	for <lists+linux-nilfs@lfdr.de>; Tue, 19 Sep 2023 06:51:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229604AbjIJWBh (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 10 Sep 2023 18:01:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46224 "EHLO
+        id S231569AbjISEvt (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Tue, 19 Sep 2023 00:51:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231727AbjIJWBf (ORCPT
+        with ESMTP id S231545AbjISEvr (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Sun, 10 Sep 2023 18:01:35 -0400
-Received: from mail-pf1-x42b.google.com (mail-pf1-x42b.google.com [IPv6:2607:f8b0:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69FFE1A6
-        for <linux-nilfs@vger.kernel.org>; Sun, 10 Sep 2023 15:01:29 -0700 (PDT)
-Received: by mail-pf1-x42b.google.com with SMTP id d2e1a72fcca58-68e3083aa1dso3670342b3a.1
-        for <linux-nilfs@vger.kernel.org>; Sun, 10 Sep 2023 15:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fromorbit-com.20230601.gappssmtp.com; s=20230601; t=1694383288; x=1694988088; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EyybjuBSw2AsBAibBPVqGccWs6P0JtTeGBB0Kwx90Dw=;
-        b=b1Q+Djrc6DRgK0lSMIXf6OVmm1S98Rb1dJdV/4AjeMobXYoqxa/k4Xb7XAYcmCuvbB
-         T8pFPhiJHk/Ig8CcU4is+jZGfReesXQjqK7ULjc+VZz110Uqhy1NjrWTu4Ej2kgb1UEn
-         ZHgnS7dDfuM0nrDuRkgBy+D/YOBtPecXxWCyUh6h/0/NlsJyyOwKHQwSKYYxfVY7xjkS
-         7I+QxdaDiDVRMV8qekGuV48jZlbOlbc6skR8a29kp5hS8zsrhWfeCv9XIJ/gwMURSkPX
-         Ncgzq9d3+KaDgvRq3XsvmeqBjcqt9Lc7ewxeY00IZtUnccPI4WIduUYqP2aDlo+H2VFl
-         7yRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694383288; x=1694988088;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EyybjuBSw2AsBAibBPVqGccWs6P0JtTeGBB0Kwx90Dw=;
-        b=rCmVeZ9ZXFOpVTSM0mVfS3x3lrer6CoZKlcdC9T0PgS1VL1MC13E7ytKAxCy6E9HGD
-         Nk8H6tRkCRmzhU8RkrtL3hr2xYJIbpV/KrXv3z58rqSw0BAA42aptk3ma77xA0LT2TS9
-         ERl/Vy6jp8YcN2BGHDV4/j5NGf6u2fAawpxqr1R7AKQyvenR9oj2wW6/qrBHBoltgyds
-         h2XBEKfXBx4EWLIeZ7XH8pJsvtuTCn2NZq8DH2xqqYFwuM9J6vG1zga9f90tWbI8Ihoq
-         tIoK5CNEkHws8d7Zc38IGqnXSrCPP23jKDwZo8SLE3wvNbUaEJ0MKPBw1P8FqEmL+T7h
-         KL3A==
-X-Gm-Message-State: AOJu0Yyh0jAb8Ra29jqeLZMzcUOyraIKGkBHSabHt9vOklPg36+5Ti1N
-        D0QOhGL64lsaWvFhLxKnrlfI8w==
-X-Google-Smtp-Source: AGHT+IHSYFPf3w2qdTZr9bikkzuSsvPYQjYYZyW+Zfc616rQWXs3Eeo2BzwinmhhOfJVOtnHj1lBTA==
-X-Received: by 2002:a05:6a00:1a0c:b0:68c:57c7:1eb0 with SMTP id g12-20020a056a001a0c00b0068c57c71eb0mr9371853pfv.11.1694383287795;
-        Sun, 10 Sep 2023 15:01:27 -0700 (PDT)
-Received: from dread.disaster.area (pa49-195-66-88.pa.nsw.optusnet.com.au. [49.195.66.88])
-        by smtp.gmail.com with ESMTPSA id u10-20020a62ed0a000000b0068a3dd6c1dasm4403641pfh.142.2023.09.10.15.01.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 10 Sep 2023 15:01:27 -0700 (PDT)
-Received: from dave by dread.disaster.area with local (Exim 4.96)
-        (envelope-from <david@fromorbit.com>)
-        id 1qfSUe-00DWBA-0u;
-        Mon, 11 Sep 2023 08:01:24 +1000
-Date:   Mon, 11 Sep 2023 08:01:24 +1000
-From:   Dave Chinner <david@fromorbit.com>
-To:     Pavel Begunkov <asml.silence@gmail.com>
-Cc:     Hao Xu <hao.xu@linux.dev>, Matthew Wilcox <willy@infradead.org>,
-        io-uring@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
-        Dominique Martinet <asmadeus@codewreck.org>,
-        Christian Brauner <brauner@kernel.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Stefan Roesch <shr@fb.com>, Clay Harris <bugs@claycon.org>,
-        "Darrick J . Wong" <djwong@kernel.org>,
-        linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org,
-        linux-ext4@vger.kernel.org, linux-cachefs@redhat.com,
-        ecryptfs@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-unionfs@vger.kernel.org, bpf@vger.kernel.org,
-        netdev@vger.kernel.org, linux-s390@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, codalist@coda.cs.cmu.edu,
-        linux-f2fs-devel@lists.sourceforge.net, cluster-devel@redhat.com,
-        linux-mm@kvack.org, linux-nilfs@vger.kernel.org,
-        devel@lists.orangefs.org, linux-cifs@vger.kernel.org,
-        samba-technical@lists.samba.org, linux-mtd@lists.infradead.org,
-        Wanpeng Li <wanpengli@tencent.com>
-Subject: Re: [PATCH 07/11] vfs: add nowait parameter for file_accessed()
-Message-ID: <ZP48tAg2iS0UzKQf@dread.disaster.area>
-References: <20230827132835.1373581-1-hao.xu@linux.dev>
- <20230827132835.1373581-8-hao.xu@linux.dev>
- <ZOvA5DJDZN0FRymp@casper.infradead.org>
- <c728bf3f-d9db-4865-8473-058b26c11c06@linux.dev>
- <ZO3cI+DkotHQo3md@casper.infradead.org>
- <642de4e6-801d-fcad-a7ce-bfc6dec3b6e5@linux.dev>
- <ZPUJHAKzxvXiEDYA@dread.disaster.area>
- <6489b8cb-7d54-1e29-f192-a3449ed87fa1@gmail.com>
+        Tue, 19 Sep 2023 00:51:47 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCAC811F;
+        Mon, 18 Sep 2023 21:51:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=awyfojKMhU8AzVa7YcEsBxlpTOVclzCuTyUo6TQYiIY=; b=Cw5LiD0vn95PKN2IeCDFvMkRoz
+        nIpR3aa2vwbEJhByXcLQUey3cSZoM0mbiK6C+/GUbOFLQ+E3zUMIvi2DG5x6byLlj0amRrNqfwcCn
+        LtMopE0Vn0VS9LVDPKOgfrGBkn29dQ9iOGK93n8Ir7Tt5XPeJl2z3mVUSITyJQ6jfKGH/LDc1qOOC
+        wDjdKBiaRCirlxe/g8scAyXXtJosfVIDgPKczCCQ5grKrjYrChyEcCzmVJhyAF33sTewGexLVVGwO
+        NbHItyH31kAC+tgaegnX0uitTTong1uJkS11wM2b20JpvHaggRs1KVl1ADobtfqliNwoOibJInErH
+        gpxaWVJQ==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qiSi2-00FFkF-10; Tue, 19 Sep 2023 04:51:38 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
+        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
+        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
+        reiserfs-devel@vger.kernel.org, linux-ext4@vger.kernel.org,
+        Pankaj Raghav <p.raghav@samsung.com>
+Subject: [PATCH 00/26] Finish the create_empty_buffers() transition
+Date:   Tue, 19 Sep 2023 05:51:09 +0100
+Message-Id: <20230919045135.3635437-1-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6489b8cb-7d54-1e29-f192-a3449ed87fa1@gmail.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Fri, Sep 08, 2023 at 01:29:55AM +0100, Pavel Begunkov wrote:
-> On 9/3/23 23:30, Dave Chinner wrote:
-> > On Wed, Aug 30, 2023 at 02:11:31PM +0800, Hao Xu wrote:
-> > > On 8/29/23 19:53, Matthew Wilcox wrote:
-> > > > On Tue, Aug 29, 2023 at 03:46:13PM +0800, Hao Xu wrote:
-> > > > > On 8/28/23 05:32, Matthew Wilcox wrote:
-> > > > > > On Sun, Aug 27, 2023 at 09:28:31PM +0800, Hao Xu wrote:
-> > > > > > > From: Hao Xu <howeyxu@tencent.com>
-> > > > > > > 
-> > > > > > > Add a boolean parameter for file_accessed() to support nowait semantics.
-> > > > > > > Currently it is true only with io_uring as its initial caller.
-> > > > > > 
-> > > > > > So why do we need to do this as part of this series?  Apparently it
-> > > > > > hasn't caused any problems for filemap_read().
-> > > > > > 
-> > > > > 
-> > > > > We need this parameter to indicate if nowait semantics should be enforced in
-> > > > > touch_atime(), There are locks and maybe IOs in it.
-> > > > 
-> > > > That's not my point.  We currently call file_accessed() and
-> > > > touch_atime() for nowait reads and nowait writes.  You haven't done
-> > > > anything to fix those.
-> > > > 
-> > > > I suspect you can trim this patchset down significantly by avoiding
-> > > > fixing the file_accessed() problem.  And then come back with a later
-> > > > patchset that fixes it for all nowait i/o.  Or do a separate prep series
-> > > 
-> > > I'm ok to do that.
-> > > 
-> > > > first that fixes it for the existing nowait users, and then a second
-> > > > series to do all the directory stuff.
-> > > > 
-> > > > I'd do the first thing.  Just ignore the problem.  Directory atime
-> > > > updates cause I/O so rarely that you can afford to ignore it.  Almost
-> > > > everyone uses relatime or nodiratime.
-> > > 
-> > > Hi Matthew,
-> > > The previous discussion shows this does cause issues in real
-> > > producations: https://lore.kernel.org/io-uring/2785f009-2ebb-028d-8250-d5f3a30510f0@gmail.com/#:~:text=fwiw%2C%20we%27ve%20just%20recently%20had%20similar%20problems%20with%20io_uring%20read/write
-> > > 
-> > 
-> > Then separate it out into it's own patch set so we can have a
-> > discussion on the merits of requiring using noatime, relatime or
-> > lazytime for really latency sensitive IO applications. Changing code
-> > is not always the right solution...
-> 
-> Separation sounds reasonable, but it can hardly be said that only
-> latency sensitive apps would care about >1s nowait/async submission
-> delays. Presumably, btrfs can improve on that, but it still looks
-> like it's perfectly legit for filesystems do heavy stuff in
-> timestamping like waiting for IO. Right?
+Pankaj recently added folio_create_empty_buffers() as the folio
+equivalent to create_empty_buffers().  This patch set finishes
+the conversion by first converting all remaining filesystems
+to call folio_create_empty_buffers(), then renaming it back
+to create_empty_buffers().  I took the opportunity to make a few
+simplifications like making folio_create_empty_buffers() return the head
+buffer and extracting get_nth_bh() from nilfs2.
 
-Yes, it is, no-one is denying that. And some filesystems are worse
-than others, but none of that means it has to be fixed so getdents
-can be converted to NOWAIT semantics.
+A few of the patches in this series aren't directly related to
+create_empty_buffers(), but I saw them while I was working on this and
+thought they'd be easy enough to add to this series.  Compile-tested only,
+other than ext4.
 
-ie. this patchset is about the getdents NOWAIT machinery, and
-fiddling around with timestamps has much, much wider scope than just
-NOWAIT getdents machinery. We'll have this discussion about NOWAIT
-timestamp updates when a RFC is proposed to address the wider
-problem of how timestamp updates should behave in NOWAIT context.
+Matthew Wilcox (Oracle) (26):
+  buffer: Make folio_create_empty_buffers() return a buffer_head
+  mpage: Convert map_buffer_to_folio() to folio_create_empty_buffers()
+  ext4: Convert to folio_create_empty_buffers
+  buffer: Add get_nth_bh()
+  gfs2: Convert inode unstuffing to use a folio
+  gfs2: Convert gfs2_getbuf() to folios
+  gfs2; Convert gfs2_getjdatabuf to use a folio
+  gfs2: Convert gfs2_write_buf_to_page() to use a folio
+  nilfs2: Convert nilfs_mdt_freeze_buffer to use a folio
+  nilfs2: Convert nilfs_grab_buffer() to use a folio
+  nilfs2: Convert nilfs_copy_page() to nilfs_copy_folio()
+  nilfs2: Convert nilfs_mdt_forget_block() to use a folio
+  nilfs2: Convert nilfs_mdt_get_frozen_buffer to use a folio
+  nilfs2: Remove nilfs_page_get_nth_block
+  nilfs2: Convert nilfs_lookup_dirty_data_buffers to use
+    folio_create_empty_buffers
+  ntfs: Convert ntfs_read_block() to use a folio
+  ntfs: Convert ntfs_writepage to use a folio
+  ntfs: Convert ntfs_prepare_pages_for_non_resident_write() to folios
+  ntfs3: Convert ntfs_zero_range() to use a folio
+  ocfs2: Convert ocfs2_map_page_blocks to use a folio
+  reiserfs: Convert writepage to use a folio
+  ufs: Add ufs_get_locked_folio and ufs_put_locked_folio
+  ufs: Use ufs_get_locked_folio() in ufs_alloc_lastblock()
+  ufs; Convert ufs_change_blocknr() to use folios
+  ufs: Remove ufs_get_locked_page()
+  buffer: Remove folio_create_empty_buffers()
 
--Dave.
+ fs/buffer.c                 |  29 ++--
+ fs/ext4/inode.c             |  14 +-
+ fs/ext4/move_extent.c       |  11 +-
+ fs/gfs2/aops.c              |   2 +-
+ fs/gfs2/bmap.c              |  48 ++++---
+ fs/gfs2/meta_io.c           |  61 ++++-----
+ fs/gfs2/quota.c             |  37 +++---
+ fs/mpage.c                  |   3 +-
+ fs/nilfs2/mdt.c             |  66 +++++-----
+ fs/nilfs2/page.c            |  76 +++++------
+ fs/nilfs2/page.h            |  11 --
+ fs/nilfs2/segment.c         |   7 +-
+ fs/ntfs/aops.c              | 255 +++++++++++++++++-------------------
+ fs/ntfs/file.c              |  89 ++++++-------
+ fs/ntfs3/file.c             |  31 ++---
+ fs/ocfs2/aops.c             |  19 +--
+ fs/reiserfs/inode.c         |  80 +++++------
+ fs/ufs/balloc.c             |  20 ++-
+ fs/ufs/inode.c              |  25 ++--
+ fs/ufs/util.c               |  34 +++--
+ fs/ufs/util.h               |  10 +-
+ include/linux/buffer_head.h |  28 +++-
+ 22 files changed, 458 insertions(+), 498 deletions(-)
+
 -- 
-Dave Chinner
-david@fromorbit.com
+2.40.1
+
