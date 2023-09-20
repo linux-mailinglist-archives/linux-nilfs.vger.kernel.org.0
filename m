@@ -2,145 +2,93 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC47E7A7403
-	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Sep 2023 09:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0DE77A7502
+	for <lists+linux-nilfs@lfdr.de>; Wed, 20 Sep 2023 09:57:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233734AbjITH0V (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Wed, 20 Sep 2023 03:26:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45756 "EHLO
+        id S233005AbjITH5t (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Wed, 20 Sep 2023 03:57:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233723AbjITH0U (ORCPT
+        with ESMTP id S232190AbjITH5r (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Wed, 20 Sep 2023 03:26:20 -0400
-Received: from mail-vk1-xa2f.google.com (mail-vk1-xa2f.google.com [IPv6:2607:f8b0:4864:20::a2f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D00DCC9;
-        Wed, 20 Sep 2023 00:26:12 -0700 (PDT)
-Received: by mail-vk1-xa2f.google.com with SMTP id 71dfb90a1353d-495c10cec8aso2412237e0c.1;
-        Wed, 20 Sep 2023 00:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695194771; x=1695799571; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LQu/iPxRaWTK1rhHGERjdyj3zLGL4cZdjE4RNeJI6UE=;
-        b=SeeO1Ae4kypzSNScnVBvW0bI2L1St02MQMW3+P9z20ybKAUp92VZdCNVVWRDNmn+TC
-         ZXPEEHhMQmHsSw5fxpbm+9k6D2GeUnKhpBkwKBAULcGGg9b/QPmrhpnIfOeAJwpsfXiM
-         hS0bXZhsCXyAOyBThHhJ0FBAREF8zfCbxYqChTGQsEWnvzqGRLtGYSlZrba+UjGDTvM1
-         EQvZmYCOz8FI3Zdn41QAPJnbHlCqiQBcn5lln0FfgEIzAlwvExnlwno0ig3qqakGOe5i
-         c4uK6z7C4D2/MuLTvIurodQiDlX0BvSVCpn+99qMjJMTCla8nNP+tstVgGkN+Y1RZ/Uj
-         jj4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695194771; x=1695799571;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=LQu/iPxRaWTK1rhHGERjdyj3zLGL4cZdjE4RNeJI6UE=;
-        b=jDA54YrDsxdOqpv/6J1b40gelbfpUpLB0+/S83F9qqdUJYMwT3gtmkVc6jpSFqIJGo
-         VMzGseMsuRyPzkjTL5KJnukpgdcsRA0+Bb76e/ygsTFRTnKI+SJTi6ejZxhstL0aX1qU
-         1puppQa/GbmAUDWdunCXvcUj5HabKB6H8byxzuViWG1o5ndBH12ilun1ubH3dKVGgNTs
-         7sdyAQIFsK2T0YzivUWEwlY8z3LDMtLz9ovb6HBGvqJG7YOr7HIBQ1vPJNCrNUFB4T0J
-         HKCOQlgn+agbk2Gsqglpgf/yjcVIVeDu/9zLaxIW4s4G9CyXRpuC8GP6zGI4dG/7Jfw5
-         Rx4A==
-X-Gm-Message-State: AOJu0YzRYLNF6dI9lDS1l2lnHRyqnzJjfnaXccrYiN9hAc0J0smLIuid
-        2bEvwQ1PCCFJFZ68qibRncSeE7KfQ63D5yiBZqE=
-X-Google-Smtp-Source: AGHT+IFQlFeFAcKAQ7LPppd3w6KDWjLwNbdHXda8Z23QhXjgisZYRRlc9Mek2KJpmLRFy8U78oSpyqfwiEocIqQmsWU=
-X-Received: by 2002:a1f:e043:0:b0:495:e530:5155 with SMTP id
- x64-20020a1fe043000000b00495e5305155mr1981897vkg.3.1695194771638; Wed, 20 Sep
- 2023 00:26:11 -0700 (PDT)
+        Wed, 20 Sep 2023 03:57:47 -0400
+X-Greylist: delayed 385 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 00:57:42 PDT
+Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 615999E
+        for <linux-nilfs@vger.kernel.org>; Wed, 20 Sep 2023 00:57:42 -0700 (PDT)
+Received: by mail.venturelinkage.com (Postfix, from userid 1002)
+        id 52C8482797; Wed, 20 Sep 2023 09:51:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
+        s=mail; t=1695196276;
+        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
+        h=Date:From:To:Subject:From;
+        b=nNPPdcHOpgVG3gM5EDpk1x6VhrBPPTqqvkw3oODvdeG5N8Js8GZ0rK7ZvzJxUzJ3i
+         wRH++IECFlor84MLlsoCJLPr+CsjD7Lt8ZXunmJf3FBA2glJPZUL2u4pGkimV4E5CS
+         MDQWhGcFBljilOUlD4lBCmDlZOS9c3b9+qz5MJ69TsZDp3PX4umAY7eP+4HHWJwJca
+         cMM5VID4edAz17OOLY/H1LW8gkfQZPy/VnpQdggamG0N3dwjsoyAHRqNTuQEkFOfSC
+         6kpHJwBlwWpGeqKvJDSh8WmE9A76SI4ori/hsqPJQ9PdJmfOrA1lR+lfI/6Ar3BNuq
+         0sv9wHhNgLHNw==
+Received: by mail.venturelinkage.com for <linux-nilfs@vger.kernel.org>; Wed, 20 Sep 2023 07:51:03 GMT
+Message-ID: <20230920084500-0.1.l.124t.0.9j3xtllmb1@venturelinkage.com>
+Date:   Wed, 20 Sep 2023 07:51:03 GMT
+From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
+To:     <linux-nilfs@vger.kernel.org>
+Subject: =?UTF-8?Q?Popt=C3=A1vka?=
+X-Mailer: mail.venturelinkage.com
 MIME-Version: 1.0
-References: <20230919045135.3635437-1-willy@infradead.org> <20230919045135.3635437-13-willy@infradead.org>
-In-Reply-To: <20230919045135.3635437-13-willy@infradead.org>
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Date:   Wed, 20 Sep 2023 16:25:55 +0900
-Message-ID: <CAKFNMokf=ucSpitwt2sF-nBPJPfL02MmorwXvdcw_h1zEoB7BA@mail.gmail.com>
-Subject: Re: [PATCH 12/26] nilfs2: Convert nilfs_mdt_forget_block() to use a folio
-To:     "Matthew Wilcox (Oracle)" <willy@infradead.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        linux-fsdevel@vger.kernel.org, gfs2@lists.linux.dev,
-        linux-nilfs@vger.kernel.org, linux-ntfs-dev@lists.sourceforge.net,
-        ntfs3@lists.linux.dev, ocfs2-devel@lists.linux.dev,
-        reiserfs-devel@vger.kernel.org, linux-ext4@vger.kernel.org,
-        Pankaj Raghav <p.raghav@samsung.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
+        *      [80.211.143.151 listed in zen.spamhaus.org]
+        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
+        *      blocklist
+        *      [URIs: venturelinkage.com]
+        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
+        *      DNSWL was blocked.  See
+        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
+        *      for more information.
+        *      [80.211.143.151 listed in list.dnswl.org]
+        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
+        *      [score: 0.1201]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
+        *      days
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-On Tue, Sep 19, 2023 at 3:04=E2=80=AFPM Matthew Wilcox (Oracle) wrote:
->
-> Remove a number of folio->page->folio conversions.
->
-> Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-> ---
->  fs/nilfs2/mdt.c | 30 ++++++++++++++----------------
->  1 file changed, 14 insertions(+), 16 deletions(-)
->
-> diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-> index db2260d6e44d..11b7cf4acc92 100644
-> --- a/fs/nilfs2/mdt.c
-> +++ b/fs/nilfs2/mdt.c
-> @@ -356,30 +356,28 @@ int nilfs_mdt_delete_block(struct inode *inode, uns=
-igned long block)
->   */
->  int nilfs_mdt_forget_block(struct inode *inode, unsigned long block)
->  {
-> -       pgoff_t index =3D (pgoff_t)block >>
-> -               (PAGE_SHIFT - inode->i_blkbits);
-> -       struct page *page;
-> -       unsigned long first_block;
-> +       pgoff_t index =3D block >> (PAGE_SHIFT - inode->i_blkbits);
-> +       struct folio *folio;
-> +       struct buffer_head *bh;
->         int ret =3D 0;
->         int still_dirty;
->
-> -       page =3D find_lock_page(inode->i_mapping, index);
-> -       if (!page)
-> +       folio =3D filemap_lock_folio(inode->i_mapping, index);
-> +       if (IS_ERR(folio))
->                 return -ENOENT;
->
-> -       wait_on_page_writeback(page);
-> +       folio_wait_writeback(folio);
->
-> -       first_block =3D (unsigned long)index <<
-> -               (PAGE_SHIFT - inode->i_blkbits);
-> -       if (page_has_buffers(page)) {
-> -               struct buffer_head *bh;
-> -
-> -               bh =3D nilfs_page_get_nth_block(page, block - first_block=
-);
-> +       bh =3D folio_buffers(folio);
-> +       if (bh) {
-> +               unsigned long first_block =3D index <<
-> +                               (PAGE_SHIFT - inode->i_blkbits);
-> +               bh =3D get_nth_bh(bh, block - first_block);
->                 nilfs_forget_buffer(bh);
->         }
-> -       still_dirty =3D PageDirty(page);
-> -       unlock_page(page);
-> -       put_page(page);
-> +       still_dirty =3D folio_test_dirty(folio);
-> +       folio_unlock(folio);
-> +       folio_put(folio);
->
->         if (still_dirty ||
->             invalidate_inode_pages2_range(inode->i_mapping, index, index)=
- !=3D 0)
-> --
-> 2.40.1
->
+Dobr=C3=A9 r=C3=A1no,
 
-Acked-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
+=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
 
-Looks good to me.
+Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
+odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
 
-Thanks,
-Ryusuke Konishi
+M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
+
+V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
+ anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
+
+
+Pozdravy
+Lukas Varga
