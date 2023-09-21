@@ -2,119 +2,76 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D63397A9705
-	for <lists+linux-nilfs@lfdr.de>; Thu, 21 Sep 2023 19:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4980C7AA06D
+	for <lists+linux-nilfs@lfdr.de>; Thu, 21 Sep 2023 22:37:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230122AbjIURK7 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Thu, 21 Sep 2023 13:10:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58182 "EHLO
+        id S232073AbjIUUhj (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Thu, 21 Sep 2023 16:37:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231271AbjIURKT (ORCPT
+        with ESMTP id S232066AbjIUUh2 (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>);
-        Thu, 21 Sep 2023 13:10:19 -0400
-Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AAE9026;
-        Thu, 21 Sep 2023 10:05:42 -0700 (PDT)
-Received: by mail-qt1-x82b.google.com with SMTP id d75a77b69052e-417e013061eso7372401cf.1;
-        Thu, 21 Sep 2023 10:05:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1695315941; x=1695920741; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=njolLyWGYw3vA9Xc4YsCkH7k9TvdmzjireB5CtmLsDw=;
-        b=fWXNmgQB8Eogrhj3SP+0GjBqEWe8MePSWeXlfjTVTtyfmzybRkY0RLsLX3xWccU+b2
-         Js2H5IMM6rqicMx/DuZYtuSp1arLlJkTkNYj2/7mXmF58gTF4xSxpExGhUunJVcz7YDH
-         L77ljqBJ3pk64rtDNU6nKYSl2AS0GXurwFd76w9OTdsRcA0Jme7xcpogHVnPv2SnLhTm
-         s5Ppg9AVr1Q6L9zOq4XruXlt+0W9Iy4f5e3hr3+1kguSxi/FMopzHbdSK1RwI4CT8iX6
-         pU/Qxzdyf1JZU2rL+9U6Qs20kWlQ7pwyIiZP1uiNrxEpqaaAW4QE7gLCOZVYdNU+OJCi
-         f51A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1695315941; x=1695920741;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=njolLyWGYw3vA9Xc4YsCkH7k9TvdmzjireB5CtmLsDw=;
-        b=MqWARGQvlzQKLKcaZaXSbufRh02GQXnRAUxXkC4wigoMqx9bBBAXQ1rSRzAGL887ey
-         WYjPWCIL9RfrY/5dQeXYUUXs/6XOHhRlHiBjXDzXz4BZjEKRBUuUpRHMaE3qRtt43VJh
-         S5Qp+UH7dgClNeYDXio9gHBsVmp//pF3aakxpA9K42KdsHH93RqeoqKefDQGsZqa8U/j
-         cqAql4Cf3X/W8vzI2iVDVDskAkufWzfWDx56c1v9vcLrubNx6ogvmGOIXeOHdfYX4Asu
-         gb/LO5fcj5DhioRe8wLiVWgilcoVpoMK+YNKvi7eGSSpSalDzaNt7AUajMjrsErC4Lhu
-         lbmA==
-X-Gm-Message-State: AOJu0YzN0Q1icWE1ke/Q8x6W1N0SirI/gkWyRCox46XBpslI3L22ZVch
-        AgJ6LCrtED64ksSayC0lNZvWHWA9Tc8=
-X-Google-Smtp-Source: AGHT+IEzdj/06cFL2sbiF2+qQ9gC3CGwBMmB8cOgMsstcJpMD9UxElbnaKu3HOC2Z76qXDTgzTr+Wg==
-X-Received: by 2002:a17:902:6b07:b0:1c3:29c4:c501 with SMTP id o7-20020a1709026b0700b001c329c4c501mr4853684plk.14.1695305855162;
-        Thu, 21 Sep 2023 07:17:35 -0700 (PDT)
-Received: from carrot.. (i114-180-53-6.s42.a014.ap.plala.or.jp. [114.180.53.6])
-        by smtp.gmail.com with ESMTPSA id k9-20020a170902c40900b001c56157f062sm1529686plk.227.2023.09.21.07.17.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Sep 2023 07:17:34 -0700 (PDT)
-From:   Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-nilfs@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] nilfs2: fix potential use after free in nilfs_gccache_submit_read_data()
-Date:   Thu, 21 Sep 2023 23:17:31 +0900
-Message-Id: <20230921141731.10073-1-konishi.ryusuke@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Thu, 21 Sep 2023 16:37:28 -0400
+Received: from mail.venturelinkbiz.com (mail.venturelinkbiz.com [51.195.119.142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBEB78D9C9
+        for <linux-nilfs@vger.kernel.org>; Thu, 21 Sep 2023 10:43:26 -0700 (PDT)
+Received: by mail.venturelinkbiz.com (Postfix, from userid 1002)
+        id 3411F4711B; Thu, 21 Sep 2023 08:16:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkbiz.com;
+        s=mail; t=1695284195;
+        bh=JBV4b8UUo1MSngn/QBoedt1Dv52bT8rWeq4R22MtJMs=;
+        h=Date:From:To:Subject:From;
+        b=SN/A3kaJU3zFbRt95/qn+ckxwPG7VQueoN0kOumn1W13qFWdM3IZaFd1MmRntaYdb
+         ig8en+/G609y7pmElCV7zYknuN5uzTL7CGFW+bLZIx/5r1SelOPKFeNR8xP6dzG7/1
+         1JGENtUhtJKDwET9i9X4TRIeuB2ESvzi75Wz17hmyDtk6Ptjscvg9VTOPDB6CW8Ul9
+         zi8FuOdVZHn2pYd5kHg7TMcTTcdK8yYdHeZrHD6WZtnWJvx4hieY1FxR4wMGvDhhdm
+         koGpllKAJekTEvLMwyunxR323vAKb+OsQfX3TYKc9yDMNXA0NXpncHFSQKq4qRuTDA
+         /f5DzwJOkQFVw==
+Received: by mail.venturelinkbiz.com for <linux-nilfs@vger.kernel.org>; Thu, 21 Sep 2023 08:16:18 GMT
+Message-ID: <20230921064500-0.1.2j.6ypd.0.52dy0o0f7u@venturelinkbiz.com>
+Date:   Thu, 21 Sep 2023 08:16:18 GMT
+From:   "Michal Rmoutil" <michal.rmoutil@venturelinkbiz.com>
+To:     <linux-nilfs@vger.kernel.org>
+Subject: =?UTF-8?Q?Efektivn=C3=AD_sledov=C3=A1n=C3=AD_a_optimalizace_v=C3=BDroby_pro_va=C5=A1i_spole=C4=8Dnost?=
+X-Mailer: mail.venturelinkbiz.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=3.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED,
+        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ***
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-From: Pan Bian <bianpan2016@163.com>
+Dobr=C3=A9 r=C3=A1no,
 
-In nilfs_gccache_submit_read_data(), brelse(bh) is called to drop the
-reference count of bh when the call to nilfs_dat_translate() fails.  If
-the reference count hits 0 and its owner page gets unlocked, bh may be
-freed.  However, bh->b_page is dereferenced to put the page after that,
-which may result in a use-after-free bug.  This patch moves the release
-operation after unlocking and putting the page.
+m=C3=A1te mo=C5=BEnost sledovat stav ka=C5=BEd=C3=A9ho stroje a v=C3=BDro=
+bn=C3=ADho procesu z kancel=C3=A1=C5=99e, konferen=C4=8Dn=C3=AD m=C3=ADst=
+nosti nebo dokonce z domova =C4=8Di na cest=C3=A1ch =E2=80=93 na va=C5=A1=
+em telefonu?
 
-NOTE: The function in question is only called in GC, and in combination
-with current userland tools, address translation using DAT does not occur
-in that function, so the code path that causes this issue will not be
-executed.  However, it is possible to run that code path by intentionally
-modifying the userland GC library or by calling the GC ioctl directly.
+Poskytujeme rychle implementovateln=C3=BD a snadno pou=C5=BEiteln=C3=BD n=
+=C3=A1stroj, kter=C3=BD zachyt=C3=AD i n=C4=9Bkolikasekundov=C3=BD mikrop=
+rostoj a okam=C5=BEit=C4=9B p=C5=99epo=C4=8D=C3=ADt=C3=A1 vyu=C5=BEit=C3=AD=
+ stroje v kontextu dan=C3=A9 v=C3=BDrobn=C3=AD zak=C3=A1zky.
 
-Link: https://lkml.kernel.org/r/1543201709-53191-1-git-send-email-bianpan2016@163.com
-Signed-off-by: Pan Bian <bianpan2016@163.com>
-Reported-by: Ferry Meng <mengferry@linux.alibaba.com>
-Closes: https://lkml.kernel.org/r/20230818092022.111054-1-mengferry@linux.alibaba.com
-Fixes: a3d93f709e89 ("nilfs2: block cache for garbage collection")
-[konishi.ryusuke@gmail.com: NOTE added to the commit log]
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Tested-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: <stable@vger.kernel.org>
----
-fs/nilfs2/gcinode.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Kdykoli vid=C3=ADte stav objedn=C3=A1vky a jste informov=C3=A1ni o p=C5=99=
+=C3=ADpadn=C3=A9m sn=C3=AD=C5=BEen=C3=AD efektivity. Syst=C3=A9m s=C3=A1m=
+ analyzuje data a p=C5=99ipravuje cenn=C3=A9 reporty, co=C5=BE oper=C3=A1=
+tor=C5=AFm umo=C5=BE=C5=88uje soust=C5=99edit se na v=C3=BDrobn=C3=AD c=C3=
+=ADl.
 
-diff --git a/fs/nilfs2/gcinode.c b/fs/nilfs2/gcinode.c
-index 48fe71d309cb..8beb2730929d 100644
---- a/fs/nilfs2/gcinode.c
-+++ b/fs/nilfs2/gcinode.c
-@@ -73,10 +73,8 @@ int nilfs_gccache_submit_read_data(struct inode *inode, sector_t blkoff,
- 		struct the_nilfs *nilfs = inode->i_sb->s_fs_info;
- 
- 		err = nilfs_dat_translate(nilfs->ns_dat, vbn, &pbn);
--		if (unlikely(err)) { /* -EIO, -ENOMEM, -ENOENT */
--			brelse(bh);
-+		if (unlikely(err)) /* -EIO, -ENOMEM, -ENOENT */
- 			goto failed;
--		}
- 	}
- 
- 	lock_buffer(bh);
-@@ -102,6 +100,8 @@ int nilfs_gccache_submit_read_data(struct inode *inode, sector_t blkoff,
-  failed:
- 	unlock_page(bh->b_page);
- 	put_page(bh->b_page);
-+	if (unlikely(err))
-+		brelse(bh);
- 	return err;
- }
- 
--- 
-2.34.1
+C=C3=ADl je jednoduch=C3=BD: jeden pohled =E2=80=93 cel=C3=A1 tov=C3=A1rn=
+a. =C4=8Cek=C3=A1m na odpov=C4=9B=C4=8F, jestli vid=C3=ADte mo=C5=BEnost =
+vyu=C5=BEit=C3=AD takov=C3=A9ho n=C3=A1stroje ve va=C5=A1=C3=AD firm=C4=9B=
+=2E
 
+
+Pozdravy
+Michal Rmoutil
