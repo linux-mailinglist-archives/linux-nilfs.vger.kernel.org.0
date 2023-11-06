@@ -2,37 +2,37 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C1ED97E2B23
-	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Nov 2023 18:39:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 998DC7E2B20
+	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Nov 2023 18:39:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231975AbjKFRj1 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 6 Nov 2023 12:39:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58996 "EHLO
+        id S232611AbjKFRj0 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 6 Nov 2023 12:39:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58988 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231996AbjKFRjS (ORCPT
+        with ESMTP id S231929AbjKFRjS (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>); Mon, 6 Nov 2023 12:39:18 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0135D78;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0AEDD7B;
         Mon,  6 Nov 2023 09:39:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=vqMdaczPBJ0vAOF82i4ZcjgwXI4TjAD+CcB7Mllfddw=; b=g82BkgnIYaQ13JwDngcm+gK09I
-        8Q7tXJpAoaqdKn1AX8bpteSZ66YmZjKzdm9mo2F8zssm2YVd1zG0Zcxn17sdLJOLlKmVcLI6qezXz
-        KDRpLhr2v9G8oOsWcjObUgudDfCsNwlJVLYdtfHYt8Pd4dUJDq/C75N9/aP/qwHS4Y4lWODm8msBt
-        8pQBZy57MDn68TxPp7X6RRsgnwLMAkmbq1af9op9TjPnNAiTloIuPli50Hm32fUVYuxGrxewC/J9d
-        uXHixgvOsE3Z92d8+zk5hn2762fzfM6JcKuABrl/YjoE8r+NmSRK/30iDQc0yOTUYDva8HFoSHq+K
-        T4LAbRuw==;
+        bh=0AG2dMS81/SkWO59LwqrNQHYrTfMNl58mt0GO8sq17U=; b=cZaCLv8bbcXFDnMvnBmZ0tWWQK
+        6eqpydnMRkohCxq4Dun8gN1srhkca5sflRbqc7I5cq/PtOt4nFlTZN4nPpj1P69XjfKWp8JzskUb+
+        J/5/bHBdVArTePiZcM3y/+cdpFk/1yOddrHSvXV+NLa722aNkrbUGLaVGOE5xPA7EFOwFTk6e6rAo
+        OQ5vtaSFqkJ99lx/aZkdhQ2xfTC2HC9fd6eXviRSaozUq7mdXLse/MJGNg7H2+waFFQkDxjX1hf7+
+        2YMwLmFmcZeRtgUd3paDdSh6xkNPVOg3hAu7+U+/nMOpHLj6OLG+mgOlB3DJidzw3e5RNFQkKGPQR
+        G2rNhgTQ==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1r03Z4-007H8Q-NW; Mon, 06 Nov 2023 17:39:06 +0000
+        id 1r03Z4-007H8W-RP; Mon, 06 Nov 2023 17:39:06 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 08/35] nilfs2: Convert to nilfs_clear_folio_dirty()
-Date:   Mon,  6 Nov 2023 17:38:36 +0000
-Message-Id: <20231106173903.1734114-9-willy@infradead.org>
+Subject: [PATCH 09/35] nilfs2: Convert to __nilfs_clear_folio_dirty()
+Date:   Mon,  6 Nov 2023 17:38:37 +0000
+Message-Id: <20231106173903.1734114-10-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20231106173903.1734114-1-willy@infradead.org>
 References: <20231106173903.1734114-1-willy@infradead.org>
@@ -48,124 +48,96 @@ Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-All callers of nilfs_clear_dirty_page() now have a folio, so rename
-the function and pass in the folio.  Saves three hidden calls to
-compound_head().
+All callers now have a folio, so convert to pass a folio.  No caller
+uses the return value, so make it return void.  Removes a couple of
+hidden calls to compound_head().
 
 Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 ---
- fs/nilfs2/inode.c |  2 +-
- fs/nilfs2/mdt.c   |  2 +-
- fs/nilfs2/page.c  | 27 ++++++++++++++-------------
- fs/nilfs2/page.h  |  2 +-
- 4 files changed, 17 insertions(+), 16 deletions(-)
+ fs/nilfs2/page.c    | 19 ++++++++++---------
+ fs/nilfs2/page.h    |  2 +-
+ fs/nilfs2/segment.c |  2 +-
+ 3 files changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
-index c7ec56358a79..8fe784f62720 100644
---- a/fs/nilfs2/inode.c
-+++ b/fs/nilfs2/inode.c
-@@ -186,7 +186,7 @@ static int nilfs_writepage(struct page *page, struct writeback_control *wbc)
- 		 * have dirty pages that try to be flushed in background.
- 		 * So, here we simply discard this dirty page.
- 		 */
--		nilfs_clear_dirty_page(page, false);
-+		nilfs_clear_folio_dirty(folio, false);
- 		folio_unlock(folio);
- 		return -EROFS;
- 	}
-diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-index 327408512b86..2e7952ac2f67 100644
---- a/fs/nilfs2/mdt.c
-+++ b/fs/nilfs2/mdt.c
-@@ -411,7 +411,7 @@ nilfs_mdt_write_page(struct page *page, struct writeback_control *wbc)
- 		 * have dirty folios that try to be flushed in background.
- 		 * So, here we simply discard this dirty folio.
- 		 */
--		nilfs_clear_dirty_page(page, false);
-+		nilfs_clear_folio_dirty(folio, false);
- 		folio_unlock(folio);
- 		return -EROFS;
- 	}
 diff --git a/fs/nilfs2/page.c b/fs/nilfs2/page.c
-index 29799a49c234..48a91ff059f5 100644
+index 48a91ff059f5..94e11bcee05b 100644
 --- a/fs/nilfs2/page.c
 +++ b/fs/nilfs2/page.c
-@@ -379,7 +379,7 @@ void nilfs_clear_dirty_pages(struct address_space *mapping, bool silent)
- 			 * was acquired.  Skip processing in that case.
- 			 */
- 			if (likely(folio->mapping == mapping))
--				nilfs_clear_dirty_page(&folio->page, silent);
-+				nilfs_clear_folio_dirty(folio, silent);
+@@ -82,7 +82,7 @@ void nilfs_forget_buffer(struct buffer_head *bh)
+ 	lock_buffer(bh);
+ 	set_mask_bits(&bh->b_state, clear_bits, 0);
+ 	if (nilfs_folio_buffers_clean(folio))
+-		__nilfs_clear_page_dirty(&folio->page);
++		__nilfs_clear_folio_dirty(folio);
  
- 			folio_unlock(folio);
- 		}
-@@ -389,32 +389,33 @@ void nilfs_clear_dirty_pages(struct address_space *mapping, bool silent)
- }
- 
- /**
-- * nilfs_clear_dirty_page - discard dirty page
-- * @page: dirty page that will be discarded
-+ * nilfs_clear_folio_dirty - discard dirty folio
-+ * @folio: dirty folio that will be discarded
-  * @silent: suppress [true] or print [false] warning messages
-  */
--void nilfs_clear_dirty_page(struct page *page, bool silent)
-+void nilfs_clear_folio_dirty(struct folio *folio, bool silent)
- {
--	struct inode *inode = page->mapping->host;
-+	struct inode *inode = folio->mapping->host;
- 	struct super_block *sb = inode->i_sb;
-+	struct buffer_head *bh, *head;
- 
--	BUG_ON(!PageLocked(page));
-+	BUG_ON(!folio_test_locked(folio));
- 
- 	if (!silent)
- 		nilfs_warn(sb, "discard dirty page: offset=%lld, ino=%lu",
--			   page_offset(page), inode->i_ino);
-+			   folio_pos(folio), inode->i_ino);
- 
--	ClearPageUptodate(page);
--	ClearPageMappedToDisk(page);
-+	folio_clear_uptodate(folio);
-+	folio_clear_mappedtodisk(folio);
- 
--	if (page_has_buffers(page)) {
--		struct buffer_head *bh, *head;
-+	head = folio_buffers(folio);
-+	if (head) {
- 		const unsigned long clear_bits =
- 			(BIT(BH_Uptodate) | BIT(BH_Dirty) | BIT(BH_Mapped) |
- 			 BIT(BH_Async_Write) | BIT(BH_NILFS_Volatile) |
- 			 BIT(BH_NILFS_Checked) | BIT(BH_NILFS_Redirected));
- 
--		bh = head = page_buffers(page);
-+		bh = head;
- 		do {
- 			lock_buffer(bh);
- 			if (!silent)
-@@ -427,7 +428,7 @@ void nilfs_clear_dirty_page(struct page *page, bool silent)
+ 	bh->b_blocknr = -1;
+ 	folio_clear_uptodate(folio);
+@@ -428,7 +428,7 @@ void nilfs_clear_folio_dirty(struct folio *folio, bool silent)
  		} while (bh = bh->b_this_page, bh != head);
  	}
  
--	__nilfs_clear_page_dirty(page);
-+	__nilfs_clear_page_dirty(&folio->page);
+-	__nilfs_clear_page_dirty(&folio->page);
++	__nilfs_clear_folio_dirty(folio);
  }
  
  unsigned int nilfs_page_count_clean_buffers(struct page *page,
+@@ -458,22 +458,23 @@ unsigned int nilfs_page_count_clean_buffers(struct page *page,
+  * 2) Some B-tree operations like insertion or deletion may dispose buffers
+  *    in dirty state, and this needs to cancel the dirty state of their pages.
+  */
+-int __nilfs_clear_page_dirty(struct page *page)
++void __nilfs_clear_folio_dirty(struct folio *folio)
+ {
+-	struct address_space *mapping = page->mapping;
++	struct address_space *mapping = folio->mapping;
+ 
+ 	if (mapping) {
+ 		xa_lock_irq(&mapping->i_pages);
+-		if (test_bit(PG_dirty, &page->flags)) {
+-			__xa_clear_mark(&mapping->i_pages, page_index(page),
++		if (folio_test_dirty(folio)) {
++			__xa_clear_mark(&mapping->i_pages, folio->index,
+ 					     PAGECACHE_TAG_DIRTY);
+ 			xa_unlock_irq(&mapping->i_pages);
+-			return clear_page_dirty_for_io(page);
++			folio_clear_dirty_for_io(folio);
++			return;
+ 		}
+ 		xa_unlock_irq(&mapping->i_pages);
+-		return 0;
++		return;
+ 	}
+-	return TestClearPageDirty(page);
++	folio_clear_dirty(folio);
+ }
+ 
+ /**
 diff --git a/fs/nilfs2/page.h b/fs/nilfs2/page.h
-index a8ab800e689c..c419bb1f5b7d 100644
+index c419bb1f5b7d..968b311d265b 100644
 --- a/fs/nilfs2/page.h
 +++ b/fs/nilfs2/page.h
-@@ -41,7 +41,7 @@ void nilfs_page_bug(struct page *);
+@@ -30,7 +30,7 @@ BUFFER_FNS(NILFS_Checked, nilfs_checked)	/* buffer is verified */
+ BUFFER_FNS(NILFS_Redirected, nilfs_redirected)	/* redirected to a copy */
  
- int nilfs_copy_dirty_pages(struct address_space *, struct address_space *);
- void nilfs_copy_back_pages(struct address_space *, struct address_space *);
--void nilfs_clear_dirty_page(struct page *, bool);
-+void nilfs_clear_folio_dirty(struct folio *, bool);
- void nilfs_clear_dirty_pages(struct address_space *, bool);
- unsigned int nilfs_page_count_clean_buffers(struct page *, unsigned int,
- 					    unsigned int);
+ 
+-int __nilfs_clear_page_dirty(struct page *);
++void __nilfs_clear_folio_dirty(struct folio *);
+ 
+ struct buffer_head *nilfs_grab_buffer(struct inode *, struct address_space *,
+ 				      unsigned long, unsigned long);
+diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
+index 888b8606a1e8..8c675c118c66 100644
+--- a/fs/nilfs2/segment.c
++++ b/fs/nilfs2/segment.c
+@@ -1760,7 +1760,7 @@ static void nilfs_end_folio_io(struct folio *folio, int err)
+ 			 */
+ 			folio_lock(folio);
+ 			if (nilfs_folio_buffers_clean(folio))
+-				__nilfs_clear_page_dirty(&folio->page);
++				__nilfs_clear_folio_dirty(folio);
+ 			folio_unlock(folio);
+ 		}
+ 		return;
 -- 
 2.42.0
 
