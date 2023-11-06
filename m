@@ -2,37 +2,37 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66D177E2B25
-	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Nov 2023 18:39:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7F287E2B27
+	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Nov 2023 18:39:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231496AbjKFRj3 (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Mon, 6 Nov 2023 12:39:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58954 "EHLO
+        id S232139AbjKFRja (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 6 Nov 2023 12:39:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231913AbjKFRjT (ORCPT
+        with ESMTP id S232020AbjKFRjT (ORCPT
         <rfc822;linux-nilfs@vger.kernel.org>); Mon, 6 Nov 2023 12:39:19 -0500
 Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 820E210D7;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFEB210DC;
         Mon,  6 Nov 2023 09:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
         d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
         References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
         Content-Type:Content-ID:Content-Description;
-        bh=dCruAMK3Rqxl4bYvNBg3suiRYWI7JSCeS94NZiWRCgM=; b=Fj204Md2qC4G55QtoSz3rrAfN7
-        gkMxrzGy+248YyOHcOkAS5hh/J3sI61L0vVEFJ3kkV3VM/jIM/YcWylZSXTt0u0oTsXNX5dP/Anu7
-        XjD946dyadclAC8MDnQ4v3srrlKrmNchpUMOnqA1nouDFsxpkyuQAe8j4l3rF/oSEa6jXgVd3QYLl
-        I59CiX9gi3Z/uOjEbJXk55rkFL5FaFNaNG0On7E0/HJAO1Pm+5hj2rDgLxbd8vG/lwgb5iqnYnq+p
-        dGL6MUDj7STQ6q0erDrxJ0fjV9SWyisd3n/yNoqnSgN7SmrH9IYRB0bJoxjyzcmsmp51gJuJGypHT
-        B1+FD0Xw==;
+        bh=jrbR4iWef8sIb7H7v7Cy30neHladJbirl+6/uy/A9Ow=; b=ahoFAoTZiwERrrFy9c1GghN93M
+        7dqmDZYbQ/9AN6DKc86CFLLdjTHIrJpKN5tUFumDpmZKJw42TTPc6nKLU/dhi6zydIH9Dx4f1OEwm
+        4p1A30kpDEnLYvphynbKhNdO1adrPSx6NM9YJ0772VC3jjcwXqceD5VxnzV76meCYJOIn4Bq/7ho2
+        nqud352xFQE3UzOY8vxnZju7IGpqTWGT+vN0QuT7Q9Xn5CsGzZVZTyZ3fyE5zleGCCdkyDhGPFppY
+        K7d1r8JrGiLG9mSjirPmchz7QCiVTnxGn8VUSz5nC0nMJlC853m9z8+q9INQXGWDQNldYdcUUtY0N
+        TD3G51Gw==;
 Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1r03Z6-007HA4-HQ; Mon, 06 Nov 2023 17:39:08 +0000
+        id 1r03Z6-007HAA-Kx; Mon, 06 Nov 2023 17:39:08 +0000
 From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
 To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
 Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
         linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
-Subject: [PATCH 21/35] nilfs2: Remove page_address() from nilfs_set_link
-Date:   Mon,  6 Nov 2023 17:38:49 +0000
-Message-Id: <20231106173903.1734114-22-willy@infradead.org>
+Subject: [PATCH 22/35] nilfs2: Remove page_address() from nilfs_add_link
+Date:   Mon,  6 Nov 2023 17:38:50 +0000
+Message-Id: <20231106173903.1734114-23-willy@infradead.org>
 X-Mailer: git-send-email 2.37.1
 In-Reply-To: <20231106173903.1734114-1-willy@infradead.org>
 References: <20231106173903.1734114-1-willy@infradead.org>
@@ -57,18 +57,18 @@ Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/fs/nilfs2/dir.c b/fs/nilfs2/dir.c
-index de2073c47651..683101dcbddf 100644
+index 683101dcbddf..0cf4fe91aebe 100644
 --- a/fs/nilfs2/dir.c
 +++ b/fs/nilfs2/dir.c
-@@ -417,7 +417,7 @@ ino_t nilfs_inode_by_name(struct inode *dir, const struct qstr *qstr)
- void nilfs_set_link(struct inode *dir, struct nilfs_dir_entry *de,
- 		    struct page *page, struct inode *inode)
- {
--	unsigned int from = (char *)de - (char *)page_address(page);
-+	unsigned int from = offset_in_page(de);
- 	unsigned int to = from + nilfs_rec_len_from_disk(de->rec_len);
- 	struct address_space *mapping = page->mapping;
- 	int err;
+@@ -501,7 +501,7 @@ int nilfs_add_link(struct dentry *dentry, struct inode *inode)
+ 	return -EINVAL;
+ 
+ got_it:
+-	from = (char *)de - (char *)page_address(page);
++	from = offset_in_page(de);
+ 	to = from + rec_len;
+ 	err = nilfs_prepare_chunk(page, from, to);
+ 	if (err)
 -- 
 2.42.0
 
