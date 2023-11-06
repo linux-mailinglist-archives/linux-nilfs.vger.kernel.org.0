@@ -2,81 +2,116 @@ Return-Path: <linux-nilfs-owner@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F1C757E1737
-	for <lists+linux-nilfs@lfdr.de>; Sun,  5 Nov 2023 23:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D91287E2B3F
+	for <lists+linux-nilfs@lfdr.de>; Mon,  6 Nov 2023 18:39:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229955AbjKEWAp (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
-        Sun, 5 Nov 2023 17:00:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        id S231949AbjKFRjn (ORCPT <rfc822;lists+linux-nilfs@lfdr.de>);
+        Mon, 6 Nov 2023 12:39:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59308 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229974AbjKEWAm (ORCPT
-        <rfc822;linux-nilfs@vger.kernel.org>); Sun, 5 Nov 2023 17:00:42 -0500
-X-Greylist: delayed 5206 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 05 Nov 2023 14:00:39 PST
-Received: from SMTP-HCRC-200.brggroup.vn (mail.hcrc.vn [42.112.212.144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBBD7FA
-        for <linux-nilfs@vger.kernel.org>; Sun,  5 Nov 2023 14:00:39 -0800 (PST)
-Received: from SMTP-HCRC-200.brggroup.vn (localhost [127.0.0.1])
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTP id 4E44D19804;
-        Mon,  6 Nov 2023 01:58:14 +0700 (+07)
-Received: from zimbra.hcrc.vn (unknown [192.168.200.66])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by SMTP-HCRC-200.brggroup.vn (SMTP-CTTV) with ESMTPS id 473A2197E2;
-        Mon,  6 Nov 2023 01:58:14 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id D497A1B8254D;
-        Mon,  6 Nov 2023 01:58:15 +0700 (+07)
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id e0jygQuMQv1w; Mon,  6 Nov 2023 01:58:15 +0700 (+07)
-Received: from localhost (localhost [127.0.0.1])
-        by zimbra.hcrc.vn (Postfix) with ESMTP id 9D6AB1B8254A;
-        Mon,  6 Nov 2023 01:58:15 +0700 (+07)
-DKIM-Filter: OpenDKIM Filter v2.10.3 zimbra.hcrc.vn 9D6AB1B8254A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hcrc.vn;
-        s=64D43D38-C7D6-11ED-8EFE-0027945F1BFA; t=1699210695;
-        bh=WOZURJ77pkiMUL2pPLC14ifVPRvyTQIBEQmxuN1ezAA=;
-        h=MIME-Version:To:From:Date:Message-Id;
-        b=pLRfGjm8NJTj8at+9nadRGTBzMWlU7En+d14Gtckj9XS7cy+6WqeaBcTtFsrh/S/8
-         iPxwVC8+IruhngnKx6qZl4yLUG/1SuFKc8I6e1fDwDzpN5WX5ZvvYX/d0JaG/HmcBm
-         SgYnhbbZoqscJ2aA//SE939u8T0tnhctEQAhEgdxvk61Pwal8DivUR6Whjg8DiKbZN
-         9dINjd0rVt3enZAGzz7j2N3p4489QPfWFiZ0U1tJx5Fnxx2qvhDMgWR5qTxzDQPWNi
-         3ucvpdI5P3NjyQyFPRvMS8CGCqgo44DAw6N94ld5Xqh7L0XbWWAqqjz0IQF8Pom23m
-         z/IJiT5phnHTA==
-X-Virus-Scanned: amavisd-new at hcrc.vn
-Received: from zimbra.hcrc.vn ([127.0.0.1])
-        by localhost (zimbra.hcrc.vn [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id H8RlEriALc5V; Mon,  6 Nov 2023 01:58:15 +0700 (+07)
-Received: from [192.168.1.152] (unknown [51.179.100.52])
-        by zimbra.hcrc.vn (Postfix) with ESMTPSA id 4A5A61B8223A;
-        Mon,  6 Nov 2023 01:58:09 +0700 (+07)
-Content-Type: text/plain; charset="utf-8"
+        with ESMTP id S232601AbjKFRj0 (ORCPT
+        <rfc822;linux-nilfs@vger.kernel.org>); Mon, 6 Nov 2023 12:39:26 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F26D6D;
+        Mon,  6 Nov 2023 09:39:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=AYLrLzMd96wdOm5CVv6L+hQ8+shGbfBweIymmP++Mr0=; b=ErdbLEVDt8UZxb8B7ua3XL+A4Z
+        iUS1uRA/PHLPwEe0y0szLOVP6s50ka8w+tc15CRjMtuH0thktSpvRrhWLnMO23ZTpJ5dHilDj0g7p
+        yw1oaI7SdqUIb4IbDDlS1rIrv5kUbPsa/7apRh3byFRcQTpc1ZX/xst1JbtWfAAaWbQvXS8lvPfFN
+        t7cdnN75S1I7oDfi1J8EOFhh4oTiP0FNLrc1HTJWdyl03uIrJ3fkiH4QdCVk/B6hgpX0xqSC0fgYO
+        +nOejuMxpk0xtjMnYr/bvF+seHLfg8Cpa84bHj1N3C+9SP8hZNG0HxTpyMJP0yMAcGgjHd36/Ls7O
+        8S6ClGIw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1r03Z3-007H7n-O6; Mon, 06 Nov 2023 17:39:05 +0000
+From:   "Matthew Wilcox (Oracle)" <willy@infradead.org>
+To:     Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc:     "Matthew Wilcox (Oracle)" <willy@infradead.org>,
+        linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org
+Subject: [PATCH 00/35] nilfs2: Folio conversions
+Date:   Mon,  6 Nov 2023 17:38:28 +0000
+Message-Id: <20231106173903.1734114-1-willy@infradead.org>
+X-Mailer: git-send-email 2.37.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?b?4oKsIDEwMC4wMDAuMDAwPw==?=
-To:     Recipients <ch.31hamnghi@hcrc.vn>
-From:   ch.31hamnghi@hcrc.vn
-Date:   Sun, 05 Nov 2023 19:57:58 +0100
-Reply-To: joliushk@gmail.com
-Message-Id: <20231105185809.4A5A61B8223A@zimbra.hcrc.vn>
-X-Spam-Status: No, score=2.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FORGED_REPLYTO,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Level: **
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-nilfs.vger.kernel.org>
 X-Mailing-List: linux-nilfs@vger.kernel.org
 
-Goededag,
-Ik ben mevrouw Joanna Liu en een medewerker van Citi Bank Hong Kong.
-Kan ik =E2=82=AC 100.000.000 aan u overmaken? Kan ik je vertrouwen
+This patch series does most of the page->folio conversions needed in
+nilfs2.  I haven't done the work to support large folios in nilfs2;
+I don't know if that conversion will be worth the effort.  There are
+still a few page uses left, but the infrastructure isn't quite there to
+get rid of them yet.
 
+Arguably, this is two separate series; the first takes care of the file
+paths and the second takes care of directories.  I've tried my best to
+include large folio support in the directory code because it'll be needed
+for large block size devices.  It also tries to stay as close as possible
+to the current ext2 code (so it also includes kmap_local support).
 
-Ik wacht op jullie reacties
-Met vriendelijke groeten
-mevrouw Joanna Liu
+These patches are only compile-tested.  xfstests doesn't seem to know
+about nilfs2.
+
+Matthew Wilcox (Oracle) (35):
+  nilfs2: Add nilfs_end_folio_io()
+  nilfs2: Convert nilfs_abort_logs to use folios
+  nilfs2: Convert nilfs_segctor_complete_write to use folios
+  nilfs2: Convert nilfs_forget_buffer to use a folio
+  nilfs2: Convert to nilfs_folio_buffers_clean()
+  nilfs2: Convert nilfs_writepage() to use a folio
+  nilfs2: Convert nilfs_mdt_write_page() to use a folio
+  nilfs2: Convert to nilfs_clear_folio_dirty()
+  nilfs2: Convert to __nilfs_clear_folio_dirty()
+  nilfs2: Convert nilfs_segctor_prepare_write to use folios
+  nilfs2: Convert nilfs_page_mkwrite() to use a folio
+  nilfs2: Convert nilfs_mdt_create_block to use a folio
+  nilfs2: Convert nilfs_mdt_submit_block to use a folio
+  nilfs2: Convert nilfs_gccache_submit_read_data to use a folio
+  nilfs2: Convert nilfs_btnode_create_block to use a folio
+  nilfs2: Convert nilfs_btnode_submit_block to use a folio
+  nilfs2: Convert nilfs_btnode_delete to use a folio
+  nilfs2: Convert nilfs_btnode_prepare_change_key to use a folio
+  nilfs2: Convert nilfs_btnode_commit_change_key to use a folio
+  nilfs2: Convert nilfs_btnode_abort_change_key to use a folio
+  nilfs2: Remove page_address() from nilfs_set_link
+  nilfs2: Remove page_address() from nilfs_add_link
+  nilfs2: Remove page_address() from nilfs_delete_entry
+  nilfs2: Return the mapped address from nilfs_get_page()
+  nilfs2: Pass the mapped address to nilfs_check_page()
+  nilfs2: Switch to kmap_local for directory handling
+  nilfs2: Add nilfs_get_folio()
+  nilfs2: Convert nilfs_readdir to use a folio
+  nilfs2: Convert nilfs_find_entry to use a folio
+  nilfs2: Convert nilfs_rename() to use folios
+  nilfs2: Convert nilfs_add_link() to use a folio
+  nilfs2: Convert nilfs_empty_dir() to use a folio
+  nilfs2: Convert nilfs_make_empty() to use a folio
+  nilfs2: Convert nilfs_prepare_chunk() and nilfs_commit_chunk() to
+    folios
+  nilfs2: Convert nilfs_page_bug() to nilfs_folio_bug()
+
+ fs/nilfs2/btnode.c  |  62 +++++------
+ fs/nilfs2/dir.c     | 248 ++++++++++++++++++++------------------------
+ fs/nilfs2/file.c    |  28 ++---
+ fs/nilfs2/gcinode.c |   4 +-
+ fs/nilfs2/inode.c   |  11 +-
+ fs/nilfs2/mdt.c     |  23 ++--
+ fs/nilfs2/namei.c   |  33 +++---
+ fs/nilfs2/nilfs.h   |  20 ++--
+ fs/nilfs2/page.c    |  93 +++++++++--------
+ fs/nilfs2/page.h    |  12 +--
+ fs/nilfs2/segment.c | 157 ++++++++++++++--------------
+ 11 files changed, 338 insertions(+), 353 deletions(-)
+
+-- 
+2.42.0
 
