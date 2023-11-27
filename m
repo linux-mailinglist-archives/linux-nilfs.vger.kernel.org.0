@@ -1,68 +1,45 @@
-Return-Path: <linux-nilfs+bounces-48-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-49-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C67FA67F
-	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Nov 2023 17:33:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2717FA786
+	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Nov 2023 18:08:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 565DA281A26
-	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Nov 2023 16:33:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DDD7D281582
+	for <lists+linux-nilfs@lfdr.de>; Mon, 27 Nov 2023 17:08:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C502937141;
-	Mon, 27 Nov 2023 16:33:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3649736AE7;
+	Mon, 27 Nov 2023 17:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="3w8bJekj"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fEADOI60"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80128D4B;
-	Mon, 27 Nov 2023 08:33:23 -0800 (PST)
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8C9FD4B;
+	Mon, 27 Nov 2023 09:08:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
 	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=N2zDXv8N842SdWeP1QfvmzEvIcEsyQplx8msSV1RBzc=; b=3w8bJekjauD14xkhiSXsSeP1yp
-	9N3b2DKZZPdBt27xj1DIEE7RXLXZrvHxDKR2sRYD21pNAAIJ3vl1ZCKZ4NFvv5G6xjzqey6N1n0KK
-	ZrI0nakNUBsMEbW2Q4e4j1NRh5OeO1tyxIFUhlV8EaqwcQbah9MgH17+QPadh0DqL/pm4sqZ5f/vV
-	IH1EMWIP6up9ybGx4dw0MvcLdLRClPIEOMfWizJpOcO8WEMAVnlOuY5kgUVe2HK2Xt75AhDq2qkmf
-	jzAFQBFfr3qP/5tAASIdgOPBH9JmPj2A8s0x9fJ50RYVccYl2K4OsZZ71u82sMqjEZ1B5f5BIa6y8
-	Lia9qiAg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
-	id 1r7eXO-0030D4-22;
-	Mon, 27 Nov 2023 16:32:46 +0000
-Date: Mon, 27 Nov 2023 08:32:46 -0800
-From: Christoph Hellwig <hch@infradead.org>
-To: Yu Kuai <yukuai1@huaweicloud.com>
-Cc: Christoph Hellwig <hch@infradead.org>, ming.lei@redhat.com,
-	axboe@kernel.dk, roger.pau@citrix.com, colyli@suse.de,
-	kent.overstreet@gmail.com, joern@lazybastard.org,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	sth@linux.ibm.com, hoeppner@linux.ibm.com, hca@linux.ibm.com,
-	gor@linux.ibm.com, agordeev@linux.ibm.com, jejb@linux.ibm.com,
-	martin.petersen@oracle.com, clm@fb.com, josef@toxicpanda.com,
-	dsterba@suse.com, viro@zeniv.linux.org.uk, brauner@kernel.org,
-	nico@fluxnic.net, xiang@kernel.org, chao@kernel.org, tytso@mit.edu,
-	adilger.kernel@dilger.ca, agruenba@redhat.com, jack@suse.com,
-	konishi.ryusuke@gmail.com, dchinner@redhat.com,
-	linux@weissschuh.net, min15.li@samsung.com, dlemoal@kernel.org,
-	willy@infradead.org, akpm@linux-foundation.org, hare@suse.de,
-	p.raghav@samsung.com, linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org, xen-devel@lists.xenproject.org,
-	linux-bcache@vger.kernel.org, linux-mtd@lists.infradead.org,
-	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-bcachefs@vger.kernel.org, linux-btrfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-erofs@lists.ozlabs.org,
-	linux-ext4@vger.kernel.org, gfs2@lists.linux.dev,
-	linux-nilfs@vger.kernel.org, yi.zhang@huawei.com,
-	yangerkun@huawei.com, "yukuai (C)" <yukuai3@huawei.com>
-Subject: Re: [PATCH block/for-next v2 01/16] block: add a new helper to get
- inode from block_device
-Message-ID: <ZWTErvnMf7HiO1Wj@infradead.org>
-References: <20231127062116.2355129-1-yukuai1@huaweicloud.com>
- <20231127062116.2355129-2-yukuai1@huaweicloud.com>
- <ZWRDeQ4K8BiYnV+X@infradead.org>
- <6acdeece-7163-3219-95e2-827e54eadd0c@huaweicloud.com>
+	bh=Z3F6jPflKA7CV9g/z0Zysna6Er1+ye9+ehS/jCO/u4o=; b=fEADOI60am2EtmgBMr4NHsf+CQ
+	D6KT4KK0fLG/Jd21lGQdivwm6oKcmRDEBg6RE2iezvel/kA1Z6nOuxlPPIo24z85kaJNpPr8G2xBf
+	Ci7FiLFFafGhSadep+fLJUwuEN0CSb28b7DjZ0lNiITKWWlM+2uoJ7VRkbm34pgfSGdFCKva/idGn
+	g6EA+LIvvbBpTiyda3n/vu93lUzg2mvkUnzKl2FOoxs6DKm8RCehzQdso3Ce6nkjUk2GyUooobm9R
+	FH7Gfih40SyUZ+W1SaMzndW3kcynMVC8yU7A9PnXJ3PLQ/PE5F2ZAjAN+DXg1CRNAA1Zrf6+r+Afc
+	YcJzLnMw==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+	id 1r7f5i-00BZzD-3Q; Mon, 27 Nov 2023 17:08:14 +0000
+Date: Mon, 27 Nov 2023 17:08:14 +0000
+From: Matthew Wilcox <willy@infradead.org>
+To: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-nilfs@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/17] nilfs2: move page release outside of
+ nilfs_delete_entry and nilfs_set_link
+Message-ID: <ZWTM/tns2JTd1YrQ@casper.infradead.org>
+References: <20231127143036.2425-1-konishi.ryusuke@gmail.com>
+ <20231127143036.2425-2-konishi.ryusuke@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
@@ -71,34 +48,31 @@ List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <6acdeece-7163-3219-95e2-827e54eadd0c@huaweicloud.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <20231127143036.2425-2-konishi.ryusuke@gmail.com>
 
-On Mon, Nov 27, 2023 at 09:07:22PM +0800, Yu Kuai wrote:
-> 1) Is't okay to add a new helper to pass in bdev for following apis?
-
-
-For some we already have them (e.g. bdev_nr_bytes to read the bdev)
-size, for some we need to add them.  The big thing that seems to
-stick out is page cache API, and I think that is where we need to
-define maintainable APIs for file systems and others to use the
-block device page cache.  Probably only in folio versions and not
-pages once if we're touching the code anyay
-
-> 2) For the file fs/buffer.c, there are some special usage like
-> following that I don't think it's good to add a helper:
+On Mon, Nov 27, 2023 at 11:30:20PM +0900, Ryusuke Konishi wrote:
+> In a few directory operations, the call to nilfs_put_page() for a page
+> obtained using nilfs_find_entry() or nilfs_dotdot() is hidden in
+> nilfs_set_link() and nilfs_delete_entry(), making it difficult to track
+> page release and preventing change of its call position.
 > 
-> spin_lock(&bd_inode->i_mapping->private_lock);
+> By moving nilfs_put_page() out of these functions, this makes the page
+> get/put correspondence clearer and makes it easier to swap
+> nilfs_put_page() calls (and kunmap calls within them) when modifying
+> multiple directory entries simultaneously in nilfs_rename().
 > 
-> Is't okay to move following apis from fs/buffer.c directly to
-> block/bdev.c?
+> Also, update comments for nilfs_set_link() and nilfs_delete_entry() to
+> reflect changes in their behavior.
 > 
-> __find_get_block
-> bdev_getblk
+> To make nilfs_put_page() visible from namei.c, this moves its definition
+> to nilfs.h and replaces existing equivalents to use it, but the exposure
+> of that definition is temporary and will be removed on a later
+> kmap -> kmap_local conversion.
+> 
+> Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+> Cc: Matthew Wilcox (Oracle) <willy@infradead.org>
 
-I'm not sure moving is a good idea, but we might end up the
-some kind of low-level access from buffer.c, be that special
-helpers, a separate header or something else.  Let's sort out
-the rest of the kernel first.
+Ah; I see.  This makes it more like ext2, so I approve!
 
+Reviewed-by: Matthew Wilcox (Oracle) <willy@infradead.org>
 
