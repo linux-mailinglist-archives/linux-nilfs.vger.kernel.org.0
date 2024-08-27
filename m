@@ -1,82 +1,51 @@
-Return-Path: <linux-nilfs+bounces-443-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-446-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19C2995F865
-	for <lists+linux-nilfs@lfdr.de>; Mon, 26 Aug 2024 19:43:33 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1E7E95FE98
+	for <lists+linux-nilfs@lfdr.de>; Tue, 27 Aug 2024 03:58:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3E4271C2246F
-	for <lists+linux-nilfs@lfdr.de>; Mon, 26 Aug 2024 17:43:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1994CB20EFE
+	for <lists+linux-nilfs@lfdr.de>; Tue, 27 Aug 2024 01:58:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17A9A19AD93;
-	Mon, 26 Aug 2024 17:41:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aBXfMHec"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAB6D8F58;
+	Tue, 27 Aug 2024 01:58:31 +0000 (UTC)
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755B619AD73;
-	Mon, 26 Aug 2024 17:41:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C034ABE4A;
+	Tue, 27 Aug 2024 01:58:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724694110; cv=none; b=mwHg7udhZDnTAVqBpJgoiOy9IKDx/eBnup2/79c8lnd4GzZWTINFLps1BfklqmKhPgAZJadcAPUalO+Myti7war80Q1rPxtSMgupiz4jETCL7I1kyKxFJ+r+/YkbrlWjfnfyM7HeZWUAKlUkgwkJpoaNyjbEx0qq/Vpz5vjWr/w=
+	t=1724723911; cv=none; b=YD1Y6lx/p9ILUWFIbzxhnA/VRGkRtcD3Q4guB3/1teW7lqp0z41jtCQRm1rnDJMbjY+CfS3MSUY2BMmMn55WeB/rnZf/RPgoYJQsZGUqp3Rk3HycT2zAl0eCyjVOmf1ZAmKECFz4jyCf2rfUOWFCClTReRq/m1CTui8oob6wcqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724694110; c=relaxed/simple;
-	bh=JtFDI4yYUQR700ra8I78LsXDmojzhmbA+0CKHi3GxWs=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=gaif3GRnxWOTecOPmY1Db7waI8oFjyov+6/ruTWGG4CXS0B9m+hzKdlK71VD4IYlrl4Hw49z66vd+nU5/6LIj/MQ6clCCRVuMSi+iLNO9b8z3g0zvMxSo5iValOwp5dzu+ZvuwVmStU4kgxYcaBPZhTzKfxe+JtoL5DCc/QjDac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aBXfMHec; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1fec34f94abso44445005ad.2;
-        Mon, 26 Aug 2024 10:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1724694108; x=1725298908; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bXIcye025aQHp4YYCJd3WvJxtsBbB399iGk/S5LYEJw=;
-        b=aBXfMHecIOKzr+NDNn3DNEm+ZN6BCy+arjxmqSBrYIF/qNp+OLuUwpysQaKK0iMXZz
-         awWSsvOKDsbVSiZvQjV44Y1/V1kpwkNgg/tworXHv7jg2gbm00O/VuwJhMngDj55YpFV
-         wy3XoUv3NAhZCZR/iRuKDnf3DWTStkfO+td4yT+6XQe0didN7uaNsad7fMc95NRk1jDb
-         udib7KJNBhGsf5QuT5yEWNelKEVihb+KXBDteShxRFzMkDGe5Ikmoe0gbvwDHBMdIcU7
-         K3byzQlNwHvToKgtFbQHyP1lgO8pu7Gk8czy6waOSAdQ+ngpXyD7KLdqqWUPVwnpfxNB
-         QIYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1724694108; x=1725298908;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bXIcye025aQHp4YYCJd3WvJxtsBbB399iGk/S5LYEJw=;
-        b=TGybM8Jf0rfQNbyavgnvWpjkkmLLYqqK0EVimWaXJUfssrtR/KmxjRLDANBJJqvLNE
-         7LbfxYGyzuDDUZ1+UWts/tb5Kd4+SlulgLMTFA5zT3P6C2g0B3HK8b1oiooBDaSNGHDx
-         paF7kpxID5YnrHSujqo4lQYUSoO/ZG6CDuBnyNjn4wsGDZ1NdV1rul9Q5zhFGmkg/VrN
-         Mnw8QVOWYinvQ8NFzHrJA3XxbNrg+ei+y5Bbf3+E/CRqkBoVJKkTqLHxFaB3U0CI+8mo
-         W+YyqvCzXQ5tghnFeaaRsnlfDkX71eRNG7bPq1pPI1dW/bSaicoSP9HPJQxcNHQ+wvKu
-         AzVw==
-X-Forwarded-Encrypted: i=1; AJvYcCVg9B0I6ovmNqHAR2g2v7aqQhBwpj+6A5ZpFckswkgraq7FRMDxGxd+UpLnjGcQkye/oAdmEheGQK+GwIA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGFTpyiVrNBYqZ4j+min/0QOtMcMVDVrSMVP1PURfZyaDuZ1yi
-	JeSzV9llwr4hvIn7mLi1N54LbP24VQX10gSDWKBWZ8amArc6H9QWG4j2Ag==
-X-Google-Smtp-Source: AGHT+IEuHWgkuL52jNVrRqBi5Dk/bYdiYqV3bUqR8iI9vQgpPcaSTNT26tXSur1BopD7YCMV2M7gJA==
-X-Received: by 2002:a17:902:e812:b0:202:859:f85 with SMTP id d9443c01a7336-2039e489273mr114680635ad.24.1724694107498;
-        Mon, 26 Aug 2024 10:41:47 -0700 (PDT)
-Received: from carrot.. (i222-151-34-139.s42.a014.ap.plala.or.jp. [222.151.34.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-203855665besm70057055ad.34.2024.08.26.10.41.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Aug 2024 10:41:46 -0700 (PDT)
-From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-nilfs@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 8/8] nilfs2: refactor nilfs_segctor_thread()
-Date: Tue, 27 Aug 2024 02:41:16 +0900
-Message-Id: <20240826174116.5008-9-konishi.ryusuke@gmail.com>
+	s=arc-20240116; t=1724723911; c=relaxed/simple;
+	bh=msE+2XAkiJJm5V6QNS7igoAC2r5qEspNZGxGrjIrQEA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MOSA0GWa2InTcczAuONFKaPABjVGKWLbt23Tr4b0+yxRyhqWtfhIIIYmWPZigZEBj9BOEVteijZankU7DL3OFn/c9Fe9jaHLvuPLWXscXeKFJiznNXwBRed4VCTeqao0ZDw0ZI6ZWhYQO6MU4sxIiktQokd3aW96q9pd1ZEskKI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.162.254])
+	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4Wt9d307KPzfZ3Z;
+	Tue, 27 Aug 2024 09:56:23 +0800 (CST)
+Received: from dggpeml500022.china.huawei.com (unknown [7.185.36.66])
+	by mail.maildlp.com (Postfix) with ESMTPS id 433FC1800FF;
+	Tue, 27 Aug 2024 09:58:26 +0800 (CST)
+Received: from huawei.com (10.67.174.162) by dggpeml500022.china.huawei.com
+ (7.185.36.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 27 Aug
+ 2024 09:58:26 +0800
+From: Hongbo Li <lihongbo22@huawei.com>
+To: <konishi.ryusuke@gmail.com>
+CC: <linux-nilfs@vger.kernel.org>, <lihongbo22@huawei.com>,
+	<linux-fsdevel@vger.kernel.org>
+Subject: [PATCH -next] nilfs2: support STATX_DIOALIGN for statx file
+Date: Tue, 27 Aug 2024 01:51:52 +0000
+Message-ID: <20240827015152.222983-1-lihongbo22@huawei.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20240826174116.5008-1-konishi.ryusuke@gmail.com>
-References: <20240826174116.5008-1-konishi.ryusuke@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
@@ -84,142 +53,119 @@ List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: dggems705-chm.china.huawei.com (10.3.19.182) To
+ dggpeml500022.china.huawei.com (7.185.36.66)
 
-Simplify nilfs_segctor_thread(), the main loop function of the log
-writer thread, to make the basic structure easier to understand.
+Add support for STATX_DIOALIGN to nilfs2, so that direct I/O alignment
+restrictions are exposed to userspace in a generic way.
 
-In particular, the acquisition and release of the sc_state_lock spinlock
-was scattered throughout the function, so extract the determination of
-whether log writing is required into a helper function and make the
-spinlock lock sections clearer.
+By default, nilfs2 uses the default getattr implemented at vfs layer,
+so we should implement getattr in nilfs2 to fill the dio_xx_align
+members. The nilfs2 does not have the special align requirements. So
+we use the default alignment setting from block layer.
+We have done the following test:
 
-Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+[Before]
+```
+./statx_test /mnt/nilfs2/test
+statx(/mnt/nilfs2/test) = 0
+dio mem align:0
+dio offset align:0
+```
+
+[After]
+```
+./statx_test /mnt/nilfs2/test
+statx(/mnt/nilfs2/test) = 0
+dio mem align:512
+dio offset align:512
+```
+
+Signed-off-by: Hongbo Li <lihongbo22@huawei.com>
 ---
- fs/nilfs2/segment.c | 85 +++++++++++++++++++++------------------------
- 1 file changed, 40 insertions(+), 45 deletions(-)
+ fs/nilfs2/file.c  |  1 +
+ fs/nilfs2/inode.c | 20 ++++++++++++++++++++
+ fs/nilfs2/namei.c |  2 ++
+ fs/nilfs2/nilfs.h |  2 ++
+ 4 files changed, 25 insertions(+)
 
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 013262ab5169..587251830897 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -2629,6 +2629,32 @@ static int nilfs_segctor_flush_mode(struct nilfs_sc_info *sci)
- 	return SC_LSEG_SR;
+diff --git a/fs/nilfs2/file.c b/fs/nilfs2/file.c
+index 0e3fc5ba33c7..5528918d4b96 100644
+--- a/fs/nilfs2/file.c
++++ b/fs/nilfs2/file.c
+@@ -154,6 +154,7 @@ const struct file_operations nilfs_file_operations = {
+ 
+ const struct inode_operations nilfs_file_inode_operations = {
+ 	.setattr	= nilfs_setattr,
++	.getattr	= nilfs_getattr,
+ 	.permission     = nilfs_permission,
+ 	.fiemap		= nilfs_fiemap,
+ 	.fileattr_get	= nilfs_fileattr_get,
+diff --git a/fs/nilfs2/inode.c b/fs/nilfs2/inode.c
+index 7340a01d80e1..b5bb2c2de32c 100644
+--- a/fs/nilfs2/inode.c
++++ b/fs/nilfs2/inode.c
+@@ -1001,6 +1001,26 @@ int nilfs_setattr(struct mnt_idmap *idmap, struct dentry *dentry,
+ 	return err;
  }
  
-+/**
-+ * nilfs_log_write_required - determine whether log writing is required
-+ * @sci:   nilfs_sc_info struct
-+ * @modep: location for storing log writing mode
-+ *
-+ * Return: true if log writing is required, false otherwise.  If log writing
-+ * is required, the mode is stored in the location pointed to by @modep.
-+ */
-+static bool nilfs_log_write_required(struct nilfs_sc_info *sci, int *modep)
++int nilfs_getattr(struct mnt_idmap *idmap, const struct path *path,
++			struct kstat *stat, u32 request_mask, unsigned int query_flags)
 +{
-+	bool timedout, ret = true;
++	struct inode *const inode = d_inode(path->dentry);
++	struct block_device *bdev = inode->i_sb->s_bdev;
++	unsigned int blksize = (1 << inode->i_blkbits);
 +
-+	spin_lock(&sci->sc_state_lock);
-+	timedout = ((sci->sc_state & NILFS_SEGCTOR_COMMIT) &&
-+		   time_after_eq(jiffies, sci->sc_timer.expires));
-+	if (timedout || sci->sc_seq_request != sci->sc_seq_done)
-+		*modep = SC_LSEG_SR;
-+	else if (sci->sc_flush_request)
-+		*modep = nilfs_segctor_flush_mode(sci);
-+	else
-+		ret = false;
++	if ((request_mask & STATX_DIOALIGN) && S_ISREG(inode->i_mode)) {
++		stat->result_mask |= STATX_DIOALIGN;
 +
-+	spin_unlock(&sci->sc_state_lock);
-+	return ret;
++		if (bdev)
++			blksize = bdev_logical_block_size(bdev);
++		stat->dio_mem_align = blksize;
++		stat->dio_offset_align = blksize;
++	}
++
++	generic_fillattr(idmap, request_mask, inode, stat);
++	return 0;
 +}
 +
- /**
-  * nilfs_segctor_thread - main loop of the log writer thread
-  * @arg: pointer to a struct nilfs_sc_info.
-@@ -2644,70 +2670,39 @@ static int nilfs_segctor_thread(void *arg)
+ int nilfs_permission(struct mnt_idmap *idmap, struct inode *inode,
+ 		     int mask)
  {
- 	struct nilfs_sc_info *sci = (struct nilfs_sc_info *)arg;
- 	struct the_nilfs *nilfs = sci->sc_super->s_fs_info;
--	int timeout = 0;
+diff --git a/fs/nilfs2/namei.c b/fs/nilfs2/namei.c
+index c950139db6ef..ad56f4f8be1f 100644
+--- a/fs/nilfs2/namei.c
++++ b/fs/nilfs2/namei.c
+@@ -546,6 +546,7 @@ const struct inode_operations nilfs_dir_inode_operations = {
+ 	.mknod		= nilfs_mknod,
+ 	.rename		= nilfs_rename,
+ 	.setattr	= nilfs_setattr,
++	.getattr	= nilfs_getattr,
+ 	.permission	= nilfs_permission,
+ 	.fiemap		= nilfs_fiemap,
+ 	.fileattr_get	= nilfs_fileattr_get,
+@@ -554,6 +555,7 @@ const struct inode_operations nilfs_dir_inode_operations = {
  
- 	nilfs_info(sci->sc_super,
- 		   "segctord starting. Construction interval = %lu seconds, CP frequency < %lu seconds",
- 		   sci->sc_interval / HZ, sci->sc_mjcp_freq / HZ);
+ const struct inode_operations nilfs_special_inode_operations = {
+ 	.setattr	= nilfs_setattr,
++	.getattr	= nilfs_getattr,
+ 	.permission	= nilfs_permission,
+ };
  
- 	set_freezable();
--	spin_lock(&sci->sc_state_lock);
-- loop:
--	for (;;) {
--		int mode;
--
--		if (kthread_should_stop())
--			goto end_thread;
--
--		if (timeout || sci->sc_seq_request != sci->sc_seq_done)
--			mode = SC_LSEG_SR;
--		else if (sci->sc_flush_request)
--			mode = nilfs_segctor_flush_mode(sci);
--		else
--			break;
--
--		spin_unlock(&sci->sc_state_lock);
--		nilfs_segctor_thread_construct(sci, mode);
--		spin_lock(&sci->sc_state_lock);
--		timeout = 0;
--	}
- 
--
--	if (freezing(current)) {
--		spin_unlock(&sci->sc_state_lock);
--		try_to_freeze();
--		spin_lock(&sci->sc_state_lock);
--	} else {
-+	while (!kthread_should_stop()) {
- 		DEFINE_WAIT(wait);
--		int should_sleep = 1;
-+		bool should_write;
-+		int mode;
-+
-+		if (freezing(current)) {
-+			try_to_freeze();
-+			continue;
-+		}
- 
- 		prepare_to_wait(&sci->sc_wait_daemon, &wait,
- 				TASK_INTERRUPTIBLE);
--
--		if (sci->sc_seq_request != sci->sc_seq_done)
--			should_sleep = 0;
--		else if (sci->sc_flush_request)
--			should_sleep = 0;
--		else if (sci->sc_state & NILFS_SEGCTOR_COMMIT)
--			should_sleep = time_before(jiffies,
--					sci->sc_timer.expires);
--
--		if (should_sleep) {
--			spin_unlock(&sci->sc_state_lock);
-+		should_write = nilfs_log_write_required(sci, &mode);
-+		if (!should_write)
- 			schedule();
--			spin_lock(&sci->sc_state_lock);
--		}
- 		finish_wait(&sci->sc_wait_daemon, &wait);
--		timeout = ((sci->sc_state & NILFS_SEGCTOR_COMMIT) &&
--			   time_after_eq(jiffies, sci->sc_timer.expires));
- 
- 		if (nilfs_sb_dirty(nilfs) && nilfs_sb_need_update(nilfs))
- 			set_nilfs_discontinued(nilfs);
-+
-+		if (should_write)
-+			nilfs_segctor_thread_construct(sci, mode);
- 	}
--	goto loop;
- 
-- end_thread:
- 	/* end sync. */
-+	spin_lock(&sci->sc_state_lock);
- 	sci->sc_task = NULL;
- 	timer_shutdown_sync(&sci->sc_timer);
- 	spin_unlock(&sci->sc_state_lock);
+diff --git a/fs/nilfs2/nilfs.h b/fs/nilfs2/nilfs.h
+index 4017f7856440..98a8b28ca1db 100644
+--- a/fs/nilfs2/nilfs.h
++++ b/fs/nilfs2/nilfs.h
+@@ -280,6 +280,8 @@ extern void nilfs_truncate(struct inode *);
+ extern void nilfs_evict_inode(struct inode *);
+ extern int nilfs_setattr(struct mnt_idmap *, struct dentry *,
+ 			 struct iattr *);
++extern int nilfs_getattr(struct mnt_idmap *idmap, const struct path *path,
++			struct kstat *stat, u32 request_mask, unsigned int query_flags);
+ extern void nilfs_write_failed(struct address_space *mapping, loff_t to);
+ int nilfs_permission(struct mnt_idmap *idmap, struct inode *inode,
+ 		     int mask);
 -- 
 2.34.1
 
