@@ -1,71 +1,73 @@
-Return-Path: <linux-nilfs+bounces-452-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-457-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C252961DD9
-	for <lists+linux-nilfs@lfdr.de>; Wed, 28 Aug 2024 07:11:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B702962900
+	for <lists+linux-nilfs@lfdr.de>; Wed, 28 Aug 2024 15:44:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E786F1F243E4
-	for <lists+linux-nilfs@lfdr.de>; Wed, 28 Aug 2024 05:11:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CBFA428173F
+	for <lists+linux-nilfs@lfdr.de>; Wed, 28 Aug 2024 13:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D284614A4C6;
-	Wed, 28 Aug 2024 05:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619F2188CAD;
+	Wed, 28 Aug 2024 13:43:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jz/nPOOu"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F4614A0B9;
-	Wed, 28 Aug 2024 05:11:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35F2017BB25;
+	Wed, 28 Aug 2024 13:43:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724821875; cv=none; b=RR6CasNQAarqX8gfNe8Si01UneWRXxIjF4M9fT52R6T8CjR4ztmzY/7Yv0UemjU01o/oquC3r29sh7U/ObSh5kIS1PQnZd/0/GUKqdoZDZWAeblxyqQBsJ5uuiA16lC9evCx1yfCU2QwkTTFgtn3GXNL+YESmxrbJC08oaO/jOo=
+	t=1724852625; cv=none; b=PBs7aOvZRnNb6HupEloPwQPdWo0S10wDl71s9hTTBwrvn06N1K6to2cM/wsn2ZTjCzuhLIp1B+a03cKL7Nqbq7aHA8mSsMoUe7sOlQZ/WX82mo/v4j9ry34yj/VNx/h3pwVJHx9IHkIPHmTS3r1H3S13Qs+J3mXK9Nhkzyuv1h8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724821875; c=relaxed/simple;
-	bh=sJ0srPLWSnV+D0eiPjNumzDGOoan5ZedVkPrbB4Vg/w=;
+	s=arc-20240116; t=1724852625; c=relaxed/simple;
+	bh=vUCy+esMmmIriBrBlRQ/31MuOgDJ+ygm7nRLEW5Xqrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CpvdXz1ef5vCJ6jvPwoaYkpeo5vq++W2+1qRmaE7wlDsrfhJKEXe3xX3KLDrZIosvCf8JupYcMbMtCL8TERf7ejgBZqz+nf+R6HP/nq5mopPaRhaISPCUjU5et6URcdZ7XohsoLQFW4Mk+ydGZ515efDKZRz/AZ9ma7pLa2gCO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 7279368B05; Wed, 28 Aug 2024 07:11:10 +0200 (CEST)
-Date: Wed, 28 Aug 2024 07:11:10 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Hongbo Li <lihongbo22@huawei.com>
-Cc: ebiggers@google.com, Christian Brauner <brauner@kernel.org>, hch@lst.de,
-	linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Subject: Re: [PATCH -next] nilfs2: support STATX_DIOALIGN for statx file
-Message-ID: <20240828051110.GA31869@lst.de>
-References: <20240827015152.222983-1-lihongbo22@huawei.com> <CAKFNMomMtJbEbZNRAzari3koP1eRHOrUDQ=rAxDbL6yfHHG=gg@mail.gmail.com> <86e1541f-0d8b-4479-b8d1-bb5a9f5849d4@huawei.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ESNw3JeOfCfKnXxsQpt6qOves3AB8XkqLAPyVLFdeizaqebO21oUKMT6McgntDHXuIoKYXSmSjXKA5hVHJpo/cjBYjzPL/0lZXk+/AhjTQ8ztuU1QGpnEdNdI+7xoMjqTfwDZY0sRVyzyCvYzMrPR4k4eDjwz1npD3/AdrfJw2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jz/nPOOu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EE4EC98EE3;
+	Wed, 28 Aug 2024 13:43:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1724852624;
+	bh=vUCy+esMmmIriBrBlRQ/31MuOgDJ+ygm7nRLEW5Xqrk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jz/nPOOujBTjhMz0brFF+TVmPv00EZ6RkW9IETGOlegJnv1iP0A7Gmg/kew4aXaby
+	 /oFvT3XVKC1MpRjhejrWxl7KpZr8pwBs3Kq96c1FN/8b3nDDfYTUypGcSCYuFM26vK
+	 K9j52Du8W+wLg1awymI3Dvaa5bqXymzKw/VyJAM2YcrFKvK7eoRH11gLE3Dg5FnfF2
+	 4EUIV5Fex5iPKPdW9xV+nH03bToEBjIizw0+dbUchpeMfND8G08mQHib/wcdg8G3ck
+	 tBORZgwX2W2M5ohjNa2myNIeyTGIhOnyLewIWlWTxQs7yHXtQUWLAzF3NyA/2CNskn
+	 +v9qkEL10c4zQ==
+Date: Wed, 28 Aug 2024 15:43:39 +0200
+From: Christian Brauner <brauner@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, 
+	Chandan Babu R <chandan.babu@oracle.com>, "Darrick J. Wong" <djwong@kernel.org>, 
+	Hongbo Li <lihongbo22@huawei.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
+	linux-nilfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-xfs@vger.kernel.org
+Subject: Re: RFC: add STATX_DIO_READ_ALIGN
+Message-ID: <20240828-gaswerk-wohlfahrt-744e04b7becd@brauner>
+References: <20240828051149.1897291-1-hch@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <86e1541f-0d8b-4479-b8d1-bb5a9f5849d4@huawei.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <20240828051149.1897291-1-hch@lst.de>
 
-On Wed, Aug 28, 2024 at 09:12:50AM +0800, Hongbo Li wrote:
->> I checked the STATX_DIOALIGN specification while looking at the
->> implementation of other file systems, and I thought that if DIO
->> support is incomplete, the dio_xx_align member should be set to 0.
->>
->> Due to the nature of NILFS2 as a log-structured file system, DIO
->> writes fall back to buffered io.  (DIO reads are supported)
->>
-> That's really a question. How to handle the asymmetric situation of 
-> O_DIRECT read and write?
->
-> The STATX_DIOALIGN specification does not define this case.
+On Wed, Aug 28, 2024 at 08:11:00AM GMT, Christoph Hellwig wrote:
+> Hi all,
+> 
+> file systems that write out of place usually require different alignment
+> for direct I/O writes than what they can do for reads.  This series tries
+> to address this by yet another statx field.
 
-Yes, it needs separate reporting for the read alignment.  I actually
-wrote patches for that a few days ago, but never got around to testing
-them.  I'll send out what I have.
-
+I think that's fine. If we run out of statx spare fields we can start
+versioning by size using via STATX__RESERVED.
 
