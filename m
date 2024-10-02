@@ -1,120 +1,121 @@
-Return-Path: <linux-nilfs+bounces-490-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-493-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AF6B98DE2F
-	for <lists+linux-nilfs@lfdr.de>; Wed,  2 Oct 2024 17:01:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 444B498DF72
+	for <lists+linux-nilfs@lfdr.de>; Wed,  2 Oct 2024 17:41:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3D3A5282D4C
-	for <lists+linux-nilfs@lfdr.de>; Wed,  2 Oct 2024 15:01:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B8A428728B
+	for <lists+linux-nilfs@lfdr.de>; Wed,  2 Oct 2024 15:41:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D8F91D0B82;
-	Wed,  2 Oct 2024 15:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6DA1D0DCE;
+	Wed,  2 Oct 2024 15:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="vEj4X5/E"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MvN2Cys4"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96B781CF7D4;
-	Wed,  2 Oct 2024 15:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BA861D0B97;
+	Wed,  2 Oct 2024 15:40:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1727881248; cv=none; b=u3hURom9ap04yFTrVGSLOIY0jqCUYaoWXpgoXFw7peS356pGR1HFmVJMqHUR2ulouwrClBmHqpCFi5Z+/W1jJjneCcO/hlWKdPy7kT6EuMJtN3OGjOmEkaAPqT+Hv1TQgq4t1ZITXVBofcu6zmW0DgjSI7WujpvfuBnvY94sE9Q=
+	t=1727883655; cv=none; b=tSrxWBAiiwl0HW6VhaK5Zgu1MRnfa1N3XCNS+gGkLnAs5Krvzq9CNGl4youYHLx30rnN8zqq5q5GTYmrO7P3QIhXs5y/e1qyPmo/Abx7DAAMXgXp07iq3Qw7xlWGJLJPgjab+SX/FavKn0A+9+a7IiaTiT+owRUQwqjKNbXSPEE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1727881248; c=relaxed/simple;
-	bh=7l5Go5t91dE8de6S1Lfp/42RC395bfstA28o3lJZg4Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=luBEkbDUWzT5yQ2tSnKINiO4eZEHWh7ubXyGT3hPnICt66lF+MWnGdd+LzOBKHpJar7lr7RApBWEb9y43WqA35RskOy5BaZzJKmfTrwAt6mab1AYXlWCstvJM/ZM1gCteovzXQwP4mnBxLtExgnKqnUQGosobzfWVHF/Sim7was=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=vEj4X5/E; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=ZCxIAb+8r7iTnxFMXmLz+YjJPFISQmqachGJWAZOJPM=; b=vEj4X5/EZJSE8K8Qvc6sjCSTgT
-	HpelyKkmzWbxfJZVZ0rHivBaURE8aaMlcin2IKKyoPuAL86Dm7iANTsn13BiKRAFPd4NpBfOdNRpb
-	P2Z8mJZ3BftEYXat4rkwfwkiD19KfH9ZV9HYDfXOtt+GIMPAMuR99DvSbVFK7sJraPZZqovSaE9Ry
-	zYpWwGhU+s/6ajSGc4Ty/kE1PNW2/hiYbCPeLB1Vmxh9EsyNOd3brKt0D0AWmWYD2dTX7pD4AbZ71
-	7N4heM3oeetJGLs+6FHEEzxErVyn5x7Q+NhZ0ZqHnIDdy2zmXb/CbwPvtGdZviS4yiCJ3Pr0nmF4A
-	Cw7uCkhg==;
-Received: from willy by casper.infradead.org with local (Exim 4.98 #2 (Red Hat Linux))
-	id 1sw0qD-00000005cSr-3Fn5;
-	Wed, 02 Oct 2024 15:00:37 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
-To: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org
-Subject: [PATCH 4/4] nilfs2: Convert metadata aops from writepage to writepages
-Date: Wed,  2 Oct 2024 16:00:34 +0100
-Message-ID: <20241002150036.1339475-5-willy@infradead.org>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20241002150036.1339475-1-willy@infradead.org>
-References: <20241002150036.1339475-1-willy@infradead.org>
+	s=arc-20240116; t=1727883655; c=relaxed/simple;
+	bh=WIP2KkjUlSVjwcDNw4d3jTWw8EguXiw7+Opg9pqYWpw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O25n/v13Jk8vfL5bWUdFXeJN6UIcKft9arNQ9zv8qjqNc4A5btPsitPjOEs+6OTdKoMiAFH5NgQfP0qCPQ89XZxQt7hGvV0Im/JVHHHE4K1YoOEtVA3EF8zHlG5KCU6GzBXVxyATLfFFLIqrEGL+DhnFuFrLcZztQHuwtmkzGbM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MvN2Cys4; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fac47f0b1aso44998701fa.1;
+        Wed, 02 Oct 2024 08:40:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727883652; x=1728488452; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4BO7GvoEvRQo4g/wy/IaY0N6iqmmGOHEMQUrshuZ/AU=;
+        b=MvN2Cys4KDWHFH9mb4MoczJHGNJyH3MiXa6FWsO6J8qaP1coR6GANjoGNhpxlKCNq8
+         UNKP0pwM3ThK28T2Mj8tMTO5Gry+1AFo2xXObLhTHOO+SbM5QX4ycTVkXgIqzlBOIgsU
+         KKmhCHTlVwOSzi9HT5aT692ih6cg4ev5mkUEB+LgE7XZ6P7G6IoOnE7Xm7D47wGx8TMh
+         12qAOZVN0vYu1DlKynCY+dBesYH8yQdDR0PewTcBDfI9c7QZGCP62V+wbwLwD2jx0j8q
+         Ak/j6YuQ/W/1Rek8mACrClloBkHAjiuOsoUCosQhikT2yOJx0ZmiFnSHT3CBdbJE0GwV
+         E5Rg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727883652; x=1728488452;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4BO7GvoEvRQo4g/wy/IaY0N6iqmmGOHEMQUrshuZ/AU=;
+        b=RVUi8oVqVGLk358Dh30Ty6U7Rbp8TjCDpjKL//oO6xHdHtPRGlqQVvr/f/7ctAXIRr
+         9qrSZoh2Gk5qXwj0UFElkjH9irnechKtUrYjvLv3GVIwg1IC5VI+/3lYnPt5IIV86VqV
+         f4Shorw+op4pi64gkQxh+O+uNG0yf/SebLSej0HaUOavXDb855dFPW5kCZqO73C38IJK
+         17fLUQruWNzerUfLekJKfb+eUx3TZvuNQiwo2vBBas3r+9CQMc7IC8wHp6DG+YmyC8wQ
+         uFCmHMgRVRDNXpKNfV6y8ypPdZJF5Ff0jdUPAkErBB3m6xNG9IoN02UDSdNNe41tw86J
+         SHwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX+Ln0kClGeUxxtmvGcj51wtxTpQV2liTa+vtzvEGf11SCLFRde2xSWwmmX0TSylWij3X8qd6Jnq9Ocfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz5EItufwtWC1xOnP5YgDzpZZYwcHsnCxYQG2hKA5NLpjEha7b
+	+2lg5Zv65xPWgvcTweHK+WaE2KSOT+MiwEt3g25rUXpYowyvjN08OP0hSyR+XtnCJp7Lhuv7K9k
+	D78vHK8x3Ez82JoALRQpAM1Apwto=
+X-Google-Smtp-Source: AGHT+IFuXTdNAQnGRSwGmrKlUm8cdAE9HZOTGFJNei48st3ZVzmi325nJB/hpn0GE9NQdMu07nTMExp2YkaqeHUXfHQ=
+X-Received: by 2002:a05:6512:ea4:b0:536:55ae:7458 with SMTP id
+ 2adb3069b0e04-539a0795bb2mr2354026e87.40.1727883651912; Wed, 02 Oct 2024
+ 08:40:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241002150036.1339475-1-willy@infradead.org>
+In-Reply-To: <20241002150036.1339475-1-willy@infradead.org>
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+Date: Thu, 3 Oct 2024 00:40:35 +0900
+Message-ID: <CAKFNMokwCtK2WjBPRqbO2_Me=x_RRH=htF=Tcz0t9g96--Wx0A@mail.gmail.com>
+Subject: Re: [PATCH 0/4] nilfs2: Finish folio conversion
+To: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+Cc: linux-fsdevel@vger.kernel.org, linux-nilfs@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-By implementing ->writepages instead of ->writepage, we remove a
-layer of indirect function calls from the writeback path and the
-last use of struct page in nilfs2.
+On Thu, Oct 3, 2024 at 12:00=E2=80=AFAM Matthew Wilcox (Oracle) wrote:
+>
+> After "nilfs2: Convert nilfs_copy_buffer() to use folios", there are
+> only a few remaining users of struct page in all of nilfs2, and they're
+> straightforward to remove.  Build tested only.
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
----
- fs/nilfs2/mdt.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+Thank you for your ongoing work on converting to folio-based.
 
-diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-index ceb7dc0b5bad..4f4a935fcdc5 100644
---- a/fs/nilfs2/mdt.c
-+++ b/fs/nilfs2/mdt.c
-@@ -396,10 +396,9 @@ int nilfs_mdt_fetch_dirty(struct inode *inode)
- 	return test_bit(NILFS_I_DIRTY, &ii->i_state);
- }
- 
--static int
--nilfs_mdt_write_page(struct page *page, struct writeback_control *wbc)
-+static int nilfs_mdt_write_folio(struct folio *folio,
-+		struct writeback_control *wbc)
- {
--	struct folio *folio = page_folio(page);
- 	struct inode *inode = folio->mapping->host;
- 	struct super_block *sb;
- 	int err = 0;
-@@ -432,11 +431,23 @@ nilfs_mdt_write_page(struct page *page, struct writeback_control *wbc)
- 	return err;
- }
- 
-+static int nilfs_mdt_writeback(struct address_space *mapping,
-+		struct writeback_control *wbc)
-+{
-+	struct folio *folio = NULL;
-+	int error;
-+
-+	while ((folio = writeback_iter(mapping, wbc, folio, &error)))
-+		nilfs_mdt_write_folio(folio, wbc);
-+
-+	return error;
-+}
- 
- static const struct address_space_operations def_mdt_aops = {
- 	.dirty_folio		= block_dirty_folio,
- 	.invalidate_folio	= block_invalidate_folio,
--	.writepage		= nilfs_mdt_write_page,
-+	.writepages		= nilfs_mdt_writeback,
-+	.migrate_folio		= buffer_migrate_folio,
- };
- 
- static const struct inode_operations def_mdt_iops;
--- 
-2.43.0
+Page structure references still remain in other files, but I'm
+preparing a patch set to convert them to be folio-based, so together
+with that, I think we'll be able to remove most of the page references
+in nilfs2 in the next cycle.
 
+I'll check out this patch set.
+
+Thanks,
+Ryusuke Konishi
+
+>
+> Matthew Wilcox (Oracle) (4):
+>   nilfs2: Remove nilfs_writepage
+>   nilfs2: Convert nilfs_page_count_clean_buffers() to take a folio
+>   nilfs2: Convert nilfs_recovery_copy_block() to take a folio
+>   nilfs2: Convert metadata aops from writepage to writepages
+>
+>  fs/nilfs2/dir.c      |  2 +-
+>  fs/nilfs2/inode.c    | 35 ++---------------------------------
+>  fs/nilfs2/mdt.c      | 19 +++++++++++++++----
+>  fs/nilfs2/page.c     |  4 ++--
+>  fs/nilfs2/page.h     |  4 ++--
+>  fs/nilfs2/recovery.c | 11 ++++-------
+>  6 files changed, 26 insertions(+), 49 deletions(-)
+>
+> --
+> 2.43.0
+>
 
