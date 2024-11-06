@@ -1,45 +1,45 @@
-Return-Path: <linux-nilfs+bounces-541-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-542-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D48699BDC89
-	for <lists+linux-nilfs@lfdr.de>; Wed,  6 Nov 2024 03:25:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4DB39BDCAE
+	for <lists+linux-nilfs@lfdr.de>; Wed,  6 Nov 2024 03:28:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7CBEAB22479
-	for <lists+linux-nilfs@lfdr.de>; Wed,  6 Nov 2024 02:25:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A5CD286824
+	for <lists+linux-nilfs@lfdr.de>; Wed,  6 Nov 2024 02:28:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD6F41EE002;
-	Wed,  6 Nov 2024 02:12:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 682D4217302;
+	Wed,  6 Nov 2024 02:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SbsjF0Ur"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JrtihutZ"
 X-Original-To: linux-nilfs@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50931E5720;
-	Wed,  6 Nov 2024 02:12:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1E01D4333;
+	Wed,  6 Nov 2024 02:13:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1730859174; cv=none; b=QBeVJodFyDc2Rr1ctpcB9RkhkIRp6wTXshBQWmphFYwRIlksv6Tec/aU/aeJJQaQ9Az65O2zTVtCrc7xWufJILujZcEMX/UvVD3WfrN5j3CBU77YrsP8jlLMFYF4i4eDvRJCjd0zYdAP9rFmbZ0u0BD130XN4Awgcr2nuJx52q0=
+	t=1730859228; cv=none; b=q7AEVEZuVnUu1388L7JSIt+jIQSAKWp+dUfLrfoBaFhTTsls6Qm01qRJasQuvF8BptnJYwNWVAP5c662+jV407t9kpXdv5omZhis6TWDxN6k2pyytQztkula6pv1jjWz9xw+w2SysMwXu3tY+YJE2yQnD5upntMihPuFe2quNMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1730859174; c=relaxed/simple;
-	bh=iz+aLTin03k74co6kq4ysfP5cYZkTNEZjC4ejTM5EHY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=si/2eKi0EV4+GhC7YSdsytH/s2xbY3xT53jsDe1hvA6/HIzQklYvwwPpA1gndPxb8gHfaW+keaysJgOs+wdWVUeDOe9ijo0ki/IQ0BmE/P0yHSykIiaNJaYhUBar4f0qANuJYCi9KqtarxMrw8UkFc9ihKROmeKKXMMz+Bq6wFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SbsjF0Ur; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F0D1C4CECF;
-	Wed,  6 Nov 2024 02:12:53 +0000 (UTC)
+	s=arc-20240116; t=1730859228; c=relaxed/simple;
+	bh=D33b50VCgzEa+JWyweTeKTqbYYtjLLTWwS2xqsGxnIw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N0vwD7D/j6Wn44X+YS9x/OGCCl8QrHIPf0CD+TdDmXjpzvNDIn/FGDXSwaKUoSTC9lzoUsO49kotNaiD3nTPrp/QWQoWpHqCeD2Gwq9pC6LDgmXYSt19IhEIGNIItyP26B1RAeRrNdGAy3CoIuW+1OIIdUm0Ubm9t7g1Qtf2NEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JrtihutZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0E69C4CECF;
+	Wed,  6 Nov 2024 02:13:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1730859174;
-	bh=iz+aLTin03k74co6kq4ysfP5cYZkTNEZjC4ejTM5EHY=;
+	s=k20201202; t=1730859227;
+	bh=D33b50VCgzEa+JWyweTeKTqbYYtjLLTWwS2xqsGxnIw=;
 	h=From:To:Cc:Subject:Date:From;
-	b=SbsjF0UrETGVny+ykfhfdAnyDF+GxBpIS3+T1nJQNQ2AeKqeGq6wlvlrmeKWSwJFH
-	 NFP8/8aZLMJFg2CgtEnvFJp6a6pwa3WaoLYzt+Qpw9yrSzpCHK/LCl7zFCQwGPmWVc
-	 vk2QSHT3OEVxKvfUwggqp+YitIukXhY89fiyVrrGQCqBIFnQYQvJqM0YELFya7tH4R
-	 rDhPEj4zlQtYIMApl4CdoBXLzb4JTS9G3cmgrew1JrjMo+0PGpFevNfw6GBkPIj7k4
-	 5zNvMeL2c1sMyEGJXuhRcJ0s6a/Rj0T6U0iWiBErLd3TzePtmXT2Y2/rRCx4zoHl9X
-	 Mc7mxamzJqKng==
+	b=JrtihutZCr3cr5nIGL23n03311e3oX84gIu7adLMs63lUB3C2ounkc8w4gXRpmS0/
+	 scB342tJlOX4nAZcsRQdwm2aDPaPgO5zmb8IVu+ghq59WmyElc4W9HqK9VQFHoDjPS
+	 vFW1Euk2hp1ULO6DlIO+QamtoSUmI9JJD02RWE7UF0dbVPRmw1UzPcviRSoP1WisPI
+	 87XhiOBcJaNCcNYikAWukOanLNj/0CRhUcteAKtIAvkjgw8zWVzVMfSxu3V+BWpwRG
+	 OF1zgCYOp62XfmAWpHZurc7jrBePRgJtWnJ3mIgFk4vpAtV4dyLoFB5MldZjUuOxMb
+	 SpsCS09UEMvHw==
 From: Sasha Levin <sashal@kernel.org>
 To: stable@vger.kernel.org,
 	konishi.ryusuke@gmail.com
@@ -47,9 +47,9 @@ Cc: syzbot+d6ca2daf692c7a82f959@syzkaller.appspotmail.com,
 	Andrew Morton <akpm@linux-foundation.org>,
 	linux-nilfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: FAILED: Patch "nilfs2: fix kernel bug due to missing clearing of checked flag" failed to apply to v5.10-stable tree
-Date: Tue,  5 Nov 2024 21:12:51 -0500
-Message-ID: <20241106021251.183211-1-sashal@kernel.org>
+Subject: FAILED: Patch "nilfs2: fix kernel bug due to missing clearing of checked flag" failed to apply to v5.4-stable tree
+Date: Tue,  5 Nov 2024 21:13:45 -0500
+Message-ID: <20241106021345.183802-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
@@ -61,7 +61,7 @@ X-Patchwork-Hint: ignore
 X-stable: review
 Content-Transfer-Encoding: 8bit
 
-The patch below does not apply to the v5.10-stable tree.
+The patch below does not apply to the v5.4-stable tree.
 If someone wants it applied there, or to any other stable or longterm
 tree, then please email the backport, including the original git commit
 id to <stable@vger.kernel.org>.
