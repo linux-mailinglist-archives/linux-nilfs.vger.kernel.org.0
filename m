@@ -1,174 +1,155 @@
-Return-Path: <linux-nilfs+bounces-1076-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1080-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-nilfs@lfdr.de
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F8BD3B3AC
-	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Jan 2026 18:15:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 416D5D3B3F8
+	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Jan 2026 18:21:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id EB902309930B
-	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Jan 2026 16:43:02 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 898A0316AB49
+	for <lists+linux-nilfs@lfdr.de>; Mon, 19 Jan 2026 16:48:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29E9D3BC4DC;
-	Mon, 19 Jan 2026 16:30:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA7CF3A7841;
+	Mon, 19 Jan 2026 16:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aRe9D5Sa"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EkkHIwzb"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B1838BDB5;
-	Mon, 19 Jan 2026 16:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CC33A7833
+	for <linux-nilfs@vger.kernel.org>; Mon, 19 Jan 2026 16:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1768840255; cv=none; b=e/u9My1BwlNZm/vT0ArGqfBfORhSvs1GJRpw/R10mEqqevcEFxwRR4Sp+s2Z6Izk8VsustkbBIDtTvclFCyTTgMKTzk5OHLFHfEPuCUHIDDhX7X8k9yXyWQXvg7MeWrtUqh1F4S7RS1U5qhdjAumyfgnUVuSU1i9Znplz6Y0v4E=
+	t=1768841016; cv=none; b=rI8INZ9eaIX7iFM7MVMJQuAFEciy4P01eErpz7mhKuE9/A/kaAa/SLdbqvhzWyTRE4aIvnAuBHYHfdbnqnUxrpjHeBPGp9FJkdM1LNqR0lRtlke1uJLqoUOlCKnm1LXyO71OseeSidlYTQwNhfI2AHvTirAqqWM1T5LMAcS4Ktc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1768840255; c=relaxed/simple;
-	bh=XGt/aZzfGK9zJQOZBzNGqpMmieKmh9kJIK51xGoE3lw=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ISDaS1F/4LjM77pWoo8P7QmTwu6juI847v1KFKZ1DJJWI/KOakb2VwNQE5JWhcEHF7hVhVRLst99ZBtOldOJag0bzeC2PvGEu7+Sfjl2c4qft/afGy3aekKwpSU5JYXOh8EReD/wfk9+uVRSTLCubGWqo38gwwgtV8xOqTJZkvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aRe9D5Sa; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71889C116C6;
-	Mon, 19 Jan 2026 16:30:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1768840255;
-	bh=XGt/aZzfGK9zJQOZBzNGqpMmieKmh9kJIK51xGoE3lw=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=aRe9D5Sa7gMB/Ryp1GcMwBIJ0XwKuZ6UClP6Ug45QHAha8tYj9mJ1V510E+A9msBF
-	 uIhFQ4ERVA2/a/89lazW/TqRbLmJXCbnATean6EIJEuIz/669usXdDh3OAv3cCVNyN
-	 153NxFJ5bXU00TkkzzXLWoUrW/pQLk9vKivAvy3EIK99PwQxTlxQfnsqWQCzOs4xkV
-	 djsQKErslPGQtEcNguvZIqh3BSoWwOetopyqoeBHApuQa2uwYZV8JERw+NxlC0nR0n
-	 fOEHc48tTPF5j3kPLorwmV32bUWcgE0EFzjrgIlJjLHAtcT1r/8PEQ677OthtO1AHK
-	 xGnYGFr1AXgiA==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Mon, 19 Jan 2026 11:26:47 -0500
-Subject: [PATCH v2 30/31] nfsd: only allow filesystems that set
- EXPORT_OP_STABLE_HANDLES
+	s=arc-20240116; t=1768841016; c=relaxed/simple;
+	bh=CQ3IL8fqKnWIgvRv+IOv0Cfz8J1ZjzxNV5oCIJJcLY4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RigvV8gVAQ6lrBFAOApDNlm78XmHDZanQ8UqSvC8XnpFHMzkHo7TTPoyvcis17+3hIBIRLXveiF7B/1Z/mlRITTkXEqcaYQJerTTHx89LWuTiY+KlRFbEZCwOczmVZMx+7G5QCbdxwY2UKaMxmMhFmAPn/5AiLrIuLOHurcj9Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EkkHIwzb; arc=none smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-655ae329d6bso6119054a12.0
+        for <linux-nilfs@vger.kernel.org>; Mon, 19 Jan 2026 08:43:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768841012; x=1769445812; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t7xapJC59KqqTTsHRvPEloTsuOjJhUfycEcUpCAL4U8=;
+        b=EkkHIwzbfTJKzshmxlDOiaxtn4vBhGJ8hV4EprnGWkmuC/r1b41pPCDsLJyiC5AW5r
+         CLWhGZucaUydM6cEu+YJNQ5errSDWpQMGa4luhsuFC6Ded7q3E2uHG5piLmTpyaABJ5c
+         MeVpTUfm05SLfpHgXfRlKQ6y5fwlEypURJCR9owfvjJtiQLYKgBpQhhUqOBuqI4ZbVP9
+         AlKzmFKgcTyQq1tExcoY8jyWZQuleBSdMijvUXJCRjmQgiKX6YuNKehKm76YncoVewKJ
+         tTFHR0K6sL38se/gLII2739FwexAo8CVaidTZSlCOXo9zz3u6rXjjqqsloC6fgpkPenc
+         uVjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768841012; x=1769445812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=t7xapJC59KqqTTsHRvPEloTsuOjJhUfycEcUpCAL4U8=;
+        b=Sj6iMNTxPyvS78YsmKCqjhRyyy1Nu6++YW8kollLcjXk9n1VzBAa4zHDfhi4Kn/AY7
+         MKRmn0XmdrDYSbWdg2F0/uEBeLrVc8HEMRgQ8tDX2G6kk1xv680HEo+N4vv7+/HbfwDO
+         giqf1Fd7Agp0pE+YgDl+6mJZwmN2dHEuxNG3Q9MwvnR1uyFIxK5zdzO+xXS6+HQB18Gc
+         RuKqbT5IQZcKvC1+l3UwfGjwwwSjq5M4qPoq0l/k0A75TAJr0ua+Bp2cEVdwWpiHfmsq
+         +lwcahEBXW4gr/Vjjhdfuph38bPMfgKQfe+mDxpiV1nEkhEy2AShds1yAzrbu5vHfHVx
+         C2gw==
+X-Forwarded-Encrypted: i=1; AJvYcCUHfQyvCswzIMpJyr3MC3QaqvTSwYS7ZE9AOdBS8Oc4mxygRgy10cSnU4GqI01oIhPRHgftlxw2nDNCkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUSWPtJnMQOR50C5Bu++mtUpjpFXxCEjNkIxULje99mmHcNrZB
+	peUz74i0PFo51Sed5Phr2gG8p/X929HcCG7HANobJ2qTkot0wVoBMnX2XAGQVVw1gT/Z7SrgB5+
+	l0dQ3Hj1O2C6zNP6JdZ4xAZaSHhLWlVw=
+X-Gm-Gg: AZuq6aKCFiVdLHc/+/P0aSu4zUhrpDcnUsSGs+e2LS6ORCoiFr16rmixSBfDPeF3ZXc
+	kCjnnLN31GcMWQXs627oek6iPNqS035KcOUlFv2D84Ex21HJYMRfQ+ubfU69rPe70jYw0C6zlYF
+	u3Y9bow4nOGR88EgTqF6lfEFTu3+5BUZf6nXuvlVxuixNJLKfa78ZmlrWqlC2msDbkzfk7XFW76
+	y67EudauLoTLAlSV1EFx1VlZr7BbKgdUlIzi1wxURIwCS2PfKKUhOQBoNyH91wCWphLaqngTwxI
+	7I09H+r9EZ+D2rS+zK2yCilxozE/Pp8/W0reyh9/
+X-Received: by 2002:a05:6402:5106:b0:64c:584c:556c with SMTP id
+ 4fb4d7f45d1cf-654bb6192admr8530585a12.30.1768841011353; Mon, 19 Jan 2026
+ 08:43:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260119-exportfs-nfsd-v2-30-d93368f903bd@kernel.org>
-References: <20260119-exportfs-nfsd-v2-0-d93368f903bd@kernel.org>
-In-Reply-To: <20260119-exportfs-nfsd-v2-0-d93368f903bd@kernel.org>
-To: Christian Brauner <brauner@kernel.org>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
- Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, 
- Tom Talpey <tom@talpey.com>, Amir Goldstein <amir73il@gmail.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Theodore Ts'o <tytso@mit.edu>, 
- Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, 
- Gao Xiang <xiang@kernel.org>, Chao Yu <chao@kernel.org>, 
- Yue Hu <zbestahu@gmail.com>, Jeffle Xu <jefflexu@linux.alibaba.com>, 
- Sandeep Dhavale <dhavale@google.com>, Hongbo Li <lihongbo22@huawei.com>, 
- Chunhai Guo <guochunhai@vivo.com>, Carlos Maiolino <cem@kernel.org>, 
- Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
- Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>, 
- David Sterba <dsterba@suse.com>, Luis de Bethencourt <luisbg@kernel.org>, 
- Salah Triki <salah.triki@gmail.com>, 
- Phillip Lougher <phillip@squashfs.org.uk>, Steve French <sfrench@samba.org>, 
- Paulo Alcantara <pc@manguebit.org>, 
- Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
- Shyam Prasad N <sprasad@microsoft.com>, 
- Bharath SM <bharathsm@microsoft.com>, Miklos Szeredi <miklos@szeredi.hu>, 
- Mike Marshall <hubcap@omnibond.com>, 
- Martin Brandenburg <martin@omnibond.com>, Mark Fasheh <mark@fasheh.com>, 
- Joel Becker <jlbec@evilplan.org>, Joseph Qi <joseph.qi@linux.alibaba.com>, 
- Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
- Ryusuke Konishi <konishi.ryusuke@gmail.com>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Dave Kleikamp <shaggy@kernel.org>, David Woodhouse <dwmw2@infradead.org>, 
- Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>, 
- Andreas Gruenbacher <agruenba@redhat.com>, 
- OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: David Laight <david.laight.linux@gmail.com>, 
- Dave Chinner <david@fromorbit.com>, Christoph Hellwig <hch@infradead.org>, 
- linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
- linux-ext4@vger.kernel.org, linux-erofs@lists.ozlabs.org, 
- linux-xfs@vger.kernel.org, ceph-devel@vger.kernel.org, 
- linux-btrfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
- samba-technical@lists.samba.org, linux-unionfs@vger.kernel.org, 
- devel@lists.orangefs.org, ocfs2-devel@lists.linux.dev, 
- ntfs3@lists.linux.dev, linux-nilfs@vger.kernel.org, 
- jfs-discussion@lists.sourceforge.net, linux-mtd@lists.infradead.org, 
- gfs2@lists.linux.dev, linux-f2fs-devel@lists.sourceforge.net, 
- linux-doc@vger.kernel.org, Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2174; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=XGt/aZzfGK9zJQOZBzNGqpMmieKmh9kJIK51xGoE3lw=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBpbltg313cW2t8STVH2Q3f6eFFX8webaAfx8DOM
- GA1WXTggo+JAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaW5bYAAKCRAADmhBGVaC
- Fd/6D/9j/oMVrJxeP2Mfuffs6X+mbihS90psuLoEJKbrjqZA7FdFGxRNUgHxspeg1JxUtDbEv7a
- uU4kSCajVCH2iOyDZQHDvyYwkkXW1+PdbM5uKZ/7DFLmaIxhriGPZjNE6IzpuJN48O73ngtU1bb
- P2CJLYNkWnxIJsMzVQaL4bwkbCVO8za/peoBtCgsO+8VOphfgjUEt0WDcgBxDOZdExrFOuNZlkA
- yVOd7lxKLAhNKynWzgdAd5sKikhudMp/54M1K2PccQWIGPdcv4xFGVS3GiU/csV9NzJSKjvCtjJ
- /K1MhVCHGVNaobSkaid3Tly/fXK4uha201p7DIspoVEewSSSXnhx5x0x3aBwwrld/gCO/BQlsYK
- 5rZ2YOFFh/4TRhu7Gv3uRLHaXPpBIvj1iq70FX22A77FNzSrDm4qhCKISIaOPMyLDSI+t5ru9TZ
- j58AKvcl13B3sxdRak3OQWP4MHJncRuHJGlvXrEQaBf/aD6jxo0U6J/EdF0tJYPIILxRvkYndIB
- QsuTvSgf109v+B3Im9IKplrYJZ1er53jnSi8MzCOscRy3zHvch/igrvKIj0Mqnwjj/FRsnpuadV
- MVNdABzxnuvzbDIRfClDT3ehoVXweeSMvlteptmwg0EHO/sEA5XJWFSZvKdtodlu7Pj5Cn4Pepu
- OBCy4/+aVtv9EqQ==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+References: <20260119-exportfs-nfsd-v2-0-d93368f903bd@kernel.org> <20260119-exportfs-nfsd-v2-27-d93368f903bd@kernel.org>
+In-Reply-To: <20260119-exportfs-nfsd-v2-27-d93368f903bd@kernel.org>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Mon, 19 Jan 2026 17:43:19 +0100
+X-Gm-Features: AZwV_QgQ6YFmczFqASwqjyOa509PoCTPsOB-sET1G173IBHOd4X5kFjH9N6z5MI
+Message-ID: <CAOQ4uxjyTdf21G1Y=_5Eox58drVPA0gAMeSQZxh=T36_yzssNw@mail.gmail.com>
+Subject: Re: [PATCH v2 27/31] fuse: add EXPORT_OP_STABLE_HANDLES flag to
+ export operations
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Chuck Lever <chuck.lever@oracle.com>, NeilBrown <neil@brown.name>, 
+	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Theodore Ts'o" <tytso@mit.edu>, 
+	Andreas Dilger <adilger.kernel@dilger.ca>, Jan Kara <jack@suse.com>, Gao Xiang <xiang@kernel.org>, 
+	Chao Yu <chao@kernel.org>, Yue Hu <zbestahu@gmail.com>, 
+	Jeffle Xu <jefflexu@linux.alibaba.com>, Sandeep Dhavale <dhavale@google.com>, 
+	Hongbo Li <lihongbo22@huawei.com>, Chunhai Guo <guochunhai@vivo.com>, 
+	Carlos Maiolino <cem@kernel.org>, Ilya Dryomov <idryomov@gmail.com>, Alex Markuze <amarkuze@redhat.com>, 
+	Viacheslav Dubeyko <slava@dubeyko.com>, Chris Mason <clm@fb.com>, David Sterba <dsterba@suse.com>, 
+	Luis de Bethencourt <luisbg@kernel.org>, Salah Triki <salah.triki@gmail.com>, 
+	Phillip Lougher <phillip@squashfs.org.uk>, Steve French <sfrench@samba.org>, 
+	Paulo Alcantara <pc@manguebit.org>, Ronnie Sahlberg <ronniesahlberg@gmail.com>, 
+	Shyam Prasad N <sprasad@microsoft.com>, Bharath SM <bharathsm@microsoft.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Mike Marshall <hubcap@omnibond.com>, 
+	Martin Brandenburg <martin@omnibond.com>, Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, 
+	Joseph Qi <joseph.qi@linux.alibaba.com>, 
+	Konstantin Komarov <almaz.alexandrovich@paragon-software.com>, 
+	Ryusuke Konishi <konishi.ryusuke@gmail.com>, Trond Myklebust <trondmy@kernel.org>, 
+	Anna Schumaker <anna@kernel.org>, Dave Kleikamp <shaggy@kernel.org>, 
+	David Woodhouse <dwmw2@infradead.org>, Richard Weinberger <richard@nod.at>, Jan Kara <jack@suse.cz>, 
+	Andreas Gruenbacher <agruenba@redhat.com>, OGAWA Hirofumi <hirofumi@mail.parknet.co.jp>, 
+	Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	David Laight <david.laight.linux@gmail.com>, Dave Chinner <david@fromorbit.com>, 
+	Christoph Hellwig <hch@infradead.org>, linux-nfs@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-ext4@vger.kernel.org, 
+	linux-erofs@lists.ozlabs.org, linux-xfs@vger.kernel.org, 
+	ceph-devel@vger.kernel.org, linux-btrfs@vger.kernel.org, 
+	linux-cifs@vger.kernel.org, samba-technical@lists.samba.org, 
+	linux-unionfs@vger.kernel.org, devel@lists.orangefs.org, 
+	ocfs2-devel@lists.linux.dev, ntfs3@lists.linux.dev, 
+	linux-nilfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net, 
+	linux-mtd@lists.infradead.org, gfs2@lists.linux.dev, 
+	linux-f2fs-devel@lists.sourceforge.net, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some filesystems have grown export operations in order to provide
-filehandles for local usage. Some of these filesystems are unsuitable
-for use with nfsd, since their filehandles are not stable across
-reboots.
+On Mon, Jan 19, 2026 at 5:30=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wr=
+ote:
+>
+> Add the EXPORT_OP_STABLE_HANDLES flag to fuse export operations to indica=
+te
+> that this filesystem can be exported via NFS.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-In check_export(), check whether EXPORT_OP_STABLE_HANDLES is set
-and return -EINVAL if it isn't.
-
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/export.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
-diff --git a/fs/nfsd/export.c b/fs/nfsd/export.c
-index 2a1499f2ad196a6033787260881e451146283bdc..bc703cf58bfa210c7c57d49f22f15bc10d7cfc91 100644
---- a/fs/nfsd/export.c
-+++ b/fs/nfsd/export.c
-@@ -422,13 +422,15 @@ static int check_export(const struct path *path, int *flags, unsigned char *uuid
- 	if (*flags & NFSEXP_V4ROOT)
- 		*flags |= NFSEXP_READONLY;
- 
--	/* There are two requirements on a filesystem to be exportable.
--	 * 1:  We must be able to identify the filesystem from a number.
-+	/* There are four requirements on a filesystem to be exportable:
-+	 * 1: We must be able to identify the filesystem from a number.
- 	 *       either a device number (so FS_REQUIRES_DEV needed)
- 	 *       or an FSID number (so NFSEXP_FSID or ->uuid is needed).
--	 * 2:  We must be able to find an inode from a filehandle.
-+	 * 2: We must be able to find an inode from a filehandle.
- 	 *       This means that s_export_op must be set.
--	 * 3: We must not currently be on an idmapped mount.
-+	 * 3: It must provide stable filehandles.
-+	 *       This means that EXPORT_OP_STABLE_HANDLES is set
-+	 * 4: We must not currently be on an idmapped mount.
- 	 */
- 	if (!(inode->i_sb->s_type->fs_flags & FS_REQUIRES_DEV) &&
- 	    !(*flags & NFSEXP_FSID) &&
-@@ -442,6 +444,11 @@ static int check_export(const struct path *path, int *flags, unsigned char *uuid
- 		return -EINVAL;
- 	}
- 
-+	if (!(inode->i_sb->s_export_op->flags & EXPORT_OP_STABLE_HANDLES)) {
-+		dprintk("%s: fs does not provide stable filehandles!\n", __func__);
-+		return -EINVAL;
-+	}
-+
- 	if (is_idmapped_mnt(path->mnt)) {
- 		dprintk("exp_export: export of idmapped mounts not yet supported.\n");
- 		return -EINVAL;
-
--- 
-2.52.0
-
+> ---
+>  fs/fuse/inode.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> index 819e50d666224a6201cfc7f450e0bd37bfe32810..df92414e903b200fedb9dc777=
+b913dae1e2d0741 100644
+> --- a/fs/fuse/inode.c
+> +++ b/fs/fuse/inode.c
+> @@ -1215,6 +1215,7 @@ static const struct export_operations fuse_export_o=
+perations =3D {
+>         .fh_to_parent   =3D fuse_fh_to_parent,
+>         .encode_fh      =3D fuse_encode_fh,
+>         .get_parent     =3D fuse_get_parent,
+> +       .flags          =3D EXPORT_OP_STABLE_HANDLES,
+>  };
+>
+>  static const struct super_operations fuse_super_operations =3D {
+>
+> --
+> 2.52.0
+>
 
