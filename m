@@ -1,94 +1,59 @@
-Return-Path: <linux-nilfs+bounces-1523-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1524-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id iDwqJe7Fu2nEoAIAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1523-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 10:46:22 +0100
+	id 6KCPCncmvGkxtgIAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1524-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 17:38:15 +0100
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from sin.lore.kernel.org (sin.lore.kernel.org [104.64.211.4])
-	by mail.lfdr.de (Postfix) with ESMTPS id 746092C8F3C
-	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 10:46:17 +0100 (CET)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 356A22CEF03
+	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 17:38:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sin.lore.kernel.org (Postfix) with ESMTP id F369B30B349C
-	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 09:19:51 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 11C5D31563E2
+	for <lists+linux-nilfs@lfdr.de>; Thu, 19 Mar 2026 16:23:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37D5A36B07B;
-	Thu, 19 Mar 2026 09:19:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269E03ED5CB;
+	Thu, 19 Mar 2026 16:22:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T90YAnY2"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Sbw8KOHG"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F321339E167
-	for <linux-nilfs@vger.kernel.org>; Thu, 19 Mar 2026 09:19:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F3493ED13D
+	for <linux-nilfs@vger.kernel.org>; Thu, 19 Mar 2026 16:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1773911981; cv=none; b=pBWRgPm3SQldvqDHlZz5k8838JSaii6o3gF5CXE7ASvJnTNWSLoOBu8X7tEVPaV4UdeuvEJAR6GCRAig9eZ9Rm2GP0Ig+EKuE86LW7K9gHxjqHrSBVhYO4BziihFeZeOGpOumPBaHmH8eHyewaoRHIdSMrNavZvgife0ZEkPCgU=
+	t=1773937364; cv=none; b=lbomGPPeKim46euLrn/58VZcycUbiS4v5xuBFYyZExWJcIvDH3IwNjKwrzwv0HYfqzoUF8BQX3GAo0Agtj4bACgkH5TP4OJg2aSFSoJbwcGkys/sjM6/hVveb6sRkJwMi52zNAT2DpaMs14kwmkFWh5KOdOp7FxhzWmaUWRrEeA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1773911981; c=relaxed/simple;
-	bh=fDKevgTBJUE73Uk1+tVrzYh1bpQ9qQqHkYDye6eSKjM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DTJP59py0O4P7tvuUOCWDsSjWZQEhAZu2d7C552E/97GpOPadmE34HHRHT2iCDYX0HffgrYMbvZQYg9/cLASHHvB6221zT57KA+3xMnAIb79LU68bdaqnxJ4PW4AU9DIwK54LyjZtyzsvrxAZSfli/k5Zp2WCQAYktNc8A/LkI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=T90YAnY2; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2ad9f316d68so3316835ad.2
-        for <linux-nilfs@vger.kernel.org>; Thu, 19 Mar 2026 02:19:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1773911979; x=1774516779; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HR8u6FKYjwr6a00oYxjn2yVwYgx+XN6JPKinstUheyg=;
-        b=T90YAnY2/8lIBI3mKvZQQnMJMPleGOkswFeRCSIa5YOiHliDsQ8rfwVJi5kr+osZKd
-         wR0u8HUI8WV+sxzKJpL2wU5RXAQdUEbUKDEtW6zJ3SIfSNnX6wwYme+AhEvdAnPkYQ/A
-         0yhP+sixPY52zgNvK7mRHJNdHMuJtbMO0RPR3vVMt5rC4JrFciVhRbdJDz5ljgKm85yS
-         RYC9Zu5mubMueFzRicAVmcA1MV2ZOF7BLlVVgzZsS6Rg3X3u8EDAXAngnJzdWLzUhELq
-         6Ow+ALEj78F5qjv+StumgaTF9MyG7Oe1mr/zIpdXf2iwj8JbllCruTC7mEz2vonkBMnd
-         afYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1773911979; x=1774516779;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HR8u6FKYjwr6a00oYxjn2yVwYgx+XN6JPKinstUheyg=;
-        b=YdGrYxx00SdKvxeq0GSllPaor0LYOjSGObCvNyM9YsDoHl7HNowAWOZ5EiSO9AcmWU
-         BFXs4O4JnKnWW4VjHSOyPiWFOO8jABH0mRWP+l+V+WqK3V1ZUAZAW3frlY1J8jz7YNqT
-         uy7IBxXhZfsaD6brGkGnLxrqT0F3bGfmoDIqS77DdayxZ4uuORA9q5hYQsAIj0BR5JPK
-         20wOBQrMo/AWQlCOBnA+b67Fcn/U0kIofqQJTSgS1zK7fdR9AU/BSOjp0XNBWphOySXJ
-         bxNusMqZF3S+KZDwLqwBzURrKS+C8/Zh+6SlP58o9hgoBgCC6171TiRaoLVQMJnDBz4D
-         ZxqA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVWDM8v95iXCxt07DD4ab/VdWujhcE7wO6wAGiQTtOWEtERQf/X1Ap7ms70i+sIBaBUcctoi203ASG/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxpc4ahUSqCFjiSInJ3Un0Y3AW/jPehhLd3jZgxCQgBJ0DxIqj0
-	9Q/XI5l14k1y1O6ofuH5nmakap5AzaUMKCclcxZlU1a6RCGRpdmC7Fqn
-X-Gm-Gg: ATEYQzzIwcletjw3A0kCmYiK48pdNTmNd8OFJrXOXSg6lxf1IjNt9LKlY2cTU7fMJi1
-	GPDl0ZwEmtwL9vHh7o2ZKlZ17NB2BjomOygqvbm+kVT/uu8N/Fv7ObvgSbUxOY5UdR2uQcwl2qf
-	poZ1TvJ8RS6sm8N3jMyRaDqnPn+vnhw9AqnMdrWsH04GvNxH6hhnrPRXh1pzpVkmvtEK7dOSppB
-	VMzBjt7S3AjxTpYXOHb6fCr5gMHI3SRyOeZ4uKclr1JjUcyGWxyDcq5wBAFWdcw1sT/qggUsASF
-	vu6v5py4QUO0Qe/8wHXq/xibCdiI7WTYBdP2EqtDW7GezWqF5L0egW2audDqlHMLktqMA640vBF
-	h7JHxtCs5HBmt2YDMzPAJdtMvd/St3LaVVV/NX6psbcY2f6k080uZeksoDz55idJnK58fgPmbP6
-	LpgGB1Z2UDnxYu9FJLtCHLYggW0rz5v4PDhb/a4FWNlri3F7AskshKalEh3RAkUdsy7yj1X3WHZ
-	GIDqlI=
-X-Received: by 2002:a17:902:f547:b0:2b0:7177:d5e5 with SMTP id d9443c01a7336-2b07177dc04mr49869815ad.43.1773911979219;
-        Thu, 19 Mar 2026 02:19:39 -0700 (PDT)
-Received: from deepanshu-kernel-hacker.. ([2405:201:682f:389d:2136:a371:9567:156f])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b06e445075sm61786745ad.31.2026.03.19.02.19.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Mar 2026 02:19:38 -0700 (PDT)
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-To: konishi.ryusuke@gmail.com,
-	slava@dubeyko.com
-Cc: akpm@linux-foundation.org,
-	sato.koji@lab.ntt.co.jp,
-	linux-nilfs@vger.kernel.org,
+	s=arc-20240116; t=1773937364; c=relaxed/simple;
+	bh=BnVx0e4sHUG2CxvPexFEtjwoJjLDYgxZk+AFIqdD7Ic=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EaaVaXLzC8mRth2wU3m8vlZ8Iykh8e1ob89G9x0cdviFepffgiZwASl628KlBKXPYOUcK2E9dbF3YtwkNlbOCylyLpDL3XOtoY50M0Xz/N/pliKG3KmRzbpTGLzGvariD9R/P0UDmg+LtgbQWRIO3bz+pZjtEgfYdsTYuv2ya6s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Sbw8KOHG; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1773937350;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=t0iie7bEOScOeBpsKCJ5AujwIH+1zOg24zDax1kXgG8=;
+	b=Sbw8KOHGrxkAxghoE5N85VkV9v+aCyn3VtHcG6hfcyyaG9cynsR9ECTZLAz/8kPzFd++ip
+	q+kj8uzvgUWxHCDtNVzCvzpdNGgi7SdcJESNL14RtsREbP645eLlbRz6oaD4dVOBwsYXNA
+	fzYzn1+7fhGSwiZrcmmAcb/ZD7thuqM=
+From: Junjie Cao <junjie.cao@linux.dev>
+To: Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+	Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: linux-nilfs@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Deepanshu Kartikey <kartikey406@gmail.com>,
-	syzbot+98a040252119df0506f8@syzkaller.appspotmail.com,
-	Deepanshu Kartikey <Kartikey406@gmail.com>
-Subject: [PATCH] nilfs2: fix missing continue after -ENOENT in nilfs_ioctl_mark_blocks_dirty()
-Date: Thu, 19 Mar 2026 14:49:30 +0530
-Message-ID: <20260319091930.1088735-1-kartikey406@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	syzbot+466a45fcfb0562f5b9a0@syzkaller.appspotmail.com,
+	stable@vger.kernel.org,
+	Junjie Cao <junjie.cao@linux.dev>
+Subject: [PATCH] nilfs2: skip blocks with no bmap entry in nilfs_ioctl_mark_blocks_dirty()
+Date: Fri, 20 Mar 2026 00:21:59 +0800
+Message-ID: <20260319162159.302104-1-junjie.cao@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
@@ -96,72 +61,67 @@ List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 X-Spamd-Result: default: False [0.84 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
-	MID_CONTAINS_FROM(1.00)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
+	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
-	R_DKIM_ALLOW(-0.20)[gmail.com:s=20230601];
-	R_SPF_ALLOW(-0.20)[+ip4:104.64.211.4:c];
+	DMARC_POLICY_ALLOW(-0.50)[linux.dev,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[linux.dev:s=key1];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FREEMAIL_TO(0.00)[gmail.com,dubeyko.com];
-	FREEMAIL_CC(0.00)[linux-foundation.org,lab.ntt.co.jp,vger.kernel.org,gmail.com,syzkaller.appspotmail.com];
-	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
 	MIME_TRACE(0.00)[0:+];
-	TAGGED_FROM(0.00)[bounces-1523-lists,linux-nilfs=lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:104.64.192.0/19, country:SG];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_TO(0.00)[gmail.com,dubeyko.com];
+	TAGGED_FROM(0.00)[bounces-1524-lists,linux-nilfs=lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
-	RCVD_COUNT_FIVE(0.00)[5];
-	FROM_NEQ_ENVFROM(0.00)[kartikey406@gmail.com,linux-nilfs@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[junjie.cao@linux.dev,linux-nilfs@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[gmail.com:+];
-	NEURAL_HAM(-0.00)[-0.742];
-	TAGGED_RCPT(0.00)[linux-nilfs,98a040252119df0506f8];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	FREEMAIL_FROM(0.00)[gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,syzkaller.appspot.com:url]
-X-Rspamd-Queue-Id: 746092C8F3C
+	DKIM_TRACE(0.00)[linux.dev:+];
+	NEURAL_HAM(-0.00)[-0.849];
+	TAGGED_RCPT(0.00)[linux-nilfs,466a45fcfb0562f5b9a0];
+	RCPT_COUNT_SEVEN(0.00)[7];
+	TO_DN_SOME(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,linux.dev:dkim,linux.dev:email,linux.dev:mid,appspotmail.com:email]
+X-Rspamd-Queue-Id: 356A22CEF03
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-nilfs_ioctl_mark_blocks_dirty() calls nilfs_bmap_lookup_at_level() to
-get the current block number of each block descriptor. When the lookup
-returns -ENOENT, meaning the block does not exist, it sets bd_blocknr
-to 0 and continues processing.
+In nilfs_ioctl_mark_blocks_dirty(), called during garbage collection,
+nilfs_bmap_lookup_at_level() may return -ENOENT when a block no longer
+exists in the DAT bmap.  In that case the code sets bd_blocknr to 0 but
+falls through to the liveness check that compares bd_blocknr against
+bd_oblocknr.  If bd_oblocknr also happens to be 0, the descriptor is
+incorrectly treated as live and the code attempts to get or mark the
+non-existent block, triggering a WARN_ON.
 
-However, if bd_oblocknr is also 0, the subsequent check:
-
-  if (bdescs[i].bd_blocknr != bdescs[i].bd_oblocknr)
-          continue;
-
-will not skip the block, and nilfs_bmap_mark() will be called on a
-non-existent block. This causes nilfs_btree_do_lookup() to return
--ENOENT, triggering the WARN_ON(ret == -ENOENT).
-
-Fix this by adding a continue statement after setting bd_blocknr to 0
-when the lookup returns -ENOENT, so that dead blocks are always skipped
-regardless of the value of bd_oblocknr.
+Fix this by adding a continue statement so that a block descriptor is
+immediately skipped when its bmap lookup returns -ENOENT, since there
+is no block in the DAT to mark dirty.
 
 Fixes: 7942b919f732 ("nilfs2: ioctl operations")
-Reported-by: syzbot+98a040252119df0506f8@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=98a040252119df0506f8
-Signed-off-by: Deepanshu Kartikey <Kartikey406@gmail.com>
+Reported-by: syzbot+466a45fcfb0562f5b9a0@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=466a45fcfb0562f5b9a0
+Cc: stable@vger.kernel.org
+Signed-off-by: Junjie Cao <junjie.cao@linux.dev>
 ---
  fs/nilfs2/ioctl.c | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
-index e17b8da66491..1615a314f557 100644
+index 1bfe8a2..d71a0a5 100644
 --- a/fs/nilfs2/ioctl.c
 +++ b/fs/nilfs2/ioctl.c
-@@ -745,6 +745,7 @@ static int nilfs_ioctl_mark_blocks_dirty(struct the_nilfs *nilfs,
+@@ -744,6 +744,7 @@ static int nilfs_ioctl_mark_blocks_dirty(struct the_nilfs *nilfs,
+ 		if (ret < 0) {
  			if (ret != -ENOENT)
  				return ret;
  			bdescs[i].bd_blocknr = 0;
@@ -171,5 +131,4 @@ index e17b8da66491..1615a314f557 100644
  			/* skip dead block */
 -- 
 2.43.0
-
 
