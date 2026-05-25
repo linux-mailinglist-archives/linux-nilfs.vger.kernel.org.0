@@ -1,127 +1,211 @@
-Return-Path: <linux-nilfs+bounces-1601-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1602-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by lfdr with LMTP
-	id cDNeNc6FFGpLOAcAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1601-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 19:24:30 +0200
+	id 4FtMOzGFFGo2OAcAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1602-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 19:21:53 +0200
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B4F95CD5B8
-	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 19:24:30 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B595CD51D
+	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 19:21:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id ABA30305BF9E
-	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 17:20:07 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id 603603017278
+	for <lists+linux-nilfs@lfdr.de>; Mon, 25 May 2026 17:21:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A69B63FB040;
-	Mon, 25 May 2026 17:19:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1E7D314B9A;
+	Mon, 25 May 2026 17:21:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pN9krxar"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nFLYqe1t"
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EFBA3F86FA;
-	Mon, 25 May 2026 17:19:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E512F202C48
+	for <linux-nilfs@vger.kernel.org>; Mon, 25 May 2026 17:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1779729590; cv=none; b=RypP/41qHfmTNzI5PwfaPXmwTwweEt1vwwEYxeTdWSI7+MffKN0UDmI+AEJaglMnQtIAHatDMK83XKkxQOwxXKObbilEkhAJDXVTiQjZCp1fdyksEibZqHNs6iTqMhuW7J1tFIyt95Mht/UW9CjnfsXgAeWO9BmqnyK8NZrv8Vc=
+	t=1779729700; cv=none; b=HYdr7EhMHL+l9Cbmb1IVlLwlM2OSjhBFUya93rGFqJ8+hyMdhZFzp/8TDQ5MCjBA7ptvT+GGE4Kf81WOIdLrp+ZSiveoXRyj5bXSHDZZJgjcbADBoR3/8w/JZSDEFz5QE7nj/aysjCQ92mxeLaSUHkJA54jCluiTXBdCd/ZYhi8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1779729590; c=relaxed/simple;
-	bh=EVXXu4sV6MscmBwHhFyKnodMspkRKKuBcdxXJSjEyQM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qsaPA944JydWvk/c8yzgMTzphxvKGEpHip7qHqzAfAP/geuaaowSQfIaEZxtydHOTPSwnnC6nC9gp1s3m+BmRCL9mv6RjwwrHbUYkQOWV4kfZjJrKW5GthKStFQeR0KkYt53csdUG08Yf8jjqAFrawTC3XxB2rw6dxla5yOIPR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pN9krxar; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-Type:Content-ID:Content-Description;
-	bh=jnT5uD2/V05L39bVnpVotauKBAAXgYz3YR7yRnawO+0=; b=pN9krxarib6WIBpUXXPFPx8I0N
-	G2NoOXSmzy+e/oAZRaz8+cctyLZ0i7mW0itkLE71HxB6T50BlTuh2/uyABas62MBgw6GJY5tvBmFy
-	25MtWV0U3WY+AtQJaKhszFJ7D2r7kOkobFkWD+XVauXQqz0PKAa85FT/AyKDoiYv5tLvgBPQbRK1K
-	husnRiLd9Agf+2RR3QnD8K3qW2yCgG8Voh/FRqFl/yOZdY5YH5anTiyce7UjzPIjypwC00Eo0iOqd
-	b63PiVCDNf39NWgd4ynWOCiVMnXUCiYI3cSDO7GzMRT338yOUNPjz3TbXSVbdk6tFdMEntKdnINfW
-	1IRan/jQ==;
-Received: from willy by casper.infradead.org with local (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wRYxt-0000000HODB-20gY;
-	Mon, 25 May 2026 17:19:45 +0000
-From: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+	s=arc-20240116; t=1779729700; c=relaxed/simple;
+	bh=VCEFYOA8bvBB0He6GPuue1J5cPggJ9r83oKY1RULIeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=onfb0ufWmwAoGjuvKzMtv6KsRGQDbIx+GB1bJukrystVn2aq73YeegagZXOTRHdyuwWiFAuBFcRX81Y7msQuafdba0FRXb05TLnF91Oolk42hh7/xW6BIJ3VEA0ICTN+zlsE5uM5W/7JvGCp89TtcBc7ecEDI6FP716KvfRwI+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nFLYqe1t; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49042aeeb75so45498485e9.1
+        for <linux-nilfs@vger.kernel.org>; Mon, 25 May 2026 10:21:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1779729696; x=1780334496; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
+        b=nFLYqe1tk7qwCxZBvuRvWqGDl/PP1t56e6sHt9JBmmmYmlbOXU8xnMDPX+8rPndMNa
+         2zgBc7yUrnJOp9pyEBh4d/26MNx5cn3UNMTWA5ijw8O2EKGD44exJ9D+89Ul/Qc1Pt+R
+         /EOZDji4aBNJqur9ul7T5t00BS5di3PrdKi2XezOB//+KK/86ne/3D2AmRBY6ANpdjCb
+         ThvzY2xpYZ+2BNNBxmDNt1N/CaZP22TNh0pp4Q7X428uuzBIbbBges+roGw8JwlrYKUn
+         xPu/34xris6plMkYf5LQoMtInpdT2hWsLdOTyXxGzT9tEeMg/Y98J2QfxTtUdj6zOITs
+         b2cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1779729696; x=1780334496;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=sNWXusXZo+ITDqzjd8lv9UPW26DbKQzVTY3kSMXJqIc=;
+        b=kgntUsVLB7JFAXoo8GGl1OyuzWto3CjFFMkLO+kS6JsIir0uYPY6HyONSkviKQ5XSC
+         e8gkseVAimYTW1Cx14zHsstUzmzYNiZhEd/B5vKnawtXwPPF8aRMrsElIqS0t4oafVyA
+         oU8z0bqkrm3doPsGsWLtCeV4vfcJCvoz5IkQTE3qn3swL4FvNdjoZWAnMh8Tj0WUtJoY
+         HpteMUh2EUcBkIOHL4INoycdzY8Gw2x5RQeuA17PTKlGOEAlPxSL1sEQllkSBFfKruyn
+         oUWupZesWbtubElZM3fozFCwJiX+His+3CAZMsFzMu/xZM+9mJuCAt9MMQraDnVMlXNp
+         jDzw==
+X-Forwarded-Encrypted: i=1; AFNElJ8vrKV5jUydksoglV35dzfnKxJu7gbx+0n83G1ttm/70ekhvL20z1ca5O4zE5DSh00hpT0s6EILQTOf+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZN0a1n3Uj7M2Jg2WptAy534x/150+kaUYr0UxEv9TBAdbsbJS
+	cIq9uzfOC3Vxlm3YU9U7MAtcj/zzAkklkehtZZdOhLlAGvW7qadkZJJz
+X-Gm-Gg: Acq92OEdYJ67+ohI5zp9bxvf0Q5SSctQNtODo/6XKBSoa7JKj0BiRIrw12x/6Bf3aKv
+	M8a9UIg9UDOveGOOBITSkbKMQ7rroDHXBaqRk9Lian2IaVmZnlGS7jFlOigDrBoPESrW0n4EtIV
+	KQJs9bBMQ9jNjz4VJ9VlewzJSZiP6yMdK7KA+7M95SYpVdn5n0A38RHIcYN/z8/obhS9BMe1HpI
+	ymWWzjW1T05W4lUPZd0meTgdLOpuZqYaqNOkvnRgpZA6heiUGLtgfkMMLW4/61cVrcWDJFUtIWE
+	ejD5KwQXB11J/cMlz4bRhQPbMoGmSFrBBN1gwJ11IFMONBLL3vSMuFNO0L7vT02b09XOWM5KqxN
+	WEpRd5SMTnUG4U/CHO7xcxKupzATfHEuYzvlya1H/nKqCx3xib4V91UDslBpXf1JrnwF4MshSID
+	xXJMn8wilHSIyu/jzTwhEmZ9diE/r220LM6a0glwItv5TAUXccdgHwWrdggBwoZVHF
+X-Received: by 2002:a05:600c:83c6:b0:490:5872:e641 with SMTP id 5b1f17b1804b1-4905872e758mr158057335e9.18.1779729696288;
+        Mon, 25 May 2026 10:21:36 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-490428d63f8sm88577605e9.18.2026.05.25.10.21.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 May 2026 10:21:35 -0700 (PDT)
+Date: Mon, 25 May 2026 18:21:34 +0100
+From: David Laight <david.laight.linux@gmail.com>
 To: Jan Kara <jack@suse.cz>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Christoph Hellwig <hch@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org
-Subject: [PATCH 29/34] nilfs2: Convert nilfs_mdt_submit_block to bh_submit()
-Date: Mon, 25 May 2026 18:19:22 +0100
-Message-ID: <20260525171931.4144395-30-willy@infradead.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260525171931.4144395-1-willy@infradead.org>
-References: <20260525171931.4144395-1-willy@infradead.org>
+Cc: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, Jan Kara <jack@suse.com>,
+ Mark Fasheh <mark@fasheh.com>, Joel Becker <jlbec@evilplan.org>, Joseph Qi
+ <joseph.qi@linux.alibaba.com>, Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+ Viacheslav Dubeyko <slava@dubeyko.com>, Trond Myklebust
+ <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Chuck Lever
+ <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>, NeilBrown
+ <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo
+ <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, Alexander Viro
+ <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Dave
+ Kleikamp <shaggy@kernel.org>, Theodore Ts'o <tytso@mit.edu>, Miklos Szeredi
+ <miklos@szeredi.hu>, Andreas Hindborg <a.hindborg@kernel.org>, Breno Leitao
+ <leitao@debian.org>, Kees Cook <kees@kernel.org>, "Tigran A. Aivazian"
+ <aivazian.tigran@gmail.com>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, ocfs2-devel@lists.linux.dev,
+ linux-nilfs@vger.kernel.org, linux-nfs@vger.kernel.org,
+ jfs-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
+ linux-mm@kvack.org
+Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
+Message-ID: <20260525182134.04045610@pumpkin>
+In-Reply-To: <2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
+References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
+	<20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
+	<2omm5gmnv2khshoxkrag5rusd3qzrsqyjgsef2syxgryrtg6vq@ao7oabqwebgo>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-0.66 / 15.00];
-	MID_CONTAINS_FROM(1.00)[];
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Spamd-Result: default: False [-0.16 / 15.00];
+	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[infradead.org,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[infradead.org:s=casper.20170209];
+	MID_RHS_NOT_FQDN(0.50)[];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1601-lists,linux-nilfs=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
 	RCVD_TLS_LAST(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
-	FROM_NEQ_ENVFROM(0.00)[willy@infradead.org,linux-nilfs@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-1602-lists,linux-nilfs=lfdr.de];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[infradead.org:+];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	RCPT_COUNT_TWELVE(0.00)[33];
+	FREEMAIL_CC(0.00)[kernel.org,suse.com,fasheh.com,evilplan.org,linux.alibaba.com,gmail.com,dubeyko.com,oracle.com,brown.name,redhat.com,talpey.com,zeniv.linux.org.uk,mit.edu,szeredi.hu,debian.org,vger.kernel.org,lists.linux.dev,lists.sourceforge.net,kvack.org];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	TAGGED_RCPT(0.00)[linux-nilfs];
+	FROM_NEQ_ENVFROM(0.00)[davidlaightlinux@gmail.com,linux-nilfs@vger.kernel.org];
+	DKIM_TRACE(0.00)[gmail.com:+];
 	NEURAL_HAM(-0.00)[-1.000];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,infradead.org:email,infradead.org:mid,infradead.org:dkim]
-X-Rspamd-Queue-Id: 6B4F95CD5B8
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[linux-nilfs];
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,suse.cz:email]
+X-Rspamd-Queue-Id: 67B595CD51D
 X-Rspamd-Action: no action
 X-Rspamd-Server: lfdr
 
-Avoid an extra indirect function call by using bh_submit() instead of
-submit_bh().
+On Mon, 25 May 2026 18:17:04 +0200
+Jan Kara <jack@suse.cz> wrote:
 
-Signed-off-by: Matthew Wilcox (Oracle) <willy@infradead.org>
-Cc: linux-nilfs@vger.kernel.org
----
- fs/nilfs2/mdt.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> On Sat 23-05-26 20:54:22, Mike Rapoport (Microsoft) wrote:
+> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
+> > allocations larger than PAGE_SIZE.
+> > But kmalloc() can handle such cases with essentially the same fallback.
+> > 
+> > Replace use of __get_free_pages() with kmalloc() and simplify
+> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
+> > freed with kfree().
+> > 
+> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>  
+> 
+> Looks good. Feel free to add:
+> 
+> Reviewed-by: Jan Kara <jack@suse.cz>
+> 
+> I'll just note that we allocate here fs block size large buffer so the same
+> kind of allocator as we use for folios would be even better. But that's a
+> different cleanup I guess.
 
-diff --git a/fs/nilfs2/mdt.c b/fs/nilfs2/mdt.c
-index 09adb40c65e5..26043db677cd 100644
---- a/fs/nilfs2/mdt.c
-+++ b/fs/nilfs2/mdt.c
-@@ -148,9 +148,8 @@ nilfs_mdt_submit_block(struct inode *inode, unsigned long blkoff, blk_opf_t opf,
- 	}
- 	map_bh(bh, inode->i_sb, (sector_t)blknum);
- 
--	bh->b_end_io = end_buffer_read_sync;
- 	get_bh(bh);
--	submit_bh(opf, bh);
-+	bh_submit(bh, opf, bh_end_read);
- 	ret = 0;
- 
- 	trace_nilfs2_mdt_submit_block(inode, inode->i_ino, blkoff,
--- 
-2.47.3
+Would kvalloc() be more appropriate here?
+Does __get_free_pages() return physically contiguous memory?
+
+-- David
+
+> 
+> 								Honza
+> 
+> > ---
+> >  fs/jbd2/journal.c | 7 ++-----
+> >  1 file changed, 2 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/fs/jbd2/journal.c b/fs/jbd2/journal.c
+> > index 4f397fcdb13c..1137b471e490 100644
+> > --- a/fs/jbd2/journal.c
+> > +++ b/fs/jbd2/journal.c
+> > @@ -2784,7 +2784,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
+> >  	if (size < PAGE_SIZE)
+> >  		ptr = kmem_cache_alloc(get_slab(size), flags);
+> >  	else
+> > -		ptr = (void *)__get_free_pages(flags, get_order(size));
+> > +		ptr = kmalloc(size, flags);
+> >  
+> >  	/* Check alignment; SLUB has gotten this wrong in the past,
+> >  	 * and this can lead to user data corruption! */
+> > @@ -2795,10 +2795,7 @@ void *jbd2_alloc(size_t size, gfp_t flags)
+> >  
+> >  void jbd2_free(void *ptr, size_t size)
+> >  {
+> > -	if (size < PAGE_SIZE)
+> > -		kmem_cache_free(get_slab(size), ptr);
+> > -	else
+> > -		free_pages((unsigned long)ptr, get_order(size));
+> > +	kfree(ptr);
+> >  };
+> >  
+> >  /*
+> > 
+> > -- 
+> > 2.53.0
+> >   
 
 
