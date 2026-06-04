@@ -1,81 +1,84 @@
-Return-Path: <linux-nilfs+bounces-1626-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1627-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id 0v5cHvQXIWpo/AAAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1626-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Thu, 04 Jun 2026 08:15:16 +0200
+	id AturE0mLIWpHIgEAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1627-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Thu, 04 Jun 2026 16:27:21 +0200
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDE8763D308
-	for <lists+linux-nilfs@lfdr.de>; Thu, 04 Jun 2026 08:15:15 +0200 (CEST)
+Received: from sin.lore.kernel.org (sin.lore.kernel.org [IPv6:2600:3c15:e001:75::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AD55640DC1
+	for <lists+linux-nilfs@lfdr.de>; Thu, 04 Jun 2026 16:27:20 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=kernel.org header.s=k20260515 header.b=YZdzENTk;
-	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1626-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1626-lists+linux-nilfs=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=quarantine) header.from=kernel.org;
+	dkim=pass header.d=mit.edu header.s=outgoing header.b="mb/IBx2t";
+	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1627-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 2600:3c15:e001:75::12fc:5321 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1627-lists+linux-nilfs=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=mit.edu;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by tor.lore.kernel.org (Postfix) with ESMTP id 58DC8302BCF3
-	for <lists+linux-nilfs@lfdr.de>; Thu,  4 Jun 2026 06:15:14 +0000 (UTC)
+	by sin.lore.kernel.org (Postfix) with ESMTP id 4827F30F4C8B
+	for <lists+linux-nilfs@lfdr.de>; Thu,  4 Jun 2026 14:08:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B4463D6489;
-	Thu,  4 Jun 2026 06:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B94CC43E4BD;
+	Thu,  4 Jun 2026 14:08:39 +0000 (UTC)
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A1E93D6664;
-	Thu,  4 Jun 2026 06:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D44F40913A
+	for <linux-nilfs@vger.kernel.org>; Thu,  4 Jun 2026 14:08:38 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1780553711; cv=none; b=YwpXpRyac0zMKTITkcSG77j+ivcxA+XdcmJM6vh80QbElxM1ys/n/OL38V0JQNIphAyAYpIoCVFDrTm3kxyrRhb2/jMFghlVIHWqTOEv4dsxbF8I0TCBLVsRPzxkafNHF6dkq5XaiEo3dsVJ9UVC8Vz1w3icQmXrzvNislspcyM=
+	t=1780582119; cv=none; b=qrES8Opr1WyzyAUSo25hBPaIcRSxzw6wiw0aBmhCOQ8zu9C/b0BRIIUpy4J8y2mDdLlSCZcI+jZseeQJd7oFWEHi4d9ytZInPB+XfwM8sypcoN5ekJplCWZGcrGLhv6ATfZimCBtVnDnI9owASQks+2ZfUhfGLkPjFDpjOWH4FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1780553711; c=relaxed/simple;
-	bh=atVSAfHhDYBovprcHMCjWAChHvgsN9Zly/q2GkqZTdM=;
+	s=arc-20240116; t=1780582119; c=relaxed/simple;
+	bh=mvIP8ngdXo4jA96Ea8p105NJqwzP24HZicHRCFQ/FdQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HsSXpO8srZ6x0paQBdomoVZac5qJ6y8fWyb9dHJTenYOQFkVehtDnMX04uyoKLwHGpT2uJJrwW3hzPQrhqDUbDALnitmkVsRlkUQ9BaRzSk8foi4mvbjn3oorBLKxDi0zuYB0BArUChRHx43RBAzMJPbdQ4NG6cB3SlU9PwucbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZdzENTk; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6611F00893;
-	Thu,  4 Jun 2026 06:15:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1780553709;
-	bh=maKYg38a30VxIX8QCcSBujTuAdCuRyvh3rWBPMbaTa8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=YZdzENTkOazs5XSTumSTfKjNe97Bx1gIjbWPEe0rEOYizlJ+PG3Skn0hS26Ux74Jl
-	 AXCvUF5ahoFRq9So4PlOjS3IWyCIq5NTGNUoudm5MMRDdJhNBKN1LdgBDErw0LtVFd
-	 jzKhcofKN8uPI1V71amXjFQlau+IKLTXzAiqIsn/g+sTxSoMC/LouWT+HEHb+idjuI
-	 8F/5ZnoIZWEz4pT/Oim/JLh5w98h2ycR5nXmcdy58o4NERbYl1r+Hpa7rpblTquRvP
-	 owmPxKztmOlhAuoaO/iNyxsWnpCrb8pm0xA6MdS2Qr/cnlFMvHA1Yq1Qntrgg1OIwG
-	 JJVS4xnu2W56g==
-Date: Thu, 4 Jun 2026 09:14:57 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Theodore Tso <tytso@mit.edu>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgYftg3RlDKS5rlf+jPVYMtH4RpYMPmPkt37JmrQH7fMj2SNUlNmG5DcTLrZ6bc+ir2C2gTnm7u4ed1PV20KhietOobEsYlKzIzI4JHbFhzGDEcuHE2jKi7rpF0hWbgqGxGfkS204paHuRaZPHum6kC0NLReVVP0wf0Jefz/TQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu; spf=pass smtp.mailfrom=mit.edu; dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.b=mb/IBx2t; arc=none smtp.client-ip=18.9.28.11
+Received: from macsyma.thunk.org (pool-173-48-113-247.bstnma.fios.verizon.net [173.48.113.247])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 654E6rvL025698
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 4 Jun 2026 10:06:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1780582020; bh=5s99V2F+cdxC+MwrT27Mau0Uu2siNBpgurBs08PszHI=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=mb/IBx2t4Epn1180cTZPKExA+5u946+tIwlV31jpfDtN0UiOTyD0Hl31IYSdo6HEC
+	 kuQbQnyc5edecobCL5JrbpcyK5pHbtgHcD/Jc8TQWSO1qBkfNL95JoWIgDAs8IGKBt
+	 uBG9CP9x40IWHSEnEPklfmc8Uei3gfqs9m/dTJEFJODXZ6nVP3b/R8vroBVkUEW1Gq
+	 tr4zxnTzkZEmmCDYotcI+GORmTAykiAacHUlAIw/6Z/bI4lAyVeYWvg7XuwidEXkQe
+	 60NEfoN/RFaTuY9hSDI9GhFLE2N+msS6oWqaHWyRFqJPqBnGuLGlZsZ0vrl0RBcYOl
+	 I/KRqdjz9TCRQ==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id ED63E37A6B9; Thu,  4 Jun 2026 10:05:52 -0400 (EDT)
+Date: Thu, 4 Jun 2026 10:05:52 -0400
+From: "Theodore Tso" <tytso@mit.edu>
+To: Mike Rapoport <rppt@kernel.org>
 Cc: Jan Kara <jack@suse.com>, Mark Fasheh <mark@fasheh.com>,
-	Joel Becker <jlbec@evilplan.org>,
-	Joseph Qi <joseph.qi@linux.alibaba.com>,
-	Ryusuke Konishi <konishi.ryusuke@gmail.com>,
-	Viacheslav Dubeyko <slava@dubeyko.com>,
-	Trond Myklebust <trondmy@kernel.org>,
-	Anna Schumaker <anna@kernel.org>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>,
-	Olga Kornievskaia <okorniev@redhat.com>,
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
-	Dave Kleikamp <shaggy@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>,
-	"Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
-	linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
-	linux-ext4@vger.kernel.org, linux-mm@kvack.org
+        Joel Becker <jlbec@evilplan.org>,
+        Joseph Qi <joseph.qi@linux.alibaba.com>,
+        Ryusuke Konishi <konishi.ryusuke@gmail.com>,
+        Viacheslav Dubeyko <slava@dubeyko.com>,
+        Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>,
+        Chuck Lever <chuck.lever@oracle.com>, Jeff Layton <jlayton@kernel.org>,
+        NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>,
+        Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>,
+        Dave Kleikamp <shaggy@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
+        Andreas Hindborg <a.hindborg@kernel.org>,
+        Breno Leitao <leitao@debian.org>, Kees Cook <kees@kernel.org>,
+        "Tigran A. Aivazian" <aivazian.tigran@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        ocfs2-devel@lists.linux.dev, linux-nilfs@vger.kernel.org,
+        linux-nfs@vger.kernel.org, jfs-discussion@lists.sourceforge.net,
+        linux-ext4@vger.kernel.org, linux-mm@kvack.org
 Subject: Re: [PATCH 10/17] jbd2: replace __get_free_pages() with kmalloc()
-Message-ID: <aiEX4UTxEnBTjVKo@kernel.org>
+Message-ID: <ximvn6jwgtam665a4droqkp73o55kwvd5uukyidwjesmysobth@oe7rigpsjfkz>
 References: <20260523-b4-fs-v1-0-275e36a83f0e@kernel.org>
  <20260523-b4-fs-v1-10-275e36a83f0e@kernel.org>
  <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
+ <aiEX4UTxEnBTjVKo@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
@@ -84,96 +87,66 @@ List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <yfzx3jgzwesernofl7mzixa2mhjfii5v3o7yapghtmozixrpfu@6bsh7iixyiov>
+In-Reply-To: <aiEX4UTxEnBTjVKo@kernel.org>
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-0.66 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	DMARC_POLICY_ALLOW(-0.50)[kernel.org,quarantine];
-	R_DKIM_ALLOW(-0.20)[kernel.org:s=k20260515];
-	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
+	DMARC_POLICY_ALLOW(-0.50)[mit.edu,none];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[mit.edu:s=outgoing];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c15:e001:75::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
+	TAGGED_FROM(0.00)[bounces-1627-lists,linux-nilfs=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1626-lists,linux-nilfs=lfdr.de];
-	FORGED_RECIPIENTS(0.00)[m:tytso@mit.edu,m:jack@suse.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:joseph.qi@linux.alibaba.com,m:konishi.ryusuke@gmail.com,m:slava@dubeyko.com,m:trondmy@kernel.org,m:anna@kernel.org,m:chuck.lever@oracle.com,m:jlayton@kernel.org,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,m:tom@talpey.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:shaggy@kernel.org,m:miklos@szeredi.hu,m:a.hindborg@kernel.org,m:leitao@debian.org,m:kees@kernel.org,m:aivazian.tigran@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:ocfs2-devel@lists.linux.dev,m:linux-nilfs@vger.kernel.org,m:linux-nfs@vger.kernel.org,m:jfs-discussion@lists.sourceforge.net,m:linux-ext4@vger.kernel.org,m:linux-mm@kvack.org,m:konishiryusuke@gmail.com,m:aivaziantigran@gmail.com,s:lists@lfdr.de];
-	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_SENDER(0.00)[rppt@kernel.org,linux-nilfs@vger.kernel.org];
-	RCPT_COUNT_TWELVE(0.00)[32];
-	FREEMAIL_CC(0.00)[suse.com,fasheh.com,evilplan.org,linux.alibaba.com,gmail.com,dubeyko.com,kernel.org,oracle.com,brown.name,redhat.com,talpey.com,zeniv.linux.org.uk,suse.cz,szeredi.hu,debian.org,vger.kernel.org,lists.linux.dev,lists.sourceforge.net,kvack.org];
-	MIME_TRACE(0.00)[0:+];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORWARDED(0.00)[lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:rppt@kernel.org,m:jack@suse.com,m:mark@fasheh.com,m:jlbec@evilplan.org,m:joseph.qi@linux.alibaba.com,m:konishi.ryusuke@gmail.com,m:slava@dubeyko.com,m:trondmy@kernel.org,m:anna@kernel.org,m:chuck.lever@oracle.com,m:jlayton@kernel.org,m:neil@brown.name,m:okorniev@redhat.com,m:Dai.Ngo@oracle.com,m:tom@talpey.com,m:viro@zeniv.linux.org.uk,m:brauner@kernel.org,m:jack@suse.cz,m:shaggy@kernel.org,m:miklos@szeredi.hu,m:a.hindborg@kernel.org,m:leitao@debian.org,m:kees@kernel.org,m:aivazian.tigran@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-fsdevel@vger.kernel.org,m:ocfs2-devel@lists.linux.dev,m:linux-nilfs@vger.kernel.org,m:linux-nfs@vger.kernel.org,m:jfs-discussion@lists.sourceforge.net,m:linux-ext4@vger.kernel.org,m:linux-mm@kvack.org,m:konishiryusuke@gmail.com,m:aivaziantigran@gmail.com,s:lists@lfdr.de];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[32];
+	FORGED_SENDER(0.00)[tytso@mit.edu,linux-nilfs@vger.kernel.org];
+	MIME_TRACE(0.00)[0:+];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FREEMAIL_CC(0.00)[suse.com,fasheh.com,evilplan.org,linux.alibaba.com,gmail.com,dubeyko.com,kernel.org,oracle.com,brown.name,redhat.com,talpey.com,zeniv.linux.org.uk,suse.cz,szeredi.hu,debian.org,vger.kernel.org,lists.linux.dev,lists.sourceforge.net,kvack.org];
 	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_SOME(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	ALIAS_RESOLVED(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
 	PRECEDENCE_BULK(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[rppt@kernel.org,linux-nilfs@vger.kernel.org];
-	DKIM_TRACE(0.00)[kernel.org:+];
-	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_NEQ_ENVFROM(0.00)[tytso@mit.edu,linux-nilfs@vger.kernel.org];
+	DKIM_TRACE(0.00)[mit.edu:+];
+	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-nilfs];
-	MISSING_XM_UA(0.00)[];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:helo,tor.lore.kernel.org:rdns,vger.kernel.org:from_smtp]
+	MISSING_XM_UA(0.00)[];
+	ASN(0.00)[asn:63949, ipnet:2600:3c15::/32, country:SG];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sin.lore.kernel.org:helo,sin.lore.kernel.org:rdns,vger.kernel.org:from_smtp,oe7rigpsjfkz:mid]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: DDE8763D308
+X-Rspamd-Queue-Id: 4AD55640DC1
 
-Hi Ted,
+On Thu, Jun 04, 2026 at 09:14:57AM +0300, Mike Rapoport wrote:
+> There's no memory overhead when order == 1.
+> As for the CPU overhead, the difference for the fast path allocations is
+> not measurable and for the slow path it is anyway determined by the amount
+> of reclaim involved rather than by what allocator is used.
 
-On Wed, Jun 03, 2026 at 09:50:15AM -0400, Theodore Tso wrote:
-> On Sat, May 23, 2026 at 08:54:22PM +0300, Mike Rapoport (Microsoft) wrote:
-> > jbd2_alloc() falls back from kmem_cache_alloc() to __get_free_pages() for
-> > allocations larger than PAGE_SIZE.
-> > But kmalloc() can handle such cases with essentially the same fallback.
-> > 
-> > Replace use of __get_free_pages() with kmalloc() and simplify
-> > jbd2_free() as both kmem_cache_alloc() and kmalloc() allocations can be
-> > freed with kfree().
-> > 
-> > Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> 
-> So historically __get_free_pages() was more efficient than kmalloc
-> since previously the kmalloc overhead meant that a single 4k
-> allocation would take two pages instead of one.  I'm guessing that has
-> since changed?
+Thanks for confirming!
 
-Today there's no memory overhead for kmalloc(PAGE_SIZE). Cache refill takes
-more pages of course, but they will be handed over to the next
-kmalloc(PAGE_SIZE).
- 
-> Can you explain to someone who hasn't been tracking the changes in
-> kmalloc over time:
-> 
->   * How does the efficiency of kmalloc compare to __get_free_page when
->     order == 1?  What is the overhead in terms of memory overhead?
->     I'm a bit less concerned about CPU overhead, but it would be good
->     to know that?
+> Larger allocations (> PAGE_SIZE * 2) go straight to the page allocator.
 
-There's no memory overhead when order == 1.
-As for the CPU overhead, the difference for the fast path allocations is
-not measurable and for the slow path it is anyway determined by the amount
-of reclaim involved rather than by what allocator is used.
- 
->   * What does kmalloc() do when a size > PAGE_SIZE is passed?  Will it
->     return contiguous memory, or return an error or worse, BUG?  And
->     same question as above; what is the overhead of kmalloc() when
->     size is 2*PAGE_SIZE?  8*PAGE_SIZE?
+Another question: Today, we can either use kmalloc() (or
+__get_free_pages, previously) or vmalloc().  Is there a way a file
+system can say, "give me physically contiguous pages if possible, but
+if it's too hard --- with some TBD to specify what 'too hard' means or
+can be specified --- fall back to a vmalloc-style approach, with the
+page table / TLB overhead that this might imply"?
 
-For size >= PAGE_SIZE kmalloc() always returns contiguous page aligned
-memory.
+I suppose we could do it with kmalloc() with some flags which to
+prevent forced reclaim / compaction, and if that fails, then fall back
+to vmalloc().  Is there a better way?
 
-Larger allocations (> PAGE_SIZE * 2) go straight to the page allocator. 
+Thanks,
 
-> Thanks,
-> 
-> 						- Ted
-
--- 
-Sincerely yours,
-Mike.
+					- Ted
 
