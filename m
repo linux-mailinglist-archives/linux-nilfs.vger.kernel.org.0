@@ -1,109 +1,109 @@
-Return-Path: <linux-nilfs+bounces-1639-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1638-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id aaN4DIl3NWqDxAYAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1639-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Jun 2026 19:08:25 +0200
+	id A3LRKod3NWqCxAYAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1638-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Jun 2026 19:08:23 +0200
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id B75206A739E
-	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Jun 2026 19:08:24 +0200 (CEST)
+Received: from sea.lore.kernel.org (sea.lore.kernel.org [IPv6:2600:3c0a:e001:db::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03ADF6A739B
+	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Jun 2026 19:08:23 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=gmail.com header.s=20251104 header.b=M+UmEWOR;
-	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1639-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1639-lists+linux-nilfs=lfdr.de@vger.kernel.org";
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=mVwrkR93;
+	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1638-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 2600:3c0a:e001:db::12fc:5321 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1638-lists+linux-nilfs=lfdr.de@vger.kernel.org";
 	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=2")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id B3C6730B0836
+	by sea.lore.kernel.org (Postfix) with ESMTP id 5F58B3079CA0
 	for <lists+linux-nilfs@lfdr.de>; Fri, 19 Jun 2026 17:07:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA293BE174;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E0923B83FE;
 	Fri, 19 Jun 2026 17:07:41 +0000 (UTC)
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F8302FE056
-	for <linux-nilfs@vger.kernel.org>; Fri, 19 Jun 2026 17:07:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1193BE174
+	for <linux-nilfs@vger.kernel.org>; Fri, 19 Jun 2026 17:07:39 +0000 (UTC)
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1781888861; cv=pass; b=YBrTcLItkIHRhnbUPk3ngySMykdGh0ptqOtOwsX1ggxCy84dUpgSYexf4vBjGr2d2l5PzPqlQ0sS7sufisG36XtzI/T9KaJECMAHm//1VwIc6U/UZi5OseQ+18f3rqjqHHvWhPyUO9S7uhCSza4yKcbMMTf+nlH5scIIEock7j8=
+	t=1781888861; cv=pass; b=NLCdVrkHXj51pDzeSal4t4jdagsQ5sbc0DKDueuKQgxo6pd7RB7/wpJ+ACXyoZoCUL2Z0G9URxe9bUA6pYt7KXrBCawzXY3B5B3EEKafzcgyu8YmL9V0AvlEvYY9nK+W2tzMrZyzoULyzZUY4UnVa/XIsZn2ab2NhM4/HwbsAzQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1781888861; c=relaxed/simple;
-	bh=SbV9FgChYJOJVlI6gF5ezWIzNMHYHaEnSO3A4pV8Vw8=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=nnjPSQnXd4vw96FjfE+KnIvNPe/hfNwBAtywGt1XDBCxtxqgRrk6wh1Nz3fOCEJkh8XoAPYUQkpwH/2Bb1ywi2Qq+l4hZC5LcA0BH2B0vck082PZM+JwK3woql4p26UhAIYFeGBQYZeIUXIUo2bJ9Htu5UPSArfjoV2mILlfpws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M+UmEWOR; arc=pass smtp.client-ip=209.85.128.171
-Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-7dfceeaf168so33788317b3.0
-        for <linux-nilfs@vger.kernel.org>; Fri, 19 Jun 2026 10:07:40 -0700 (PDT)
+	bh=PHbOwDSZDfn8sD2jCiOH8/z9cSHPBd/WrmCPiQ/OEuo=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=SNjQAxruXQK6geRh2/E81Zqt4IGi6DtEj7g3rGPragcPjsthcgf84EVXAVIOjEvw95aZgCI2bLm/pC8VHoKZJ1ZGzFDyhjmus/hI1pEm06mo47nLpta0/sxyVvzf1BVuJVb+mLGFNwkmFLpkct7Z6KxUXVU3PFnnW5Q17/2RFw0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mVwrkR93; arc=pass smtp.client-ip=209.85.128.176
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7e0aa486af8so32047917b3.1
+        for <linux-nilfs@vger.kernel.org>; Fri, 19 Jun 2026 10:07:39 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; t=1781888859; cv=none;
         d=google.com; s=arc-20240605;
-        b=JN5vp3QmRVQElPrsSW755iratK/ohGD+D0E4lh/3P8FwquJ7pfTmGrS5fJubmRlU84
-         DhGs5eS2QlHmR3ePi5EYLIQbmGj3B7OuZya64lDMftQ36ksFngw30XkWRoyMK3KuZMKi
-         tqoDFHLTQtiYvssYhzOikZZ7EFY9L57Hk6R54v5u7NMlE3RErPJlLJ8B/HapQMh1mSrS
-         snivROKHJ0ljy7JZ01xIqeScyzF8AScVIFWQ8sOKJqgY4O+HS8ckTrgO4vvCxgIo5XuB
-         tFcIPAtMczVYRLZqMxuQGo8EzOvWWfok4sCrKpVRpzzVFFz+0Ue5ECgx6oJLIODIDQ4n
-         maCw==
+        b=Fq+5pipRl9+7JeuDvvP4L/93Jeol/QEC2o0WC9T8HSZ8cEbFed5l3Cd9qvH4T5eX6j
+         go1uqkyMyZNLh3RhMouZz4mfTGB21yKSDuu12nrSgtFboc4/dhHFw2lnpI5qa8BNbpUY
+         k7I1OhMzUCmvQou3C4oYCIeZrEtFTGtoNkMoSnqj7tYY52fs2OjZWdpjD7o3rCDXVbIy
+         5cJGMmdZu0pCkYlnnXhsIsDowIkfdVFKCJZBEUiCK/SJi1kfc5xVWaS2XmPD35QXHZcY
+         zRM8lC7TYV7jnsaxaPUk73O8EKVxiUxcmf9Z24Pft7nxISKIfVBq93SsBhURhej0dtAH
+         +Plg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=to:subject:message-id:date:reply-to:from:mime-version
          :dkim-signature;
-        bh=SbV9FgChYJOJVlI6gF5ezWIzNMHYHaEnSO3A4pV8Vw8=;
+        bh=PHbOwDSZDfn8sD2jCiOH8/z9cSHPBd/WrmCPiQ/OEuo=;
         fh=Afbqn6eya/G+dOUTlJ1LpDbmd7FU0jRH4DaWLsAvfgU=;
-        b=G9hn3MbKcAAXoNroIJvO4yhOOmcd6WKI4BWiYNqVV8UmwsKXpCp1c9CUWpLXB1LSeI
-         /ZK5M4a7eBQmR2nFIGPpOWRq1AiQ3jbyghfbGX1xbBhu9j3zLVJfi4Ywuxkn41vXaNgG
-         1cp79NAUpwhr/ZK3Q/Akrlfv1O9MvM8LE5sNg/u54YtgBiqXbXNNZH0Yrfdgu+X938d1
-         DS94nyRTjf+WM+3+MOTPI0d0wkdviK3MVG04LMAHXp4QfO+9O429V5+ktYz/3+9VvLpp
-         rw5A4cEIRIeLapvyjnUQQNSlraIhcQ0H3doUIB5/DeUZ5AcGbK/pwKHwvPL2ybxe5fkP
-         MkfQ==;
+        b=C+wAE0SpFYFKmlEjcE8lQTFOXeG5ybKc8D6M5npB/5OcB1WMaLPX2CJR+cJZlN/CmD
+         gCukSErofGpLbVO7K2SN4HUX3Jfx7k1IymISDHUby84iRJF1Na8HpprOYvAzyPUisTNZ
+         2KxffqPubz50zkZ82tyMD0CO6rVBTKtrfnH3+OsAM3zKLmM84JF9nJwdwNoFj9jgGIO9
+         kcjgszMFoJ+g84OJ2pXuviS792jciXDLnfRvvLfMNRHnBDRi3bXPXy/W6vXdv8JyLyQr
+         EsoXa7+XQtuvYnzNzWWhsfYBs/0PBs2RRUPMoU/0Q1zgBUef+pcMyvL2yO6Gn6swWPJC
+         QH8Q==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1781888859; x=1782493659; darn=vger.kernel.org;
         h=to:subject:message-id:date:reply-to:from:mime-version:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SbV9FgChYJOJVlI6gF5ezWIzNMHYHaEnSO3A4pV8Vw8=;
-        b=M+UmEWORZxh6HS6iYylOqAHtIAw/7AsQBrWFzMsLxJPkBxNy1heGhItkVAS8YIYlAR
-         64B31llx3DUiXckKWnrOx9uHBAAwY2FJtuAmNlwrxEcq1DoWM3FZhKcMyfzRYZC6cj1g
-         Ojzo6A9jDWzRl7+G75OnY8/ZGmyUSxXzAM+2t/rUPdOQVmYN41om3r/GuDgZDXyop3rQ
-         dN5t3kleZ9PjPtDomxWB5vYgqPRyBwElugyem7YW/gQKXZOrL+mangl52QHNXnp1TBV0
-         wc9Rj4iUDigC0LGESyVneR4iC1u97vbWH1//z2V2EM4Y1MQ8hmhc2zLf8HN+8hOcHFHY
-         tW8Q==
+        bh=PHbOwDSZDfn8sD2jCiOH8/z9cSHPBd/WrmCPiQ/OEuo=;
+        b=mVwrkR93Hn3+CO8lhNjMBw2b8CM0So6Gum7PJLKHsm8jOmQKKFMkObqxSMUhdDgFgc
+         SxZtN3fYOkFr4n5FZcaquMagg0p4n22DWOb226XnI5SXosgK8tZjGdpNMF1EKgsP4tsD
+         vzrmm/2+9gsS+yF8Fba6xkp0pYMaiCQu0dSmkSjVYzaH4ohlIMtjmaaB14c6U4c3ZmBS
+         kEq7FZyBam0oGc+AuqVVP9v3nR8OP2Iofwc1Z8RpRH1j7ALyi5sNy4bjJajqB+sQgplx
+         FeGZFYLfsByA1y7lRLbUvCXQoA/wL7FKLIYqRbHTStMY5nhlxD0tpsxi0VX2Ub+r3To2
+         JDtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1781888859; x=1782493659;
         h=to:subject:message-id:date:reply-to:from:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SbV9FgChYJOJVlI6gF5ezWIzNMHYHaEnSO3A4pV8Vw8=;
-        b=I9qKOx9SIwgTwv1EY7lRqMar4rttKNLUkikfcMDIN6EbTDySRG3XmP4fl2ywLgk7Le
-         EWB5fYilSFkohXsv/AAjDkD00ZiuN4n3Fol8mPqBPGN6uRLI77CYTLB4Rp/QbnJDnJTa
-         gERQj+pcNnZjOV72LhbQhBPkRRA9df+/ErTggoK33XM2/XFkwmVpl44yB43vDNIaRRYT
-         sQU86lGNIKTeosrITevNoFQVxdA0xjoEN8Vxutaiu9qJRnVRPQx8tH092eLEnFPK3928
-         cAfVQQmvimqzSYl3/ebk4JA7iRHdvExqTuvXD7iJqk7TSzVGjy9T/FCLP2RqErP8DqSU
-         l8Sg==
-X-Gm-Message-State: AOJu0YySnuikuSO70GIoABFnfmSKhNB6Co7MtVUodRKGc+mg8jb6yZbY
-	mjEMaCB8/hTEq8OcOqXQuvj366yPxSGYhqOEYXIk357AkPngcH4VHtp/PdqdcbnuRaR99CT3u2b
-	nIzgVs/lGMO08+JihGoOBEkQEa0FoJxQVJw==
-X-Gm-Gg: AfdE7ckrF4TNelOdYTld/E5nLpD6n94xEfp3dshlwTuvPjzeuU2wva3FFIX2phpKZWF
-	NZr00FBBNNyQZOIDMTMQBKKIL5BTdMO1kcm9tZnxEqcpt5gKnMpI8m+Hv4VGS1VPLDs2csOBhaj
-	tc9i5QZXfgNc9fsb9rTszD6iUJOy27Jleyh6A23uogQO3WPvDdjLh8uMVFlvvjHPT/zUC8vp80e
-	A6D2D9Ar6EHOZqbiGNJxI5xYN3R7wwmHpM4ZDhz9DiWxZkDCet+E2FLkCMozeMVnHVB9MZ2
+        bh=PHbOwDSZDfn8sD2jCiOH8/z9cSHPBd/WrmCPiQ/OEuo=;
+        b=S5/mup2jeZ1xpCaAlMCgkXLfd4serAfeFyaQJAlC48pvpXJ7r8TJ2UXbSPVkNJdVzv
+         Q21IaJYqtmQqKjVktcrbqqXamdnjKqOtdO3UUApbEy055+uXkZZtkx4oB+9RyKwVo4o5
+         hbcO3YJ6cANGw5yeegIF47v56rMrXoh+15TQnHhP+EBx73q3JDsWQWt505ezIR4Bts7H
+         ATrgz2vbCT/h0fHN4x/rDv9j5tR/cZd4Px8mbCShd+dNbSEcyiO/QjZHcu/roXT7+QC+
+         gbwREUyaX5HU1f6iRAcJ3QQrRdEeWTMwoP4w6N0lOx09vf6mcwEnrVvdbjNTb1poasGW
+         jLyQ==
+X-Gm-Message-State: AOJu0YxNn6SCsJAf5Vvmv+apYxQSlWAkhygUV+1xpG+c80AUT17kr7Uu
+	hNvEuEebjboQjyTEcW8+a+JF42f5tyZ3rSMq4qhjcpOZIfbR6IZg7xDtaCSdHkmPwsFbKt0NVoU
+	RE8yv6EhFKiE+GnKKLDjOIxG8nam/5sIQdg==
+X-Gm-Gg: AfdE7ckV/3vVOOKBJmLZyHEJo+ObLNV+UesCtMrDT4TJEU81Xg28c0rTC0exeeWum4y
+	bBY/JwbzwOJP0/GiMwKfgN7xqCyw9hpJv19G8xvHM6K7UEi/EY0ne/PkTKRcdQctGwvbSfo+QjJ
+	bZpx6q2uvxpvJdfts5DIiFTkT3RBVL8lwNP5D42kVrOddQ5+G9jOXkHJ98hwM1N58Sc00/8nIhs
+	SN6BJ7k8mfzD3ypouQYFEA5iyQVUXk9CLfXKJ05WkUkYPyamyD62/ThrMLcPJk4q8Rk
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:690c:c250:b0:7ba:f2f1:86c0 with SMTP id
- 00721157ae682-801761c85f3mr33814387b3.12.1781888859153; Fri, 19 Jun 2026
- 10:07:39 -0700 (PDT)
+X-Received: by 2002:a05:690c:6b12:b0:7ef:e7ec:b6e7 with SMTP id
+ 00721157ae682-80123a87d47mr36378587b3.27.1781888858860; Fri, 19 Jun 2026
+ 10:07:38 -0700 (PDT)
 Received: from 927538837578 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 19 Jun 2026 13:07:37 -0400
+ HTTPREST; Fri, 19 Jun 2026 13:07:38 -0400
 Received: from 927538837578 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 19 Jun 2026 13:07:37 -0400
+ HTTPREST; Fri, 19 Jun 2026 13:07:38 -0400
 From: "Linux NILFS <linuxnilfs@gmail.com>" <linuxnilfs@gmail.com>
 Reply-To: Linux NILFS <linux-nilfs@vger.kernel.org>
-Date: Fri, 19 Jun 2026 13:07:37 -0400
-X-Gm-Features: AVVi8Cf5TKxpOytwC2QJQc5Tfq4z2QAx6XjEW0YYXOKoMCHFEaRTUG4FFIugVHw
-Message-ID: <CAE7Udf9xR1DifccyaRcNUApivarV2wBrrGnLaKrv1PiaoWdsSQ@mail.gmail.com>
-Subject: NILFS utils 2.3.1 was released
+Date: Fri, 19 Jun 2026 13:07:38 -0400
+X-Gm-Features: AVVi8CePNJg5CtZtjh5wMx9NaHKbnqpzBFWSo3z17BMWptpD7CgI0p5YXnAGMmw
+Message-ID: <CAE7Udf-Y9trkpVONYC0NodvconyXcqwrSXDCzEf10mWjxTcPDw@mail.gmail.com>
+Subject: NILFS utils 2.2.17 was released
 To: linux-nilfs@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
@@ -111,12 +111,12 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=2];
 	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
 	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c0a:e001:db::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
 	REPLYTO_DOM_NEQ_FROM_DOM(0.00)[];
-	TAGGED_FROM(0.00)[bounces-1639-lists,linux-nilfs=lfdr.de];
+	TAGGED_FROM(0.00)[bounces-1638-lists,linux-nilfs=lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
 	FORGED_RECIPIENTS(0.00)[m:linux-nilfs@vger.kernel.org,s:lists@lfdr.de];
 	FROM_HAS_DN(0.00)[];
@@ -138,15 +138,15 @@ X-Spamd-Result: default: False [-2.16 / 15.00];
 	MID_RHS_MATCH_FROMTLD(0.00)[];
 	MISSING_XM_UA(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
+	ASN(0.00)[asn:63949, ipnet:2600:3c0a::/32, country:SG];
 	TAGGED_RCPT(0.00)[linux-nilfs];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:replyto,vger.kernel.org:from_smtp,mail.gmail.com:mid,sourceforge.io:url,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[vger.kernel.org:replyto,vger.kernel.org:from_smtp,sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,mail.gmail.com:mid,sourceforge.io:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: B75206A739E
+X-Rspamd-Queue-Id: 03ADF6A739B
 
 Fixed a vulnerability in the library routine that determines whether a
 superblock is valid, as well as a bug in the cleanerd fallback logic
-during memory shortage.
+during memory shortage. (v2.2 maintenance release)
 
-from https://nilfs.sourceforge.io/en/download.html#2.3.1-u
+from https://nilfs.sourceforge.io/en/download.html#2.2.17-u
 
