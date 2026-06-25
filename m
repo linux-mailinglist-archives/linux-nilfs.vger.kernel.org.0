@@ -1,166 +1,129 @@
-Return-Path: <linux-nilfs+bounces-1642-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1643-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id qkyfEKDyPGpOuwgAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1642-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 11:19:28 +0200
+	id J2EKMcr5PGobvQgAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1643-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 11:50:02 +0200
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95D66C425F
-	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 11:19:27 +0200 (CEST)
+Received: from tor.lore.kernel.org (tor.lore.kernel.org [IPv6:2600:3c04:e001:36c::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C0836C4666
+	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 11:50:02 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=FN2jtZFD;
-	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1642-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1642-lists+linux-nilfs=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=none;
+	dmarc=fail reason="SPF not aligned (relaxed), No valid DKIM" header.from=appspotmail.com (policy=none);
+	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1643-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 2600:3c04:e001:36c::12fc:5321 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1643-lists+linux-nilfs=lfdr.de@vger.kernel.org";
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 1CC40301A708
-	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 09:14:44 +0000 (UTC)
+	by tor.lore.kernel.org (Postfix) with ESMTP id F0CB83042311
+	for <lists+linux-nilfs@lfdr.de>; Thu, 25 Jun 2026 09:49:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6C6437649D;
-	Thu, 25 Jun 2026 09:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B51436C9EC;
+	Thu, 25 Jun 2026 09:49:04 +0000 (UTC)
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from smtpbgsg1.qq.com (smtpbgsg1.qq.com [54.254.200.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f72.google.com (mail-oo1-f72.google.com [209.85.161.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4194E373BEA;
-	Thu, 25 Jun 2026 09:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA93A3769EF
+	for <linux-nilfs@vger.kernel.org>; Thu, 25 Jun 2026 09:49:02 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782378883; cv=none; b=ekbvZbHj5U18d2ig/Pk42ME+EdiAok3ZsANJJ5rla625d+GnaAwR4j+tbBQEANWqfyNyrOXcEdF0NOwQ8eJkCNJC4dxQJm4I3NDT2q7pHDrO+zLh7QNEItQkUBIV8gom80uqquuDJWCx7G/AvTRDk/VJfrxOYpLyhKGgQqGeYlY=
+	t=1782380944; cv=none; b=fhpl4OP+WjAiDzPinfUKX5Xaw1K7oBVg8s8cANqcPksmZohWLt5ffGvpToNSUvINGURp+6yZTJvFMOkw5NcvgZN2Z2KUhp0neI585X9T0UksAF21UzWT/JyKVICJctYdnoqr+vVYLjVv9k5x411VEXe2LjO4x0mcneUzSWl+dno=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782378883; c=relaxed/simple;
-	bh=+69aFcUXySAdblrLkcO3yqt3uTrRoyIq9LaDphDhDc4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=Iw/pQhixcO6N5wMrf90n7u4e1UMnTF9XutBDVNtEYmceuXBJA51fdvkrwEz7iE6tNG1P9Xzsv7qtSK8odJAQEeabWHCJ5MEwlMAXnS9PC2FAbGehixKdHCfTvCUnOY0uu+p/noxC3mL2tYxiSoa9LapE6Qq78srZf8COqFB6/zE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=FN2jtZFD; arc=none smtp.client-ip=54.254.200.92
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782378850;
-	bh=YHNAOy0VzHIvQCP4D+lUxh8jknMtClDgPlVPVCqKoXc=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=FN2jtZFDlYwHhl9JqY+88u3Zp2gTKrERKD8kw6tBWwegR15GQ8LD3E5EgS7mUHkGz
-	 XqyL+GR7UGtRd331Yn7A86stx1AmzocsoV8PULQ/bPspZIxs5xQD7v3ibarw3wYA2/
-	 EqhFGi20Z8KpfQwva5lnr3XSfPIQlz4UOMgTf8wg=
-X-QQ-mid: esmtpsz17t1782378842t01e3b159
-X-QQ-Originating-IP: c7SvtupGSCKJ+buRH/BqC2eqlWqsaPufSF00z5/PokI=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 25 Jun 2026 17:14:00 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17235849702624262944
-From: wuyankun <wuyankun@uniontech.com>
-To: syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com
-Cc: syzkaller-bugs@googlegroups.com,
-	konishi.ryusuke@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org,
-	slava@dubeyko.com
-Subject: [PATCH] nilfs2: prevent double insertion of b_assoc_buffers in dirty buffer lookup
-Date: Thu, 25 Jun 2026 17:14:00 +0800
-Message-Id: <20260625091400.270398-1-wuyankun@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <6a3c371b.80e5668d.5d0ef.0000.GAE@google.com>
-References: <6a3c371b.80e5668d.5d0ef.0000.GAE@google.com>
+	s=arc-20240116; t=1782380944; c=relaxed/simple;
+	bh=BXbIQG/QXjnUkq26Tiw7+SOliZLbHNceg8UX45FQkmY=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=D5If7Bgbg3fxL0YiPg7K4opPrkAiFC06WyQgi4SiF6jrMj5KcuwJKbWU5Mi+zDZ0HYPyz+sl879M3sq7tcescB6QVHuYBMTBhnADm4jezjMuqPHEYd/Is+qAC8HXaryTYNUeIXzKKFOo3oqXr3Sl/EODnelNMJoCZeNK48d/4uE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.72
+Received: by mail-oo1-f72.google.com with SMTP id 006d021491bc7-69e887d70dbso1217833eaf.0
+        for <linux-nilfs@vger.kernel.org>; Thu, 25 Jun 2026 02:49:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1782380942; x=1782985742;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ILUleABfnKpatSC0NM41FoxmSlxdKcDh8vwIhGsBt9g=;
+        b=FJ+yAYmtulDvc42H0a/CtwtljeMEt/pGRaEhH7FtcwHs2nriRI+ZDbge8jMMI1TU3S
+         j3wFpAv8/kplLgM17UKI3Y0wcX5fRA8WttFLppdxCaB896hiIgvmBMZuTEte92lGZ2I5
+         3TVfc4Ar8zzxk6hAcDT3wRa9RelG8WmDgmSaFcxM97tvmKZGoEKpKTc9BdXBQkbuIiUp
+         8IaOtDSl72v5Ql9iHHCtfUcfw1fmAQU625wJ8uiwHCzQFye3ayspXMqvruukh7UMHsXb
+         YL6vZ0l/C3a0HBlbDTJfAW3YsuHluf1PVPoDEAc4R3EQxAYNLuMFppaIGrMArow8Rnbh
+         yg7w==
+X-Forwarded-Encrypted: i=1; AFNElJ97U2e9Lzxj1IwLcQEm7vBH+v8auTnDu9xJY/k/HKbq/f8nBO5GvNinYx/ZkP+VJZZYh5m8n2J23b6p5g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFPZf93nZAyKqxN42XYRY7Yzeu8p4XhhwnRjPTFL3uBzNHHtzj
+	09lkEm7303FNU8FUWyhghoYUkxIZ2xTLZqc2TohXNuRCuuu4iCrai1yPBLpRJd2dROQSxYP8/7a
+	rKErnGAI6UsmvgfT3871Wth+KUuzmssA7/x+iuaO9/XDcklzf81k0hW1cXuo=
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
 List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5b-1
-X-QQ-XMAILINFO: NoM9Uv2ejer3SZStiSU7G4jSvC49o1K9X25BtpEpA5PyBEFfxcfnkHYa
-	JNWyuwSzL5PhPNNJ3oYqXYw5RdWGcocvhlzgcuOX851LIZiabvmmC4R8pO995I8NMjHd1Mt
-	BmrmjGLgY4Gl/xxePtWbJ5lwCh04aM1N9M1SEpNFhe4vX1EoIriWNdl82tJUfeiLXKbgxfQ
-	HpyH6MlFcoQscMkeCBEg+1rgljpUo06v6IqoeNdMmbT/h9v/Pi44rowe0lTL7yejlNXzQr2
-	iE8ds61iy+NSDVeLfQQXFTZyIzHYUgMNqK+/L/8M902Adn9bX9lC9WTmfGXdyf9ngMuUU3F
-	O3cWOfBe/1vXpRiUr8Qrk/gC25Nyx0MI6xhovZUsbzYnFeLl02ydpmWRsGkE+94VoD/4A6e
-	AyrcwXD82nSXKIhuPPJqLCesc1oOai5s7q0FO5owGwbPrBuUewBa/oFOcG+EArymtA3z5mg
-	iNvJ/a+MwJRYnE0W2Q+XOUpdPs/KU/Lg0QyW+n9N+/naYe1bRUtuTqtko541ZqrALM1yLb5
-	hQiWpE9tWyDvjU7M8d4llHlzga+aVxgxUwCFRFG3nKslqyMjdSR7AGD0PuCEj/nf/twM1gx
-	lapMOtcJQM5bIUiSqSL0owt8eg0vnfPaCBTlOq65PaQmtXtjZZnmX9ZV69yDUMoz2Qk9vHu
-	kAmbbqkUBu7g9xNSTc3Rl/Wy0OIZDJfOM4ULhKxrCM26YG5o80AY+1cpq5LgV07VCHWdo5o
-	HUfFbXTpWHUkihUmKbFLT1peWRm9zkdXDTuJ996QmSYTiHIsIFZWhCuhHXxw6UcC0BAYo0C
-	RlontUhEZCtVPvstkV48vhix7HoO0dxJYU4uX5QNzKSqfDnqePP8XwhJTwJxsC5Dc3PIXFR
-	0l0ogjhXjvHIZYkFJc2nSbcJyHlBHjvVmHqJxaKeNjYKKBbTcszq1BtF68bM/IGAeb6FHvf
-	oJ5NqjtALJybse32McgztACVqydToZs9Wwxp4kcwZZjDFEak7R5N3yOqek477IVSMn52Zbz
-	88pJGjDCoClCC7km3fKxtfOuZyrXHJtkVnh7hlZTLVs1pjX4+JOFDKK5Q38XF9FS6Q4grEq
-	R5YXKcwZnE6b6LTKklwkEs=
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
-X-QQ-RECHKSPAM: 0
+X-Received: by 2002:a05:6820:3083:b0:6a1:10b3:3565 with SMTP id
+ 006d021491bc7-6a1351ce240mr1787150eaf.24.1782380941994; Thu, 25 Jun 2026
+ 02:49:01 -0700 (PDT)
+Date: Thu, 25 Jun 2026 02:49:01 -0700
+In-Reply-To: <20260625091400.270398-1-wuyankun@uniontech.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6a3cf98d.ac7367b4.6675.0000.GAE@google.com>
+Subject: Re: [syzbot] [nilfs?] BUG: corrupted list in nilfs_lookup_dirty_data_buffers
+From: syzbot <syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com>
+To: konishi.ryusuke@gmail.com, linux-kernel@vger.kernel.org, 
+	linux-nilfs@vger.kernel.org, slava@dubeyko.com, 
+	syzkaller-bugs@googlegroups.com, wuyankun@uniontech.com
+Content-Type: text/plain; charset="UTF-8"
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [1.14 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
+	URI_HIDDEN_PATH(1.00)[https://syzkaller.appspot.com/x/.config?x=3c3d59be33cf7e9a];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_MISSING_CHARSET(0.50)[];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c04:e001:36c::/64:c];
 	MAILLIST(-0.15)[generic];
+	DMARC_POLICY_SOFTFAIL(0.10)[appspotmail.com : SPF not aligned (relaxed), No valid DKIM,none];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	TAGGED_FROM(0.00)[bounces-1642-lists,linux-nilfs=lfdr.de];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[googlegroups.com,gmail.com,vger.kernel.org,dubeyko.com];
-	FORWARDED(0.00)[lists@lfdr.de];
 	RCVD_TLS_LAST(0.00)[];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	FORGED_SENDER(0.00)[wuyankun@uniontech.com,linux-nilfs@vger.kernel.org];
+	TAGGED_FROM(0.00)[bounces-1643-lists,linux-nilfs=lfdr.de,c37bed40868932d790e9];
 	RCVD_COUNT_THREE(0.00)[4];
-	FORGED_RECIPIENTS(0.00)[m:syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com,m:syzkaller-bugs@googlegroups.com,m:konishi.ryusuke@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-nilfs@vger.kernel.org,m:slava@dubeyko.com,m:syzbot@syzkaller.appspotmail.com,m:konishiryusuke@gmail.com,s:lists@lfdr.de];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[6];
+	FREEMAIL_TO(0.00)[gmail.com,vger.kernel.org,dubeyko.com,googlegroups.com,uniontech.com];
+	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS(0.00)[m:konishi.ryusuke@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-nilfs@vger.kernel.org,m:slava@dubeyko.com,m:syzkaller-bugs@googlegroups.com,m:wuyankun@uniontech.com,m:konishiryusuke@gmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[syzbot@syzkaller.appspotmail.com,linux-nilfs@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[tor.lore.kernel.org:rdns,tor.lore.kernel.org:helo,vger.kernel.org:from_smtp,syzkaller.appspot.com:url,appspotmail.com:email,syzkaller.appspotmail.com:from_mime];
+	MISSING_XM_UA(0.00)[];
+	FORGED_RECIPIENTS_FORWARDING(0.00)[];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wuyankun@uniontech.com,linux-nilfs@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[syzbot@syzkaller.appspotmail.com,linux-nilfs@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
 	TO_DN_NONE(0.00)[];
-	FORGED_RECIPIENTS_FORWARDING(0.00)[];
+	R_DKIM_NA(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[6];
 	ALIAS_RESOLVED(0.00)[];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	TAGGED_RCPT(0.00)[linux-nilfs,c37bed40868932d790e9];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,vger.kernel.org:from_smtp]
+	ASN(0.00)[asn:63949, ipnet:2600:3c04::/32, country:SG];
+	TAGGED_RCPT(0.00)[linux-nilfs];
+	SUBJECT_HAS_QUESTION(0.00)[]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A95D66C425F
+X-Rspamd-Queue-Id: 2C0836C4666
 
-#syz test
+Hello,
 
-syzbot reported list corruption caused by double list_add_tail() on
-bh->b_assoc_buffers in nilfs_lookup_dirty_data_buffers().
+syzbot has tested the proposed patch and the reproducer did not trigger any issue:
 
-A buffer_head can still be dirty and not under async write while already
-linked on another association list. Add list state checks before enqueueing
-in both data and node dirty buffer scanners to avoid re-adding already
-linked nodes.
+Reported-by: syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com
+Tested-by: syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com
 
-diff --git a/fs/nilfs2/segment.c b/fs/nilfs2/segment.c
-index 1491a4d4b1e1..09202d155903 100644
---- a/fs/nilfs2/segment.c
-+++ b/fs/nilfs2/segment.c
-@@ -741,6 +741,8 @@ static size_t nilfs_lookup_dirty_data_buffers(struct inode *inode,
- 		do {
- 			if (!buffer_dirty(bh) || buffer_async_write(bh))
- 				continue;
-+			if (!list_empty(&bh->b_assoc_buffers))
-+				continue;
- 			get_bh(bh);
- 			list_add_tail(&bh->b_assoc_buffers, listp);
- 			ndirties++;
-@@ -779,7 +781,8 @@ static void nilfs_lookup_dirty_node_buffers(struct inode *inode,
- 			bh = head = folio_buffers(fbatch.folios[i]);
- 			do {
- 				if (buffer_dirty(bh) &&
--						!buffer_async_write(bh)) {
-+						!buffer_async_write(bh) &&
-+						list_empty(&bh->b_assoc_buffers)) {
- 					get_bh(bh);
- 					list_add_tail(&bh->b_assoc_buffers,
- 						      listp);
--- 
-2.20.1
+Tested on:
 
+commit:         ab9de95c Merge tag 'rust-7.2-2' of git://git.kernel.or..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=134eecde580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3c3d59be33cf7e9a
+dashboard link: https://syzkaller.appspot.com/bug?extid=c37bed40868932d790e9
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=17c5db7a580000
+
+Note: testing is done by a robot and is best-effort only.
 
