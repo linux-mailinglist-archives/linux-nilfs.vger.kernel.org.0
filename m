@@ -1,69 +1,89 @@
-Return-Path: <linux-nilfs+bounces-1646-lists+linux-nilfs=lfdr.de@vger.kernel.org>
+Return-Path: <linux-nilfs+bounces-1647-lists+linux-nilfs=lfdr.de@vger.kernel.org>
 Delivered-To: lists+linux-nilfs@lfdr.de
 Received: from mail.lfdr.de
 	by mail.lfdr.de with LMTP
-	id twlhBEpzRGr0uwoAu9opvQ
-	(envelope-from <linux-nilfs+bounces-1646-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
-	for <lists+linux-nilfs@lfdr.de>; Wed, 01 Jul 2026 03:54:18 +0200
+	id Bu17BLeNRmrsYQsAu9opvQ
+	(envelope-from <linux-nilfs+bounces-1647-lists+linux-nilfs=lfdr.de@vger.kernel.org>)
+	for <lists+linux-nilfs@lfdr.de>; Thu, 02 Jul 2026 18:11:35 +0200
 X-Original-To: lists+linux-nilfs@lfdr.de
-Received: from sea.lore.kernel.org (sea.lore.kernel.org [172.234.253.10])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DD96E91DA
-	for <lists+linux-nilfs@lfdr.de>; Wed, 01 Jul 2026 03:54:16 +0200 (CEST)
+Received: from sto.lore.kernel.org (sto.lore.kernel.org [IPv6:2600:3c09:e001:a7::12fc:5321])
+	by mail.lfdr.de (Postfix) with ESMTPS id 772B26F9FD1
+	for <lists+linux-nilfs@lfdr.de>; Thu, 02 Jul 2026 18:11:34 +0200 (CEST)
 Authentication-Results: mail.lfdr.de;
-	dkim=pass header.d=uniontech.com header.s=onoh2408 header.b=Y7Gh2Rj2;
-	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1646-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 172.234.253.10 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1646-lists+linux-nilfs=lfdr.de@vger.kernel.org";
-	dmarc=pass (policy=none) header.from=uniontech.com;
+	dkim=pass header.d=gmail.com header.s=20251104 header.b=a8uXxiRq;
+	spf=pass (mail.lfdr.de: domain of "linux-nilfs+bounces-1647-lists+linux-nilfs=lfdr.de@vger.kernel.org" designates 2600:3c09:e001:a7::12fc:5321 as permitted sender) smtp.mailfrom="linux-nilfs+bounces-1647-lists+linux-nilfs=lfdr.de@vger.kernel.org";
+	dmarc=pass (policy=none) header.from=gmail.com;
 	arc=pass ("subspace.kernel.org:s=arc-20240116:i=1")
 Received: from smtp.subspace.kernel.org (conduit.subspace.kernel.org [100.90.174.1])
-	by sea.lore.kernel.org (Postfix) with ESMTP id 68B6D304A8D8
-	for <lists+linux-nilfs@lfdr.de>; Wed,  1 Jul 2026 01:54:15 +0000 (UTC)
+	by sto.lore.kernel.org (Postfix) with ESMTP id 5F078301A115
+	for <lists+linux-nilfs@lfdr.de>; Thu,  2 Jul 2026 16:11:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A3E3612F4;
-	Wed,  1 Jul 2026 01:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1292C433E99;
+	Thu,  2 Jul 2026 16:10:51 +0000 (UTC)
 X-Original-To: linux-nilfs@vger.kernel.org
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CBBE40D574;
-	Wed,  1 Jul 2026 01:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68A32BEC2B
+	for <linux-nilfs@vger.kernel.org>; Thu,  2 Jul 2026 16:10:49 +0000 (UTC)
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1782870854; cv=none; b=cVJVctQ5jyAPHnAgYfxkVdEWT5NEe9rXzICS12U6FiEYDbx3ePV7UuwTiY/4QzxoWEwAL1jKmWkNJ7lH6V4UbakPGvDSSwkYFKWUwCaKc00oztolyYaQR7vG6g95ksD6qFs2H2+AZJjH38TYLDhd43YeIayoVRHpt3i5X5cOJTo=
+	t=1783008651; cv=none; b=OUmGJK++eXe+UDqtbSdxLJZqET64NNbheTtFiEiz5lQDr+5W+rXW7rClIlVg7oIPjR5VnuszrXSIBUcIF4TRtiMpPB1UBP/4kPYzcX70LdYw3UDyoTZYe+hLZjcRF4OSnQNKa6mIrHgKlSwcYJCMwGZIZDe2CmUWRBdmJx5QMQ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1782870854; c=relaxed/simple;
-	bh=BIOqsPGQCvayLCeKlSTWaFtZw7q1oLWki08D5HMCWeA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BPyETa1FYXW0NpQfZ0BPhNCwbqL3emMD/mHtMQirIeDn3EH7j4QZlyP/6gL93YL+u3Vupg7URWjfWWQhf1TDdmAY5iBZRIgAEJMLL6dJE0UN9yJvyiKItAeMiEMxKnratqpv7hhHQelqQ3inUfqrmaoJzbqsce+NpqGhaJv3L2o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Y7Gh2Rj2; arc=none smtp.client-ip=54.204.34.129
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1782870804;
-	bh=sw2k2+7CqopSkda2wguNtx1pNBLBcyT7y6YRFs9aCYc=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=Y7Gh2Rj2cQJK9IkJifdHVxmEl/nsekt1WsV7T7YNyF4iuWZBJcDYSz+s5DsH9GfyK
-	 3lO2FpgQUln2ynCS9kTDMkt3paFwFquf89LL5wfertHC1IpKFGFZhrZvwrZuT2AEGV
-	 Npxndgc0mnAZSsElNkBUcD1aK/mGL6x9JX1AEAWw=
-X-QQ-mid: esmtpsz20t1782870787t405d38e2
-X-QQ-Originating-IP: Zwhbe/SmZQw4Ewur99zckmBV0s8i4kmQW7pFouGcBrs=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Wed, 01 Jul 2026 09:53:05 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 1077355903454823753
-EX-QQ-RecipientCnt: 7
-From: wuyankun <wuyankun@uniontech.com>
-To: konishi.ryusuke@gmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-nilfs@vger.kernel.org,
-	slava@dubeyko.com,
+	s=arc-20240116; t=1783008651; c=relaxed/simple;
+	bh=S+QOLbaZBffMtAwY7eI4nF8jMNl+AcbOfdBCFi/9jbg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HQkta4gnbeJr9Y3royu0Hk3LL4Scc4VWtE8pcsvlkbWnZy/AfWb7r+P7liF4bBA1HZxeic02LHCyLdQ2xl9VnGNokpy2xCDPHWnpu0ORKbX8ZSwZNAvrJ6NxrBBu+nWaAOVofGsyJPIrhAHEbK4OIzDJFM2mFczlwvX47mB/paQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a8uXxiRq; arc=none smtp.client-ip=209.85.210.182
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-845f2909cd4so1328708b3a.1
+        for <linux-nilfs@vger.kernel.org>; Thu, 02 Jul 2026 09:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1783008649; x=1783613449; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pt9aLH0W1iBFqqXb0hqSlhwrsUPlus7T+qwbix6/Epk=;
+        b=a8uXxiRqfGvP78pjUkg/kw/+bF7c8na66TDnJaqB2kbg5oS4Cx8xA/NlXFKMGBW3iV
+         7T6xFJ+Un/XSVH8QtpbrRp8T5POxWfxRL5JBEm0XHd/v3DzelHv7nWC5akZJjzsYmOfc
+         V2YuU5tJqglUIa7c/ciwCnhfWsiTM/HsJaVaZ7j8qi5LH9+m22K5bplZHVQxEi0WmYCO
+         F89JuDzCVkddrkmw/5DfFK0w29hphyu7z6UyA5AWmbKc3Nw1s1umnYylqKgfFFPvyMTm
+         7tp9vrMtoQSRODSNxd8bHSWlrc2k6tajWmzH5xuF6fQj3tFJMufLlf46Wf89XRpOWUG3
+         eCkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1783008649; x=1783613449;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pt9aLH0W1iBFqqXb0hqSlhwrsUPlus7T+qwbix6/Epk=;
+        b=RpR49ESMcBXOK4/CA5Xk5HW1MOtRGDSCy1Ebfea0cQbkxd66M5QYzNnCSIRg3gZ0pd
+         YpuF6GGt8gmS/QIkM6h6V318WuqbSdywn+qpEYQ5WuFXMdpR/4qpWfgOzftllneL/5J4
+         Fb+9fqB97DshsE+30Us3q6v2jo723006kR0mb3vkSvvB5Ru9rgZg53lfXM7jCAJ5IjD3
+         N3nXYifhS9sD56NxlNqRtbTIPWqIBUbUC3FxX0sO2tA63rA89pT4bOdCKd9pYYAKmKew
+         iOhToVIJOxTKmui84mskLgZKWJGIWXh2UZ/sh6uWBrEy20zKu4qdiOfVqLqFRDrRmS7U
+         wO/A==
+X-Gm-Message-State: AOJu0Yw2FUNagQ8OkUuCsuDM50w0eZLz5MQxTgLVIBzdEYwXosINS2ua
+	qBjs7uLGwFAollhpOnPgRy0r2GrgcaVr1qzuMECNJrqv329QLRYYzZSz
+X-Gm-Gg: AfdE7cmrRsrQCn/lRgskfx/iYNdydhiQ8s868L7rqy+2XxWK9L/otiU7hxO68CBRzz7
+	ReAwYWTJj7VRvy2up9ibLroNH7/ZLWEzwZ9TG0ICNcjSGe+bxu8MAP+aEXX6s19s6Uj1owYA5QK
+	pZ73EBMREl4/1QjqNummrVFS2hMQQZ2DFiw686d7kh0Ums35cdro9eJQSlFvJd4j8BlUThpIkit
+	R/gw1FgClR134gm+5fQ+x8jlpA89sTP+hRtfXtB738qdtMrzsvcid4ODEKZZfahPTTjswDoFgs6
+	9CmDIU3CS+SXajIJC8wsQGTMVTPEfx11SB6YdnJtk5MflSKWecSlyinRLFpPZwdRlcC8OAW9wFg
+	Booi3z0HCAONcTTxI5DBKBIH8KrEKvTFYuvywpmTCvhptCHsw8id6AXFImD1yj3hzzkMZnCO5jC
+	Nu5XRKRDrL8D70MSBodv536lu4MGbJaIeYKIlUs4CqIyv76RjO
+X-Received: by 2002:a05:6a00:2303:b0:845:c6c1:2e36 with SMTP id d2e1a72fcca58-847c0895636mr6724098b3a.28.1783008648785;
+        Thu, 02 Jul 2026 09:10:48 -0700 (PDT)
+Received: from carrot.devel.local (madb688455.ap.nuro.jp. [219.104.132.85])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-847cb9b409fsm1601712b3a.52.2026.07.02.09.10.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Jul 2026 09:10:47 -0700 (PDT)
+From: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+To: Viacheslav Dubeyko <slava@dubeyko.com>
+Cc: linux-nilfs <linux-nilfs@vger.kernel.org>,
+	LKML <linux-kernel@vger.kernel.org>,
 	syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com,
 	syzkaller-bugs@googlegroups.com,
-	wuyankun@uniontech.com
-Subject: Re: [PATCH] nilfs2: prevent double insertion of b_assoc_buffers in dirty buffer lookup
-Date: Wed,  1 Jul 2026 09:53:05 +0800
-Message-Id: <20260701015305.970002-1-wuyankun@uniontech.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <CAKFNMonk0BDe3PcNdu7ZvSitO1U1TFEvj9mLXAdBK96fCnBScQ@mail.gmail.com>
-References: <CAKFNMonk0BDe3PcNdu7ZvSitO1U1TFEvj9mLXAdBK96fCnBScQ@mail.gmail.com>
+	wuyankun <wuyankun@uniontech.com>
+Subject: [PATCH] nilfs2: reject invalid block index in GC ioctl
+Date: Fri,  3 Jul 2026 01:07:19 +0900
+Message-ID: <20260702161045.27555-1-konishi.ryusuke@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-nilfs@vger.kernel.org
 List-Id: <linux-nilfs.vger.kernel.org>
@@ -71,67 +91,134 @@ List-Subscribe: <mailto:linux-nilfs+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-nilfs+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5b-1
-X-QQ-XMAILINFO: MD5XEDocxEOL9wP0kXehm5V4n/dr6CyOsC/JSnGrWnPqXd73aJaGgrLs
-	wD72XRjV8xrRhFqRq/oufYWPTsGihvIfbQ7mv63x0d/4EyGRiSMqTqidRBwJDHoodZEMErp
-	cBTtI0rmDRbfSqgiUZpjnJ6fYLt71e2Wdr7KT5jBj1M4eajFFUBKYDAM+th4TiIEB3V3oV6
-	WhUTWgKQm73DzR3RXBwE6shA4xgdQDNMi8Cd6X/wdoO0HuGpM/RAbpkDeuOqhvi7jLrz/SK
-	Zw4ajkQA3stNRDTbdae0dVOXdDabks6GZzAgbPOVeZ9PDi4I8yJQLYUuntxHsTxcYwPX+wY
-	RdUNdKBemc7nt09brrwHzAVwaX/9VzAZ0qonkeKCoELBpdq8zf6snG4ssRGGb7pOlY9YLo/
-	RiKCLpjZ4eAlUU7JJTkHo1k4m3Kk4VGgqUeloJL6XMp+cvTuVukKQ1j60c7nAwfzRO2keHu
-	hBoalrT1OzbpT32Nh83ton3Qza5pf0xxb7cFF6BlJlY5PY+tBbpZg6QUKpsJYp7/9AaBWdq
-	hL712iqUEJU6oln3p4Ai3Vl5T8RZr53y93llmOQWloeKjoTrE6ZPoJ0zWhtXY0+zL0R5PzZ
-	9bSILs2RNuclZEZ8B7cPby5jHw06O8K8sgr9apA2S5yT3CHAmZCBLpnJuPFaJN5SLLiuo1v
-	hC8s75gFXX8leUhoAm483yIm4uksGr33qFyFLtaToNSsyfg03rYxHhTeIQTXXmSeHsF7E/2
-	bJfAxmU9c68lGKSabNeCfj2x3svoaoJfP1BL2GCRmL6SHXmsgVESVG2TcP7rJ/pW9toX5+m
-	lpnFjEwlJ1DSZqwU9HFkL3yo7XDSk+o956yHvJcIO5EG+Rtm/g29+VFV290qhQn+0ALSr88
-	tYIHpbQYA7I2LqWJPU8ymLEcHzkJlNCiAI7mCH4B5fjxsxMkdh5WwF5Me8YwK+ucEUJ9nJ9
-	PFOBJ7rrJ7QJSLrhsConRchM1Nk1Nxf7r1hu1/72D9ZOUC5SYkysNnXO7wtFPZ0f9Q7UEx2
-	yPkcaIBD63JrAPH7iK
-X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
-X-QQ-RECHKSPAM: 0
 X-Rspamd-Action: no action
-X-Spamd-Result: default: False [0.84 / 15.00];
+X-Spamd-Result: default: False [-0.16 / 15.00];
 	SUSPICIOUS_RECIPS(1.50)[];
 	ARC_ALLOW(-1.00)[subspace.kernel.org:s=arc-20240116:i=1];
-	MID_CONTAINS_FROM(1.00)[];
 	R_MISSING_CHARSET(0.50)[];
-	DMARC_POLICY_ALLOW(-0.50)[uniontech.com,none];
-	R_SPF_ALLOW(-0.20)[+ip4:172.234.253.10:c];
-	R_DKIM_ALLOW(-0.20)[uniontech.com:s=onoh2408];
+	DMARC_POLICY_ALLOW(-0.50)[gmail.com,none];
+	R_DKIM_ALLOW(-0.20)[gmail.com:s=20251104];
+	R_SPF_ALLOW(-0.20)[+ip6:2600:3c09:e001:a7::/64:c];
 	MAILLIST(-0.15)[generic];
 	MIME_GOOD(-0.10)[text/plain];
 	HAS_LIST_UNSUB(-0.01)[];
-	FORWARDED(0.00)[lists@lfdr.de];
-	FORGED_SENDER_MAILLIST(0.00)[];
-	RCVD_COUNT_THREE(0.00)[4];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_FROM(0.00)[gmail.com];
+	TAGGED_FROM(0.00)[bounces-1647-lists,linux-nilfs=lfdr.de];
+	TO_DN_SOME(0.00)[];
 	RCVD_TLS_LAST(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	TAGGED_FROM(0.00)[bounces-1646-lists,linux-nilfs=lfdr.de];
-	FORGED_SENDER(0.00)[wuyankun@uniontech.com,linux-nilfs@vger.kernel.org];
-	FORGED_RECIPIENTS(0.00)[m:konishi.ryusuke@gmail.com,m:linux-kernel@vger.kernel.org,m:linux-nilfs@vger.kernel.org,m:slava@dubeyko.com,m:syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com,m:syzkaller-bugs@googlegroups.com,m:wuyankun@uniontech.com,m:konishiryusuke@gmail.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
-	ASN(0.00)[asn:63949, ipnet:172.234.224.0/19, country:SG];
-	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	FORGED_RECIPIENTS(0.00)[m:slava@dubeyko.com,m:linux-nilfs@vger.kernel.org,m:linux-kernel@vger.kernel.org,m:syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com,m:syzkaller-bugs@googlegroups.com,m:wuyankun@uniontech.com,m:syzbot@syzkaller.appspotmail.com,s:lists@lfdr.de];
+	FORWARDED(0.00)[lists@lfdr.de];
+	FORGED_SENDER(0.00)[konishiryusuke@gmail.com,linux-nilfs@vger.kernel.org];
+	FORGED_SENDER_MAILLIST(0.00)[];
+	DKIM_TRACE(0.00)[gmail.com:+];
+	ASN(0.00)[asn:63949, ipnet:2600:3c09::/32, country:SG];
+	RCPT_COUNT_FIVE(0.00)[6];
 	PRECEDENCE_BULK(0.00)[];
 	FORGED_SENDER_FORWARDING(0.00)[];
-	FROM_NEQ_ENVFROM(0.00)[wuyankun@uniontech.com,linux-nilfs@vger.kernel.org];
+	FROM_NEQ_ENVFROM(0.00)[konishiryusuke@gmail.com,linux-nilfs@vger.kernel.org];
 	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[uniontech.com:+];
-	TO_DN_NONE(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[7];
-	MIME_TRACE(0.00)[0:+];
+	FORGED_RECIPIENTS_MAILLIST(0.00)[];
+	RCVD_COUNT_FIVE(0.00)[5];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
 	ALIAS_RESOLVED(0.00)[];
 	TAGGED_RCPT(0.00)[linux-nilfs,c37bed40868932d790e9];
 	FORGED_RECIPIENTS_FORWARDING(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[sea.lore.kernel.org:rdns,sea.lore.kernel.org:helo,uniontech.com:dkim,uniontech.com:mid,uniontech.com:from_mime]
+	DBL_BLOCKED_OPENRESOLVER(0.00)[sto.lore.kernel.org:rdns,sto.lore.kernel.org:helo,vger.kernel.org:from_smtp,syzkaller.appspot.com:url]
 X-Rspamd-Server: lfdr
-X-Rspamd-Queue-Id: A6DD96E91DA
+X-Rspamd-Queue-Id: 772B26F9FD1
 
-Thanks a lot for the detailed investigation and for clarifying the actual root cause. 
-That explanation makes sense, and I agree that the proper fix should be a bounds check 
-in nilfs_ioctl_move_inode_block() rather than masking it in nilfs_lookup_dirty_data_buffers().
+Syzbot reported list corruption caused by a double list_add_tail() call on
+bh->b_assoc_buffers within nilfs_lookup_dirty_data_buffers().
 
-Please go ahead and handle the fix patch on your side. 
-I appreciate the help and the clear breakdown of the issue.
+Analysis revealed that the root cause was the insertion of a page/folio
+with a page index of ULONG_MAX into the page cache via the GC ioctl.
+filemap_get_folios_tag(), called by nilfs_lookup_dirty_data_buffers(),
+repeatedly detects a dirty folio with a page index of ULONG_MAX due to
+index wrap-around, leading to duplicate processing of dirty buffers.
+
+As a preparatory step, the GC ioctl loads the page/folio of the block to
+be moved during GC and inserts it into the page cache based on information
+in the nilfs_vdesc structure passed as an argument.  Normally, this does
+not cause issues because the user-space GC library configures the
+nilfs_vdesc structure properly.  However, since there is no range check on
+the parameters determining the page index, a request with artificially
+crafted parameters -- such as those generated by Syzbot -- can result in a
+page/folio being inserted with a page index of ULONG_MAX, triggering the
+above problem.
+
+This resolves the issue by checking the ranges of 'vd_offset' and
+'vd_vblocknr' in the nilfs_vdesc structure that determine the page index,
+thereby preventing the invalid page/folio insertions.
+
+Reported-by: syzbot+c37bed40868932d790e9@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=c37bed40868932d790e9
+Fixes: 7942b919f732 ("nilfs2: ioctl operations")
+Cc: wuyankun <wuyankun@uniontech.com>
+Cc: stable@vger.kernel.org
+Signed-off-by: Ryusuke Konishi <konishi.ryusuke@gmail.com>
+---
+Hi Viacheslav,
+
+Please apply this one.
+
+This fixes the list corruption issue recently detected by syzbot, that
+can occur when out-of-range values are intentionally passed to certain
+GC ioctl parameters.
+
+Thanks,
+Ryusuke Konishi
+
+ fs/nilfs2/ioctl.c | 20 ++++++++++++++++++--
+ 1 file changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/fs/nilfs2/ioctl.c b/fs/nilfs2/ioctl.c
+index b73f2c5d10f0..0957316e58b8 100644
+--- a/fs/nilfs2/ioctl.c
++++ b/fs/nilfs2/ioctl.c
+@@ -527,6 +527,7 @@ static int nilfs_ioctl_get_bdescs(struct inode *inode, struct file *filp,
+  * Return: 0 on success, or one of the following negative error codes on
+  * failure:
+  * * %-EEXIST	- Block conflict detected.
++ * * %-EINVAL	- Invalid virtual block descriptor.
+  * * %-EIO	- I/O error.
+  * * %-ENOENT	- Requested block doesn't exist.
+  * * %-ENOMEM	- Insufficient memory available.
+@@ -536,15 +537,30 @@ static int nilfs_ioctl_move_inode_block(struct inode *inode,
+ 					struct list_head *buffers)
+ {
+ 	struct buffer_head *bh;
++	__u64 limit_blkidx = (__u64)inode->i_sb->s_maxbytes >> inode->i_blkbits;
+ 	int ret;
+ 
+-	if (vdesc->vd_flags == 0)
++	/*
++	 * vblocknr 0 is reserved as an invalid pointer.  Also, limit_blkidx
++	 * ensures that the page index converted from vd_vblocknr never
++	 * overflows the page cache limit and respects the architecture's bmap
++	 * key width.
++	 */
++	if (unlikely(vdesc->vd_vblocknr == 0 ||
++			vdesc->vd_vblocknr >= limit_blkidx))
++		return -EINVAL;
++
++	if (vdesc->vd_flags == 0) {
++		if (unlikely(vdesc->vd_offset >= limit_blkidx))
++			return -EINVAL;
++
+ 		ret = nilfs_gccache_submit_read_data(
+ 			inode, vdesc->vd_offset, vdesc->vd_blocknr,
+ 			vdesc->vd_vblocknr, &bh);
+-	else
++	} else {
+ 		ret = nilfs_gccache_submit_read_node(
+ 			inode, vdesc->vd_blocknr, vdesc->vd_vblocknr, &bh);
++	}
+ 
+ 	if (unlikely(ret < 0)) {
+ 		if (ret == -ENOENT)
+-- 
+2.43.0
+
 
